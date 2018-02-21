@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+//using URI stored on heroku or localhost
+mongoose.connect(process.env.MONGODB_URI | 'mongodb://localhost/test');
+
 
 var db = mongoose.connection;
 
