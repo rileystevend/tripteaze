@@ -1,13 +1,15 @@
 {
-  "name": "github-fetcher-fullstack-v2",
+  "name": "trip-teazer",
   "version": "1.0.0",
-  "description": "",
+  "description": "A trip planning app",
   "main": "index.js",
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon server/index.js"
+    "server-dev": "nodemon server/index.js",
+    "start": "webpack -d | node server/index.js",
+    "postinstall": "node node_modules/webpack/bin/webpack.js --display-error-detials"
   },
-  "author": "Beth Johnson",
+  "author": "PIU - Stephanie Chou, Trent Hendricks, Mickey McClenon, Krisha Mehta",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.23.1",
