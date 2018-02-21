@@ -12,7 +12,7 @@ import thunk from 'redux-thunk';
   //these functions are usually asynchronous and that is why they are good
 
 import { connect } from 'react-redux'; 
-import * as actions from '../actions/index.js';  // * does all named exports from that file
+import * as actions from './actions/index.js';  // * does all named exports from that file
 import { bindActionCreators } from 'redux';
 
 import reducer from './reducers/index.js';
@@ -41,8 +41,7 @@ class App extends React.Component {
 
   render () {
     return (<div>
-      <Login />
-      <SignUp />
+      Hey
     </div>)
   }
 }
@@ -70,4 +69,5 @@ class App extends React.Component {
 
 
 ReactDOM.render(<Provider store = {createStore(reducer, applyMiddleware(thunk))}> 
-  <App /> </Provider> , document.getElementById('app'));
+    <App /> 
+  </Provider>, document.getElementById('app'));
