@@ -39,8 +39,12 @@ app.post('/signup', (req, res) => {
 		if (!user) {
 			// Hash the password
 			bcrypt.hash(password, null, null, (err, hash) => {
-				// Store new username/hashed password in database
-				// (username, hash) call function from db to store username and hash // FILL_ME_IN_SON
+				if (err) {
+					throw err;
+				} else {
+					// Store new username/hashed password in database
+					// (username, hash) call function from db to store username and hash // FILL_ME_IN_SON
+				}
 				.then(newUser => {
 					// Creates new session for the user
 					createSession(req, res, newUser);
