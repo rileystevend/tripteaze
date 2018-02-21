@@ -164,7 +164,6 @@ let showUserTrips = (username, callback) => {
 //allows user to update whether trip is public and/or archived
 //assumes username and city are known to obtain corresponding trip and update
 let modifyTripDetails = (makePublic, makeArchived, username, city) => {
-  
   //first find corresponding user
   User.find({name: username}, function (err, user) {
     if(err) {
@@ -175,13 +174,22 @@ let modifyTripDetails = (makePublic, makeArchived, username, city) => {
       if(err) {
         console.log('error', err);
       }
-      makePublic = 
+      makePublic = makePublic || trip.isPublic;
+      makeArchived = makeArchived || trip.isArchived;
       Trip.update({_id: trip._id},
         {$set:
           {
-
+            isPublic: makePublic,
+            isArchived: makeArchived
+          }
+        }, function (err) {
+          if(err) {
+            console.log('error: ', err);
           }
         }
+      );
+    });
+  });
 };
 
 //removal function assumes we know the ID of the restaurant, event,
