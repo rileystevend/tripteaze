@@ -1,5 +1,5 @@
 const express = require('express');
-const Users = require('../database-mongo/index.js'); // need to create /////////
+const Users = require('./database-mongo/index.js'); // need to create /////////
 const bcrypt = require('bcrypt-nodejs');
 const app = express();
 
