@@ -1,67 +1,27 @@
 import React from 'react';
-import { Router, Route, Switch } from 'react-router';
-import { render } from 'react-dom';
 
-const express = require('express');
-const bodyParser = requrie('body-parser');
-const bcrypt = require('bcrypt');
-const session = require('express-session');
+const Signup = (props) => (
+	<h2>Sign up</h2>
 
-const app = express();
-const User = require('../../../database-mongo/index.js'); // Check database file FILL_ME_IN_SON
+	<form action="/signup" method="post">
+		<div>
+			<label for="username">Username:</label>
+			<input id="username" type="text" name="username">
+		</div>
 
-app.set('views', __dirname);
-app.set('view engine', 'ejs');
+		<div>
+			<label for="password">Password:</label>
+			<input id="password" type="password" name="password">
+		</div>
 
-app.use(bodyParser.json());
-app.use(session({
-	secret: 'shhhhh af',
-	resave: false,
-	saveUnitialized: true
-}));
+		<div>
+			<input type="submit" value="Sign up">
+		</div>
+	</form>
 
-// Loads sign up page
-app.get('/signup', (req, res) => res.render('signup'));
+	<p>
+	<a href="/login">Login</a>
+	<p>
+)
 
-// Sign up
-app.post('/signup', (req, res) => {
-	let username = req.body.username;
-	let password = req.body.password;
-
-	// Creates new user
-	new User({
-		// Need to check db for new user model // FILL_ME_IN_SON
-		username: username
-	})
-	.fetch()
-	.then(user => {
-		// If the user does not exist
-		if (!user) {
-			// Hash the password
-			bcrypt.hash(password, null, null, (err, hash) => {
-				if (err) {
-					throw err;
-				} else {
-					// Store new username/hashed password in database
-					// (username, hash) call function from db to store username and hash // FILL_ME_IN_SON
-				}
-				.then(newUser => {
-					// Creates new session for the user
-					createSession(req, res, newUser);
-				});
-			});
-		} else {
-			// If account already exists, redirect to signup page
-			console.log('Account already exists!');
-			res.redirect('/signup');
-		}
-	});
-});
-
-// Creates new session after new user is added to the database
-const createSession = (req, res, newUser) => {
-	return req.session.regenerate(() => {
-		req.session.user = newUser;
-		res.redirect('/'); // Where do we want to redirect? FILL_ME_IN_SON
-	});
-}
+export default Signup;
