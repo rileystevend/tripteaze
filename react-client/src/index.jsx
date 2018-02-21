@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
-import List from './components/List.jsx';
+import $ from 'jquery';  //replace with axios
+import Login from './components/login.jsx';
+import SignUp from './components/signup.jsx';
 
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -11,7 +12,7 @@ import thunk from 'redux-thunk';
   //these functions are usually asynchronous and that is why they are good
 
 import { connect } from 'react-redux'; 
-import * as actions from '../actions/index.js';
+import * as actions from '../actions/index.js';  // * does all named exports from that file
 import { bindActionCreators } from 'redux';
 
 import reducer from './reducers/index.js';
@@ -40,8 +41,8 @@ class App extends React.Component {
 
   render () {
     return (<div>
-      <h1>Item List</h1>
-      <List items={this.state.items}/>
+      <Login />
+      <SignUp />
     </div>)
   }
 }

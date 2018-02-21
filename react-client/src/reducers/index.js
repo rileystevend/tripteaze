@@ -11,6 +11,8 @@ const reducer = function (state = initialState, action) {  //if state is undefin
   }
 }
 
+export default reducer;
+
 
 /*
 EXAMPLE

@@ -1,11 +1,11 @@
 
 
 //SIMPLE ACTION
-//exports const actionName = (neededParams) => ({type: ACTION_NAME, ... all your params at appropriate keys})
+export const actionName = (neededParams) => ({type: ACTION_NAME, param: neededParams});
 //ACTION_NAME must correspond with reducer switch option
 
 /* complex action example w/ async
-exports const search = (searchTerm) => {
+export const search = (searchTerm) => {
   return (dispatch) => {
     return makeAnAPIcall(searchTerm).then(
       searchResults => dispatch(updateResults(searchResults)),
