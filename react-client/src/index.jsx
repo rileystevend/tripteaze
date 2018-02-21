@@ -39,6 +39,17 @@ class App extends React.Component {
     });
   }
 
+  login(username, pw) {
+    axios({
+      method: 'get',
+      url: '/login',
+      params: {
+        username: username,
+        password: pw,
+      }
+    })
+  }
+
   render () {
     return (<div>
       Hey
