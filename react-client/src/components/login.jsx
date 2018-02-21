@@ -1,12 +1,13 @@
 const express = require('express');
-const Users = require('Fill_Me_In')
-const bcrypt = require('bcrypt-nodejs')
+const Users = require('Fill_Me_In'); // need to create /////////
+const bcrypt = require('bcrypt-nodejs');
 const app = expres();
 
 // helper func to check if pw matches user also decrypts.
 app.checkPassword = (users, userName, pw) => {
   let match = false;
-  users.forEach( user => {
+  // this may need to be changed based off how we setup things.
+  Users.forEach( user => {
     // compares pw and each individual user's pw (returns true/false)
     let unhashedPw = bcrypt.compareSync(pw, user.attributes.password)
     // check if the usernames match and the pw matches
@@ -42,6 +43,16 @@ app.post('/login', (req, res) =>{
       res.redirect(301, '/login')
     }
   })
+})
+
+
+app.get('/logout', (req, res) => {
+   req.session.destroy((err) => {
+     if (err) {
+       throw err
+     }
+   })
+   res.redirect(301, /* figured could redirect to*/ '/login' /*or'/homepage' */);
 })
 
 // Possibly un-needed
