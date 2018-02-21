@@ -33,6 +33,7 @@ var tripSchema = mongoose.Schema({
   isArchived: {type: Boolean, default: false},
   //need to make sure each trip has a reference user
   user: {type: Schema.Types.ObjectId, ref: 'User'}
+
 });
 
 var restaurantSchema = mongoose.Schema({
@@ -47,6 +48,7 @@ var restaurantSchema = mongoose.Schema({
   //need to make sure each restaurant or event has a reference trip
   trip: {type: Schema.Types.ObjectId, ref: 'Trip'}
 });
+
 
 var eventSchema = mongoose.Schema({
   id: {type: Number, index: true},
@@ -146,6 +148,7 @@ let retrieveUserPassword = (username, callback) => {
     }
   })
 };
+
 
 //for user page-display all existing trips for user after being logged in
 let showUserTrips = (username, callback) => {
