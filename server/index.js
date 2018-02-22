@@ -65,33 +65,50 @@ app.post('/signup', (req, res) => {
 	let username = req.body.username;
 	let password = req.body.password;
 
-	// Creates new user
-	new User({
-		name: username,
-		password: password
-	})
-	.fetch()
-	.then(user => {
-		// If the user does not exist
-		if (!user) {
-			// Hash the password
-			bcrypt.hash(password, null, null, (err, hash) => {
-				if (err) {
-					throw err;
-				} else {
-					// Store new username/hashed password in database
-					db.addNewUser(username, hash);
-				}})
-				.then(newUser => {
-					// Creates new session for the user
-					createSession(req, res, newUser);
-				});
+	var hashed = bcrypt.hash(password, null, null, (err, hash) => {
+		if (err) {
+			throw err;
 		} else {
-			// If account already exists, redirect to signup page
-			alert('Account already exists!');
-			res.redirect('/signup');
+			db.addNewUser(username, hash);
 		}
-	});
+	}).then(
+		console.log(hashed)
+	)
+	// .then(newUser => {
+	// 	// Creates new session for the user
+	// 	createSession(req, res, newUser);
+	// 	res.statusCode = 200;
+	// 	res.end();
+	// });
+
+
+	// // Creates new user
+	// new User({
+	// 	name: username
+	// })
+	// .then(user => {
+	// 	// If the user does not exist
+	// 	if (!user) {
+	// 		// Hash the password
+	// 		bcrypt.hash(password, null, null, (err, hash) => {
+	// 			if (err) {
+	// 				throw err;
+	// 			} else {
+	// 				// Store new username/hashed password in database
+	// 				db.addNewUser(username, hash);
+	// 			}})
+	// 			.then(newUser => {
+	// 				// Creates new session for the user
+	// 				createSession(req, res, newUser);
+	// 			});
+	// 	} else {
+	// 		// If account already exists, redirect to signup page
+	// 		console.log('Account already exists!');
+	// 		res.redirect('/signup');
+	// 	}
+	// 	res.statusCode = 200;
+	// 	res.end();
+	// });
 });
 
 // Creates new session after new user is added to the database
