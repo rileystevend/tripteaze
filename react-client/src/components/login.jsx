@@ -7,12 +7,12 @@ const Login = (props) => {
     props.login(props.username, props.password);
   }
 
-  let changeUsername = () => {
-    props.updateUsername(props.username);
+  let changeUsername = (event) => {
+    props.updateUsername(event.target.value);
   }
 
-  let changePassword = () => {
-    props.updatePassword(props.password);
+  let changePassword = (event) => {
+    props.updatePassword(event.target.value);
   }
 
   return (
@@ -25,7 +25,7 @@ const Login = (props) => {
         </div>
         <div>
           <label>Password:</label>
-          <input type="password" onChange={changeUsername}/>
+          <input type="password" onChange={changePassword}/>
         </div>
         <div>
           <input type='submit' value='Login' />

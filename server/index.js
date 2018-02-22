@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const db = require('../database-mongo');
 const session = require('express-session');
 const User = require('../database-mongo/index.js'); // Check database file FILL_ME_IN_SON
 
@@ -16,31 +15,36 @@ app.use(session({
 
 app.use(express.static(__dirname + '/../react-client/dist'));
 
-app.checkPassword = (users, userName, pw) => {
+
+/***********************************************************************/
+/*                        login                                        */
+
+app.checkPassword = (userName, pw, checkPw) => {
   let match = false;
-  db.forEach( user => {
-    let unhashedPw = bcrypt.compareSync(pw, user.attributes.password)
-    if (user.attributes.username === userName && unhashedPw) {
+	console.log('before brypt')
+    let unhashedPw = bcrypt.compareSync(pw, checkPw)
+		console.log('after bcrypt')
+    if (unhashedPw) {
       match = true;
     }
-  })
+		console.log('match', match)
   return match;
 }
 
 app.get('/login', (req, res) =>{
-	console.log(req.body, req.query, 'login')
   let userName = req.query.username
   let password = req.query.password
 
-  db.fetch().then((users) => {
-    if (app.checkPassword(users, userName, password)) {
-      req.session.loggedIn = true;
+  User.retrieveUserPassword(userName, (userPw) => {
+		if (app.checkPassword(userName, password, userPw)) {
+			console.log('hit in if')
+			req.session.loggedIn = true;
+			res.end()
+		} else {
+			console.log('Unmatching username and password')
       res.end();
-    } else {
-      alert('Unmatching username and password');
-      res.end();
-    }
-  })
+		}
+	})
 })
 
 

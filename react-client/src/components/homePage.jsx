@@ -13,9 +13,9 @@ let Home = (props) => {
     let state = props.state;
 
     return (
-      <div> 
+      <div>
         {state.username}
-        <Login login = {actions.login} 
+        <Login login = {actions.login}
           username = {state.username}
           password = {state.password}
           updateUsername = {actions.updateUsername}
@@ -26,6 +26,7 @@ let Home = (props) => {
           password={state.password}
           updateUsername={actions.updateUsername}
           updatePassword={actions.updatePassword}
+
           /> 
         <br/>
         <Link to='/trips'>UserPage</Link>
@@ -44,5 +45,3 @@ const mapDispatchToProps = dispatch => (
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
-
-
