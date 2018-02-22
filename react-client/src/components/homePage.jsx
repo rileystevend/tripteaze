@@ -4,6 +4,7 @@ import * as actions from '../actions/index.js';  // * does all named exports fro
 import { bindActionCreators } from 'redux';
 import Signup from './signup.jsx';
 import Login from './login.jsx';
+import { Link } from 'react-router-dom';
 
 let Home = (props) => {
     //has props.state with all the state things
@@ -26,6 +27,10 @@ let Home = (props) => {
           updateUsername={actions.updateUsername}
           updatePassword={actions.updatePassword}
           /> 
+        <br/>
+        <Link to='/trips'>UserPage</Link>
+        <br/>
+        <Link to='/plan'>SearchPage</Link>
       </div>
     )
 }
