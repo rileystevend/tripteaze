@@ -1,68 +1,53 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';  //replace with axios
-import Login from './components/login.jsx';
-import SignUp from './components/signup.jsx';
+// import Login from './components/login.jsx';
+// import SignUp from './components/signup.jsx';
 
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-  //thunk is a middleware package for redux that allows your
+import reducer from './reducers/index.js';
+  //thunk is a middleware package for redux that allows your 
   //actions to return functions that return objects for the reducer
   //these functions are usually asynchronous and that is why they are good
 
-import { connect } from 'react-redux';
-import * as actions from './actions/index.js';  // * does all named exports from that file
-import { bindActionCreators } from 'redux';
+// import reducer from './reducers/index.js';
+import Home from './components/homePage.jsx';
+import User from './components/userPage.jsx';
+import Search from './components/searchPage.jsx';
 
-import reducer from './reducers/index.js';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: []
-    }
-  }
+const Root = ({ store }) => (
+  <Provider store={store}>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path = "/trips" component={User} />
+        <Route path="/plan" component={Search} />
+      </Switch>
+    </Router>
+  </Provider>
+)
 
-  componentDidMount() {
-    $.ajax({
-      url: '/items',
-      success: (data) => {
-        this.setState({
-          items: data
-        })
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
-  }
+let store = createStore(reducer, applyMiddleware(thunk))
 
-  login(username, pw) {
-    axios({
-      method: 'get',
-      url: '/login',
-      params: {
-        username: username,
-        password: pw,
-      }
-    })
-  }
+// render(
+//   <Root store={store} />,
+//   document.getElementById('root')
+// )
 
-  render () {
-    return (<div>
-<<<<<<< HEAD
-      Hey
-=======
-      <h1>Item List</h1>
-      <List items={this.state.items}/>
+ReactDOM.render( <Root store={store} />
+  , document.getElementById('app'));
 
-      <Signup/>
->>>>>>> adds signup component to index.jsx
-    </div>)
-  }
-}
+// ..<Login />
+
+//   <SignUp />
 
 // These functions will never actually make sense, basically just maps state and actions onto properties
 // bindActionCreators wraps actions into functions that can be called normally and will automatically dispatch
@@ -86,6 +71,3 @@ class App extends React.Component {
 
 
 
-ReactDOM.render(<Provider store = {createStore(reducer, applyMiddleware(thunk))}>
-    <App />
-  </Provider>, document.getElementById('app'));

@@ -9,17 +9,14 @@ const UserPage = (props, actions) => {
 
     return (
     <div>
-      <h1>Item List</h1>
-      hello
+      PUT TRIPS HERE
     </div>
   )
 }
 
-
 const mapStateToProps = state => (
-  {props: state}
+  {state: state}
 );
-
 
 const mapDispatchToProps = dispatch =>
   ({

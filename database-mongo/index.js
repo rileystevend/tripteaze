@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 //using URI stored on heroku or localhost
 const uri = process.env.MONGODB_URI ? process.env.MONGODB_URI : 'mongodb://localhost/test'
 
+let Schema = mongoose.Schema;
 mongoose.connect(uri);
 
 var db = mongoose.connection;
@@ -20,14 +21,14 @@ function toLower (v) {
   return v.toLowerCase();
 }
 
-var userSchema = mongoose.Schema({
-  _id: Schema.Types.ObjectId,
+var userSchema = Schema({
+  id: Schema.Types.ObjectId,
   name: {type: String, set: toLower, index: true},
   password: String
 });
 
-var tripSchema = mongoose.Schema({
-  _id: Schema.Types.ObjectId,
+var tripSchema = Schema({
+  id: Schema.Types.ObjectId,
   city: String,
   isPublic: {type: Boolean, default: false},
   isArchived: {type: Boolean, default: false},
@@ -36,7 +37,7 @@ var tripSchema = mongoose.Schema({
 
 });
 
-var restaurantSchema = mongoose.Schema({
+var restaurantSchema = Schema({
   id: {type: Number, index: true},
   name: String,
   url: String,
@@ -50,7 +51,7 @@ var restaurantSchema = mongoose.Schema({
 });
 
 
-var eventSchema = mongoose.Schema({
+var eventSchema = Schema({
   id: {type: Number, index: true},
   name: String,
   url: String,
@@ -237,4 +238,4 @@ let showAllPublicTrips = (callback) => {
 };
 
 module.exports.showAllPublicTrips = showAllPublicTrips;
-module.exports.saveRestaurant = saveRestaurant;
+//module.exports.saveRestaurant = saveRestaurant;

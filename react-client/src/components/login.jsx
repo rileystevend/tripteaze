@@ -1,49 +1,38 @@
-const express = require('express');
- // need to create /////////
-//const bcrypt = require('bcrypt-nodejs');
+import React from 'react';
 
-class App extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      username: '',
-      pw: '',
-    }
+const Login = (props) => {
+
+  let submit = (event) => {
+    event.preventDefault();
+    props.login(props.username, props.password);
   }
 
-  userName() {
-    this.setState({
-      username: this.target.value
-    })
+  let changeUsername = () => {
+    props.updateUsername(props.username);
   }
 
-  password() {
-    this.setState({
-      pw: this.target.value
-    })
+  let changePassword = () => {
+    props.updatePassword(props.password);
   }
 
-  clickHandle() {
-    this.props.login(this.state.username, this.state.pw)
-  }
-
-
-  render () {
-    return (
-      <div>
-        <h2>Login</h2>
+  return (
+    <div>
+      <h2>Login</h2>
+      <form onSubmit = {submit}>
         <div>
-          <label for="username">Username:</label>
-          <input id="username" type="text" value={this.state.username} onChange={this.userName.bind(this)}/>
+          <label>Username:</label>
+          <input type="text" onChange={changeUsername}/>
         </div>
         <div>
-          <label for="password">Password:</label>
-          <input id="password" type="password" value={this.state.pw} onChange={this.password.bind(this)}/>
+          <label>Password:</label>
+          <input type="password" onChange={changeUsername}/>
         </div>
         <div>
-          <button onClick={this.clickHandle.bind(this)}> Login </button>
+          <input type='submit' value='Login' />
         </div>
-      </div>
-    )
-  }
+      </form>
+    </div>
+  )
 }
+
+export default Login;
