@@ -7,11 +7,11 @@ import SignUp from './components/signup.jsx';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-  //thunk is a middleware package for redux that allows your 
+  //thunk is a middleware package for redux that allows your
   //actions to return functions that return objects for the reducer
   //these functions are usually asynchronous and that is why they are good
 
-import { connect } from 'react-redux'; 
+import { connect } from 'react-redux';
 import * as actions from './actions/index.js';  // * does all named exports from that file
 import { bindActionCreators } from 'redux';
 
@@ -20,14 +20,14 @@ import reducer from './reducers/index.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       items: []
     }
   }
 
   componentDidMount() {
     $.ajax({
-      url: '/items', 
+      url: '/items',
       success: (data) => {
         this.setState({
           items: data
@@ -37,6 +37,17 @@ class App extends React.Component {
         console.log('err', err);
       }
     });
+  }
+
+  login(username, pw) {
+    axios({
+      method: 'get',
+      url: '/login',
+      params: {
+        username: username,
+        password: pw,
+      }
+    })
   }
 
   render () {
@@ -75,6 +86,6 @@ class App extends React.Component {
 
 
 
-ReactDOM.render(<Provider store = {createStore(reducer, applyMiddleware(thunk))}> 
-    <App /> 
+ReactDOM.render(<Provider store = {createStore(reducer, applyMiddleware(thunk))}>
+    <App />
   </Provider>, document.getElementById('app'));
