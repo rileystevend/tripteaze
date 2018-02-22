@@ -52,7 +52,14 @@ class App extends React.Component {
 
   render () {
     return (<div>
+<<<<<<< HEAD
       Hey
+=======
+      <h1>Item List</h1>
+      <List items={this.state.items}/>
+
+      <Signup/>
+>>>>>>> adds signup component to index.jsx
     </div>)
   }
 }
