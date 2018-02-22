@@ -1,4 +1,11 @@
-const initialState = {username: '', password: '', authenticated: false, currentError: ''}; //will need to be updated
+const initialState = {
+  username: '', 
+  password: '', 
+  authenticated: false, 
+  currentError: '', 
+  city: '',
+  activeTrip: false
+}; //will need to be updated
 
 const reducer = function (state = initialState, action) {  //if state is undefined, state becomes inital state
 
@@ -8,7 +15,12 @@ const reducer = function (state = initialState, action) {  //if state is undefin
     case 'UPDATE_PASSWORD':
       return Object.assign({}, state, {password: action.payload})
     case 'AUTHEN' :
-      return Object.assign(state, { authenticated: true });
+      return Object.assign(state, { authenticated: true });  
+    case 'UPDATE_CITY' :
+      return Object.assign({}, state, {city: action.payload})
+    case 'SET_TRIP' :
+      console.log('setting the trip');
+      return Object.assign({}, state, {activeTrip: true})
     case 'ERROR' :
       return Object.assign(state, { currentError: action.payload})
     default:
