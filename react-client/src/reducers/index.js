@@ -4,7 +4,10 @@ const initialState = {
   authenticated: false, 
   currentError: '', 
   city: '',
-  activeTrip: false
+  activeTrip: {
+      status: false,
+      city: ''
+    }
 }; //will need to be updated
 
 const reducer = function (state = initialState, action) {  //if state is undefined, state becomes inital state
@@ -19,7 +22,7 @@ const reducer = function (state = initialState, action) {  //if state is undefin
     case 'UPDATE_CITY' :
       return Object.assign({}, state, {city: action.payload})
     case 'SET_TRIP' :
-      return Object.assign({}, state, {activeTrip: true})
+      return Object.assign({}, state, {activeTrip: {status: true, city: action.payload}})
     case 'ERROR' :
       return Object.assign({}, state, { currentError: action.payload})
     default:
