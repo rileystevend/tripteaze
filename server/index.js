@@ -67,8 +67,8 @@ app.post('/signup', (req, res) => {
 
 	// Creates new user
 	new User({
-		// Need to check db for new user model // FILL_ME_IN_SON
-		username: username
+		name: username,
+		password: password
 	})
 	.fetch()
 	.then(user => {
@@ -80,7 +80,7 @@ app.post('/signup', (req, res) => {
 					throw err;
 				} else {
 					// Store new username/hashed password in database
-					// (username, hash) call function from db to store username and hash // FILL_ME_IN_SON
+					db.addNewUser(username, hash);
 				}})
 				.then(newUser => {
 					// Creates new session for the user
@@ -88,7 +88,7 @@ app.post('/signup', (req, res) => {
 				});
 		} else {
 			// If account already exists, redirect to signup page
-			console.log('Account already exists!');
+			alert('Account already exists!');
 			res.redirect('/signup');
 		}
 	});
@@ -98,7 +98,8 @@ app.post('/signup', (req, res) => {
 const createSession = (req, res, newUser) => {
 	return req.session.regenerate(() => {
 		req.session.user = newUser;
-		res.redirect('/'); // Where do we want to redirect? FILL_ME_IN_SON
+		// Redirects to home page
+		res.redirect('/');
 	});
 }
 /*************************** TRIP STUFF ***************************/
