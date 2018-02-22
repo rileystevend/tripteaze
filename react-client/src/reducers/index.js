@@ -1,11 +1,18 @@
-const initialState = {}; //will need to be updated
+const initialState = {username: '', password: '', authenticated: false, currentError: ''}; //will need to be updated
 
 const reducer = function (state = initialState, action) {  //if state is undefined, state becomes inital state
 
   switch (action.type) {
-    case 'LOGIN':
-      return Object.assign(state, {/*like a user or something*/}) //makes a new state object with thing property overwritten
-
+    case 'UPDATE_USERNAME':
+      console.log('u')
+      return Object.assign(state, {username: action.payload}) 
+    case 'UPDATE_PASSWORD':
+      console.log('p');
+      return Object.assign(state, {password: action.payload}) 
+    case 'AUTHEN' :
+      return Object.assign(state, { authenticated: true });  
+    case 'ERROR' :
+      return Object.assign(state, { currentError: action.payload})
     default:
       return state;  //if unrecognized action type nothing happens
   }

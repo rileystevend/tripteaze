@@ -1,27 +1,44 @@
 import React from 'react';
 
-const Signup = (props) => (
-	<h2>Sign up</h2>
+let Signup = (props) => {
 
-	<form action="/signup" method="post">
+	let submit = (event) => {
+		event.preventDefault();
+		props.signup(props.username, props.password);
+	}
+
+	let changeUsername = () => {
+		props.updateUsername(props.username);
+	}
+
+	let changePassword = () => {
+		props.updatePassword(props.password);
+	}
+	
+	return (
 		<div>
-			<label for="username">Username:</label>
-			<input id="username" type="text" name="username">
-		</div>
+			<h2>Sign up</h2>
 
-		<div>
-			<label for="password">Password:</label>
-			<input id="password" type="password" name="password">
-		</div>
+			<form onSubmit = {submit} >
+				<div>
+					<label>Username:</label>
+					<input type="text" onChange = {changeUsername} />
+				</div>
+				<div>
+					<label>Password:</label>
+					<input type="password" onChange = {changePassword} />
+				</div>
+				<div>
+					<input type="submit" value="Sign up"/>
+				</div>
+			</form>
 
-		<div>
-			<input type="submit" value="Sign up">
+			<p>
+			<a href="/login">Login</a>
+			</p>
 		</div>
-	</form>
+	);
+}
 
-	<p>
-	<a href="/login">Login</a>
-	<p>
-)
 
 export default Signup;

@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const db = require('../database-mongo');
 const session = require('express-session');
-const User = require('../../../database-mongo/index.js'); // Check database file FILL_ME_IN_SON
+const User = require('../database-mongo/index.js'); // Check database file FILL_ME_IN_SON
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,16 +16,6 @@ app.use(session({
 
 app.use(express.static(__dirname + '/../react-client/dist'));
 
-app.get('/items', function (req, res) {
-  db.selectAll(function(err, data) {
-    if(err) {
-      res.sendStatus(500);
-    } else {
-      res.json(data);
-    }
-  });
-});
-
 app.checkPassword = (users, userName, pw) => {
   let match = false;
   db.forEach( user => {
@@ -37,10 +27,10 @@ app.checkPassword = (users, userName, pw) => {
   return match;
 }
 
-
 app.get('/login', (req, res) =>{
-  let userName = req.body.username
-  let password = req.body.password
+	console.log(req.body, req.query, 'login')
+  let userName = req.query.username
+  let password = req.query.password
 
   db.fetch().then((users) => {
     if (app.checkPassword(users, userName, password)) {
@@ -65,11 +55,9 @@ app.get('/logout', (req, res) => {
 
 /*************************** SIGN UP STUFF ***************************/
 
-// Loads sign up page
-app.get('/signup', (req, res) => res.render('signup'));
-
 // Sign up
 app.post('/signup', (req, res) => {
+	console.log(req.body, req.query, 'signup')
 	let username = req.body.username;
 	let password = req.body.password;
 
@@ -89,12 +77,11 @@ app.post('/signup', (req, res) => {
 				} else {
 					// Store new username/hashed password in database
 					// (username, hash) call function from db to store username and hash // FILL_ME_IN_SON
-				}
+				}})
 				.then(newUser => {
 					// Creates new session for the user
 					createSession(req, res, newUser);
 				});
-			});
 		} else {
 			// If account already exists, redirect to signup page
 			console.log('Account already exists!');
