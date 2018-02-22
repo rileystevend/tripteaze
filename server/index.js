@@ -97,6 +97,13 @@ const createSession = (req, res, newUser) => {
 		res.redirect('/'); // Where do we want to redirect? FILL_ME_IN_SON
 	});
 }
+/*************************** TRIP STUFF ***************************/
+app.post('/trips', (req, res) => {
+	const user = (req.body.tripUser);
+	const city = (req.body.tripCity);
+// make a db query .then end
+	res.status(200).json({city: city});
+})
 
 const port = process.env.PORT || 3000;
 

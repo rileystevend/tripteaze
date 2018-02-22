@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 //SIMPLE ACTION
-export const actionName = (neededParams) => ({type: 'ACTION_NAME', param: neededParams});
+//export const actionName = (neededParams) => ({type: 'ACTION_NAME', param: neededParams});
+
+////////////////////////////////USER STUFF\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 export const updateUsername = (username) => ({ type: 'UPDATE_USERNAME', payload: username });
 
@@ -45,7 +47,32 @@ export const authenticate = () => ({ type: 'AUTHEN' });
 
 export const badStuff = (error) => ({type: 'ERROR', payload: error});
 
+/////////////////////////////SEARCH PAGE STUFF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+export const updateCity = (city) => ({ type: 'UPDATE_CITY', payload: city });
+
+export const makeNewTrip = (username, city) => {
+    //dispatch({ type: 'LOADING' });
+    // return setTimeout(function(dispatch) {
+    //   return dispatch(activateTrip(city))
+    // }, 1000);
+    
+    return (dispatch) => {
+    return axios({
+      method: 'post',
+      url: '/trips',
+      data: {
+        tripUser: username,
+        tripCity: city
+      }
+    }).then(
+      results => (dispatch(activateTrip(results.data.city))),
+      error => dispatch(badStuff(error))
+    );
+  };
+}
+
+const activateTrip = (city) => ({ type: 'SET_TRIP', payload: city});
 //ACTION_NAME must correspond with reducer switch option
 
 //  complex action example w/ async
