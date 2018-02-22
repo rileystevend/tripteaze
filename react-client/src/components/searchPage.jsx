@@ -19,10 +19,10 @@ const StatePage = (props) => {
   };
 
   let message = '';
-  if (!props.state.activeTrip) {
+  if (!props.state.activeTrip.status) {
     message = 'Pick a city for your trip!'
   } else {
-    message = `You\'re going to ${props.state.city}! \n Or plan a different trip: ` 
+    message = `You\'re going to ${props.state.activeTrip.city}! \n Or plan a different trip: ` 
   }
 
   return (
