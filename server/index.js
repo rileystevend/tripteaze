@@ -65,23 +65,23 @@ app.post('/signup', (req, res) => {
 	let username = req.body.username;
 	let password = req.body.password;
 
-	var hashed = bcrypt.hash(password, null, null, (err, hash) => {
-		if (err) {
-			throw err;
+	User.userExists(username, (existingUser) => {
+		if (existingUser.length > 0) {
+			console.log('User already exists');
+			res.redirect(200, '/signup');
 		} else {
-			db.addNewUser(username, hash);
+			console.log('User does not exist');
+
+			var hashed = bcrypt.hash(password, 10, (err, hash) => {
+				console.log('hashed pw: ', hash);
+				User.addNewUser(username, hash);
+			});
 		}
-	}).then(
-		console.log(hashed)
-	)
-	// .then(newUser => {
-	// 	// Creates new session for the user
-	// 	createSession(req, res, newUser);
-	// 	res.statusCode = 200;
-	// 	res.end();
-	// });
+	});
 
 
+
+	
 	// // Creates new user
 	// new User({
 	// 	name: username
