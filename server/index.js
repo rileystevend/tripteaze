@@ -102,6 +102,15 @@ const createSession = (req, res, newUser) => {
 	});
 }
 /*************************** TRIP STUFF ***************************/
+app.get('/trips', (req, res) => {
+	const type = req.query.search; // right now tailored for public trips but can be adapted for user trips as well
+	if (type === 'public') {
+		res.status(200).json({trips: ['we', 'are', 'trips']})
+	} else {
+		res.status(544).end();
+	}
+});
+
 app.post('/trips', (req, res) => {
 	const user = (req.body.tripUser);
 	const city = (req.body.tripCity);

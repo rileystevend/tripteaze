@@ -3,7 +3,25 @@ import axios from 'axios';
 //SIMPLE ACTION
 //export const actionName = (neededParams) => ({type: 'ACTION_NAME', param: neededParams});
 
-////////////////////////////////USER STUFF\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+////////////////////////////////HOME PAGE STUFF\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+export const fetchPublicTrips = () => {
+  //dispatch({ type: 'LOADING' });
+  return (dispatch) => {
+    console.log('asking the server for the trips!')
+    return axios({
+      method: 'get',
+      url: '/trips',
+      params: {
+        search: 'public'
+      }
+    }).then(
+      results => dispatch(setTrips(results.data.trips)),
+      error => dispatch(badStuff(error))
+    );
+  }
+};
+
+const setTrips = (trips) => ({ type: 'SHOW_TRIPS', payload: trips});
 
 export const updateUsername = (username) => ({ type: 'UPDATE_USERNAME', payload: username });
 
@@ -19,12 +37,12 @@ export const login = (username, password) => {
         username: username,
         password: password
       }
-      }).then (
-        results => dispatch(authenticate()),
-        error => dispatch(badStuff(error))
-      );
-    }
-  };
+    }).then (
+      results => dispatch(authenticate()),
+      error => dispatch(badStuff(error))
+    );
+  }
+};
 
 export const signup = (username, password) => {
   //dispatch({ type: 'LOADING' });
