@@ -4,10 +4,8 @@ const reducer = function (state = initialState, action) {  //if state is undefin
 
   switch (action.type) {
     case 'UPDATE_USERNAME':
-      console.log('u')
       return Object.assign(state, {username: action.payload}) 
     case 'UPDATE_PASSWORD':
-      console.log('p');
       return Object.assign(state, {password: action.payload}) 
     case 'AUTHEN' :
       return Object.assign(state, { authenticated: true });  

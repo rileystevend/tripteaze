@@ -8,7 +8,6 @@ import Login from './login.jsx';
 let Home = (props) => {
     //has props.state with all the state things
     //and props.actions with all the action creating functions
-    console.log(props);
     let actions = props.actions; //access shortcuts
     let state = props.state;
 

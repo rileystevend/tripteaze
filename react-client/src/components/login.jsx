@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Login = (props) => {
-  console.log(props);
 
   let submit = (event) => {
     event.preventDefault();
