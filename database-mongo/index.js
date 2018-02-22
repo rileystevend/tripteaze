@@ -143,9 +143,10 @@ let addNewUser = (name, password) => {
 let retrieveUserPassword = (username, callback) => {
   User.find({name: username}, function(err, user) {
     if(err) {
-      callback(err,null);
+      throw err
     } else {
-      callback(null, user.password);
+      console.log('user', user)
+      callback(user[0].password);
     }
   })
 };
@@ -169,7 +170,7 @@ let showUserTrips = (username, callback) => {
   });
 };
 
- 
+
 //allows user to update whether trip is public and/or archived
 //assumes username and city are known to obtain corresponding trip and update
 let modifyTripDetails = (makePublic, makeArchived, username, city) => {
@@ -238,4 +239,5 @@ let showAllPublicTrips = (callback) => {
 };
 
 module.exports.showAllPublicTrips = showAllPublicTrips;
+module.exports.retrieveUserPassword = retrieveUserPassword;
 //module.exports.saveRestaurant = saveRestaurant;
