@@ -21,7 +21,6 @@ function toLower (v) {
   return v.toLowerCase();
 }
 
-
 var userSchema = Schema({
   id: Schema.Types.ObjectId,
   name: {type: String, set: toLower, index: true, required: [true, "can't be blank"]},
@@ -70,18 +69,20 @@ var Trip = mongoose.model('Trip', tripSchema);
 var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 var Event = mongoose.model('Event', eventSchema);
 
-let addNewTrip = (city, username) => {
+let addNewTrip = (username, city, callback) => {
   User.find({name: username}, function (err, user) {
     if(err) {
-      console.log('error: ', err);
+      callback(err);
     }
     Trip.create({
       id: new mongoose.Types.ObjectId(),
       city: city,
       user: user.id
-    }, (err) => {
+    }, (err, data) => {
       if(err) {
-        console.log('error: ', err);
+        callback(err);
+      } else {
+        callback(null, data);
       }
     });
   });
@@ -178,7 +179,7 @@ let addNewUser = (name, password) => {
 let retrieveUserPassword = (username, callback) => {
   User.find({name: username}, function(err, user) {
     if(err) {
-      throw err
+      throw err;
     } else {
       callback(user[0].password);
     }

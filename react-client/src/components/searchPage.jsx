@@ -22,7 +22,7 @@ const StatePage = (props) => {
   if (!props.state.activeTrip) {
     message = 'Pick a city for your trip!'
   } else {
-    message = `you\'re going to ${props.state.city}! Or search for a different one` 
+    message = `You\'re going to ${props.state.city}! \n Or plan a different trip: ` 
   }
 
   return (
@@ -30,7 +30,7 @@ const StatePage = (props) => {
       {message}
       <form onSubmit = {submit}>
         <input type='text' onChange = {updateCity}/>
-        <input type='submit'/>
+        <input type='submit' value='Create Trip'/>
       </form>
       PUT SEARCH FIELDS HERE
     </div>

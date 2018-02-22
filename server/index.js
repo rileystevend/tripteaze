@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
-const User = require('../database-mongo/index.js'); // Check database file FILL_ME_IN_SON
+const db = require('../database-mongo/index.js');
 
 const app = express();
 app.use(bodyParser.json());
@@ -35,7 +35,7 @@ app.get('/login', (req, res) =>{
   let userName = req.query.username
   let password = req.query.password
 
-  User.retrieveUserPassword(userName, (userPw) => {
+  db.retrieveUserPassword(userName, (userPw) => {
 		if (app.checkPassword(userName, password, userPw)) {
 			console.log('hit in if')
 			req.session.loggedIn = true;
@@ -105,8 +105,16 @@ const createSession = (req, res, newUser) => {
 app.post('/trips', (req, res) => {
 	const user = (req.body.tripUser);
 	const city = (req.body.tripCity);
-// make a db query .then end
-	res.status(200).json({city: city});
+	db.addNewTrip(user, city, function(err, data) {
+		if (err) {
+			console.log(err);
+			res.status(500).send(err);
+		} else {
+			console.log(data);
+			res.status(200);
+			res.status(200).json({ city: data.city });
+		}
+	});
 })
 
 const port = process.env.PORT || 3000;

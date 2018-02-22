@@ -15,14 +15,13 @@ const reducer = function (state = initialState, action) {  //if state is undefin
     case 'UPDATE_PASSWORD':
       return Object.assign({}, state, {password: action.payload})
     case 'AUTHEN' :
-      return Object.assign(state, { authenticated: true });  
+      return Object.assign({}, state, { authenticated: true });  
     case 'UPDATE_CITY' :
       return Object.assign({}, state, {city: action.payload})
     case 'SET_TRIP' :
-      console.log('setting the trip');
       return Object.assign({}, state, {activeTrip: true})
     case 'ERROR' :
-      return Object.assign(state, { currentError: action.payload})
+      return Object.assign({}, state, { currentError: action.payload})
     default:
       return state;  //if unrecognized action type nothing happens
   }
