@@ -21,9 +21,10 @@ function toLower (v) {
   return v.toLowerCase();
 }
 
+
 var userSchema = Schema({
   id: Schema.Types.ObjectId,
-  name: {type: String, set: toLower, index: true},
+  name: {type: String, set: toLower, index: true, required: [true, "can't be blank"]},
   password: String
 });
 
@@ -75,9 +76,9 @@ let addNewTrip = (city, username) => {
       console.log('error: ', err);
     }
     Trip.create({
-      _id: new mongoose.Types.ObjectId(),
+      id: new mongoose.Types.ObjectId(),
       city: city,
-      user: user._id
+      user: user.id
     }, (err) => {
       if(err) {
         console.log('error: ', err);
@@ -93,7 +94,7 @@ let addRestaurantToTrip = (restaurant, username, city) => {
       console.log('error: ', err);
     }
     //then find corresponding trip based on city for selected user
-    Trip.find({user: user._id, city: city}, function (err, trip) {
+    Trip.find({user: user.id, city: city}, function (err, trip) {
       if(err) {
         console.log('error', err);
       }
@@ -107,7 +108,41 @@ let addRestaurantToTrip = (restaurant, username, city) => {
           zip: restaurant.location.zipcode,
           location: [restaurant.location.latitude, restaurant.location.longitude],
           price: restaurant.price_range,
-          trip: trip._id
+          trip: trip.id
+          }
+        }, {upsert: true}, function(err) {
+          if(err) {
+            console.log('error: ', err);
+          }
+        }
+      );
+    });
+  });
+};
+
+let addEventToTrip = (event, username, city) => {
+  //first find corresponding user
+  User.find({name: username}, function (err, user) {
+    if(err) {
+      console.log('error: ', err);
+    }
+    //then find corresponding trip based on city for selected user
+    Trip.find({user: user._id, city: city}, function (err, trip) {
+      if(err) {
+        console.log('error', err);
+      }
+      //then add event to database based on trip ID
+      //need to look at eventbrite API for structure
+      Event.findOneAndUpdate({id: event.id},
+        {$set: {
+          name: event.name,
+          id: event.id,
+          url: event.url,
+          address: event.location.address,
+          zip: event.location.zipcode,
+          location: [event.location.latitude, event.location.longitude],
+          price: event.price_range,
+          trip: trip.id
           }
         }, {upsert: true}, function(err) {
           if(err) {
@@ -124,7 +159,7 @@ let addRestaurantToTrip = (restaurant, username, city) => {
 let addNewUser = (name, password) => {
   User.findOneAndUpdate({name: name},
     {$set: {
-      _id: new mongoose.Types.ObjectId(),
+      id: new mongoose.Types.ObjectId(),
       name: name,
       password: password
       }
@@ -159,7 +194,7 @@ let showUserTrips = (username, callback) => {
       console.log('error: ', err);
     }
     //then find all trips for selected user
-    Trip.find({user: user._id}, function (err, trips) {
+    Trip.find({user: user.id}, function (err, trips) {
       if(err) {
         callback(err, null);
       } else {
@@ -185,7 +220,7 @@ let modifyTripDetails = (makePublic, makeArchived, username, city) => {
       }
       makePublic = makePublic || trip.isPublic;
       makeArchived = makeArchived || trip.isArchived;
-      Trip.update({_id: trip._id},
+      Trip.update({id: trip.id},
         {$set:
           {
             isPublic: makePublic,
@@ -217,7 +252,7 @@ let remove = (modelType, ID) => {
       }
     });
   } else if (modelType === 'trip') {
-    Trip.remove( {_id: ID}, function (err) {
+    Trip.remove( {id: ID}, function (err) {
       if(err) {
         console.log('error: ',err);
       }
@@ -237,6 +272,15 @@ let showAllPublicTrips = (callback) => {
   });
 };
 
-module.exports.showAllPublicTrips = showAllPublicTrips;
+
+
+module.exports.addNewTrip = addNewTrip;
+module.exports.addRestaurantToTrip = addRestaurantToTrip;
+module.exports.addEventToTrip = addEventToTrip;
+module.exports.addNewUser = addNewUser;
 module.exports.retrieveUserPassword = retrieveUserPassword;
-//module.exports.saveRestaurant = saveRestaurant;
+module.exports.showUserTrips = showUserTrips;
+module.exports.modifyTripDetails = modifyTripDetails;
+module.exports.remove = remove;
+module.exports.showAllPublicTrips = showAllPublicTrips;
+
