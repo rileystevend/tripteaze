@@ -21,10 +21,13 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 
 app.checkPassword = (userName, pw, checkPw) => {
   let match = false;
+	console.log('before brypt')
     let unhashedPw = bcrypt.compareSync(pw, checkPw)
-    if (users.attributes.user === userName && unhashedPw) {
+		console.log('after bcrypt')
+    if (unhashedPw) {
       match = true;
     }
+		console.log('match', match)
   return match;
 }
 
@@ -33,12 +36,12 @@ app.get('/login', (req, res) =>{
   let password = req.query.password
 
   User.retrieveUserPassword(userName, (userPw) => {
-		console.log('userPw, ', userPw)
 		if (app.checkPassword(userName, password, userPw)) {
+			console.log('hit in if')
 			req.session.loggedIn = true;
 			res.end()
 		} else {
-			alert('Unmatching username and password');
+			console.log('Unmatching username and password')
       res.end();
 		}
 	})

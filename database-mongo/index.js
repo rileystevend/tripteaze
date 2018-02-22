@@ -145,7 +145,6 @@ let retrieveUserPassword = (username, callback) => {
     if(err) {
       throw err
     } else {
-      console.log('user', user)
       callback(user[0].password);
     }
   })
