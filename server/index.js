@@ -105,9 +105,15 @@ const createSession = (req, res, newUser) => {
 app.get('/trips', (req, res) => {
 	const type = req.query.search; // right now tailored for public trips but can be adapted for user trips as well
 	if (type === 'public') {
-		res.status(200).json({trips: ['we', 'are', 'trips']})
+		db.showAllPublicTrips(function(err, data) {
+			if (err) {
+				res.status(500).end(err);
+			} else {
+				res.status(200).json({trips: data})
+			}
+		})
 	} else {
-		res.status(544).end();
+		res.status(500).end();
 	}
 });
 
