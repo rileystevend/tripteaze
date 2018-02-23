@@ -1,4 +1,7 @@
 import React from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
 
 let Signup = (props) => {
 
@@ -16,23 +19,23 @@ let Signup = (props) => {
 	}
 	
 	return (
-		<div>
+		<Paper>
 			<h2>Sign up</h2>
 
 			<form onSubmit = {submit} >
 				<div>
 					<label>Username:</label>
-					<input type="text" onChange = {changeUsername} />
+					<TextField id = "SUUsername" onChange = {changeUsername} />
 				</div>
 				<div>
 					<label>Password:</label>
-					<input type="password" onChange = {changePassword} />
+					<TextField id = 'SUPassword' type="password" onChange = {changePassword} />
 				</div>
 				<div>
-					<input type="submit" value="Sign up"/>
+					<RaisedButton label='Join' onClick={submit} />
 				</div>
 			</form>
-		</div>
+		</Paper>
 	);
 }
 
