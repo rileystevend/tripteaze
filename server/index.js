@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const User = require('../database-mongo/index.js'); // Check database file FILL_ME_IN_SON
+const eventbrite = require('../APIhelper/eventbrite.js');
 
 const app = express();
 app.use(bodyParser.json());
@@ -102,6 +103,28 @@ const createSession = (req, res, newUser) => {
 	});
 }
 
+/******************************** Search - Events *****************************/
+
+app.post('/events', function (req, res) {
+	//var eventQuery = req.body.query;
+	console.log('heresbody',req.body);
+	eventbrite.searchEvents('bollywood', (err, data) => {
+		if(err) {
+			res.sendStatus(500);
+			console.log('error');
+		} else {
+			res.statusCode=201;
+			data.forEach((event) => {
+				console.log('heresdata', event.name.text);
+			});
+		}
+		res.end();
+	});
+
+});
+
+
+/****************************************************************************/
 const port = process.env.PORT || 3000;
 
 app.listen(port, function() {
