@@ -4,6 +4,7 @@ import * as actions from '../actions/index.js';  // * does all named exports fro
 import { bindActionCreators } from 'redux';
 import Signup from './signup.jsx';
 import Login from './login.jsx';
+import Trip from './trip.jsx';
 import { Link } from 'react-router-dom';
 
 class Home extends React.Component {
@@ -40,7 +41,7 @@ class Home extends React.Component {
           <Link to='/trips'>UserPage</Link>
           <br/>
           <Link to='/plan'>SearchPage</Link>
-          {JSON.stringify(state.trips)}
+          {state.trips.map((trip, index) => (<Trip key={index} trip={trip} />))}
         </div>
       )
     };
