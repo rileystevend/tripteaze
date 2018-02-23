@@ -59,26 +59,35 @@ app.get('/logout', (req, res) => {
 
 /*************************** SIGN UP STUFF ***************************/
 
+// ***************STILL NEED TO CREATE NEW SESSION FOR USER ***************
+
 // Sign up
 app.post('/signup', (req, res) => {
 	console.log(req.body, req.query, 'signup')
 	let username = req.body.username;
 	let password = req.body.password;
 
+	// Checks if the username already exists in the db
 	User.userExists(username, (existingUser) => {
+		// If the username already exists
 		if (existingUser.length > 0) {
-			console.log('User already exists');
+			console.log('Username already exists!');
+			// Redirect to the signup page
 			res.redirect(200, '/signup');
+		// Else if new user
 		} else {
-			console.log('User does not exist');
-
-			var hashed = bcrypt.hash(password, 10, (err, hash) => {
-				console.log('hashed pw: ', hash);
-				User.addNewUser(username, hash);
+			// Hash the password
+			let hashed = bcrypt.hash(password, 10, (err, hash) => {
+				if (err) {
+					console.error('Error in hash password: ', err);
+				} else {
+					// Store the new user/hash in the db
+					User.addNewUser(username, hash);
+					console.log(`User '${username}' added to database`);
+				}
 			});
 		}
 	});
-
 
 
 	
