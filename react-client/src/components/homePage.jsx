@@ -24,7 +24,6 @@ class Home extends React.Component {
 
       return (
         <div>
-          {state.username}
           <Login login = {actions.login}
             username = {state.username}
             password = {state.password}
