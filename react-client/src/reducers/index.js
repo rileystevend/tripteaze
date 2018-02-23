@@ -1,16 +1,33 @@
-const initialState = {username: '', password: '', authenticated: false, currentError: ''}; //will need to be updated
+const initialState = {
+  username: '', 
+  password: '', 
+  authenticated: false, 
+  currentError: '', 
+  city: '',
+  trips: [],
+  activeTrip: {
+      status: false,
+      city: ''
+    }
+}; //will need to be updated as needed
 
 const reducer = function (state = initialState, action) {  //if state is undefined, state becomes inital state
 
   switch (action.type) {
+    case 'SHOW_TRIPS' :
+      return Object.assign({}, state, {trips: action.payload})
     case 'UPDATE_USERNAME':
       return Object.assign({}, state, {username: action.payload})
     case 'UPDATE_PASSWORD':
       return Object.assign({}, state, {password: action.payload})
     case 'AUTHEN' :
-      return Object.assign(state, { authenticated: true });
+      return Object.assign({}, state, { authenticated: true });  
+    case 'UPDATE_CITY' :
+      return Object.assign({}, state, {city: action.payload})
+    case 'SET_TRIP' :
+      return Object.assign({}, state, {activeTrip: {status: true, city: action.payload}})
     case 'ERROR' :
-      return Object.assign(state, { currentError: action.payload})
+      return Object.assign({}, state, { currentError: action.payload})
     default:
       return state;  //if unrecognized action type nothing happens
   }
