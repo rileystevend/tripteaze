@@ -21,7 +21,6 @@ function toLower (v) {
   return v.toLowerCase();
 }
 
-
 var userSchema = Schema({
   id: Schema.Types.ObjectId,
   name: {type: String, set: toLower, index: true, required: [true, "can't be blank"]},
@@ -70,18 +69,20 @@ var Trip = mongoose.model('Trip', tripSchema);
 var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 var Event = mongoose.model('Event', eventSchema);
 
-let addNewTrip = (city, username) => {
+let addNewTrip = (username, city, callback) => {
   User.find({name: username}, function (err, user) {
     if(err) {
-      console.log('error: ', err);
+      callback(err);
     }
     Trip.create({
       id: new mongoose.Types.ObjectId(),
       city: city,
       user: user.id
-    }, (err) => {
+    }, (err, data) => {
       if(err) {
-        console.log('error: ', err);
+        callback(err);
+      } else {
+        callback(null, data);
       }
     });
   });
@@ -172,13 +173,30 @@ let addNewUser = (name, password) => {
   );
 };
 
+// checks if username already exists in the database and
+// returns that user
+let userExists = (username, cb) => {
+  // checks database based on input username
+  User.find({
+    name: username
+  }, (err, existingUser) => {
+    if (err) {
+      console.error('error in userExists: ', err);
+    } else {
+      console.log('user', existingUser);
+      // callback on the existing user if it exists
+      cb(existingUser);
+    }
+  })
+};
+
 //for login page-take in username and retrieve password from db
 //on server side, bcrypt will be used to compare user input password to stored db password
 //if they match user will be logged in, otherwise error message
 let retrieveUserPassword = (username, callback) => {
   User.find({name: username}, function(err, user) {
     if(err) {
-      throw err
+      throw err;
     } else {
       callback(user[0].password);
     }
@@ -283,4 +301,6 @@ module.exports.showUserTrips = showUserTrips;
 module.exports.modifyTripDetails = modifyTripDetails;
 module.exports.remove = remove;
 module.exports.showAllPublicTrips = showAllPublicTrips;
+module.exports.userExists = userExists;
+
 
