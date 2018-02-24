@@ -207,7 +207,7 @@ let retrieveUserPassword = (username, callback) => {
 let showUserTrips = (username, callback) => {
   //first find corresponding user
   User.findOne({name: username}, function (err, user) {
-    if(err) {
+    if(err || !user.id) {
       console.log('error: ', err);
     }
     //then find all trips for selected user
