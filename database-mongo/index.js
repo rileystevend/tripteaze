@@ -74,7 +74,6 @@ let addNewTrip = (username, city, callback) => {
     if(err) {
       callback(err);
     }
-    console.log(username, user, user.id);
     Trip.create({
       id: new mongoose.Types.ObjectId(),
       city: city,
@@ -83,7 +82,6 @@ let addNewTrip = (username, city, callback) => {
       if(err) {
         callback(err);
       } else {
-        console.log(data);
         callback(null, data);
       }
     });
@@ -185,7 +183,6 @@ let userExists = (username, cb) => {
     if (err) {
       console.error('error in userExists: ', err);
     } else {
-      console.log('user', existingUser);
       // callback on the existing user if it exists
       cb(existingUser);
     }
@@ -209,18 +206,15 @@ let retrieveUserPassword = (username, callback) => {
 //for user page-display all existing trips for user after being logged in
 let showUserTrips = (username, callback) => {
   //first find corresponding user
-  console.log(username);
   User.findOne({name: username}, function (err, user) {
     if(err) {
       console.log('error: ', err);
     }
     //then find all trips for selected user
-    console.log(user);
     Trip.find({user: user.id}, function (err, trips) {
       if(err) {
         callback(err, null);
       } else {
-        console.log(trips);
         callback(null, trips);
       }
     });
@@ -290,7 +284,6 @@ let showAllPublicTrips = (callback) => {
     if(err) {
       callback(err, null);
     } else {
-      console.log(trips);
       callback(null, trips);
     }
   });

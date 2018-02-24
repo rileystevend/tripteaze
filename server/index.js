@@ -133,7 +133,6 @@ const createSession = (req, res, newUser) => {
 /*************************** TRIP STUFF ***************************/
 app.get('/trips', (req, res) => {
 	const type = req.query.search; // right now tailored for public trips but can be adapted for user trips as well
-	console.log(type);
 	if (type === 'public') {
 		db.showAllPublicTrips(function(err, data) {
 			if (err) {
@@ -143,7 +142,6 @@ app.get('/trips', (req, res) => {
 			}
 		});
 	} else {
-		console.log('get user trips', type)
 		db.showUserTrips(type, function(err, data) {
 			if (err) {
 				res.status(500).end(err);

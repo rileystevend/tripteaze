@@ -7,15 +7,19 @@ import { bindActionCreators } from 'redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
+import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router-dom';
 
 const SearchPage = (props) => {
 
-  const updateCity = (event) => {
-    props.actions.updateCity(event.target.value)
-  };
+  const updateCity = (event, index, value) => {
+    if (value) {
+      props.actions.activateTrip(value);
+    } else {
+      props.actions.updateCity(event.target.value)
+    }
+  }
 
   const updateEventQuery = (event) => {
     props.actions.updateEventQuery(event.target.value)
@@ -24,7 +28,6 @@ const SearchPage = (props) => {
   const submit = (event) => {
     event.preventDefault();
     if (props.state.city !== '') {
-      console.log(props.state.username);
       props.actions.makeNewTrip(props.state.username, props.state.city)
     }
   };
@@ -52,14 +55,26 @@ const SearchPage = (props) => {
     showEvents = <Events events={props.state.eventResults} />
   }
 
+  let tripIndex = 0;
+
   const dropdown = () => {
     if(props.state.authenticated && props.state.trips.length > 0) {
       return (
-        <div> <SelectField floatingLabelText="Add to an Existing Trip"> 
-        {props.state.trips.map((trip, index) => <MenuItem key = {index} value = {trip.city} primaryText= {trip.city} />)} </SelectField> </div>
+        <DropDownMenu value={tripIndex} onChange = {updateCity}> 
+          <MenuItem value={null} primaryText='' />
+          {props.state.trips.map((trip, index) => <MenuItem key = {index} value = {trip.city} primaryText = {trip.city}/>)}
+        </DropDownMenu>
       );
     }
   }
+
+  // <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+  //   <MenuItem value={1} primaryText="Never" />
+  //   <MenuItem value={2} primaryText="Every Night" />
+  //   <MenuItem value={3} primaryText="Weeknights" />
+  //   <MenuItem value={4} primaryText="Weekends" />
+  //   <MenuItem value={5} primaryText="Weekly" />
+  // </DropDownMenu>
 
   return (
     <div>
