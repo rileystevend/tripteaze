@@ -70,10 +70,11 @@ var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 var Event = mongoose.model('Event', eventSchema);
 
 let addNewTrip = (username, city, callback) => {
-  User.find({name: username}, function (err, user) {
+  User.findOne({name: username}, function (err, user) {
     if(err) {
       callback(err);
     }
+    console.log(username, user, user.id);
     Trip.create({
       id: new mongoose.Types.ObjectId(),
       city: city,
@@ -82,6 +83,7 @@ let addNewTrip = (username, city, callback) => {
       if(err) {
         callback(err);
       } else {
+        console.log(data);
         callback(null, data);
       }
     });
@@ -90,12 +92,12 @@ let addNewTrip = (username, city, callback) => {
 
 let addRestaurantToTrip = (restaurant, username, city) => {
   //first find corresponding user
-  User.find({name: username}, function (err, user) {
+  User.findOne({name: username}, function (err, user) {
     if(err) {
       console.log('error: ', err);
     }
     //then find corresponding trip based on city for selected user
-    Trip.find({user: user.id, city: city}, function (err, trip) {
+    Trip.findOne({user: user.id, city: city}, function (err, trip) {
       if(err) {
         console.log('error', err);
       }
@@ -123,12 +125,12 @@ let addRestaurantToTrip = (restaurant, username, city) => {
 
 let addEventToTrip = (event, username, city) => {
   //first find corresponding user
-  User.find({name: username}, function (err, user) {
+  User.findOne({name: username}, function (err, user) {
     if(err) {
       console.log('error: ', err);
     }
     //then find corresponding trip based on city for selected user
-    Trip.find({user: user._id, city: city}, function (err, trip) {
+    Trip.findOne({user: user._id, city: city}, function (err, trip) {
       if(err) {
         console.log('error', err);
       }
@@ -207,15 +209,18 @@ let retrieveUserPassword = (username, callback) => {
 //for user page-display all existing trips for user after being logged in
 let showUserTrips = (username, callback) => {
   //first find corresponding user
-  User.find({name: username}, function (err, user) {
+  console.log(username);
+  User.findOne({name: username}, function (err, user) {
     if(err) {
       console.log('error: ', err);
     }
     //then find all trips for selected user
+    console.log(user);
     Trip.find({user: user.id}, function (err, trips) {
       if(err) {
         callback(err, null);
       } else {
+        console.log(trips);
         callback(null, trips);
       }
     });
@@ -227,12 +232,12 @@ let showUserTrips = (username, callback) => {
 //assumes username and city are known to obtain corresponding trip and update
 let modifyTripDetails = (makePublic, makeArchived, username, city) => {
   //first find corresponding user
-  User.find({name: username}, function (err, user) {
+  User.findOne({name: username}, function (err, user) {
     if(err) {
       console.log('error: ', err);
     }
     //then find corresponding trip based on city for selected user
-    Trip.find({user: user._id, city: city}, function (err, trip) {
+    Trip.findOne({user: user._id, city: city}, function (err, trip) {
       if(err) {
         console.log('error', err);
       }
@@ -285,6 +290,7 @@ let showAllPublicTrips = (callback) => {
     if(err) {
       callback(err, null);
     } else {
+      console.log(trips);
       callback(null, trips);
     }
   });

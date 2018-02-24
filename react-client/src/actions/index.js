@@ -4,7 +4,7 @@ import axios from 'axios';
 //export const actionName = (neededParams) => ({type: 'ACTION_NAME', param: neededParams});
 
 ////////////////////////////////HOME PAGE STUFF\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-export const fetchPublicTrips = () => {
+export const fetchTrips = (param) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
     console.log('asking the server for the trips!')
@@ -12,7 +12,7 @@ export const fetchPublicTrips = () => {
       method: 'get',
       url: '/trips',
       params: {
-        search: 'public'
+        search: param
       }
     }).then(
       results => dispatch(setTrips(results.data.trips)),

@@ -13,7 +13,7 @@ class Home extends React.Component {
     }
 
     componentWillMount() {
-      this.props.actions.fetchPublicTrips();
+      this.props.actions.fetchTrips('public');
     }
     
     render () {

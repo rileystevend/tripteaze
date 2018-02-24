@@ -9,8 +9,9 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import { Link } from 'react-router-dom';
 
-const StatePage = (props) => {
+const SearchPage = (props) => {
 
   const updateCity = (event) => {
     props.actions.updateCity(event.target.value)
@@ -23,6 +24,7 @@ const StatePage = (props) => {
   const submit = (event) => {
     event.preventDefault();
     if (props.state.city !== '') {
+      console.log(props.state.username);
       props.actions.makeNewTrip(props.state.username, props.state.city)
     }
   };
@@ -51,10 +53,10 @@ const StatePage = (props) => {
   }
 
   const dropdown = () => {
-    if(props.state.authenticated) {
+    if(props.state.authenticated && props.state.trips.length > 0) {
       return (
         <div> <SelectField floatingLabelText="Add to an Existing Trip"> 
-        {this.state.trips.map((trip, index) => <MenuItem key = {index} value = {trip.city} primaryText= {trip.city} />)} </SelectField> </div>
+        {props.state.trips.map((trip, index) => <MenuItem key = {index} value = {trip.city} primaryText= {trip.city} />)} </SelectField> </div>
       );
     }
   }
@@ -76,6 +78,7 @@ const StatePage = (props) => {
       {showEvents}
       </Paper>
       PUT SEARCH FIELDS HERE
+      <Link to='/trips'>UserPage</Link>
     </div>
   )
 }
@@ -89,5 +92,5 @@ const mapDispatchToProps = dispatch => (
   { actions: bindActionCreators(actions, dispatch) }
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(StatePage);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
 

@@ -3,7 +3,7 @@ import React from 'react';
 const Trip = (props) => {
 
   return (
-    <div> {props.trip} </div>
+    <div> {props.trip.city} </div>
   );
 }
 
