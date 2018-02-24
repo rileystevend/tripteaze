@@ -4,6 +4,11 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index.js';
 import { bindActionCreators } from 'redux';
+import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 const StatePage = (props) => {
 
@@ -25,13 +30,25 @@ const StatePage = (props) => {
     message = `You\'re going to ${props.state.activeTrip.city}! \n Or plan a different trip: ` 
   }
 
+  const dropdown = () => {
+    if(props.state.authenticated) {
+      return (
+        <div> <SelectField floatingLabelText="Add to an Existing Trip"> 
+        {this.state.trips.map((trip, index) => <MenuItem key = {index} value = {trip.city} primaryText= {trip.city} />)} </SelectField> </div>
+      );
+    }
+  }
+
   return (
     <div>
-      {message}
-      <form onSubmit = {submit}>
-        <input type='text' onChange = {updateCity}/>
-        <input type='submit' value='Create Trip'/>
-      </form>
+      <Paper>
+        {message}
+        <form onSubmit = {submit}>
+          <TextField id = 'city' onChange = {updateCity}/>
+          <RaisedButton onClick={submit} label='Create Trip'/>
+          {dropdown()}
+        </form>
+      </Paper>
       PUT SEARCH FIELDS HERE
     </div>
   )
