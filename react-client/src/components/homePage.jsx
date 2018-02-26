@@ -25,7 +25,7 @@ class Home extends React.Component {
       this.props.history.push('/trips');
     }
   }
-  
+
   toUserPage () {
     this.props.history.push('/trips');
   }
@@ -61,7 +61,7 @@ class Home extends React.Component {
     
         <div style = {{display: 'flex', flexDirection: 'column', textAlign: 'center'}}>
           <h1> TripTeaze </h1>
-          <h3> Other people's trips </h3>
+          <h3> ~Discover~ </h3>
           {state.trips.map((trip, index) => (<Trip key={index} trip={trip} />))}
         </div>
       </Paper>

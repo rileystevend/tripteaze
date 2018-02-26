@@ -7,9 +7,6 @@ const db = require('../database-mongo/index.js');
 const eventbrite = require('../APIhelper/eventbrite.js');
 
 
-
-
-
 const app = express();
 app.use(bodyParser.json());
 

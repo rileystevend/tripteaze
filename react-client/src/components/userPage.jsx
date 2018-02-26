@@ -24,7 +24,7 @@ class UserPage extends React.Component {
         <h4> Why not go <Link to='/plan'> plan </Link> one? </h4>
         </div>);
     } else {
-      return (<div> These are your trips you've been planning </div>);
+      return (<div> Your Trips </div>);
     }
   }
 
@@ -32,19 +32,20 @@ class UserPage extends React.Component {
   render() {
     if (this.props.state.authenticated === true) {
       return (
-        <div>
-          {this.generateMessage()}
-          
-          {this.props.state.trips.map((trip, index) => 
-            <Trip key = {index}
-              user = {this.props.state.username} 
-              trip = {trip} 
-              editable = {true}
-              delete = {this.props.actions.deleteTrip}
-              toggleStatus = {this.props.actions.toggleTripStatus}
-            />)}
-          <Link to='/plan'>SearchPage</Link>
-        </div>
+        <Paper>
+          <div>
+            <h2> {this.generateMessage()} </h2>
+            <Link to='/plan'>SearchPage</Link>
+            {this.props.state.trips.map((trip, index) => 
+              <Trip key = {index}
+                user = {this.props.state.username} 
+                trip = {trip} 
+                editable = {true}
+                delete = {this.props.actions.deleteTrip}
+                toggleStatus = {this.props.actions.toggleTripStatus}
+              />)}
+          </div>
+        </Paper>
       );
     } else {
       return (

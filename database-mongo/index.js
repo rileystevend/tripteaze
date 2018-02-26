@@ -210,15 +210,16 @@ let showUserTrips = (username, callback) => {
     if(err || user === null) {
       console.log('error: ', err);
       callback(err);
-    } 
-    //then find all trips for selected user
-    Trip.find({user: user.id}, function (err, trips) {
-      if(err) {
-        callback(err, null);
-      } else {
-        callback(null, trips);
-      }
-    });
+    } else {
+      //then find all trips for selected user
+      Trip.find({user: user.id}, function (err, trips) {
+        if(err) {
+          callback(err, null);
+        } else {
+          callback(null, trips);
+        }
+      });
+    }
   });
 };
 
