@@ -68,16 +68,9 @@ const SearchPage = (props) => {
     }
   }
 
-  // <DropDownMenu value={this.state.value} onChange={this.handleChange}>
-  //   <MenuItem value={1} primaryText="Never" />
-  //   <MenuItem value={2} primaryText="Every Night" />
-  //   <MenuItem value={3} primaryText="Weeknights" />
-  //   <MenuItem value={4} primaryText="Weekends" />
-  //   <MenuItem value={5} primaryText="Weekly" />
-  // </DropDownMenu>
-
   return (
     <div>
+
       <Paper>
         {message}
         <form onSubmit = {submit}>
@@ -85,15 +78,17 @@ const SearchPage = (props) => {
           <RaisedButton onClick={submit} label='Create Trip'/>
           {dropdown()}
         </form>
-      {messageEvents}
-      <form onSubmit = {submitEventQuery}>
-        <input type='text' onChange = {updateEventQuery}/>
-        <input type='submit' value='Search events for your trip!'/>
-      </form>
-      {showEvents}
+        {messageEvents}
+        <form onSubmit = {submitEventQuery}>
+          <input type='text' onChange = {updateEventQuery}/>
+          <input type='submit' value='Search events for your trip!'/>
+        </form>
+        
+        
       </Paper>
-      PUT SEARCH FIELDS HERE
-      <Link to='/trips'>UserPage</Link>
+      <Paper>
+        {showEvents}
+      </Paper>
     </div>
   )
 }
