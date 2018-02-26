@@ -6,13 +6,13 @@ const Trip = (props) => {
 
   const makePublic = () => {
     console.log('make it public');
-    props.toggleStatus(props.username, props.trip);
+    props.toggleStatus(props.user, props.trip);
   }
 
   const deleteTrip = () => {
     console.log('delete my trip');
-    props.delete(props.username, props.trip);
-  }
+    props.delete(props.user, props.trip);
+  } 
 
   if (props.editable === true) {
     return (
@@ -22,7 +22,9 @@ const Trip = (props) => {
       </Paper>
     ); 
   } else {
-    <Paper> <h3> {props.trip.city} </h3> </Paper>
+    return (
+      <Paper> <h3> {props.trip.city} </h3> </Paper>
+    )
   }
 }
  

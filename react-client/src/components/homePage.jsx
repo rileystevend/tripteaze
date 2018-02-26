@@ -40,6 +40,7 @@ class Home extends React.Component {
           <Link to='/trips'>UserPage</Link>
           <br/>
           <Link to='/plan'>SearchPage</Link>
+          <h3> Other people's trips </h3>
           {state.trips.map((trip, index) => (<Trip key={index} trip={trip} />))}
         </div>
       )

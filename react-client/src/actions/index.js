@@ -119,6 +119,7 @@ export const deleteTrip = (user, trip) => {
       method: 'patch',
       url: '/trips',
       data: {
+        username: user,
         tripID: trip.id
       }
     }).then (
@@ -129,12 +130,14 @@ export const deleteTrip = (user, trip) => {
 }
 
 export const toggleTripStatus = (user, trip) => {
+  console.log(user, trip);
   return dispatch => {
     return axios ({
       method: 'patch',
       url: '/trips',
       data: {
-        tripID: trip.id,
+        user: user,
+        tripCity: trip.city,
         public : !trip.public
       }
     }).then (

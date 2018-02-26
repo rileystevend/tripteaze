@@ -168,6 +168,27 @@ app.post('/trips', (req, res) => {
 	});
 })
 
+app.patch('/trips', (req, res) => {
+	console.log(req.body, 'body');
+	if (req.body.public !== undefined) {
+		db.modifyTripDetails(req.body.public, null, req.body.user, req.body.tripCity, function(err, data) {
+			if (err) {
+				res.status(500).send(err);
+			} else {
+				res.status(202).end();
+			}
+		})
+	} else {
+		db.remove('trip', req.body.tripID, function(err, data) {
+			if (err) {
+				res.status(500).send(err);
+			} else {
+				res.status(202).end();
+			}			
+		})
+	}
+});
+
 /******************************** Search - Events *****************************/
 
 app.post('/events', function (req, res) {

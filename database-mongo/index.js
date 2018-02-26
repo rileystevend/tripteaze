@@ -199,7 +199,7 @@ let retrieveUserPassword = (username, callback) => {
     } else {
       callback(user[0].password);
     }
-  })
+  });
 };
 
 
@@ -207,9 +207,10 @@ let retrieveUserPassword = (username, callback) => {
 let showUserTrips = (username, callback) => {
   //first find corresponding user
   User.findOne({name: username}, function (err, user) {
-    if(err || !user.id) {
+    if(err || user === null) {
       console.log('error: ', err);
-    }
+      callback(err);
+    } 
     //then find all trips for selected user
     Trip.find({user: user.id}, function (err, trips) {
       if(err) {
@@ -226,12 +227,13 @@ let showUserTrips = (username, callback) => {
 //assumes username and city are known to obtain corresponding trip and update
 let modifyTripDetails = (makePublic, makeArchived, username, city) => {
   //first find corresponding user
+  console.log(username);
   User.findOne({name: username}, function (err, user) {
     if(err) {
       console.log('error: ', err);
     }
     //then find corresponding trip based on city for selected user
-    Trip.findOne({user: user._id, city: city}, function (err, trip) {
+    Trip.findOne({user: user.id, city: city}, function (err, trip) {
       if(err) {
         console.log('error', err);
       }
