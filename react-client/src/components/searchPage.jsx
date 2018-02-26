@@ -52,7 +52,12 @@ const SearchPage = (props) => {
   }
   let showEvents = '';
   if(props.state.eventResults.length !==0) {
-    showEvents = <Events events={props.state.eventResults} />
+    showEvents = <Events 
+      events={props.state.eventResults}
+      addEventToTrip={props.actions.addEventToTrip}
+      user={props.state.username}
+      city={props.state.activeTrip.city}
+      />
   }
 
   let tripIndex = 0;
@@ -80,8 +85,8 @@ const SearchPage = (props) => {
         </form>
         {messageEvents}
         <form onSubmit = {submitEventQuery}>
-          <input type='text' onChange = {updateEventQuery}/>
-          <input type='submit' value='Search events for your trip!'/>
+          <TextField id = 'event' onChange = {updateEventQuery}/>
+          <RaisedButton onClick={submitEventQuery} label='Search events for your trip!'/>
         </form>
       </Paper>
       

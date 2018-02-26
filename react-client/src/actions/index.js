@@ -107,6 +107,42 @@ export const searchEvents = (city, query) => {
   };
 }
 
+export const addEventToTrip = (event, username, city) => {
+  return (dispatch) => {
+    return axios({
+      method: 'post',
+      url: '/events/add',
+      data: {
+        tripEvent: event,
+        tripUser: username,
+        tripCity: city
+      }
+    }).then(
+      results => (dispatch(fetchEventsFromTrip(username, city))),
+      error => dispatch(badStuff(error))
+    );
+  };
+}
+
+export const fetchEventsFromTrip = (username, city) => {
+  //dispatch({ type: 'LOADING' });
+  return (dispatch) => {
+    return axios({
+      method: 'get',
+      url: '/events',
+      params: {
+        tripUser: username,
+        tripCity: city
+      }
+    }).then(
+      results => dispatch(setTripEvents(results.data.events)),
+      error => dispatch(badStuff(error))
+    );
+  }
+};
+
+const setTripEvents = (events) => ({ type: 'SHOW_TRIP_EVENTS', payload: events});
+
 const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENTRESULTS', payload: searchResults});
 
 export const activateTrip = (city) => ({ type: 'SET_TRIP', payload: city});

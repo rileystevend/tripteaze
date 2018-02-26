@@ -128,7 +128,7 @@ let addEventToTrip = (event, username, city) => {
       console.log('error: ', err);
     }
     //then find corresponding trip based on city for selected user
-    Trip.findOne({user: user._id, city: city}, function (err, trip) {
+    Trip.findOne({user: user.id, city: city}, function (err, trip) {
       if(err) {
         console.log('error', err);
       }
@@ -136,13 +136,15 @@ let addEventToTrip = (event, username, city) => {
       //need to look at eventbrite API for structure
       Event.findOneAndUpdate({id: event.id},
         {$set: {
-          name: event.name,
+          name: event.name.text,
           id: event.id,
           url: event.url,
-          address: event.location.address,
-          zip: event.location.zipcode,
-          location: [event.location.latitude, event.location.longitude],
-          price: event.price_range,
+          start: event.start.local,
+          end: event.end.local,
+          //address: event.location.address,
+          //zip: event.location.zipcode,
+          //location: [event.location.latitude, event.location.longitude],
+          //price: event.price_range,
           trip: trip.id
           }
         }, {upsert: true}, function(err) {
@@ -226,6 +228,33 @@ let showUserTrips = (username, callback) => {
   });
 };
 
+let showTripEvents = (username, city, callback) => {
+
+//first find corresponding user
+  User.findOne({name: username}, function (err, user) {
+    if(err || user === null) {
+      console.log('error: ', err);
+      callback(err);
+    } 
+    //then find trip based on selected user and city
+    Trip.findOne({user: user.id, city: city}, function (err, trip) {
+      if(err || trip === null) {
+        console.log('error', err);
+        callback(err);
+      }
+
+      Event.find({trip: trip.id}, function (err, events) {
+        if(err) {
+          callback(err, null);
+        } else {
+          callback(null, events);
+        }
+      });
+    });
+  });
+
+};
+
 
 //allows user to update whether trip is public and/or archived
 //assumes username and city are known to obtain corresponding trip and update
@@ -306,5 +335,5 @@ module.exports.modifyTripDetails = modifyTripDetails;
 module.exports.remove = remove;
 module.exports.showAllPublicTrips = showAllPublicTrips;
 module.exports.userExists = userExists;
-
+module.exports.showTripEvents = showTripEvents;
 
