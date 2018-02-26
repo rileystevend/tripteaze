@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';  //replace with axios
 // import Login from './components/login.jsx';
 // import SignUp from './components/signup.jsx';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -25,24 +28,21 @@ import {
 
 const Root = ({ store }) => (
   <Provider store={store}>
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path = "/trips" component={User} />
-        <Route path="/plan" component={Search} />
-      </Switch>
-    </Router>
+    <MuiThemeProvider theme={getMuiTheme(lightBaseTheme)}>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path = "/trips" component={User} />
+          <Route path="/plan" component={Search} />
+        </Switch>
+      </Router>
+    </MuiThemeProvider>
   </Provider>
 )
 
 let store = createStore(reducer, applyMiddleware(thunk))
 
-// render(
-//   <Root store={store} />,
-//   document.getElementById('root')
-// )
-
-ReactDOM.render( <Root store={store} />
+ReactDOM.render( <Root store={store} /> 
   , document.getElementById('app'));
 
 // ..<Login />

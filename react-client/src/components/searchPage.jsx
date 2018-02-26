@@ -4,12 +4,22 @@ import Events from './events.jsx';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index.js';
 import { bindActionCreators } from 'redux';
+import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import { Link } from 'react-router-dom';
 
-const StatePage = (props) => {
+const SearchPage = (props) => {
 
-  const updateCity = (event) => {
-    props.actions.updateCity(event.target.value)
-  };
+  const updateCity = (event, index, value) => {
+    if (value) {
+      props.actions.activateTrip(value);
+    } else {
+      props.actions.updateCity(event.target.value)
+    }
+  }
 
   const updateEventQuery = (event) => {
     props.actions.updateEventQuery(event.target.value)
@@ -45,22 +55,40 @@ const StatePage = (props) => {
     showEvents = <Events events={props.state.eventResults} />
   }
 
+  let tripIndex = 0;
+
+  const dropdown = () => {
+    if(props.state.authenticated && props.state.trips.length > 0) {
+      return (
+        <DropDownMenu value={tripIndex} onChange = {updateCity}> 
+          <MenuItem value={null} primaryText='' />
+          {props.state.trips.map((trip, index) => <MenuItem key = {index} value = {trip.city} primaryText = {trip.city}/>)}
+        </DropDownMenu>
+      );
+    }
+  }
+
   return (
     <div>
-      {message}
-      <form onSubmit = {submit}>
-        <input type='text' onChange = {updateCity}/>
-        <input type='submit' value='Create Trip'/>
-      </form>
 
-      {messageEvents}
-      <form onSubmit = {submitEventQuery}>
-        <input type='text' onChange = {updateEventQuery}/>
-        <input type='submit' value='Search events for your trip!'/>
-      </form>
-      {showEvents}
-
-      PUT SEARCH FIELDS HERE
+      <Paper>
+        {message}
+        <form onSubmit = {submit}>
+          <TextField id = 'city' onChange = {updateCity}/>
+          <RaisedButton onClick={submit} label='Create Trip'/>
+          {dropdown()}
+        </form>
+        {messageEvents}
+        <form onSubmit = {submitEventQuery}>
+          <input type='text' onChange = {updateEventQuery}/>
+          <input type='submit' value='Search events for your trip!'/>
+        </form>
+        
+        
+      </Paper>
+      <Paper>
+        {showEvents}
+      </Paper>
     </div>
   )
 }
@@ -74,5 +102,5 @@ const mapDispatchToProps = dispatch => (
   { actions: bindActionCreators(actions, dispatch) }
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(StatePage);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
 

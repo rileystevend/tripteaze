@@ -4,15 +4,14 @@ import axios from 'axios';
 //export const actionName = (neededParams) => ({type: 'ACTION_NAME', param: neededParams});
 
 ////////////////////////////////HOME PAGE STUFF\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-export const fetchPublicTrips = () => {
+export const fetchTrips = (param) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
-    console.log('asking the server for the trips!')
     return axios({
       method: 'get',
       url: '/trips',
       params: {
-        search: 'public'
+        search: param
       }
     }).then(
       results => dispatch(setTrips(results.data.trips)),
@@ -110,7 +109,44 @@ export const searchEvents = (city, query) => {
 
 const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENTRESULTS', payload: searchResults});
 
-const activateTrip = (city) => ({ type: 'SET_TRIP', payload: city});
+export const activateTrip = (city) => ({ type: 'SET_TRIP', payload: city});
+
+//////////////////////////////USER PAGE STUFF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+export const deleteTrip = (user, trip) => {
+  return (dispatch) => {
+    return axios ({
+      method: 'patch',
+      url: '/trips',
+      data: {
+        username: user,
+        tripID: trip.id
+      }
+    }).then (
+      results => (dispatch(fetchTrips(user))),
+      error => dispatch(badStuff(error))
+    )
+  }
+}
+
+export const toggleTripStatus = (user, trip) => {
+  console.log(user, trip);
+  return dispatch => {
+    return axios ({
+      method: 'patch',
+      url: '/trips',
+      data: {
+        user: user,
+        tripCity: trip.city,
+        public : !trip.public
+      }
+    }).then (
+      results => (dispatch(fetchTrips(user))),
+      error => dispatch(badStuff(error))
+    )
+  }
+}
+
 //ACTION_NAME must correspond with reducer switch option
 
 //  complex action example w/ async

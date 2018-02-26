@@ -13,7 +13,7 @@ class Home extends React.Component {
     }
 
     componentWillMount() {
-      this.props.actions.fetchPublicTrips();
+      this.props.actions.fetchTrips('public');
     }
     
     render () {
@@ -24,7 +24,6 @@ class Home extends React.Component {
 
       return (
         <div>
-          {state.username}
           <Login login = {actions.login}
             username = {state.username}
             password = {state.password}
@@ -41,6 +40,7 @@ class Home extends React.Component {
           <Link to='/trips'>UserPage</Link>
           <br/>
           <Link to='/plan'>SearchPage</Link>
+          <h3> Other people's trips </h3>
           {state.trips.map((trip, index) => (<Trip key={index} trip={trip} />))}
         </div>
       )

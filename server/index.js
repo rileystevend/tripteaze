@@ -27,13 +27,10 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 
 app.checkPassword = (userName, pw, checkPw) => {
   let match = false;
-	console.log('before brypt')
-    let unhashedPw = bcrypt.compareSync(pw, checkPw)
-		console.log('after bcrypt')
+    let unhashedPw = bcrypt.compareSync(pw, checkPw);
     if (unhashedPw) {
       match = true;
     }
-		console.log('match', match)
   return match;
 }
 
@@ -43,7 +40,6 @@ app.get('/login', (req, res) =>{
 
   db.retrieveUserPassword(userName, (userPw) => {
 		if (app.checkPassword(userName, password, userPw)) {
-			console.log('hit in if')
 			req.session.loggedIn = true;
 			res.end()
 		} else {
@@ -88,7 +84,7 @@ app.post('/signup', (req, res) => {
 					console.error('Error in hash password: ', err);
 				} else {
 					// Store the new user/hash in the db
-					User.addNewUser(username, hash);
+					db.addNewUser(username, hash);
 					console.log(`User '${username}' added to database`);
 				}
 			});
@@ -142,11 +138,17 @@ app.get('/trips', (req, res) => {
 			if (err) {
 				res.status(500).end(err);
 			} else {
-				res.status(200).json({trips: data})
+				res.status(200).json({trips: data});
 			}
-		})
+		});
 	} else {
-		res.status(500).end();
+		db.showUserTrips(type, function(err, data) {
+			if (err) {
+				res.status(500).end(err);
+			} else {
+				res.status(200).json({ trips: data });
+			}
+		});
 	}
 });
 
@@ -165,6 +167,27 @@ app.post('/trips', (req, res) => {
 		}
 	});
 })
+
+app.patch('/trips', (req, res) => {
+	console.log(req.body, 'body');
+	if (req.body.public !== undefined) {
+		db.modifyTripDetails(req.body.public, null, req.body.user, req.body.tripCity, function(err, data) {
+			if (err) {
+				res.status(500).send(err);
+			} else {
+				res.status(202).end();
+			}
+		})
+	} else {
+		db.remove('trip', req.body.tripID, function(err, data) {
+			if (err) {
+				res.status(500).send(err);
+			} else {
+				res.status(202).end();
+			}			
+		})
+	}
+});
 
 /******************************** Search - Events *****************************/
 
