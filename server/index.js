@@ -153,12 +153,13 @@ app.get('/trips', (req, res) => {
 app.post('/trips', (req, res) => {
 	const user = (req.body.tripUser);
 	const city = (req.body.tripCity);
+
 	db.addNewTrip(user, city, function(err, data) {
 		if (err) {
 			console.log(err);
 			res.status(500).send(err);
 		} else {
-			console.log(data);
+
 			res.status(200);
 			res.status(200).json({ city: data.city });
 		}
@@ -168,19 +169,17 @@ app.post('/trips', (req, res) => {
 /******************************** Search - Events *****************************/
 
 app.post('/events', function (req, res) {
-	//var eventQuery = req.body.query;
-	console.log('heresbody',req.body);
-	eventbrite.searchEvents('bollywood', (err, data) => {
+	const city = req.body.tripCity;
+	const query = req.body.eventQuery;
+	
+	eventbrite.searchEvents(query, city, (err, data) => {
 		if(err) {
-			res.sendStatus(500);
-			console.log('error');
+			console.log('error', err);
+			res.status(500).send(err);
 		} else {
-			res.statusCode=201;
-			data.forEach((event) => {
-				console.log('heresdata', event.name.text);
-			});
+			res.status(200);
+			res.status(200).json(data);
 		}
-		res.end();
 	});
 
 });

@@ -4,7 +4,9 @@ const initialState = {
   authenticated: false, 
   currentError: '', 
   city: '',
+  eventQuery: '',
   trips: [],
+  eventResults: [],
   activeTrip: {
       status: false,
       city: ''
@@ -16,12 +18,16 @@ const reducer = function (state = initialState, action) {  //if state is undefin
   switch (action.type) {
     case 'SHOW_TRIPS' :
       return Object.assign({}, state, {trips: action.payload})
+    case 'UPDATE_EVENTRESULTS' :
+      return Object.assign({}, state, {eventResults: action.payload})
     case 'UPDATE_USERNAME':
       return Object.assign({}, state, {username: action.payload})
     case 'UPDATE_PASSWORD':
       return Object.assign({}, state, {password: action.payload})
     case 'AUTHEN' :
-      return Object.assign({}, state, { authenticated: true });  
+      return Object.assign({}, state, { authenticated: true }); 
+    case 'UPDATE_EVENTQUERY':
+      return Object.assign({}, state, {eventQuery: action.payload}) 
     case 'UPDATE_CITY' :
       return Object.assign({}, state, {city: action.payload})
     case 'SET_TRIP' :
