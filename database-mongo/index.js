@@ -287,6 +287,26 @@ let modifyTripDetails = (makePublic, makeArchived, username, city) => {
   });
 };
 
+getTripEvents = (tripID, callback) => {
+  Event.find({ trip: tripID }, function (err, events) {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, events);
+    }
+  });
+}
+
+getTripRestaurants = (tripID, callback) => {
+  Restaurant.find({ trip: tripID }, function (err, eatin) {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, eatin);
+    }
+  });
+}
+
 //removal function assumes we know the ID of the restaurant, event,
 //or trip that we are wanting to remove from the database
 let remove = (modelType, ID) => {
@@ -335,5 +355,10 @@ module.exports.modifyTripDetails = modifyTripDetails;
 module.exports.remove = remove;
 module.exports.showAllPublicTrips = showAllPublicTrips;
 module.exports.userExists = userExists;
+
+
 module.exports.showTripEvents = showTripEvents;
+module.exports.getTripRestaurants = getTripRestaurants;
+module.exports.getTripEvents = getTripEvents;
+
 
