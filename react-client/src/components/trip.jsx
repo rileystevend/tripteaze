@@ -1,29 +1,41 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import Paper from 'material-ui/Paper';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 const Trip = (props) => {
 
   const makePublic = () => {
-    console.log('make it public');
     props.toggleStatus(props.user, props.trip);
   }
 
   const deleteTrip = () => {
-    console.log('delete my trip');
     props.delete(props.user, props.trip);
-  } 
+  }
 
   if (props.editable === true) {
     return (
-      <Paper> <h3> {props.trip.city} </h3>
-      <RaisedButton label = 'Make Public' onClick = {makePublic} />
-      <RaisedButton label= 'Delete' onClick = {deleteTrip} />
-      </Paper>
+      <Card> 
+        <CardTitle title = {props.trip.city} subtitle = 'trip dates?'/>
+        <CardText>
+        Some Trip Details Can Go here?
+        </CardText>
+        <CardActions>
+          <FlatButton label = 'Make Public' onClick = {makePublic} />
+          <FlatButton label= 'Delete' onClick = {deleteTrip} />
+        </CardActions>
+      </Card>
     ); 
+
+    // we should eventually add a pic as 'cardMedia'
   } else {
     return (
-      <Paper> <h3> {props.trip.city} </h3> </Paper>
+      <Card>
+        <CardTitle title={props.trip.city} />
+        <CardText>
+          Some Trip Details Can Go here?
+        </CardText>
+      </Card>
     )
   }
 }

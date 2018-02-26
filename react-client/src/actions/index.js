@@ -54,7 +54,7 @@ export const signup = (username, password) => {
         password: password
       }
     }).then (
-      results => dispatch(authenticate()),
+      results =>  dispatch(authenticate()),
       error => dispatch(badStuff(error))
     );
   };
@@ -130,7 +130,6 @@ export const deleteTrip = (user, trip) => {
 }
 
 export const toggleTripStatus = (user, trip) => {
-  console.log(user, trip);
   return dispatch => {
     return axios ({
       method: 'patch',

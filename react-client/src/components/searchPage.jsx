@@ -69,8 +69,8 @@ const SearchPage = (props) => {
   }
 
   return (
-    <div>
-
+    <Paper>
+      <Link to= 'trips'> UserPage </Link>
       <Paper>
         {message}
         <form onSubmit = {submit}>
@@ -83,13 +83,12 @@ const SearchPage = (props) => {
           <input type='text' onChange = {updateEventQuery}/>
           <input type='submit' value='Search events for your trip!'/>
         </form>
-        
-        
       </Paper>
+      
       <Paper>
         {showEvents}
       </Paper>
-    </div>
+    </Paper>
   )
 }
 

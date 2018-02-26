@@ -210,15 +210,16 @@ let showUserTrips = (username, callback) => {
     if(err || user === null) {
       console.log('error: ', err);
       callback(err);
-    } 
-    //then find all trips for selected user
-    Trip.find({user: user.id}, function (err, trips) {
-      if(err) {
-        callback(err, null);
-      } else {
-        callback(null, trips);
-      }
-    });
+    } else {
+      //then find all trips for selected user
+      Trip.find({user: user.id}, function (err, trips) {
+        if(err) {
+          callback(err, null);
+        } else {
+          callback(null, trips);
+        }
+      });
+    }
   });
 };
 
@@ -227,7 +228,6 @@ let showUserTrips = (username, callback) => {
 //assumes username and city are known to obtain corresponding trip and update
 let modifyTripDetails = (makePublic, makeArchived, username, city) => {
   //first find corresponding user
-  console.log(username);
   User.findOne({name: username}, function (err, user) {
     if(err) {
       console.log('error: ', err);
