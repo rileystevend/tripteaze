@@ -9,7 +9,6 @@ const Login = (props) => {
   let submit = (event) => {
     event.preventDefault();
     props.login(props.username, props.password);
-    props.redirect('/trips');
   }
 
   let changeUsername = (event) => {

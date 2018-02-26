@@ -16,8 +16,10 @@ class Home extends React.Component {
       this.props.actions.fetchTrips('public');
     }
 
-    redirect(url) {
-      this.props.history.push(url);
+    componentDidUpdate() {
+      if (this.props.state.authenticated) {
+        this.props.history.push('/trips');
+      }
     }
     
     render () {
@@ -34,14 +36,12 @@ class Home extends React.Component {
             password = {state.password}
             updateUsername = {actions.updateUsername}
             updatePassword = {actions.updatePassword}
-            redirect = {this.redirect.bind(this)}
             />
           <Signup signup={actions.signup}
             username={state.username}
             password={state.password}
             updateUsername={actions.updateUsername}
             updatePassword={actions.updatePassword}
-            redirect={this.redirect.bind(this)}
             /> 
           <br/>
           <Link to='/trips'>UserPage</Link>

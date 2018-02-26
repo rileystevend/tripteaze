@@ -54,7 +54,7 @@ export const signup = (username, password) => {
         password: password
       }
     }).then (
-      results => dispatch(authenticate()),
+      results =>  dispatch(authenticate()),
       error => dispatch(badStuff(error))
     );
   };

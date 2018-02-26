@@ -20,7 +20,9 @@ class UserPage extends React.Component {
 
   generateMessage () {
     if (this.props.state.trips.length === 0) {
-      return (<div> You don't have any trips yet :( </div>);
+      return (<div> <h3> You don't have any trips yet :( </h3>
+        <h4> Why not go <Link to='/plan'> plan </Link> one? </h4>
+        </div>);
     } else {
       return (<div> These are your trips you've been planning </div>);
     }

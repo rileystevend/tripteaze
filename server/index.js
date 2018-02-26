@@ -82,10 +82,12 @@ app.post('/signup', (req, res) => {
 			let hashed = bcrypt.hash(password, 10, (err, hash) => {
 				if (err) {
 					console.error('Error in hash password: ', err);
+					res.status(500).send(err);
 				} else {
 					// Store the new user/hash in the db
 					db.addNewUser(username, hash);
 					console.log(`User '${username}' added to database`);
+					res.status(200).end()
 				}
 			});
 		}
