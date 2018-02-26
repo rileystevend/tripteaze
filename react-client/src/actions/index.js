@@ -110,6 +110,40 @@ export const searchEvents = (city, query) => {
 const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENTRESULTS', payload: searchResults});
 
 export const activateTrip = (city) => ({ type: 'SET_TRIP', payload: city});
+
+//////////////////////////////USER PAGE STUFF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+export const deleteTrip = (user, trip) => {
+  return (dispatch) => {
+    return axios ({
+      method: 'patch',
+      url: '/trips',
+      data: {
+        tripID: trip.id
+      }
+    }).then (
+      results => (dispatch(fetchTrips(user))),
+      error => dispatch(badStuff(error))
+    )
+  }
+}
+
+export const toggleTripStatus = (user, trip) => {
+  return dispatch => {
+    return axios ({
+      method: 'patch',
+      url: '/trips',
+      data: {
+        tripID: trip.id,
+        public : !trip.public
+      }
+    }).then (
+      results => (dispatch(fetchTrips(user))),
+      error => dispatch(badStuff(error))
+    )
+  }
+}
+
 //ACTION_NAME must correspond with reducer switch option
 
 //  complex action example w/ async

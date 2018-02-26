@@ -29,7 +29,14 @@ class UserPage extends React.Component {
       <div>
         {this.generateMessage()}
         
-        {this.props.state.trips.map((trip, index) => <Trip key = {index} trip = {trip} />)}
+        {this.props.state.trips.map((trip, index) => 
+          <Trip key = {index}
+            user = {this.props.state.username} 
+            trip = {trip} 
+            editable = {true}
+            delete = {this.props.actions.deleteTrip}
+            toggleStatus = {this.props.actions.toggleTripStatus}
+          />)}
         <Link to='/plan'>SearchPage</Link>
       </div>
     )
