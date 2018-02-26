@@ -2,8 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+
 const db = require('../database-mongo/index.js'); 
 const eventbrite = require('../APIhelper/eventbrite.js');
+
+
+
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -69,7 +74,7 @@ app.post('/signup', (req, res) => {
 	let password = req.body.password;
 
 	// Checks if the username already exists in the db
-	User.userExists(username, (existingUser) => {
+	db.userExists(username, (existingUser) => {
 		// If the username already exists
 		if (existingUser.length > 0) {
 			console.log('Username already exists!');
@@ -148,12 +153,13 @@ app.get('/trips', (req, res) => {
 app.post('/trips', (req, res) => {
 	const user = (req.body.tripUser);
 	const city = (req.body.tripCity);
+
 	db.addNewTrip(user, city, function(err, data) {
 		if (err) {
 			console.log(err);
 			res.status(500).send(err);
 		} else {
-			console.log(data);
+
 			res.status(200);
 			res.status(200).json({ city: data.city });
 		}
@@ -163,19 +169,17 @@ app.post('/trips', (req, res) => {
 /******************************** Search - Events *****************************/
 
 app.post('/events', function (req, res) {
-	//var eventQuery = req.body.query;
-	console.log('heresbody',req.body);
-	eventbrite.searchEvents('bollywood', (err, data) => {
+	const city = req.body.tripCity;
+	const query = req.body.eventQuery;
+	
+	eventbrite.searchEvents(query, city, (err, data) => {
 		if(err) {
-			res.sendStatus(500);
-			console.log('error');
+			console.log('error', err);
+			res.status(500).send(err);
 		} else {
-			res.statusCode=201;
-			data.forEach((event) => {
-				console.log('heresdata', event.name.text);
-			});
+			res.status(200);
+			res.status(200).json(data);
 		}
-		res.end();
 	});
 
 });

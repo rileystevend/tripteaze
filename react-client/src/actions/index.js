@@ -69,6 +69,8 @@ export const badStuff = (error) => ({type: 'ERROR', payload: error});
 
 export const updateCity = (city) => ({ type: 'UPDATE_CITY', payload: city });
 
+export const updateEventQuery = (query) => ({ type: 'UPDATE_EVENTQUERY', payload: query });
+
 export const makeNewTrip = (username, city) => {
     //dispatch({ type: 'LOADING' });
     // return setTimeout(function(dispatch) {
@@ -89,6 +91,24 @@ export const makeNewTrip = (username, city) => {
     );
   };
 }
+
+export const searchEvents = (city, query) => {
+  return (dispatch) => {
+    return axios({
+      method: 'post',
+      url: '/events',
+      data: {
+        tripCity: city,
+        eventQuery: query
+      }
+    }).then(
+      results => (dispatch(updateEventResults(results.data))),
+      error => dispatch(badStuff(error))
+    );
+  };
+}
+
+const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENTRESULTS', payload: searchResults});
 
 const activateTrip = (city) => ({ type: 'SET_TRIP', payload: city});
 //ACTION_NAME must correspond with reducer switch option

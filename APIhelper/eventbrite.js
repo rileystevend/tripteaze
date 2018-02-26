@@ -1,10 +1,10 @@
 const request = require('request');
 const config = require('../config.js');
 
-let searchEvents = (query, cb) => {
+let searchEvents = (query, city, cb) => {
 
 let params = {
-	url: `https://www.eventbriteapi.com/v3/events/search/?q=${query}`,
+	url: `https://www.eventbriteapi.com/v3/events/search/?q=${query}&location.address=${city}`,
 	headers: {
 		'Authorization': `Bearer ${config.token}`
 	}
