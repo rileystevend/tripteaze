@@ -102,21 +102,21 @@ app.get('/trips', (req, res) => {
 	const type = req.query.search; // right now tailored for public trips but can be adapted for user trips as well
 	if (type === 'public') {
 		db.showAllPublicTrips(function(err, data) {
-			getTripsEvents(trips, function (err, data) {
+			getTripsEvents(data, function (err, tripsEvents) {
 				if (err) {
 					res.status(500).end(err);
 				} else {
-					res.status(200).json.bind({ trips: data });
+					res.status(200).json({ trips: tripsEvents });
 				}
 			});
 		});
 	} else {
 		db.showUserTrips(type, function(err, data) {
-			getTripsEvents(trips, function (err, data) {
+			getTripsEvents(data, function (err, tripsEvents) {
 				if (err) {
 					res.status(500).end(err);
 				} else {
-					res.status(200).json.bind({ trips: data });
+					res.status(200).json({ trips: tripsEvents });
 				}
 			});
 		});
@@ -125,14 +125,21 @@ app.get('/trips', (req, res) => {
 
 getTripsEvents = (trips, callback) => {
 	let fullTrips = [];
-	for (let i = 0; i < data.length; i++) {
-		fullTrips.push(data[i]);
-		const tripID = data[i].id
+	numFinished = 0;
+	for (let i = 0; i < trips.length; i++) {
+		fullTrips.push(Object.assign({}, {
+			id : trips[i].id,
+			city: trips[i].city,
+			isArchived: trips[i].isArchived,
+			isPublic: trips[i].isPublic
+		}));
+		const tripID = trips[i].id
 		db.getTripEvents(tripID, function (err, events) {
 			fullTrips[i].events = events;
 			db.getTripRestaurants(tripID, function (err, food) {
 				fullTrips[i].eatin = food;
-				if (i === data.length - 1) {
+				numFinished++;
+				if (numFinished === trips.length) {
 					callback(null, fullTrips);
 				}
 			})
