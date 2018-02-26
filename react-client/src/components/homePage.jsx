@@ -15,12 +15,17 @@ class Home extends React.Component {
     componentWillMount() {
       this.props.actions.fetchTrips('public');
     }
+
+    redirect(url) {
+      this.props.history.push(url);
+    }
     
     render () {
       let actions = this.props.actions; //access shortcuts
       let state = this.props.state;
     //has props.state with all the state things
     //and props.actions with all the action creating functions
+    
 
       return (
         <div>
@@ -29,12 +34,14 @@ class Home extends React.Component {
             password = {state.password}
             updateUsername = {actions.updateUsername}
             updatePassword = {actions.updatePassword}
+            redirect = {this.redirect.bind(this)}
             />
           <Signup signup={actions.signup}
             username={state.username}
             password={state.password}
             updateUsername={actions.updateUsername}
             updatePassword={actions.updatePassword}
+            redirect={this.redirect.bind(this)}
             /> 
           <br/>
           <Link to='/trips'>UserPage</Link>

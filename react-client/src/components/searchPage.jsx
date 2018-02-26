@@ -70,7 +70,7 @@ const SearchPage = (props) => {
 
   return (
     <div>
-
+      <Link to= 'trips'> UserPage </Link>
       <Paper>
         {message}
         <form onSubmit = {submit}>

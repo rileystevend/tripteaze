@@ -8,6 +8,7 @@ let Signup = (props) => {
 	let submit = (event) => {
 		event.preventDefault();
 		props.signup(props.username, props.password);
+		props.redirect('/search');
 	}
 
 	let changeUsername = event => {
