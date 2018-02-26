@@ -130,7 +130,6 @@ export const deleteTrip = (user, trip) => {
 }
 
 export const toggleTripStatus = (user, trip) => {
-  console.log(user, trip);
   return dispatch => {
     return axios ({
       method: 'patch',

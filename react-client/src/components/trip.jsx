@@ -5,12 +5,10 @@ import Paper from 'material-ui/Paper';
 const Trip = (props) => {
 
   const makePublic = () => {
-    console.log('make it public');
     props.toggleStatus(props.user, props.trip);
   }
 
   const deleteTrip = () => {
-    console.log('delete my trip');
     props.delete(props.user, props.trip);
   } 
 
