@@ -30,6 +30,8 @@ var userSchema = Schema({
 var tripSchema = Schema({
   id: Schema.Types.ObjectId,
   city: String,
+  dateFrom: Date,
+  dateTo: Date,
   isPublic: {type: Boolean, default: false},
   isArchived: {type: Boolean, default: false},
   //need to make sure each trip has a reference user
@@ -77,7 +79,9 @@ let addNewTrip = (username, city, callback) => {
     Trip.create({
       id: new mongoose.Types.ObjectId(),
       city: city,
-      user: user.id
+      user: user.id,
+      dateFrom: 10-10-2018, // TODO: need to update this once works
+      dateTo: 10-12-2018 // TODO: need to update this once works
     }, (err, data) => {
       if(err) {
         callback(err);
