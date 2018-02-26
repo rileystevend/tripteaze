@@ -77,10 +77,23 @@ const SearchPage = (props) => {
     }
   }
 
+  const updateFromDate = (event) => {
+    console.log('from date changed', event.target.value);
+  }
+
+  const updateToDate = (event) => {
+    console.log('to date changed', event.target.value);
+  }
+
   return (
     <Paper>
       <Link to= 'trips'> UserPage </Link>
       <Paper>
+
+        <form>
+          From <input id='date' type='date' onChange={updateFromDate} /> to <input id='date' type='date' onChange={updateToDate} />
+        </form>
+
         {message}
         <form onSubmit = {submit}>
           <TextField id = 'city' onChange = {updateCity}/>
