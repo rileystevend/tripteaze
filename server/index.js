@@ -61,8 +61,6 @@ app.get('/logout', (req, res) => {
 
 /*************************** SIGN UP STUFF ***************************/
 
-// ***************STILL NEED TO CREATE NEW SESSION FOR USER ***************
-
 // Sign up
 app.post('/signup', (req, res) => {
 	console.log(req.body, req.query, 'signup')
@@ -79,7 +77,7 @@ app.post('/signup', (req, res) => {
 		// Else if new user
 		} else {
 			// Hash the password
-			let hashed = bcrypt.hash(password, 10, (err, hash) => {
+			bcrypt.hash(password, 10, (err, hash) => {
 				if (err) {
 					console.error('Error in hash password: ', err);
 				} else {
@@ -90,36 +88,6 @@ app.post('/signup', (req, res) => {
 			});
 		}
 	});
-
-
-	
-	// // Creates new user
-	// new User({
-	// 	name: username
-	// })
-	// .then(user => {
-	// 	// If the user does not exist
-	// 	if (!user) {
-	// 		// Hash the password
-	// 		bcrypt.hash(password, null, null, (err, hash) => {
-	// 			if (err) {
-	// 				throw err;
-	// 			} else {
-	// 				// Store new username/hashed password in database
-	// 				db.addNewUser(username, hash);
-	// 			}})
-	// 			.then(newUser => {
-	// 				// Creates new session for the user
-	// 				createSession(req, res, newUser);
-	// 			});
-	// 	} else {
-	// 		// If account already exists, redirect to signup page
-	// 		console.log('Account already exists!');
-	// 		res.redirect('/signup');
-	// 	}
-	// 	res.statusCode = 200;
-	// 	res.end();
-	// });
 });
 
 // Creates new session after new user is added to the database
