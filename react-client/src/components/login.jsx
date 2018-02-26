@@ -1,42 +1,70 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-
-import Paper from 'material-ui/Paper';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-const Login = (props) => {
+class Login extends React.Component {
+  constructor (props) {
+    super(props);
 
-  let submit = (event) => {
+    this.state = {
+      open: false
+    }
+  }
+  submit (event) {
     event.preventDefault();
-    props.login(props.username, props.password);
+    this.props.login(this.props.username, this.props.password);
   }
 
-  let changeUsername = (event) => {
-    props.updateUsername(event.target.value);
+  changeUsername (event) {
+    this.props.updateUsername(event.target.value);
   }
 
-  let changePassword = (event) => {
-    props.updatePassword(event.target.value);
+  changePassword (event) {
+    this.props.updatePassword(event.target.value);
   }
+  handleOpen() {
+    console.log(this);
+    this.setState({ open: true });
+  };
 
-  return (
-    <Paper>
-      <h2>Login</h2>
-      <form onSubmit = {submit}>
-        <div>
+  handleClose() {
+    this.setState({ open: false });
+  };
+
+  render() {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleClose.bind(this)}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onClick={this.submit.bind(this)}
+      />,
+    ];
+
+    return (
+      <div>
+        <RaisedButton label="Log In" onClick={this.handleOpen.bind(this)} />
+        <Dialog
+          title="Log In"
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose.bind(this)}>
           <label>Username:</label>
-          <TextField id = 'LUsername' type="text" onChange={changeUsername}/>
-        </div>
-        <div>
+          <TextField id='LUsername' type="text" onChange={this.changeUsername.bind(this)} />
           <label>Password:</label>
-          <TextField id = 'LPassword' type="password" onChange={changePassword}/>
-        </div>
-        <div>
-          <RaisedButton label='Login' onClick = {submit} />
-        </div>
-      </form>
-    </Paper>
-  )
+          <TextField id='LPassword' type="password" onChange={this.changePassword.bind(this)} />
+        </Dialog>
+      </div>
+    )
+  }
 }
 
 export default Login;
