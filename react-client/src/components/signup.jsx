@@ -28,7 +28,6 @@ class Signup extends React.Component {
 	}
 
 	handleOpen () {
-		console.log(this);
 		this.setState({ open: true });
 	};
 
