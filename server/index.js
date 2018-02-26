@@ -133,7 +133,7 @@ app.post('/trips', (req, res) => {
 			res.status(200).json({ city: data.city });
 		}
 	});
-})
+});
 
 app.patch('/trips', (req, res) => {
 	if (req.body.public !== undefined) {
@@ -170,7 +170,41 @@ app.post('/events', function (req, res) {
 			res.status(200).json(data);
 		}
 	});
+});
 
+app.post('/events/remove', function (req, res) {
+	var removedElement = req.body.eventID;
+	db.remove('event', req.body.eventID); 
+	res.statusCode=201;
+	res.end();
+});
+
+app.post('/events/add', function (req,res) {
+	const event = req.body.tripEvent;
+	const user = req.body.tripUser;
+	const city = req.body.tripCity;
+
+	db.addEventToTrip(event, user, city, function(err) {
+		if (err) {
+			console.log(err);
+			res.status(500).send(err);
+		} else {
+			res.status(201).end();
+		}
+	});
+});
+
+app.get('/events', (req, res) => {
+	const user = req.body.tripUser;
+	const city = req.body.tripCity;
+
+		db.showTripEvents(user, city, function(err, data) {
+			if (err) {
+				res.status(500).end(err);
+			} else {
+				res.status(200).json({ events: data });
+			}
+		});
 });
 
 
