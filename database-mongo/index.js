@@ -245,7 +245,6 @@ let showUserTrips = (username, callback) => {
 };
 
 let showTripEvents = (username, city, callback) => {
-  console.log(username, city);
 //first find corresponding user
   User.findOne({name: username}, function (err, user) {
     if(err || user === null) {

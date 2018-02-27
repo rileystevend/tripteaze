@@ -101,23 +101,31 @@ app.get('/trips', (req, res) => {
 	const type = req.query.search; // right now tailored for public trips but can be adapted for user trips as well
 	if (type === 'public') {
 		db.showAllPublicTrips(function(err, data) {
-			getTripsEvents(data, function (err, tripsEvents) {
-				if (err) {
-					res.status(500).end(err);
-				} else {
-					res.status(200).json({ trips: tripsEvents });
-				}
-			});
+			if (err) {
+				res.status(500).end(err);
+			} else {
+				getTripsEvents(data, function (err, tripsEvents) {
+					if (err) {
+						res.status(500).end(err);
+					} else {
+						res.status(200).json({ trips: tripsEvents });
+					}
+				});
+			}
 		});
 	} else {
 		db.showUserTrips(type, function(err, data) {
-			getTripsEvents(data, function (err, tripsEvents) {
-				if (err) {
-					res.status(500).end(err);
-				} else {
-					res.status(200).json({ trips: tripsEvents });
-				}
-			});
+			if (err) {
+				res.status(500).end(err);
+			} else {
+				getTripsEvents(data, function (err, tripsEvents) {
+					if (err) {
+						res.status(500).end(err);
+					} else {
+						res.status(200).json({ trips: tripsEvents });
+					}
+				});
+			}
 		});
 	}
 });

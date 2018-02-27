@@ -78,7 +78,8 @@ class SearchPage extends React.Component {
 
   submitEventQuery (event) {
     event.preventDefault();
-    if (this.props.state.activeTrip.status) {
+    if (this.props.state.activeTrip.status || this.props.state.city) {
+      let city = this.props.state.activeTrip.status ? this.state.activeCity : this.props.state.city;
       this.props.actions.searchEvents(this.state.activeCity, this.props.state.eventQuery, this.state.activeFromDate)
     } else {
       window.alert('Please select a city for your trip first!');
@@ -150,29 +151,51 @@ class SearchPage extends React.Component {
     const dropdown = () => {
       if(this.props.state.authenticated && this.props.state.trips.length > 0) {
         return (
-          <SelectField 
-            floatingLabelText="Existing Trips" 
-            value={this.state.dropdown} 
-            onChange = {this.updateCity.bind(this)}
+          <div>
+            <SelectField 
+              floatingLabelText="Existing Trips" 
+              value={this.state.dropdown} 
+              onChange = {this.updateCity.bind(this)}
             > 
-            <MenuItem value = ' ' primaryText = 'Make a New Trip' />
-            {this.props.state.trips.map((trip, index) => 
-              <MenuItem key = {index} value = {trip.city} primaryText = {trip.city} />)}
-          </SelectField>
+              <MenuItem value = ' ' primaryText = 'Make a New Trip' />
+              {this.props.state.trips.map((trip, index) => 
+                <MenuItem key = {index} value = {trip.city} primaryText = {trip.city} 
+              />)}
+            </SelectField>
+            <RaisedButton
+              onClick={() => (this.setState({ open: !this.state.open }))}
+              label='Show Details'
+              disabled={!this.props.state.activeTrip.status}
+            />
+          </div>
         );
+      }
+    }
+
+    const drawer = () => {
+      
+      if (this.props.state.activeTrip.status) {
+        let activeTrip = this.props.state.trips[this.props.state.activeTrip.index]; 
+        if (activeTrip) {
+          return (
+            <Drawer width={400} openSecondary={true} open={this.state.open} >
+              <AppBar title={this.state.activeCity}
+                iconElementLeft={<IconButton onClick={() => (this.setState({ open: false }))} ><NavigationClose /></IconButton>}
+              />
+              {activeTrip.events.map((event, index) => (<div key={index}> {event.name} </div>))}
+              {activeTrip.eatin.map((restaurant, index) => (<div key={index}> {restaurant.name} </div>))}
+            </Drawer>
+          );
+        }
+      } else {
+        return;
       }
     }
   
     return (
       <div>
         <Link to= 'trips'> UserPage </Link>
-
-        <Drawer width={400} openSecondary={true} open={this.state.open} >
-          <AppBar title={this.state.activeCity} 
-            iconElementLeft={<IconButton onClick = {() => (this.setState({open : false}))} ><NavigationClose /></IconButton>}
-          />
-        </Drawer>
-
+        {drawer()}
         <Paper>
           {message}
           <div>
@@ -192,18 +215,21 @@ class SearchPage extends React.Component {
               minDate={this.props.state.minToDate}
             />
           </div>
+          <h4> {message} </h4>
           <br />
-          <TextField id='city' onChange={this.updateCity.bind(this)} />
-          <RaisedButton onClick={this.submit.bind(this)} label='Create Trip' />
+          <TextField id='city' value={this.props.state.city} onChange={this.updateCity.bind(this)} />
+          <RaisedButton onClick={this.submit.bind(this)} label='Create Trip' disabled={!this.props.state.authenticated} />
           <br />
           {dropdown()}
-            <RaisedButton onClick = {() => (this.setState({ open: !this.state.open }))} label='Show Details' />
-          
 
           {this.messageEvents}
+
           <form onSubmit = {this.submitEventQuery.bind(this)}>
             <TextField id = 'event' onChange = {this.updateEventQuery.bind(this)}/>
-            <RaisedButton onClick={this.submitEventQuery.bind(this)} label='Search events for your trip!'/>
+            <RaisedButton 
+              onClick={this.submitEventQuery.bind(this)} 
+              label='Search events for your trip!' 
+              />
           </form>
         </Paper>
         

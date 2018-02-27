@@ -136,6 +136,8 @@ export const searchForFood = (city, query) => {
 
 const updateFoodResults = (searchResults) => ({ type: 'UPDATE_FOODRESULTS', payload: searchResults})
 
+const setTripEvents = (events) => ({ type: 'REFRESH_TRIP_EVENTS', payload: events});
+
 const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENTRESULTS', payload: searchResults});
 
 export const activateTrip = (city) => ({ type: 'SET_TRIP', payload: city});

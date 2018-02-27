@@ -48,7 +48,19 @@ const reducer = function (state = initialState, action) {  //if state is undefin
     case 'DEACTIVATE' :
       return Object.assign({}, state, { activeTrip: { status: false, index: 0 } })
     case 'ERROR' :
-      return Object.assign({}, state, { currentError: action.payload})
+      return Object.assign({}, state, { currentError: action.payload })
+    case 'REFRESH_TRIP_EVENTS' :
+      const oldTrip = state.trips[state.activeTrip.index];
+      const newTrip = Object.assign({}, oldTrip, { events: action.payload });
+      const newTrips = state.trips.slice();
+      newTrips.splice(state.activeTrip.index, 1, newTrip);
+      return Object.assign({}, state, { trips: newTrips });
+    case 'REFRESH_TRIP_EATIN':
+      const oldTripEatin = state.trips[state.activeTrip.index];
+      const newTripEatin = Object.assign({}, oldTripEatin, { events: action.payload });
+      const newTripsEatin = state.trips.slice();
+      newTripsEatin.splice(state.activeTrip.index, 1, newTripEatin);
+      return Object.assign({}, state, { trips: newTripsEatin });
     default:
       return state;  //if unrecognized action type nothing happens
   }
