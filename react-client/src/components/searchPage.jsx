@@ -108,7 +108,7 @@ const SearchPage = (props) => {
       <Paper>
 
         <div>
-          Select Your Trip Dates:
+          Select Your Trip Dates!
           <DatePicker
             floatingLabelText="From"
             autoOk={true}
@@ -120,7 +120,7 @@ const SearchPage = (props) => {
             floatingLabelText="To"
             autoOk={true}
             onChange={updateToDate}
-            // defaultDate={} TODO: set default "to" date to the "from" date
+            // defaultDate={} TODO: set default "to" date as the "from" date
             minDate={props.state.minToDate} 
           />
         </div>

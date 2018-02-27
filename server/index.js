@@ -154,14 +154,12 @@ app.post('/trips', (req, res) => {
 	const city = (req.body.tripCity);
 	const fromDate = (req.body.tripFromDate);
 	const toDate = (req.body.tripToDate);
-	console.log('-----> reqbody', req.body)
 
 	db.addNewTrip(user, city, fromDate, toDate, function(err, data) {
 		if (err) {
 			console.log(err);
 			res.status(500).send(err);
 		} else {
-			console.log('-----> data', data)
 			res.status(200);
 			res.status(200).json({ city: data.city });
 		}

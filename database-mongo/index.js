@@ -81,8 +81,8 @@ let addNewTrip = (username, city, fromDate, toDate, callback) => {
       city: city,
       user: user.id,
       // Dates need to be in YYYY-MM-DD format
-      tripFromDate: fromDate, // TODO: need to update this once works
-      tripToDate: toDate // TODO: need to update this once works
+      tripFromDate: fromDate,
+      tripToDate: toDate
     }, (err, data) => {
       if(err) {
         callback(err);
