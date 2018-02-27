@@ -225,6 +225,7 @@ let showUserTrips = (username, callback) => {
     if(err || user === null) {
       console.log('error: ', err);
       callback(err);
+
     } else {
       //then find all trips for selected user
       Trip.find({user: user.id}, function (err, trips) {
@@ -245,12 +246,19 @@ let showTripEvents = (username, city, callback) => {
     if(err || user === null) {
       console.log('error: ', err);
       callback(err);
-    } 
+    }
     //then find trip based on selected user and city
     Trip.findOne({user: user.id, city: city}, function (err, trip) {
       if(err || trip === null) {
         console.log('error', err);
         callback(err);
+    }
+    //then find all trips for selected user
+    Trip.find({user: user.id}, function (err, trips) {
+      if(err) {
+        callback(err, null);
+      } else {
+        callback(null, trips);
       }
 
       Event.find({trip: trip.id}, function (err, events) {
@@ -364,10 +372,6 @@ module.exports.modifyTripDetails = modifyTripDetails;
 module.exports.remove = remove;
 module.exports.showAllPublicTrips = showAllPublicTrips;
 module.exports.userExists = userExists;
-
-
 module.exports.showTripEvents = showTripEvents;
 module.exports.getTripRestaurants = getTripRestaurants;
 module.exports.getTripEvents = getTripEvents;
-
-
