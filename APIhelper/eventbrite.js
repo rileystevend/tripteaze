@@ -4,9 +4,6 @@ const moment = require('moment');
 
 let searchEvents = (query, city, fromDate, cb) => {
 	let formattedDate = moment(fromDate).format('YYYY-MM-DD');
-
-	console.log('-----> from date:', formattedDate, fromDate)
-
 	let params = {
 		url: `https://www.eventbriteapi.com/v3/events/search/?q=${query}&location.address=${city}&start_date.range_start=${formattedDate}T00:00:00&sort_by=date`,
 		headers: {
@@ -18,7 +15,6 @@ let searchEvents = (query, city, fromDate, cb) => {
 	function callback(error, response, body) {
 		if(!error && response.statusCode == 200) {
 			var info = JSON.parse(body);
-			console.log('-----> start', info.events[0].start.local, 'end', info. events[0].end.local)
 			cb(null, info.events);
 		} else {
 			cb(error,null);

@@ -36,9 +36,6 @@ const SearchPage = (props) => {
     event.preventDefault();
     if (props.state.city !== '' && props.state.tripFromDate !== '' && props.state.tripToDate !== '') {
       props.actions.makeNewTrip(props.state.username, props.state.city, props.state.trips.length, props.state.tripFromDate, props.state.tripToDate);
-      console.log('state', props.state)
-    } else {
-      console.log('city or dates missing')
     }
   };
 
@@ -46,8 +43,6 @@ const SearchPage = (props) => {
     event.preventDefault();
     if (props.state.activeTrip.status) {
       props.actions.searchEvents(activeCity, props.state.eventQuery, activeFromDate)
-      console.log('----->props', activeFromDate)
-      console.log('----->trips', props.state.trips)
     } else {
       window.alert('Please select a city for your trip first!');
     }

@@ -193,8 +193,6 @@ app.post('/events', function (req, res) {
 	const query = req.body.eventQuery;
 	const fromDate = req.body.tripFromDate;
 
-	console.log('-----> req.body:', req.body)
-
 	eventbrite.searchEvents(query, city, fromDate, (err, data) => {
 		if(err) {
 			console.log('error', err);
