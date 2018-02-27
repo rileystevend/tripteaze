@@ -11,6 +11,7 @@ const Trip = (props) => {
   }
 
   const deleteTrip = () => {
+    console.log('delete');
     props.delete(props.user, props.trip);
   }
 

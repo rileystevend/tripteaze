@@ -257,21 +257,22 @@ let showTripEvents = (username, city, callback) => {
       if(err || trip === null) {
         console.log('error', err);
         callback(err);
-    }
-    //then find all trips for selected user
-    Trip.find({user: user.id}, function (err, trips) {
-      if(err) {
-        callback(err, null);
-      } else {
-        callback(null, trips);
       }
-
-      Event.find({trip: trip.id}, function (err, events) {
+      //then find all trips for selected user
+      Trip.find({user: user.id}, function (err, trips) {
         if(err) {
           callback(err, null);
         } else {
-          callback(null, events);
+          callback(null, trips);
         }
+
+        Event.find({trip: trip.id}, function (err, events) {
+          if(err) {
+            callback(err, null);
+          } else {
+            callback(null, events);
+          }
+        });
       });
     });
   });
@@ -338,7 +339,10 @@ let remove = (modelType, ID, callback) => {
   if(modelType === 'restaurant') {
     Restaurant.remove( {id: ID}, function (err) {
       if(err) {
-        callback(err);
+        console.log('error: ',err);
+        callback(err)
+      } else {
+        callback()
       }
     });
   } else if (modelType === 'event') {
@@ -346,6 +350,9 @@ let remove = (modelType, ID, callback) => {
       if(err) {
         callback(err);
         console.log('error: ',err);
+        callback(err)
+      } else {
+        callback()
       }
     });
   } else if (modelType === 'trip') {
@@ -353,10 +360,14 @@ let remove = (modelType, ID, callback) => {
       if(err) {
         callback(err);
         console.log('error: ',err);
+        callback(err)
+      } else {
+        callback()
       }
     });
   } else {
     console.log('must specify correct model type to remove');
+    callback(err);
   }
 };
 //for home page-displays all existing public trips
