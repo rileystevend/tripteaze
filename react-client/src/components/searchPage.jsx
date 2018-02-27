@@ -40,8 +40,18 @@ class SearchPage extends React.Component {
       this.setState({ dropdown: value });
       this.props.actions.deactivate();
     } else {
-      this.props.actions.updateCity(event.target.value)
+      this.props.actions.updateCity(this.formatCity(event.target.value));
     }
+  }
+
+  formatCity (city) {
+    const words = city.split(' ');
+    let newWords = [];
+    for (let word of words) {
+      word = word.slice(0,1).toUpperCase().concat(word.slice(1).toLowerCase());
+      newWords.push(word);
+    }
+    return newWords.join(' ');
   }
 
   updateEventQuery (event) {
