@@ -121,16 +121,18 @@ let addRestaurantToTrip = (restaurant, username, city) => {
   });
 };
 
-let addEventToTrip = (event, username, city) => {
+let addEventToTrip = (event, username, city, callback) => {
   //first find corresponding user
   User.findOne({name: username}, function (err, user) {
     if(err) {
       console.log('error: ', err);
+      callback(err);
     }
     //then find corresponding trip based on city for selected user
     Trip.findOne({user: user.id, city: city}, function (err, trip) {
       if(err) {
         console.log('error', err);
+        callback(err);
       }
       //then add event to database based on trip ID
       //need to look at eventbrite API for structure
@@ -150,6 +152,9 @@ let addEventToTrip = (event, username, city) => {
         }, {upsert: true}, function(err) {
           if(err) {
             console.log('error: ', err);
+            callback(err);
+          } else {
+            callback();
           }
         }
       );
@@ -229,7 +234,7 @@ let showUserTrips = (username, callback) => {
 };
 
 let showTripEvents = (username, city, callback) => {
-
+  console.log(username, city);
 //first find corresponding user
   User.findOne({name: username}, function (err, user) {
     if(err || user === null) {
@@ -252,7 +257,6 @@ let showTripEvents = (username, city, callback) => {
       });
     });
   });
-
 };
 
 
@@ -286,6 +290,26 @@ let modifyTripDetails = (makePublic, makeArchived, username, city) => {
     });
   });
 };
+
+getTripEvents = (tripID, callback) => {
+  Event.find({ trip: tripID }, function (err, events) {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, events);
+    }
+  });
+}
+
+getTripRestaurants = (tripID, callback) => {
+  Restaurant.find({ trip: tripID }, function (err, eatin) {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, eatin);
+    }
+  });
+}
 
 //removal function assumes we know the ID of the restaurant, event,
 //or trip that we are wanting to remove from the database
@@ -335,5 +359,10 @@ module.exports.modifyTripDetails = modifyTripDetails;
 module.exports.remove = remove;
 module.exports.showAllPublicTrips = showAllPublicTrips;
 module.exports.userExists = userExists;
+
+
 module.exports.showTripEvents = showTripEvents;
+module.exports.getTripRestaurants = getTripRestaurants;
+module.exports.getTripEvents = getTripEvents;
+
 

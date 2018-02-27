@@ -18,7 +18,7 @@ const Trip = (props) => {
       <Card> 
         <CardTitle title = {props.trip.city} subtitle = 'trip dates?'/>
         <CardText>
-        Some Trip Details Can Go here?
+        {JSON.stringify(props.trip)}
         </CardText>
         <CardActions>
           <FlatButton label = 'Make Public' onClick = {makePublic} />

@@ -102,22 +102,50 @@ app.get('/trips', (req, res) => {
 	const type = req.query.search; // right now tailored for public trips but can be adapted for user trips as well
 	if (type === 'public') {
 		db.showAllPublicTrips(function(err, data) {
-			if (err) {
-				res.status(500).end(err);
-			} else {
-				res.status(200).json({trips: data});
-			}
+			getTripsEvents(data, function (err, tripsEvents) {
+				if (err) {
+					res.status(500).end(err);
+				} else {
+					res.status(200).json({ trips: tripsEvents });
+				}
+			});
 		});
 	} else {
 		db.showUserTrips(type, function(err, data) {
-			if (err) {
-				res.status(500).end(err);
-			} else {
-				res.status(200).json({ trips: data });
-			}
+			getTripsEvents(data, function (err, tripsEvents) {
+				if (err) {
+					res.status(500).end(err);
+				} else {
+					res.status(200).json({ trips: tripsEvents });
+				}
+			});
 		});
 	}
 });
+
+getTripsEvents = (trips, callback) => {
+	let fullTrips = [];
+	numFinished = 0;
+	for (let i = 0; i < trips.length; i++) {
+		fullTrips.push(Object.assign({}, {
+			id : trips[i].id,
+			city: trips[i].city,
+			isArchived: trips[i].isArchived,
+			isPublic: trips[i].isPublic
+		}));
+		const tripID = trips[i].id
+		db.getTripEvents(tripID, function (err, events) {
+			fullTrips[i].events = events;
+			db.getTripRestaurants(tripID, function (err, food) {
+				fullTrips[i].eatin = food;
+				numFinished++;
+				if (numFinished === trips.length) {
+					callback(null, fullTrips);
+				}
+			})
+		});
+	}
+}
 
 app.post('/trips', (req, res) => {
 	const user = (req.body.tripUser);
@@ -183,7 +211,6 @@ app.post('/events/add', function (req,res) {
 	const event = req.body.tripEvent;
 	const user = req.body.tripUser;
 	const city = req.body.tripCity;
-
 	db.addEventToTrip(event, user, city, function(err) {
 		if (err) {
 			console.log(err);
@@ -195,16 +222,15 @@ app.post('/events/add', function (req,res) {
 });
 
 app.get('/events', (req, res) => {
-	const user = req.body.tripUser;
-	const city = req.body.tripCity;
-
-		db.showTripEvents(user, city, function(err, data) {
-			if (err) {
-				res.status(500).end(err);
-			} else {
-				res.status(200).json({ events: data });
-			}
-		});
+	const user = req.query.tripUser;
+	const city = req.query.tripCity;
+	db.showTripEvents(user, city, function(err, data) {
+		if (err) {
+			res.status(500).end(err);
+		} else {
+			res.status(200).json({ events: data });
+		}
+	});
 });
 
 

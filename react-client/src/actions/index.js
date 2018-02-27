@@ -70,11 +70,7 @@ export const updateCity = (city) => ({ type: 'UPDATE_CITY', payload: city });
 
 export const updateEventQuery = (query) => ({ type: 'UPDATE_EVENTQUERY', payload: query });
 
-export const makeNewTrip = (username, city) => {
-    //dispatch({ type: 'LOADING' });
-    // return setTimeout(function(dispatch) {
-    //   return dispatch(activateTrip(city))
-    // }, 1000);
+export const makeNewTrip = (username, city, index) => {
     
     return (dispatch) => {
     return axios({
@@ -85,7 +81,8 @@ export const makeNewTrip = (username, city) => {
         tripCity: city
       }
     }).then(
-      results => (dispatch(activateTrip(results.data.city))),
+      results => {
+        dispatch(fetchTrips(username))},
       error => dispatch(badStuff(error))
     );
   };
@@ -118,7 +115,7 @@ export const addEventToTrip = (event, username, city) => {
         tripCity: city
       }
     }).then(
-      results => (dispatch(fetchEventsFromTrip(username, city))),
+      results => {dispatch(fetchEventsFromTrip(username, city))},
       error => dispatch(badStuff(error))
     );
   };
@@ -135,7 +132,8 @@ export const fetchEventsFromTrip = (username, city) => {
         tripCity: city
       }
     }).then(
-      results => dispatch(setTripEvents(results.data.events)),
+      results => {
+        dispatch(setTripEvents(results.data.events))},
       error => dispatch(badStuff(error))
     );
   }
@@ -145,7 +143,7 @@ const setTripEvents = (events) => ({ type: 'SHOW_TRIP_EVENTS', payload: events})
 
 const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENTRESULTS', payload: searchResults});
 
-export const activateTrip = (city) => ({ type: 'SET_TRIP', payload: city});
+export const activateTrip = (tripIndex) => ({ type: 'SET_TRIP', payload: tripIndex});
 
 //////////////////////////////USER PAGE STUFF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
