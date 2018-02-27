@@ -66,13 +66,18 @@ export const badStuff = (error) => ({type: 'ERROR', payload: error});
 
 /////////////////////////////SEARCH PAGE STUFF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+// Updates the "from" date for the trip
+export const updateFromDate = (date) => ({ type: 'UPDATE_TRIP_FROM_DATE', payload: date });
+
+// Updates the "to" date for the trip
+export const updateToDate = (date) => ({ type: 'UPDATE_TRIP_TO_DATE', payload: date });
+
 export const updateCity = (city) => ({ type: 'UPDATE_CITY', payload: city });
 
 export const updateEventQuery = (query) => ({ type: 'UPDATE_EVENTQUERY', payload: query });
 
 export const makeNewTrip = (username, city, index) => {
-    
-    return (dispatch) => {
+  return (dispatch) => {
     return axios({
       method: 'post',
       url: '/trips',
@@ -83,7 +88,7 @@ export const makeNewTrip = (username, city, index) => {
     }).then(
       results => {
         dispatch(fetchTrips(username))},
-      error => dispatch(badStuff(error))
+        error => dispatch(badStuff(error))
     );
   };
 }
