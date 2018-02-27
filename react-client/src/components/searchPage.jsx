@@ -32,8 +32,11 @@ const SearchPage = (props) => {
 
   const submit = (event) => {
     event.preventDefault();
-    if (props.state.city !== '') {
-      props.actions.makeNewTrip(props.state.username, props.state.city, props.state.trips.length)
+    if (props.state.city !== '' && props.state.tripFromDate !== '' && props.state.tripToDate !== '') {
+      props.actions.makeNewTrip(props.state.username, props.state.city, props.state.trips.length, props.state.tripFromDate, props.state.tripToDate);
+      console.log('state', props.state)
+    } else {
+      console.log('city or dates missing')
     }
   };
 
@@ -80,6 +83,7 @@ const SearchPage = (props) => {
     }
   }
 
+  /*************************** DATE SELECTION STUFF ***************************/
   const today = new Date();
 
   const updateFromDate = (event, date) => {
@@ -96,6 +100,7 @@ const SearchPage = (props) => {
     let toDate = moment(date).format('YYYY-MM-DD');
     props.actions.updateToDate(toDate);
   }
+  /****************************************************************************/
 
   return (
     <Paper>

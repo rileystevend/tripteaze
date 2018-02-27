@@ -131,7 +131,9 @@ getTripsEvents = (trips, callback) => {
 			id : trips[i].id,
 			city: trips[i].city,
 			isArchived: trips[i].isArchived,
-			isPublic: trips[i].isPublic
+			isPublic: trips[i].isPublic,
+			fromDate: trips[i].tripFromDate,
+			toDate: trips[i].tripToDate
 		}));
 		const tripID = trips[i].id
 		db.getTripEvents(tripID, function (err, events) {
@@ -150,13 +152,16 @@ getTripsEvents = (trips, callback) => {
 app.post('/trips', (req, res) => {
 	const user = (req.body.tripUser);
 	const city = (req.body.tripCity);
+	const fromDate = (req.body.tripFromDate);
+	const toDate = (req.body.tripToDate);
+	console.log('-----> reqbody', req.body)
 
-	db.addNewTrip(user, city, function(err, data) {
+	db.addNewTrip(user, city, fromDate, toDate, function(err, data) {
 		if (err) {
 			console.log(err);
 			res.status(500).send(err);
 		} else {
-
+			console.log('-----> data', data)
 			res.status(200);
 			res.status(200).json({ city: data.city });
 		}

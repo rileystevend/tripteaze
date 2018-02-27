@@ -78,14 +78,16 @@ export const updateCity = (city) => ({ type: 'UPDATE_CITY', payload: city });
 
 export const updateEventQuery = (query) => ({ type: 'UPDATE_EVENTQUERY', payload: query });
 
-export const makeNewTrip = (username, city, index) => {
+export const makeNewTrip = (username, city, index, tripFromDate, tripToDate) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/trips',
       data: {
         tripUser: username,
-        tripCity: city
+        tripCity: city,
+        tripFromDate: tripFromDate,
+        tripToDate: tripToDate
       }
     }).then(
       results => {

@@ -30,8 +30,8 @@ var userSchema = Schema({
 var tripSchema = Schema({
   id: Schema.Types.ObjectId,
   city: String,
-  dateFrom: Date,
-  dateTo: Date,
+  tripFromDate: Date,
+  tripToDate: Date,
   isPublic: {type: Boolean, default: false},
   isArchived: {type: Boolean, default: false},
   //need to make sure each trip has a reference user
@@ -71,7 +71,7 @@ var Trip = mongoose.model('Trip', tripSchema);
 var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 var Event = mongoose.model('Event', eventSchema);
 
-let addNewTrip = (username, city, callback) => {
+let addNewTrip = (username, city, fromDate, toDate, callback) => {
   User.findOne({name: username}, function (err, user) {
     if(err) {
       callback(err);
@@ -81,8 +81,8 @@ let addNewTrip = (username, city, callback) => {
       city: city,
       user: user.id,
       // Dates need to be in YYYY-MM-DD format
-      dateFrom: '2012-01-10', // TODO: need to update this once works
-      dateTo: '2012-01-10' // TODO: need to update this once works
+      tripFromDate: fromDate, // TODO: need to update this once works
+      tripToDate: toDate // TODO: need to update this once works
     }, (err, data) => {
       if(err) {
         callback(err);
