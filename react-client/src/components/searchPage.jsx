@@ -64,6 +64,7 @@ const SearchPage = (props) => {
     showEvents = <Events 
       events={props.state.eventResults}
       addEventToTrip={props.actions.addEventToTrip}
+      deleteEvent={props.actions.deleteEvent}
       user={props.state.username}
       city={activeCity}
       />

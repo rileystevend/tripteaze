@@ -56,12 +56,15 @@ var restaurantSchema = Schema({
 var eventSchema = Schema({
   id: {type: Number, index: true},
   name: String,
+  description: String,
   url: String,
-  address: String,
-  zip: Number,
-    //latitude and longitude coordinates are placed in 'location' property
-  location: [{type: Number}],
-  price: Number,
+  start_time: String,
+  end_time: String,
+  is_free: Boolean,
+  organizer_id: Number,
+  venue_id: Number,
+  category_id: Number,
+  logo: String,
   //need to make sure each restaurant or event has a reference trip
   trip: {type: Schema.Types.ObjectId, ref: 'Trip'}
 });
@@ -144,14 +147,16 @@ let addEventToTrip = (event, username, city, callback) => {
       Event.findOneAndUpdate({id: event.id},
         {$set: {
           name: event.name.text,
+          description: event.description.text,
           id: event.id,
           url: event.url,
-          start: event.start.local,
-          end: event.end.local,
-          //address: event.location.address,
-          //zip: event.location.zipcode,
-          //location: [event.location.latitude, event.location.longitude],
-          //price: event.price_range,
+          start_time: event.start.local,
+          end_time: event.end.local,
+          is_free: event.is_free,
+          organizer_id: event.organizer_id,
+          venue_id: event.venue_id,
+          category_id: event.category_id,
+          logo: event.logo.url,
           trip: trip.id
           }
         }, {upsert: true}, function(err) {
@@ -267,15 +272,17 @@ let showTripEvents = (username, city, callback) => {
 
 //allows user to update whether trip is public and/or archived
 //assumes username and city are known to obtain corresponding trip and update
-let modifyTripDetails = (makePublic, makeArchived, username, city) => {
+let modifyTripDetails = (makePublic, makeArchived, username, city, callback) => {
   //first find corresponding user
   User.findOne({name: username}, function (err, user) {
     if(err) {
+      callback(err);
       console.log('error: ', err);
     }
     //then find corresponding trip based on city for selected user
     Trip.findOne({user: user.id, city: city}, function (err, trip) {
       if(err) {
+        callback(err);
         console.log('error', err);
       }
       makePublic = makePublic || trip.isPublic;
@@ -288,6 +295,7 @@ let modifyTripDetails = (makePublic, makeArchived, username, city) => {
           }
         }, function (err) {
           if(err) {
+            callback(err);
             console.log('error: ', err);
           }
         }
@@ -318,22 +326,24 @@ getTripRestaurants = (tripID, callback) => {
 
 //removal function assumes we know the ID of the restaurant, event,
 //or trip that we are wanting to remove from the database
-let remove = (modelType, ID) => {
+let remove = (modelType, ID, callback) => {
   if(modelType === 'restaurant') {
     Restaurant.remove( {id: ID}, function (err) {
       if(err) {
-        console.log('error: ',err);
+        callback(err);
       }
     });
   } else if (modelType === 'event') {
     Event.remove( {id: ID}, function (err) {
       if(err) {
+        callback(err);
         console.log('error: ',err);
       }
     });
   } else if (modelType === 'trip') {
     Trip.remove( {id: ID}, function (err) {
       if(err) {
+        callback(err);
         console.log('error: ',err);
       }
     });

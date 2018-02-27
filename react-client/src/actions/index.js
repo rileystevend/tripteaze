@@ -167,7 +167,22 @@ export const deleteTrip = (user, trip) => {
         tripID: trip.id
       }
     }).then (
-      results => (dispatch(fetchTrips(user))),
+      results => {dispatch(fetchTrips(user))},
+      error => dispatch(badStuff(error))
+    )
+  }
+}
+
+export const deleteEvent = (event, username, city) => {
+  return (dispatch) => {
+    return axios ({
+      method: 'post',
+      url: '/events/remove',
+      data: {
+        eventID: event.id
+      }
+    }).then (
+      results => {dispatch(fetchEventsFromTrip(username,city))},
       error => dispatch(badStuff(error))
     )
   }
