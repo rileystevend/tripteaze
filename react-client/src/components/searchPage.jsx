@@ -10,8 +10,14 @@ import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router-dom';
+import DatePicker from 'material-ui/DatePicker';
+import Toggle from 'material-ui/Toggle';
+import moment from 'moment';
 
 const SearchPage = (props) => {
+
+  let activeCity = props.state.trips[props.state.activeTrip.index].city;
+  let activeFromDate = props.state.trips[props.state.activeTrip.index].fromDate;
 
   const updateCity = (event, index, value) => {
     if (value) {
@@ -23,8 +29,10 @@ const SearchPage = (props) => {
 
   const submit = (event) => {
     event.preventDefault();
-    if (props.state.city !== '') {
-      props.actions.makeNewTrip(props.state.username, props.state.city)
+
+    if (props.state.city !== '' && props.state.tripFromDate !== '' && props.state.tripToDate !== '') {
+      props.actions.makeNewTrip(props.state.username, props.state.city, props.state.trips.length, props.state.tripFromDate, props.state.tripToDate);
+
     }
   };
 
@@ -36,7 +44,7 @@ const SearchPage = (props) => {
   const submitEventQuery = (event) => {
     event.preventDefault();
     if (props.state.activeTrip.status) {
-      props.actions.searchEvents(props.state.activeTrip.city, props.state.eventQuery)
+      props.actions.searchEvents(activeCity, props.state.eventQuery, activeFromDate)
     } else {
       window.alert('Please select a city for your trip first!');
     }
@@ -87,10 +95,48 @@ const SearchPage = (props) => {
     }
   }
 
+  /*************************** DATE SELECTION STUFF ***************************/
+  const today = new Date();
+
+  const updateFromDate = (event, date) => {
+    // Dates need to be in YYYY-MM-DD format
+    let fromDate = moment(date).format('YYYY-MM-DD');
+    props.actions.updateFromDate(fromDate);
+
+    // This sets minimum "To" date based on the current "From" date in the correct date format
+    props.actions.setMinToDate(date);
+  }
+
+  const updateToDate = (event, date) => {
+    // Dates need to be in YYYY-MM-DD format
+    let toDate = moment(date).format('YYYY-MM-DD');
+    props.actions.updateToDate(toDate);
+  }
+  /****************************************************************************/
+
   return (
     <div>
 
       <Paper>
+
+        <div>
+          Select Your Trip Dates!
+          <DatePicker
+            floatingLabelText="From"
+            autoOk={true}
+            onChange={updateFromDate}
+            minDate={today}
+          />
+
+          <DatePicker
+            floatingLabelText="To"
+            autoOk={true}
+            onChange={updateToDate}
+            // defaultDate={} TODO: set default "to" date as the "from" date
+            minDate={props.state.minToDate} 
+          />
+        </div>
+
         {message}
         <form onSubmit = {submit}>
           <TextField id = 'city' onChange = {updateCity}/>

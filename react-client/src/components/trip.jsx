@@ -2,6 +2,7 @@ import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import moment from 'moment';
 
 const Trip = (props) => {
 
@@ -16,7 +17,10 @@ const Trip = (props) => {
   if (props.editable === true) {
     return (
       <Card> 
-        <CardTitle title = {props.trip.city} subtitle = 'trip dates?'/>
+        <CardTitle
+          title = {props.trip.city}
+          subtitle = {moment(props.trip.fromDate).format('MM/DD/YYYY') + ' - ' + moment(props.trip.toDate).format('MM/DD/YYYY')}
+        />
         <CardText>
         {JSON.stringify(props.trip)}
         </CardText>
