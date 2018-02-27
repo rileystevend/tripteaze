@@ -91,7 +91,9 @@ const SearchPage = (props) => {
       <Paper>
 
         <form>
-          From <input id='date' type='date' onChange={updateFromDate} /> to <input id='date' type='date' onChange={updateToDate} />
+          From <input id='date' type='date' onChange={updateFromDate} />
+           to
+            <input id='date' type='date' onChange={updateToDate} />
         </form>
 
         {message}

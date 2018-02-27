@@ -80,8 +80,9 @@ let addNewTrip = (username, city, callback) => {
       id: new mongoose.Types.ObjectId(),
       city: city,
       user: user.id,
-      dateFrom: 10-10-2018, // TODO: need to update this once works
-      dateTo: 10-12-2018 // TODO: need to update this once works
+      // Dates need to be in YYYY-MM-DD format
+      dateFrom: '2012-01-10', // TODO: need to update this once works
+      dateTo: '2012-01-10' // TODO: need to update this once works
     }, (err, data) => {
       if(err) {
         callback(err);
