@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Events from './events.jsx';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actions from '../actions/index.js';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
@@ -14,11 +14,12 @@ import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-
-import { Link } from 'react-router-dom';
 import DatePicker from 'material-ui/DatePicker';
 import Toggle from 'material-ui/Toggle';
-import moment from 'moment';
+
+import * as actions from '../actions/index.js';
+import Activity from './activity.jsx';
+import Events from './events.jsx';
 
 class SearchPage extends React.Component {
   constructor (props) {
@@ -182,8 +183,12 @@ class SearchPage extends React.Component {
               <AppBar title={this.state.activeCity}
                 iconElementLeft={<IconButton onClick={() => (this.setState({ open: false }))} ><NavigationClose /></IconButton>}
               />
-              {activeTrip.events.map((event, index) => (<div key={index}> {event.name} </div>))}
-              {activeTrip.eatin.map((restaurant, index) => (<div key={index}> {restaurant.name} </div>))}
+              {activeTrip.events.map((event, index) => 
+                (<Activity key={index} sidebar = 'true'
+                  type='event' activity={event} />))}
+              {activeTrip.eatin.map((restaurant, index) => 
+                (<Activity key={index} sidebar='true'
+                  type='food' activity={eatin} />))}
             </Drawer>
           );
         }
@@ -223,7 +228,7 @@ class SearchPage extends React.Component {
           {dropdown()}
 
           {this.messageEvents}
-
+        <Paper>
           <form onSubmit = {this.submitEventQuery.bind(this)}>
             <TextField id = 'event' onChange = {this.updateEventQuery.bind(this)}/>
             <RaisedButton 
@@ -232,12 +237,13 @@ class SearchPage extends React.Component {
               />
           </form>
         </Paper>
-        
-        <Paper>
-          {showEvents}
+          
+          <Paper>
+            {showEvents}
+          </Paper>
         </Paper>
       </div>
-    )
+    );
   }  
 }
 

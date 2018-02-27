@@ -101,7 +101,7 @@ app.get('/trips', (req, res) => {
 	const type = req.query.search; // right now tailored for public trips but can be adapted for user trips as well
 	if (type === 'public') {
 		db.showAllPublicTrips(function(err, data) {
-			if (err) {
+			if (err  || !data) {
 				res.status(500).end(err);
 			} else {
 				getTripsEvents(data, function (err, tripsEvents) {
@@ -115,7 +115,7 @@ app.get('/trips', (req, res) => {
 		});
 	} else {
 		db.showUserTrips(type, function(err, data) {
-			if (err) {
+			if (err || !data) {
 				res.status(500).end(err);
 			} else {
 				getTripsEvents(data, function (err, tripsEvents) {
