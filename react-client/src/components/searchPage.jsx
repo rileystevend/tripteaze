@@ -13,55 +13,65 @@ import { Link } from 'react-router-dom';
 
 const SearchPage = (props) => {
 
-  let activeCity = props.state.trips[props.state.activeTrip.index].city;
-
   const updateCity = (event, index, value) => {
     if (value) {
-      props.actions.activateTrip(index - 1);
+      props.actions.activateTrip(value);
     } else {
       props.actions.updateCity(event.target.value)
     }
-  }
-
-  const updateEventQuery = (event) => {
-    props.actions.updateEventQuery(event.target.value)
   };
 
   const submit = (event) => {
     event.preventDefault();
     if (props.state.city !== '') {
-      props.actions.makeNewTrip(props.state.username, props.state.city, props.state.trips.length)
+      props.actions.makeNewTrip(props.state.username, props.state.city)
     }
   };
+
+  const updateEventQuery = (event) => {
+    props.actions.updateEventQuery(event.target.value)
+  };
+
 
   const submitEventQuery = (event) => {
     event.preventDefault();
     if (props.state.activeTrip.status) {
-      props.actions.searchEvents(activeCity, props.state.eventQuery)
+      props.actions.searchEvents(props.state.activeTrip.city, props.state.eventQuery)
     } else {
       window.alert('Please select a city for your trip first!');
     }
   };
 
+/***************************** Food - search **********************************/
+  const updateFoodQuery = (event) => {
+    props.actions.updateFoodQuery(event.target.value)
+  };
+
+  const submitFoodQuery = (event) => {
+    event.preventDefault();
+    if(props.state.activeTrip.status) {
+      props.actions.searchForFood(props.state.activeTrip.city, props.state.foodQuery)
+    } else {
+      window.alert('Please select a city for your trip first!')
+    }
+  };
+
+/******************************************************************************/
   let message = '';
   let messageEvents = '';
+  let messageFood = '';
   if (!props.state.activeTrip.status) {
     message = 'Pick a city for your trip!';
     messageEvents = 'First pick a city before searching events!';
+    messageFood = '';
   } else {
-    message = `You\'re going to ${activeCity}! \n Or plan a different trip: `; 
-    messageEvents = `Type a keyword to find events in ${activeCity}!`;
+    message = `You\'re going to ${props.state.activeTrip.city}! \n Or plan a different trip: `;
+    messageEvents = `Type a keyword to find events in ${props.state.activeTrip.city}!`;
+    messageFood= `Or search for food in ${props.state.activeTrip.city}!`;
   }
-
   let showEvents = '';
-
   if(props.state.eventResults.length !==0) {
-    showEvents = <Events 
-      events={props.state.eventResults}
-      addEventToTrip={props.actions.addEventToTrip}
-      user={props.state.username}
-      city={activeCity}
-      />
+    showEvents = <Events events={props.state.eventResults} />
   }
 
   let tripIndex = 0;
@@ -69,7 +79,7 @@ const SearchPage = (props) => {
   const dropdown = () => {
     if(props.state.authenticated && props.state.trips.length > 0) {
       return (
-        <DropDownMenu value={tripIndex} onChange = {updateCity}> 
+        <DropDownMenu value={tripIndex} onChange = {updateCity}>
           <MenuItem value={null} primaryText='' />
           {props.state.trips.map((trip, index) => <MenuItem key = {index} value = {trip.city} primaryText = {trip.city}/>)}
         </DropDownMenu>
@@ -78,8 +88,8 @@ const SearchPage = (props) => {
   }
 
   return (
-    <Paper>
-      <Link to= 'trips'> UserPage </Link>
+    <div>
+
       <Paper>
         {message}
         <form onSubmit = {submit}>
@@ -89,15 +99,20 @@ const SearchPage = (props) => {
         </form>
         {messageEvents}
         <form onSubmit = {submitEventQuery}>
-          <TextField id = 'event' onChange = {updateEventQuery}/>
-          <RaisedButton onClick={submitEventQuery} label='Search events for your trip!'/>
+          <input type='text' onChange = {updateEventQuery}/>
+          <input type='submit' value='Search events for your trip!'/>
         </form>
+        {messageFood}
+        <form onSubmit = {submitFoodQuery}>
+          <input type='test' onChange = {updateFoodQuery}/>
+          <input type='submit' value='Search for Food for your trip!'/>
+        </form>
+
       </Paper>
-      
       <Paper>
         {showEvents}
       </Paper>
-    </Paper>
+    </div>
   )
 }
 
@@ -111,4 +126,3 @@ const mapDispatchToProps = dispatch => (
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
-

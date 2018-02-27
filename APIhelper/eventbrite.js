@@ -11,17 +11,17 @@ let params = {
 	//?expand=name/?token=${token}`
 };
 
-function callback(error, response, body) {
-	if(!error && response.statusCode == 200) {
-		var info = JSON.parse(body);
-		cb(null, info.events);
-	} else {
-		cb(error,null);
-		console.log('api not working');
+	function callback(error, response, body) {
+		if(!error && response.statusCode == 200) {
+			var info = JSON.parse(body);
+			cb(null, info.events);
+		} else {
+			cb(error,null);
+			console.log('api not working');
+		}
 	}
-}
 
-request(params, callback);
+	request(params, callback);
 
 }
 

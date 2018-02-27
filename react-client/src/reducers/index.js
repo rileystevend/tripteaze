@@ -1,15 +1,17 @@
 const initialState = {
-  username: '', 
-  password: '', 
-  authenticated: false, 
-  currentError: '', 
+  username: '',
+  password: '',
+  authenticated: false,
+  currentError: '',
   city: '',
   eventQuery: '',
   trips: [],
   eventResults: [],
+  foodQuery: '',
+  foodResults: [],
   activeTrip: {
       status: false,
-      index: 0
+      city: ''
     }
 }; //will need to be updated as needed
 
@@ -17,41 +19,34 @@ const reducer = function (state = initialState, action) {  //if state is undefin
 
   switch (action.type) {
     case 'SHOW_TRIPS' :
-      return Object.assign({}, state, { trips: action.payload })
+      return Object.assign({}, state, {trips: action.payload})
     case 'UPDATE_EVENTRESULTS' :
-      return Object.assign({}, state, { eventResults: action.payload })
+      return Object.assign({}, state, {eventResults: action.payload})
+    case 'UPDATE_FOODRESULTS':
+      return Object.assign({}, state, {foodResults: action.payload})
     case 'UPDATE_USERNAME':
-      return Object.assign({}, state, { username: action.payload })
+      return Object.assign({}, state, {username: action.payload})
     case 'UPDATE_PASSWORD':
-      return Object.assign({}, state, { password: action.payload })
+      return Object.assign({}, state, {password: action.payload})
     case 'AUTHEN' :
-      return Object.assign({}, state, { authenticated: true }); 
+      return Object.assign({}, state, { authenticated: true });
     case 'UPDATE_EVENTQUERY':
-      return Object.assign({}, state, { eventQuery: action.payload  }) 
+      return Object.assign({}, state, {eventQuery: action.payload})
     case 'UPDATE_CITY' :
-      return Object.assign({}, state, { city: action.payload })
+      return Object.assign({}, state, {city: action.payload})
+    case 'UPDATE_FOODQUERY':
+      return Object.assign({}, state, {foodQuery: action.payload})
     case 'SET_TRIP' :
-      return Object.assign({}, state, { activeTrip: {status: true, index: action.payload }})
+      return Object.assign({}, state, {activeTrip: {status: true, city: action.payload}})
     case 'ERROR' :
-      return Object.assign({}, state, { currentError: action.payload })
-    case 'REFRESH_TRIP_EVENTS' :
-      const oldTrip = state.trips[action.payload.index];
-      const newTrip = Object.assign({}, oldTrip, { events: action.payload.events });
-      const oldTrips = state.trips.slice();
-      const final = oldTrips.splice(action.payload.index, 1, newTrip);
-      return Object.assign({}, state, { trips: final });
-    case 'REFRESH_TRIP_EATIN':
-      const oldTripEatin = state.trips[action.payload.index];
-      const newTripEatin = Object.assign({}, oldTripEatin, { eatin: action.payload.eatin });
-      const oldTripsEatin = state.trips.slice();
-      const finalEatin = oldTripsEatin.splice(action.payload.index, 1, newTripEatin);
-      return Object.assign({}, state, { trips: finalEatin });
+      return Object.assign({}, state, { currentError: action.payload})
     default:
       return state;  //if unrecognized action type nothing happens
   }
 }
 
 export default reducer;
+
 
 /*
 EXAMPLE
