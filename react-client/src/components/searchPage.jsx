@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
-import DropDownMenu from 'material-ui/DropDownMenu';
+import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
@@ -31,9 +31,14 @@ class SearchPage extends React.Component {
   }
 
   updateCity (event, index, value) {
-    if (value) {
+    if (value && index !== 0) {
+      this.setState({dropdown: value});
       this.setState({activeCity: this.props.state.trips[index - 1].city});
+      this.props.actions.updateCity('');
       this.props.actions.activateTrip(index - 1);
+    } else if (index === 0) {
+      this.setState({ dropdown: value });
+      this.props.actions.deactivate();
     } else {
       this.props.actions.updateCity(event.target.value)
     }
@@ -48,6 +53,7 @@ class SearchPage extends React.Component {
 
     if (props.state.city !== '' && props.state.tripFromDate !== '' && props.state.tripToDate !== '') {
       this.props.actions.makeNewTrip(this.props.state.username, this.props.state.city, this.props.state.trips.length, this.props.state.tripFromDate, this.props.state.tripToDate);
+      this.setState({ activeCity: this.props.state.city });
     }
   };
 
@@ -125,30 +131,37 @@ class SearchPage extends React.Component {
     const dropdown = () => {
       if(this.props.state.authenticated && this.props.state.trips.length > 0) {
         return (
-          <DropDownMenu value={this.state.dropdown} onChange = {this.updateCity.bind(this)}> 
-            <MenuItem value={null} primaryText='Existing Trips' />
-            {this.props.state.trips.map((trip, index) => <MenuItem key = {index} value = {trip.city} primaryText = {trip.city}/>)}
-          </DropDownMenu>
+          <SelectField 
+            floatingLabelText="Existing Trips" 
+            value={this.state.dropdown} 
+            onChange = {this.updateCity.bind(this)}
+            > 
+            <MenuItem value = ' ' primaryText = 'Make a New Trip' />
+            {this.props.state.trips.map((trip, index) => 
+              <MenuItem key = {index} value = {trip.city} primaryText = {trip.city} />)}
+          </SelectField>
         );
       }
     }
   
     return (
-      <Paper>
+      <div>
         <Link to= 'trips'> UserPage </Link>
+
         <Drawer width={200} openSecondary={true} open={this.state.open} >
           <AppBar title="AppBar" />
         </Drawer>
+
         <Paper>
           {message}
           <div>
             Select Your Trip Dates!
-          <DatePicker
-              floatingLabelText="From"
-              autoOk={true}
-              onChange={updateFromDate}
-              minDate={today}
-            />
+            <DatePicker
+                floatingLabelText="From"
+                autoOk={true}
+                onChange={updateFromDate}
+                minDate={today}
+              />
 
             <DatePicker
               floatingLabelText="To"
@@ -158,11 +171,11 @@ class SearchPage extends React.Component {
               minDate={this.props.state.minToDate}
             />
           </div>
-          <form onSubmit = {this.submit.bind(this)}>
-            <TextField id = 'city' onChange = {this.updateCity.bind(this)}/>
-            <RaisedButton onClick={this.submit.bind(this)} label='Create Trip'/>
-            {dropdown()}
-          </form>
+          <br />
+          <TextField id='city' onChange={this.updateCity.bind(this)} />
+          <RaisedButton onClick={this.submit.bind(this)} label='Create Trip' />
+          <br />
+          {dropdown()}
           {this.messageEvents}
           <form onSubmit = {this.submitEventQuery.bind(this)}>
             <TextField id = 'event' onChange = {this.updateEventQuery.bind(this)}/>
@@ -173,7 +186,7 @@ class SearchPage extends React.Component {
         <Paper>
           {showEvents}
         </Paper>
-      </Paper>
+      </div>
     )
   }  
 }

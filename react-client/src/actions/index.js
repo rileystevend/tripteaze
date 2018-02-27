@@ -94,6 +94,7 @@ export const makeNewTrip = (username, city, index, fromDate, toDate) => {
       }
     }).then(
       results => {
+        dispatch(activateTrip(index));
         dispatch(fetchTrips(username))},
         error => dispatch(badStuff(error))
     );
@@ -189,6 +190,8 @@ export const toggleTripStatus = (user, trip) => {
     )
   }
 }
+
+export const deactivate = () => ({type: 'DEACTIVATE'})
 
 //ACTION_NAME must correspond with reducer switch option
 

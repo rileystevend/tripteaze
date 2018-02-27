@@ -44,7 +44,9 @@ const reducer = function (state = initialState, action) {  //if state is undefin
     case 'SET_MIN_TO_DATE':
       return Object.assign({}, state, { minToDate: action.payload })
     case 'SET_TRIP' :
-      return Object.assign({}, state, {activeTrip: {status: true, city: action.payload}})
+      return Object.assign({}, state, { activeTrip: { status: true, index: action.payload }})
+    case 'DEACTIVATE' :
+      return Object.assign({}, state, { activeTrip: { status: false, index: 0 } })
     case 'ERROR' :
       return Object.assign({}, state, { currentError: action.payload})
     default:
