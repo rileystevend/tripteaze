@@ -6,6 +6,8 @@ const initialState = {
   city: '',
   eventQuery: '',
   trips: [],
+  tripFromDate: '',
+  tripToDate: '',
   eventResults: [],
   activeTrip: {
       status: false,
@@ -30,6 +32,10 @@ const reducer = function (state = initialState, action) {  //if state is undefin
       return Object.assign({}, state, { eventQuery: action.payload  }) 
     case 'UPDATE_CITY' :
       return Object.assign({}, state, { city: action.payload })
+    case 'UPDATE_TRIP_FROM_DATE':
+      return Object.assign({}, state, { tripFromDate: action.payload})
+    case 'UPDATE_TRIP_TO_DATE':
+      return Object.assign({}, state, { tripToDate: action.payload})
     case 'SET_TRIP' :
       return Object.assign({}, state, { activeTrip: {status: true, index: action.payload }})
     case 'ERROR' :
