@@ -6,7 +6,6 @@ const styles = {
 }
 
 const Restaurants = (props) => {
-  console.log(props.restaurant);
   return (
     <table>
       <tbody>
