@@ -1,10 +1,14 @@
 const request = require('request');
 const config = require('../config.js');
+const moment = require('moment');
 
-let searchEvents = (query, city, cb) => {
+let searchEvents = (query, city, fromDate, cb) => {
+	let formattedDate = moment(fromDate).format('YYYY-MM-DD');
+
+	console.log('-----> from date:', formattedDate, fromDate)
 
 	let params = {
-		url: `https://www.eventbriteapi.com/v3/events/search/?q=${query}&location.address=${city}&start_date.range_start=2018-04-15T07:00:00&sort_by=date`,
+		url: `https://www.eventbriteapi.com/v3/events/search/?q=${query}&location.address=${city}&start_date.range_start=${formattedDate}T00:00:00&sort_by=date`,
 		headers: {
 			'Authorization': `Bearer ${config.token}`
 		}

@@ -97,14 +97,15 @@ export const makeNewTrip = (username, city, index, fromDate, toDate) => {
   };
 }
 
-export const searchEvents = (city, query) => {
+export const searchEvents = (city, query, fromDate) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/events',
       data: {
         tripCity: city,
-        eventQuery: query
+        eventQuery: query,
+        tripFromDate: fromDate
       }
     }).then(
       results => (dispatch(updateEventResults(results.data))),

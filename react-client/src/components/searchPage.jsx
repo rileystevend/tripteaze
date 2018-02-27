@@ -18,6 +18,8 @@ const SearchPage = (props) => {
 
   let activeCity = props.state.trips[props.state.activeTrip.index].city;
 
+  let activeFromDate = props.state.trips[props.state.activeTrip.index].fromDate;
+
   const updateCity = (event, index, value) => {
     if (value) {
       props.actions.activateTrip(index - 1);
@@ -43,7 +45,9 @@ const SearchPage = (props) => {
   const submitEventQuery = (event) => {
     event.preventDefault();
     if (props.state.activeTrip.status) {
-      props.actions.searchEvents(activeCity, props.state.eventQuery)
+      props.actions.searchEvents(activeCity, props.state.eventQuery, activeFromDate)
+      console.log('----->props', activeFromDate)
+      console.log('----->trips', props.state.trips)
     } else {
       window.alert('Please select a city for your trip first!');
     }

@@ -191,8 +191,11 @@ app.patch('/trips', (req, res) => {
 app.post('/events', function (req, res) {
 	const city = req.body.tripCity;
 	const query = req.body.eventQuery;
-	
-	eventbrite.searchEvents(query, city, (err, data) => {
+	const fromDate = req.body.tripFromDate;
+
+	console.log('-----> req.body:', req.body)
+
+	eventbrite.searchEvents(query, city, fromDate, (err, data) => {
 		if(err) {
 			console.log('error', err);
 			res.status(500).send(err);
