@@ -69,19 +69,20 @@ class SearchPage extends React.Component {
   };
 
   submit (event) {
+    let state = this.props.state;
     event.preventDefault();
-
-    if (props.state.city !== '' && props.state.tripFromDate !== '' && props.state.tripToDate !== '') {
-      this.props.actions.makeNewTrip(this.props.state.username, this.props.state.city, this.props.state.trips.length, this.props.state.tripFromDate, this.props.state.tripToDate);
-      this.setState({ activeCity: this.props.state.city, open: true });
+    if (state.city !== '' && state.tripFromDate !== '' && state.tripToDate !== '') {
+      this.props.actions.makeNewTrip(state.username, state.city, state.trips.length, state.tripFromDate, state.tripToDate);
+      this.setState({ activeCity: state.city, open: true });
     }
   };
 
   submitEventQuery (event) {
+    let state = this.props.state;
     event.preventDefault();
-    if (this.props.state.activeTrip.status || this.props.state.city) {
-      let city = this.props.state.activeTrip.status ? this.state.activeCity : this.props.state.city;
-      this.props.actions.searchEvents(this.state.activeCity, this.props.state.eventQuery, this.state.activeFromDate)
+    if (state.activeTrip.status || state.city) {
+      let city = state.activeTrip.status ? this.state.activeCity : state.city;
+      this.props.actions.searchEvents(this.state.activeCity, state.eventQuery, this.state.activeFromDate)
     } else {
       window.alert('Please select a city for your trip first!');
     }
@@ -177,6 +178,7 @@ class SearchPage extends React.Component {
       
       if (this.props.state.activeTrip.status) {
         let activeTrip = this.props.state.trips[this.props.state.activeTrip.index]; 
+        console.log(activeTrip);
         if (activeTrip) {
           return (
             <Drawer width={400} openSecondary={true} open={this.state.open} >
@@ -226,7 +228,6 @@ class SearchPage extends React.Component {
           <RaisedButton onClick={this.submit.bind(this)} label='Create Trip' disabled={!this.props.state.authenticated} />
           <br />
           {dropdown()}
-
           {this.messageEvents}
         <Paper>
           <form onSubmit = {this.submitEventQuery.bind(this)}>
