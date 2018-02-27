@@ -10,6 +10,9 @@ import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router-dom';
+import DatePicker from 'material-ui/DatePicker';
+import Toggle from 'material-ui/Toggle';
+import moment from 'moment';
 
 const SearchPage = (props) => {
 
@@ -77,12 +80,14 @@ const SearchPage = (props) => {
     }
   }
 
-  const updateFromDate = (event) => {
-    console.log('from date changed', event.target.value);
+  const updateFromDate = (event, date) => {
+    // Dates need to be in YYYY-MM-DD format
+    console.log('from date changed', moment(date).format('YYYY-MM-DD'));
   }
 
-  const updateToDate = (event) => {
-    console.log('to date changed', event.target.value);
+  const updateToDate = (event, date) => {
+    // Dates need to be in YYYY-MM-DD format
+    console.log('to date changed', moment(date).format('YYYY-MM-DD'));
   }
 
   return (
@@ -90,11 +95,26 @@ const SearchPage = (props) => {
       <Link to= 'trips'> UserPage </Link>
       <Paper>
 
-        <form>
+        <div>
+          Select Your Trip Dates:
+          <DatePicker
+            floatingLabelText="From"
+            autoOk
+            onChange={updateFromDate}
+          />
+
+          <DatePicker
+            floatingLabelText="To"
+            autoOk
+            onChange={updateToDate}
+          />
+        </div>
+
+        {/* <form>
           From <input id='date' type='date' onChange={updateFromDate} />
            to
             <input id='date' type='date' onChange={updateToDate} />
-        </form>
+        </form> */}
 
         {message}
         <form onSubmit = {submit}>
