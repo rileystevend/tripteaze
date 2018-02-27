@@ -22,12 +22,20 @@ class SearchPage extends React.Component {
   constructor (props) {
     super(props);
 
-    this.state = {
-      open: false,
-      activeCity: props.state.trips[props.state.activeTrip.index].city,
-      dropdown: 0,
-      activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate
+    if (props.state.trips.length !== 0) {
+      this.state = {
+        open: false,
+        activeCity: props.state.trips[props.state.activeTrip.index].city,
+        dropdown: 0,
+        activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate
+      }
+    } else {
+      this.state = {
+        open: false,
+        dropdown: 0
+      }
     }
+
   }
 
   updateCity (event, index, value) {
