@@ -24,10 +24,17 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 
 app.checkPassword = (userName, pw, checkPw) => {
   let match = false;
+<<<<<<< HEAD
     let unhashedPw = bcrypt.compareSync(pw, checkPw);
     if (unhashedPw) {
       match = true;
     }
+=======
+  let unhashedPw = bcrypt.compareSync(pw, checkPw);
+  if (unhashedPw) {
+    match = true;
+  }
+>>>>>>> rebase
   return match;
 }
 

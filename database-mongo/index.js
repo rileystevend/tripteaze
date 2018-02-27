@@ -220,6 +220,7 @@ let showUserTrips = (username, callback) => {
     if(err || user === null) {
       console.log('error: ', err);
       callback(err);
+<<<<<<< HEAD
     } else {
       //then find all trips for selected user
       Trip.find({user: user.id}, function (err, trips) {
@@ -246,6 +247,15 @@ let showTripEvents = (username, city, callback) => {
       if(err || trip === null) {
         console.log('error', err);
         callback(err);
+=======
+    }
+    //then find all trips for selected user
+    Trip.find({user: user.id}, function (err, trips) {
+      if(err) {
+        callback(err, null);
+      } else {
+        callback(null, trips);
+>>>>>>> rebase
       }
 
       Event.find({trip: trip.id}, function (err, events) {
@@ -359,6 +369,7 @@ module.exports.modifyTripDetails = modifyTripDetails;
 module.exports.remove = remove;
 module.exports.showAllPublicTrips = showAllPublicTrips;
 module.exports.userExists = userExists;
+<<<<<<< HEAD
 
 
 module.exports.showTripEvents = showTripEvents;
@@ -366,3 +377,5 @@ module.exports.getTripRestaurants = getTripRestaurants;
 module.exports.getTripEvents = getTripEvents;
 
 
+=======
+>>>>>>> rebase
