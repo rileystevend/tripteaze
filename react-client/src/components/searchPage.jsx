@@ -79,7 +79,13 @@ const SearchPage = (props) => {
   }
   let showEvents = '';
   if(props.state.eventResults.length !==0) {
-    showEvents = <Events events={props.state.eventResults} />
+    showEvents = <Events 
+      events={props.state.eventResults}
+      addEventToTrip={props.actions.addEventToTrip}
+      deleteEvent={props.actions.deleteEvent}
+      user={props.state.username}
+      city={activeCity}
+      />
   }
 
   let tripIndex = 0;

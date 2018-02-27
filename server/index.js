@@ -206,16 +206,21 @@ app.post('/events', function (req, res) {
 });
 
 app.post('/events/remove', function (req, res) {
-	var removedElement = req.body.eventID;
-	db.remove('event', req.body.eventID);
-	res.statusCode=201;
-	res.end();
+	console.log('event to be removed',req.body);
+	db.remove('event', req.body.eventID, function(err) {
+		if(err) {
+			res.status(500).send(err);
+		} else {
+			res.status(200).end();
+		}
+	});
 });
 
 app.post('/events/add', function (req,res) {
 	const event = req.body.tripEvent;
 	const user = req.body.tripUser;
 	const city = req.body.tripCity;
+
 	db.addEventToTrip(event, user, city, function(err) {
 		if (err) {
 			console.log(err);
@@ -229,6 +234,7 @@ app.post('/events/add', function (req,res) {
 app.get('/events', (req, res) => {
 	const user = req.query.tripUser;
 	const city = req.query.tripCity;
+	console.log('get events', req.query);
 	db.showTripEvents(user, city, function(err, data) {
 		if (err) {
 			res.status(500).end(err);
