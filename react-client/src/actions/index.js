@@ -66,37 +66,49 @@ export const badStuff = (error) => ({type: 'ERROR', payload: error});
 
 /////////////////////////////SEARCH PAGE STUFF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+// Updates the "from" date for the trip
+export const updateFromDate = (date) => ({ type: 'UPDATE_TRIP_FROM_DATE', payload: date });
+
+// Updates the "to" date for the trip
+export const updateToDate = (date) => ({ type: 'UPDATE_TRIP_TO_DATE', payload: date });
+
+export const setMinToDate = (date) => ({ type: 'SET_MIN_TO_DATE', payload: date });
+
 export const updateCity = (city) => ({ type: 'UPDATE_CITY', payload: city });
 
 export const updateEventQuery = (query) => ({ type: 'UPDATE_EVENTQUERY', payload: query });
 
 export const updateFoodQuery = (query) => ({ type: 'UPDATE_FOODQUERY', payload: query})
 
-export const makeNewTrip = (username, city) => {
+export const makeNewTrip = (username, city, index, fromDate, toDate) => {
+  return (dispatch) => {
 
-    return (dispatch) => {
     return axios({
       method: 'post',
       url: '/trips',
       data: {
         tripUser: username,
-        tripCity: city
+        tripCity: city,
+        tripFromDate: fromDate,
+        tripToDate: toDate
       }
     }).then(
-      results => (dispatch(activateTrip(results.data.city))),
-      error => dispatch(badStuff(error))
+      results => {
+        dispatch(fetchTrips(username))},
+        error => dispatch(badStuff(error))
     );
   };
 }
 
-export const searchEvents = (city, query) => {
+export const searchEvents = (city, query, fromDate) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/events',
       data: {
         tripCity: city,
-        eventQuery: query
+        eventQuery: query,
+        tripFromDate: fromDate
       }
     }).then(
       results => (dispatch(updateEventResults(results.data))),

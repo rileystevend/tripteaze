@@ -6,6 +6,9 @@ const initialState = {
   city: '',
   eventQuery: '',
   trips: [],
+  tripFromDate: '',
+  tripToDate: '',
+  minToDate: {}, // so users cannot set a "to" date before the "from" date
   eventResults: [],
   foodQuery: '',
   foodResults: [],
@@ -33,9 +36,13 @@ const reducer = function (state = initialState, action) {  //if state is undefin
     case 'UPDATE_EVENTQUERY':
       return Object.assign({}, state, {eventQuery: action.payload})
     case 'UPDATE_CITY' :
-      return Object.assign({}, state, {city: action.payload})
-    case 'UPDATE_FOODQUERY':
-      return Object.assign({}, state, {foodQuery: action.payload})
+      return Object.assign({}, state, { city: action.payload })
+    case 'UPDATE_TRIP_FROM_DATE':
+      return Object.assign({}, state, { tripFromDate: action.payload })
+    case 'UPDATE_TRIP_TO_DATE':
+      return Object.assign({}, state, { tripToDate: action.payload })
+    case 'SET_MIN_TO_DATE':
+      return Object.assign({}, state, { minToDate: action.payload })
     case 'SET_TRIP' :
       return Object.assign({}, state, {activeTrip: {status: true, city: action.payload}})
     case 'ERROR' :
