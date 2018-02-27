@@ -80,14 +80,21 @@ const SearchPage = (props) => {
     }
   }
 
+  const today = new Date();
+
   const updateFromDate = (event, date) => {
     // Dates need to be in YYYY-MM-DD format
-    console.log('from date changed', moment(date).format('YYYY-MM-DD'));
+    let fromDate = moment(date).format('YYYY-MM-DD');
+    props.actions.updateFromDate(fromDate);
+
+    // This sets minimum "To" date based on the current "From" date in the correct date format
+    props.actions.setMinToDate(date);
   }
 
   const updateToDate = (event, date) => {
     // Dates need to be in YYYY-MM-DD format
-    console.log('to date changed', moment(date).format('YYYY-MM-DD'));
+    let toDate = moment(date).format('YYYY-MM-DD');
+    props.actions.updateToDate(toDate);
   }
 
   return (
@@ -99,22 +106,19 @@ const SearchPage = (props) => {
           Select Your Trip Dates:
           <DatePicker
             floatingLabelText="From"
-            autoOk
+            autoOk={true}
             onChange={updateFromDate}
+            minDate={today}
           />
 
           <DatePicker
             floatingLabelText="To"
-            autoOk
+            autoOk={true}
             onChange={updateToDate}
+            // defaultDate={} TODO: set default "to" date to the "from" date
+            minDate={props.state.minToDate} 
           />
         </div>
-
-        {/* <form>
-          From <input id='date' type='date' onChange={updateFromDate} />
-           to
-            <input id='date' type='date' onChange={updateToDate} />
-        </form> */}
 
         {message}
         <form onSubmit = {submit}>
