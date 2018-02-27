@@ -211,7 +211,6 @@ app.post('/events/add', function (req,res) {
 	const event = req.body.tripEvent;
 	const user = req.body.tripUser;
 	const city = req.body.tripCity;
-
 	db.addEventToTrip(event, user, city, function(err) {
 		if (err) {
 			console.log(err);
@@ -223,16 +222,15 @@ app.post('/events/add', function (req,res) {
 });
 
 app.get('/events', (req, res) => {
-	const user = req.body.tripUser;
-	const city = req.body.tripCity;
-
-		db.showTripEvents(user, city, function(err, data) {
-			if (err) {
-				res.status(500).end(err);
-			} else {
-				res.status(200).json({ events: data });
-			}
-		});
+	const user = req.query.tripUser;
+	const city = req.query.tripCity;
+	db.showTripEvents(user, city, function(err, data) {
+		if (err) {
+			res.status(500).end(err);
+		} else {
+			res.status(200).json({ events: data });
+		}
+	});
 });
 
 

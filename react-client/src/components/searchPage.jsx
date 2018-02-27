@@ -13,9 +13,11 @@ import { Link } from 'react-router-dom';
 
 const SearchPage = (props) => {
 
+  let activeCity = props.state.trips[props.state.activeTrip.index].city;
+
   const updateCity = (event, index, value) => {
     if (value) {
-      props.actions.activateTrip(value);
+      props.actions.activateTrip(index - 1);
     } else {
       props.actions.updateCity(event.target.value)
     }
@@ -28,14 +30,14 @@ const SearchPage = (props) => {
   const submit = (event) => {
     event.preventDefault();
     if (props.state.city !== '') {
-      props.actions.makeNewTrip(props.state.username, props.state.city)
+      props.actions.makeNewTrip(props.state.username, props.state.city, props.state.trips.length)
     }
   };
 
   const submitEventQuery = (event) => {
     event.preventDefault();
     if (props.state.activeTrip.status) {
-      props.actions.searchEvents(props.state.activeTrip.city, props.state.eventQuery)
+      props.actions.searchEvents(activeCity, props.state.eventQuery)
     } else {
       window.alert('Please select a city for your trip first!');
     }
@@ -47,16 +49,18 @@ const SearchPage = (props) => {
     message = 'Pick a city for your trip!';
     messageEvents = 'First pick a city before searching events!';
   } else {
-    message = `You\'re going to ${props.state.activeTrip.city}! \n Or plan a different trip: `; 
-    messageEvents = `Type a keyword to find events in ${props.state.activeTrip.city}!`;
+    message = `You\'re going to ${activeCity}! \n Or plan a different trip: `; 
+    messageEvents = `Type a keyword to find events in ${activeCity}!`;
   }
+
   let showEvents = '';
+
   if(props.state.eventResults.length !==0) {
     showEvents = <Events 
       events={props.state.eventResults}
       addEventToTrip={props.actions.addEventToTrip}
       user={props.state.username}
-      city={props.state.activeTrip.city}
+      city={activeCity}
       />
   }
 

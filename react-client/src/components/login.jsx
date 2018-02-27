@@ -25,7 +25,6 @@ class Login extends React.Component {
     this.props.updatePassword(event.target.value);
   }
   handleOpen() {
-    console.log(this);
     this.setState({ open: true });
   };
 
