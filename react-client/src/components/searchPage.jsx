@@ -12,6 +12,8 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
 import { Link } from 'react-router-dom';
 import DatePicker from 'material-ui/DatePicker';
@@ -35,12 +37,11 @@ class SearchPage extends React.Component {
         dropdown: 0
       }
     }
-
   }
 
   updateCity (event, index, value) {
     if (value && index !== 0) {
-      this.setState({dropdown: value});
+      this.setState({dropdown: value, open: true});
       this.setState({activeCity: this.props.state.trips[index - 1].city});
       this.props.actions.updateCity('');
       this.props.actions.activateTrip(index - 1);
@@ -71,7 +72,7 @@ class SearchPage extends React.Component {
 
     if (props.state.city !== '' && props.state.tripFromDate !== '' && props.state.tripToDate !== '') {
       this.props.actions.makeNewTrip(this.props.state.username, this.props.state.city, this.props.state.trips.length, this.props.state.tripFromDate, this.props.state.tripToDate);
-      this.setState({ activeCity: this.props.state.city });
+      this.setState({ activeCity: this.props.state.city, open: true });
     }
   };
 
@@ -166,8 +167,10 @@ class SearchPage extends React.Component {
       <div>
         <Link to= 'trips'> UserPage </Link>
 
-        <Drawer width={200} openSecondary={true} open={this.state.open} >
-          <AppBar title="AppBar" />
+        <Drawer width={400} openSecondary={true} open={this.state.open} >
+          <AppBar title={this.state.activeCity} 
+            iconElementLeft={<IconButton onClick = {() => (this.setState({open : false}))} ><NavigationClose /></IconButton>}
+          />
         </Drawer>
 
         <Paper>
@@ -194,6 +197,9 @@ class SearchPage extends React.Component {
           <RaisedButton onClick={this.submit.bind(this)} label='Create Trip' />
           <br />
           {dropdown()}
+            <RaisedButton onClick = {() => (this.setState({ open: !this.state.open }))} label='Show Details' />
+          
+
           {this.messageEvents}
           <form onSubmit = {this.submitEventQuery.bind(this)}>
             <TextField id = 'event' onChange = {this.updateEventQuery.bind(this)}/>
