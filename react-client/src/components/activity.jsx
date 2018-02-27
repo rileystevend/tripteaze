@@ -17,8 +17,8 @@ let Activity = (props) => {
         </CardMedia>
         <CardText>
           We don't save much detail rn
-          {props.activity.date}
-          {props.activity.details}
+          {props.activity.date}?
+          {props.activity.details}?
         </CardText>
       </Card>
     );
@@ -31,14 +31,12 @@ let Activity = (props) => {
         </CardMedia>
         <CardText>
           We don't save much detail rn
-          {props.activity.address}
-          {props.activity.details}
+          {props.activity.address}?
+          {props.activity.details}?
         </CardText>
       </Card>
     );
-
   }
-
 }
 
 export default Activity;
