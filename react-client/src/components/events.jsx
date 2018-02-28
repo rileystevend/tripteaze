@@ -38,7 +38,7 @@ const Events = (props) => {
                 <GridTile
                   key={event.id}
                   title= {<a style = {styles.anchor} href = {event.url} target = '_blank'>{event.name.text}</a>}
-                  subtitle= 'date range'
+                  subtitle={`${moment(event.start.local).format('MM/DD/YY hh:mm A')} - ${moment(event.end.local).format('MM/DD/YY hh:mm A')}`}
                   actionIcon={<IconButton onClick= {() => props.addEventToTrip(event, props.user, props.city)}><AddBorder color="white" /></IconButton>}
                 >
                   <img src={event.logo.url} alt = '' />
