@@ -35,13 +35,15 @@ app.get('/login', (req, res) =>{
   let userName = req.query.username
   let password = req.query.password
 
-  db.retrieveUserPassword(userName, (userPw) => {
-		if (app.checkPassword(userName, password, userPw)) {
+  db.retrieveUserPassword(userName, (err, userPw) => {
+		if (err) {
+			res.status(200).json({error: true, message: 'Sorry, we didn\'t recognize that username. Please try again!'});
+		} else if (app.checkPassword(userName, password, userPw)) {
 			req.session.loggedIn = true;
-			res.end()
+			res.status(200).end()
 		} else {
 			console.log('Unmatching username and password')
-      res.end();
+      res.status(200).json({error: true, message: 'Sorry, username and password do not match! Please try again!'});
 		}
 	})
 })
@@ -59,7 +61,6 @@ app.get('/logout', (req, res) => {
 
 // Sign up
 app.post('/signup', (req, res) => {
-	console.log(req.body, req.query, 'signup')
 	let username = req.body.username;
 	let password = req.body.password;
 
@@ -69,14 +70,14 @@ app.post('/signup', (req, res) => {
 		if (existingUser.length > 0) {
 			console.log('Username already exists!');
 			// Redirect to the signup page
-			res.redirect(200, '/signup');
+			res.status(200).json({error: true, message: 'Sorry! username already in use! Please pick a different one!'})
 		// Else if new user
 		} else {
 			// Hash the password
 			bcrypt.hash(password, 10, (err, hash) => {
 				if (err) {
 					console.error('Error in hash password: ', err);
-					res.status(500).send(err);
+					res.status(200).json({error: true, message: 'Sorry! unknown error on our end! Please try again'});
 				} else {
 					// Store the new user/hash in the db
 					db.addNewUser(username, hash);

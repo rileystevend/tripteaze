@@ -223,10 +223,11 @@ let retrieveUserPassword = (username, callback) => {
     // If the user exists in the database
     if (user.length > 0) {
       // Then run the callback on that user's password
-      callback(user[0].password);
+      callback(null, user[0].password);
     } else {
       // Should probably send an alert or something...
       console.log('user does not exist');
+      callback('user does not exist');
     }
   });
 };
