@@ -20,13 +20,13 @@ import Toggle from 'material-ui/Toggle';
 import * as actions from '../actions/index.js';
 import Activity from './activity.jsx';
 import Events from './events.jsx';
+import Eatin from './restaurants.jsx';
 
 class SearchPage extends React.Component {
   constructor (props) {
     super(props);
 
     if (props.state.trips.length !== 0) {
-      console.log(props.state);
       this.state = {
         open: false,
         activeCity: props.state.trips[props.state.activeTrip.index].city,
@@ -94,13 +94,13 @@ class SearchPage extends React.Component {
 /***************************** Food - search **********************************/
 
   updateFoodQuery (event) {
-    props.actions.updateFoodQuery(event.target.value)
+    this.props.actions.updateFoodQuery(event.target.value)
   };
 
   submitFoodQuery (event) {
     event.preventDefault();
-    if(props.state.activeTrip.status) {
-      props.actions.searchForFood(props.state.activeTrip.city, props.state.foodQuery)
+    if(this.props.state.activeTrip.status) {
+      this.props.actions.searchForFood(this.state.activeCity, this.props.state.foodQuery)
     } else {
       window.alert('Please select a city for your trip first!')
     }
@@ -111,8 +111,8 @@ class SearchPage extends React.Component {
   render () {
     let message =  '';
     let messageEvents = '';
-    let activeCity = this.state.activeCity;
     let messageFood = '';
+    let activeCity = this.state.activeCity;
     let state = this.props.state;
     let actions = this.props.actions;
 
@@ -144,18 +144,7 @@ class SearchPage extends React.Component {
       actions.updateToDate(toDate);
     };
   /****************************************************************************/
-  
-    let showEvents = '';
-  
-    if(state.eventResults.length !==0) {
-      showEvents = <Events 
-        events={state.eventResults}
-        addEventToTrip={actions.addEventToTrip}
-        user={state.username}
-        city={this.state.activeCity}
-        />
-    }
-  
+
     const dropdown = () => {
       if(state.authenticated && state.trips.length > 0) {
         return (
@@ -181,10 +170,8 @@ class SearchPage extends React.Component {
     }
 
     const drawer = () => {
-      
       if (state.activeTrip.status) {
         let activeTrip = state.trips[state.activeTrip.index]; 
-        console.log(activeTrip);
         if (activeTrip) {
           return (
             <Drawer width={400} openSecondary={true} open={this.state.open} >
@@ -194,14 +181,12 @@ class SearchPage extends React.Component {
               {activeTrip.events.map((event, index) => 
                 (<Activity key={index} sidebar = 'true'
                   type='event' activity={event} />))}
-              {activeTrip.eatin.map((restaurant, index) => 
+              {activeTrip.eatin.map((eatin, index) => 
                 (<Activity key={index} sidebar='true'
                   type='food' activity={eatin} />))}
             </Drawer>
           );
         }
-      } else {
-        return;
       }
     }
   
@@ -233,26 +218,38 @@ class SearchPage extends React.Component {
           <TextField id='city' value={this.props.state.city} onChange={this.updateCity.bind(this)} />
           <RaisedButton onClick={this.submit.bind(this)} label='Create Trip' disabled={!this.props.state.authenticated} />
           <br />
+
           {dropdown()}
           
-        <Paper>
-          {messageEvents}
-          <form onSubmit = {this.submitEventQuery.bind(this)}>
-            <TextField id = 'event' onChange = {this.updateEventQuery.bind(this)}/>
-            <RaisedButton 
-              onClick={this.submitEventQuery.bind(this)} 
-              label='Search events for your trip!' 
-              />
-          </form>
-          {messageFood}
-          <form onSubmit={this.submitFoodQuery.bind(this)}>
-            <input type='test' onChange={this.updateFoodQuery.bind(this)} />
-            <input type='submit' value='Search for Food for your trip!' />
-          </form>
-        </Paper>
+          <Paper>
+            {messageEvents}
+            <form onSubmit = {this.submitEventQuery.bind(this)}>
+              <TextField id = 'event' onChange = {this.updateEventQuery.bind(this)}/>
+              <RaisedButton 
+                onClick={this.submitEventQuery.bind(this)} 
+                label='Search events for your trip!' 
+                />
+            </form>
+            {messageFood}
+            <form onSubmit={this.submitFoodQuery.bind(this)}>
+              <input type='test' onChange={this.updateFoodQuery.bind(this)} />
+              <input type='submit' value='Search for Food for your trip!' />
+            </form>
+          </Paper>
           
           <Paper>
-            {showEvents}
+            <Events
+              events={state.eventResults}
+              addEventToTrip={actions.addEventToTrip}
+              user={state.username}
+              city={this.state.activeCity}
+            />
+            <Eatin
+              restaurants={state.foodResults}
+              addFoodToTrip={actions.addFoodToTrip}
+              user={state.username}
+              city={this.state.activeCity}
+            />
           </Paper>
         </Paper>
       </div>

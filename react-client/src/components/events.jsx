@@ -2,14 +2,12 @@ import React from 'react';
 import moment from 'moment';
 
 const styles = {
-    image: {
-        width: '13px'
-    }
+  image: {
+      width: '13px'
+  }
 }
 
 const Events = (props) => {
-
-
   return (
     <table>
       <tbody>
@@ -31,7 +29,7 @@ const Events = (props) => {
 
     		</tr>
     		)}
-    </tbody>
+      </tbody>
     </table>
   );
 }

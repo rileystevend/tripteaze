@@ -118,11 +118,11 @@ app.get('/trips', (req, res) => {
 			if (err || !data) {
 				res.status(500).end(err);
 			} else {
-				getTripsEvents(data, function (err, tripsEvents) {
+				getTripsEvents(data, function (err, fullTrips) {
 					if (err) {
 						res.status(500).end(err);
 					} else {
-						res.status(200).json({ trips: tripsEvents });
+						res.status(200).json({ trips: fullTrips });
 					}
 				});
 			}
@@ -142,6 +142,7 @@ getTripsEvents = (trips, callback) => {
 			fromDate: trips[i].tripFromDate,
 			toDate: trips[i].tripToDate
 		}));
+		
 		const tripID = trips[i].id
 		db.getTripEvents(tripID, function (err, events) {
 			fullTrips[i].events = events;
@@ -151,7 +152,7 @@ getTripsEvents = (trips, callback) => {
 				if (numFinished === trips.length) {
 					callback(null, fullTrips);
 				}
-			})
+			});
 		});
 	}
 }
@@ -259,15 +260,15 @@ app.post('/foods', (req, res) => {
 	let searchFood = req.body.foodQuery;
 	zomato.searchForCityId( city, ( err, data ) => {
 		if (err) {
-			res.sendStatus(400)
+			res.status(500).end()
 		} else {
 			let cityId = data
 			zomato.searchForFoods( cityId, searchFood, (err, result) => {
 				if (err) {
-					res.sendStatus(400)
+					res.status(500).end();
 					console.log('err')
 				} else {
-					res.send(200, result)
+					res.status(200).json({foods: result})
 				}
 				res.end();
 			})
