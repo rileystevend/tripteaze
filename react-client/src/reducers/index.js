@@ -14,7 +14,7 @@ const initialState = {
   foodResults: [],
   activeTrip: {
       status: false,
-      city: ''
+      index: 0
     }
 }; //will need to be updated as needed
 
@@ -43,7 +43,7 @@ const reducer = function (state = initialState, action) {  //if state is undefin
       return Object.assign({}, state, { tripToDate: action.payload })
     case 'SET_MIN_TO_DATE':
       return Object.assign({}, state, { minToDate: action.payload })
-    case 'SET_TRIP' :
+    case 'ACTIVATE' :
       return Object.assign({}, state, { activeTrip: { status: true, index: action.payload }})
     case 'DEACTIVATE' :
       return Object.assign({}, state, { activeTrip: { status: false, index: 0 } })

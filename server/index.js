@@ -272,8 +272,47 @@ app.post('/foods', (req, res) => {
 				res.end();
 			})
 		}
-	})
-})
+	});
+});
+
+app.post('/foods/remove', function (req, res) {
+	console.log('food to be removed', req.body);
+	db.remove('restaurant', req.body.foodID, function (err) {
+		if (err) {
+			res.status(500).send(err);
+		} else {
+			res.status(200).end();
+		}
+	});
+});
+
+app.post('/foods/add', function (req, res) {
+	const food = req.body.tripFood;
+	const user = req.body.tripUser;
+	const city = req.body.tripCity;
+
+	db.addRestaurantToTrip(food, user, city, function (err) {
+		if (err) {
+			console.log(err);
+			res.status(500).send(err);
+		} else {
+			res.status(201).end();
+		}
+	});
+});
+
+app.get('/foods', (req, res) => {
+	const user = req.query.tripUser;
+	const city = req.query.tripCity;
+	console.log('get foods', req.query);
+	db.showTripRestaurants(user, city, function (err, data) {
+		if (err) {
+			res.status(500).end(err);
+		} else {
+			res.status(200).json({ foods: data });
+		}
+	});
+});
 
 /****************************************************************************/
 const port = process.env.PORT || 3000;

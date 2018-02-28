@@ -26,6 +26,7 @@ class SearchPage extends React.Component {
     super(props);
 
     if (props.state.trips.length !== 0) {
+      console.log(props.state);
       this.state = {
         open: false,
         activeCity: props.state.trips[props.state.activeTrip.index].city,
@@ -62,19 +63,21 @@ class SearchPage extends React.Component {
       newWords.push(word);
     }
     return newWords.join(' ');
-  }
+  } 
 
-  updateEventQuery (event) {
-    this.props.actions.updateEventQuery(event.target.value)
-  };
-
-  submit (event) {
+  submit (event) {  //makes a new trip
     let state = this.props.state;
     event.preventDefault();
     if (state.city !== '' && state.tripFromDate !== '' && state.tripToDate !== '') {
       this.props.actions.makeNewTrip(state.username, state.city, state.trips.length, state.tripFromDate, state.tripToDate);
       this.setState({ activeCity: state.city, open: true });
     }
+  };
+
+/***************************** Event - search **********************************/
+
+  updateEventQuery(event) {
+    this.props.actions.updateEventQuery(event.target.value)
   };
 
   submitEventQuery (event) {
@@ -89,6 +92,7 @@ class SearchPage extends React.Component {
   };
 
 /***************************** Food - search **********************************/
+
   updateFoodQuery (event) {
     props.actions.updateFoodQuery(event.target.value)
   };
@@ -109,15 +113,17 @@ class SearchPage extends React.Component {
     let messageEvents = '';
     let activeCity = this.state.activeCity;
     let messageFood = '';
-    
-    if (!props.state.activeTrip.status) {
+    let state = this.props.state;
+    let actions = this.props.actions;
+
+    if (!state.activeTrip.status) {
       message = 'Pick a city for your trip!';
       messageEvents = 'First pick a city before searching events!';
       messageFood = '';
     } else {
-      message = `You\'re going to ${props.state.activeTrip.city}! \n Or plan a different trip: `;
-      messageEvents = `Type a keyword to find events in ${props.state.activeTrip.city}!`;
-      messageFood= `Or search for food in ${props.state.activeTrip.city}!`;
+      message = `You\'re going to ${activeCity}! \n Or plan a different trip: `;
+      messageEvents = `Type a keyword to find events in ${activeCity}!`;
+      messageFood= `Or search for food in ${activeCity}!`;
     }
   
   /*************************** DATE SELECTION STUFF ***************************/
@@ -126,32 +132,32 @@ class SearchPage extends React.Component {
     let updateFromDate = (event, date) => {
       // Dates need to be in YYYY-MM-DD format
       let fromDate = moment(date).format('YYYY-MM-DD');
-      this.props.actions.updateFromDate(fromDate);
+      actions.updateFromDate(fromDate);
 
       // This sets minimum "To" date based on the current "From" date in the correct date format
-      this.props.actions.setMinToDate(date);
+      actions.setMinToDate(date);
     }
 
     const updateToDate = (event, date) => {
       // Dates need to be in YYYY-MM-DD format
       let toDate = moment(date).format('YYYY-MM-DD');
-      this.props.actions.updateToDate(toDate);
+      actions.updateToDate(toDate);
     };
   /****************************************************************************/
   
     let showEvents = '';
   
-    if(this.props.state.eventResults.length !==0) {
+    if(state.eventResults.length !==0) {
       showEvents = <Events 
-        events={this.props.state.eventResults}
-        addEventToTrip={this.props.actions.addEventToTrip.bind(this)}
-        user={this.props.state.username}
+        events={state.eventResults}
+        addEventToTrip={actions.addEventToTrip}
+        user={state.username}
         city={this.state.activeCity}
         />
     }
   
     const dropdown = () => {
-      if(this.props.state.authenticated && this.props.state.trips.length > 0) {
+      if(state.authenticated && state.trips.length > 0) {
         return (
           <div>
             <SelectField 
@@ -160,14 +166,14 @@ class SearchPage extends React.Component {
               onChange = {this.updateCity.bind(this)}
             > 
               <MenuItem value = ' ' primaryText = 'Make a New Trip' />
-              {this.props.state.trips.map((trip, index) => 
+              {state.trips.map((trip, index) => 
                 <MenuItem key = {index} value = {trip.city} primaryText = {trip.city} 
               />)}
             </SelectField>
             <RaisedButton
               onClick={() => (this.setState({ open: !this.state.open }))}
               label='Show Details'
-              disabled={!this.props.state.activeTrip.status}
+              disabled={!state.activeTrip.status}
             />
           </div>
         );
@@ -176,8 +182,8 @@ class SearchPage extends React.Component {
 
     const drawer = () => {
       
-      if (this.props.state.activeTrip.status) {
-        let activeTrip = this.props.state.trips[this.props.state.activeTrip.index]; 
+      if (state.activeTrip.status) {
+        let activeTrip = state.trips[state.activeTrip.index]; 
         console.log(activeTrip);
         if (activeTrip) {
           return (
@@ -228,14 +234,20 @@ class SearchPage extends React.Component {
           <RaisedButton onClick={this.submit.bind(this)} label='Create Trip' disabled={!this.props.state.authenticated} />
           <br />
           {dropdown()}
-          {this.messageEvents}
+          
         <Paper>
+          {messageEvents}
           <form onSubmit = {this.submitEventQuery.bind(this)}>
             <TextField id = 'event' onChange = {this.updateEventQuery.bind(this)}/>
             <RaisedButton 
               onClick={this.submitEventQuery.bind(this)} 
               label='Search events for your trip!' 
               />
+          </form>
+          {messageFood}
+          <form onSubmit={this.submitFoodQuery.bind(this)}>
+            <input type='test' onChange={this.updateFoodQuery.bind(this)} />
+            <input type='submit' value='Search for Food for your trip!' />
           </form>
         </Paper>
           
