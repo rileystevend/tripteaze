@@ -101,7 +101,7 @@ export const makeNewTrip = (username, city, index, fromDate, toDate) => {
 
 /***************************** EVENTS *************************************/
 
-export const updateEventQuery = (query) => ({ type: 'UPDATE_EVENTQUERY', payload: query });
+export const updateEventQuery = (query) => ({ type: 'UPDATE_EVENT_QUERY', payload: query });
 
 export const searchEvents = (city, query, fromDate) => {
   return (dispatch) => {
@@ -120,7 +120,7 @@ export const searchEvents = (city, query, fromDate) => {
   };
 }
 
-const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENTRESULTS', payload: searchResults });
+const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENT_RESULTS', payload: searchResults });
 
 export const addEventToTrip = (event, username, city) => {
   return (dispatch) => {
@@ -160,9 +160,10 @@ const setTripEvents = (events) => ({ type: 'REFRESH_TRIP_EVENTS', payload: event
 
 /***************************** FOOD *************************************/
 
-export const updateFoodQuery = (query) => ({ type: 'UPDATE_FOODQUERY', payload: query })
+export const updateFoodQuery = (query) => {console.log(query); return { type: 'UPDATE_FOOD_QUERY', payload: query }};
 
 export const searchForFood = (city, query) => {
+  console.log(city, query);
   return (dispatch) => {
     return axios({
       method: 'post',
@@ -178,7 +179,7 @@ export const searchForFood = (city, query) => {
   }
 }
   
-const updateFoodResults = (searchResults) => ({ type: 'UPDATE_FOODRESULTS', payload: searchResults})
+const updateFoodResults = (searchResults) => ({ type: 'UPDATE_FOOD_RESULTS', payload: searchResults})
 
 export const addFoodToTrip = (food, username, city) => {
   console.log(food);
@@ -199,6 +200,7 @@ export const addFoodToTrip = (food, username, city) => {
 }
 
 export const fetchFoodFromTrip = (username, city) => {
+  console.log(username, city)
   //dispatch({ type: 'LOADING' });	
   return (dispatch) => {
     return axios({
@@ -209,7 +211,9 @@ export const fetchFoodFromTrip = (username, city) => {
         tripCity: city
       }
     }).then(
-      results => { dispatch(setTripEatin(results.data.foods)) },
+      results => { 
+        console.log('fetched foods', results.data.foods);
+        dispatch(setTripEatin(results.data.foods)) },
       error => { dispatch(badStuff(err)) }
     )
   }

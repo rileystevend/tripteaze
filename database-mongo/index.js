@@ -103,11 +103,13 @@ let addRestaurantToTrip = (food, username, city, callback) => {
       console.log('error: ', err);
       callback(err);
     } else {
+      console.log(user);
       Trip.findOne({user: user.id, city: city}, function (err, trip) {
         if(err) {
           console.log('error', err);
           callback(err);
         } else {
+          console.log(trip.city, trip.id);
           Restaurant.findOneAndUpdate({ id: food.restaurant.id},
             {$set: {
               id: food.restaurant.id,
@@ -264,14 +266,11 @@ let showTripEvents = (username, city, callback) => {
           console.log('error', err);
           callback(err);
         } else {
-          //then find all trips for selected user
-          Trip.findOne({user: user.id}, function (err, trip) {
-            if(err) {
-              callback(err, null);
-            } else {
-              getTripEvents(trip.id, callback);
-            }
-          });
+          if(err) {
+            callback(err, null);
+          } else {
+            getTripEvents(trip.id, callback);
+          }
         }
       });
     }
@@ -291,14 +290,11 @@ let showTripRestaurants = (username, city, callback) => {
           console.log('error', err);
           callback(err);
         } else {
-          //then find all trips for selected user
-          Trip.findOne({ user: user.id }, function (err, trip) {
-            if (err) {
-              callback(err, null);
-            } else {
-              getTripRestaurants(trip.id, callback);
-            }
-          });
+          if (err) {
+            callback(err, null);
+          } else {
+            getTripRestaurants(trip.id, callback);
+          }
         }
       });
     }
@@ -421,7 +417,7 @@ module.exports.remove = remove;
 module.exports.showAllPublicTrips = showAllPublicTrips;
 module.exports.userExists = userExists;
 module.exports.showTripEvents = showTripEvents;
-module.exports.showTripRestaurants = showTripEvents;
+module.exports.showTripRestaurants = showTripRestaurants;
 module.exports.getTripRestaurants = getTripRestaurants;
 module.exports.getTripEvents = getTripEvents;
 

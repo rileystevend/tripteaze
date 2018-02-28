@@ -142,7 +142,7 @@ getTripsEvents = (trips, callback) => {
 			fromDate: trips[i].tripFromDate,
 			toDate: trips[i].tripToDate
 		}));
-		
+
 		const tripID = trips[i].id
 		db.getTripEvents(tripID, function (err, events) {
 			fullTrips[i].events = events;
@@ -291,7 +291,6 @@ app.post('/foods/add', function (req, res) {
 	const food = req.body.tripFood;
 	const user = req.body.tripUser;
 	const city = req.body.tripCity;
-
 	db.addRestaurantToTrip(food, user, city, function (err) {
 		if (err) {
 			console.log(err);
@@ -305,7 +304,6 @@ app.post('/foods/add', function (req, res) {
 app.get('/foods', (req, res) => {
 	const user = req.query.tripUser;
 	const city = req.query.tripCity;
-	console.log('get foods', req.query);
 	db.showTripRestaurants(user, city, function (err, data) {
 		if (err) {
 			res.status(500).end(err);
