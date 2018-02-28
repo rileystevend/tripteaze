@@ -194,17 +194,15 @@ class SearchPage extends React.Component {
       <div>
         <Link to= 'trips'> UserPage </Link>
         {drawer()}
-        <Paper>
-          {message}
-          <div>
-            Select Your Trip Dates!
+        <Paper style = {{display: 'flex', flexFlow: 'row wrap', margin: '10px'}}>
+          <div style= {{ display: 'flex', flexFlow: 'column wrap' }}>
+            <h5> Select Your Trip Dates! </h5>
             <DatePicker
                 floatingLabelText="From"
                 autoOk={true}
                 onChange={updateFromDate}
                 minDate={today}
               />
-
             <DatePicker
               floatingLabelText="To"
               autoOk={true}
@@ -212,45 +210,45 @@ class SearchPage extends React.Component {
               // defaultDate={} TODO: set default "to" date as the "from" date
               minDate={this.props.state.minToDate}
             />
+            <div>
+              <TextField id='city' value={this.props.state.city} onChange={this.updateCity.bind(this)} />
+              <RaisedButton onClick={this.submit.bind(this)} label='Create Trip' disabled={!this.props.state.authenticated} />
+            </div>
           </div>
-          <h4> {message} </h4>
-          <br />
-          <TextField id='city' value={this.props.state.city} onChange={this.updateCity.bind(this)} />
-          <RaisedButton onClick={this.submit.bind(this)} label='Create Trip' disabled={!this.props.state.authenticated} />
-          <br />
-
           {dropdown()}
-          
-          <Paper>
-            {messageEvents}
-            <form onSubmit = {this.submitEventQuery.bind(this)}>
-              <TextField id = 'event' onChange = {this.updateEventQuery.bind(this)}/>
-              <RaisedButton 
-                onClick={this.submitEventQuery.bind(this)} 
-                label='Search events for your trip!' 
-                />
-            </form>
-            {messageFood}
-            <form onSubmit={this.submitFoodQuery.bind(this)}>
-              <input type='test' onChange={this.updateFoodQuery.bind(this)} />
-              <input type='submit' value='Search for Food for your trip!' />
-            </form>
-          </Paper>
-          
-          <Paper>
-            <Events
-              events={state.eventResults}
-              addEventToTrip={actions.addEventToTrip}
-              user={state.username}
-              city={this.state.activeCity}
-            />
-            <Eatin
-              restaurants={state.foodResults}
-              addFoodToTrip={actions.addFoodToTrip}
-              user={state.username}
-              city={this.state.activeCity}
-            />
-          </Paper>
+        </Paper>
+        
+        <Paper style={{ display: 'flex', flexFlow: 'row wrap', margin: '10px' }}>
+          <h4 style = {{width: '100%'}}> {message} </h4>
+          <div>
+            <TextField id = 'event' onChange = {this.updateEventQuery.bind(this)}/>
+            <RaisedButton 
+              onClick={this.submitEventQuery.bind(this)} 
+              label='Search Events' 
+              />
+          </div>
+          <div>
+            <TextField id='food' onChange={this.updateFoodQuery.bind(this)} />
+            <RaisedButton 
+              onClick={this.submitFoodQuery.bind(this)} 
+              label='Search Food'              
+              />
+          </div>
+        </Paper>
+        
+        <Paper style={{ display: 'flex', flexFlow: 'row wrap', margin: '10px' }}>
+          <Events
+            events={state.eventResults}
+            addEventToTrip={actions.addEventToTrip}
+            user={state.username}
+            city={this.state.activeCity}
+          />
+          <Eatin
+            restaurants={state.foodResults}
+            addFoodToTrip={actions.addFoodToTrip}
+            user={state.username}
+            city={this.state.activeCity}
+          />
         </Paper>
       </div>
     );

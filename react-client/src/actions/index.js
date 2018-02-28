@@ -160,7 +160,7 @@ const setTripEvents = (events) => ({ type: 'REFRESH_TRIP_EVENTS', payload: event
 
 /***************************** FOOD *************************************/
 
-export const updateFoodQuery = (query) => {console.log(query); return { type: 'UPDATE_FOOD_QUERY', payload: query }};
+export const updateFoodQuery = (query) => {return { type: 'UPDATE_FOOD_QUERY', payload: query }};
 
 export const searchForFood = (city, query) => {
   console.log(city, query);

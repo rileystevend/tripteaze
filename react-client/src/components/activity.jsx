@@ -1,12 +1,14 @@
 import React from 'react';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 
+//onClick={() => props.deleteEvent(event,props.user,props.city)}
+
 let Activity = (props) => {
   let cardStyle = {};
   if (props.sidebar) {
-    cardStyle = { textAlign: 'left'};
+    cardStyle = { textAlign: 'left', margin: '5px'};
   } else {
-    cardStyle = { textAlign: 'left', width: '300px' };
+    cardStyle = { textAlign: 'left', margin: '5px', width: '300px' };
   }
   
   if (props.type === 'event') {

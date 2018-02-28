@@ -1,20 +1,67 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+
+import { GridList, GridTile } from 'material-ui/GridList';
+import Subheader from 'material-ui/Subheader';
+import IconButton from 'material-ui/IconButton';
+import AddBorder from 'material-ui/svg-icons/content/add-circle-outline';
+
 
 const Eatin = (props) => {
-  return (
-    <div>
-      {props.restaurants.map((food, index) => (
-        <div key= {index} >
-          <RaisedButton onClick={() => props.addFoodToTrip(food, props.user, props.city)} label='Add' />
-            Restraurant Name
-            <a href={food.restaurant.url}>  {food.restaurant.name} </a> 
-            average_cost_for_two
-            { food.restaurant.average_cost_for_two }
-        </div>
-    ))}
-    </div>
-  );
+
+  const styles = {
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+    },
+    gridList: {
+      width: '100%',
+      height: 900,
+      overflowY: 'auto',
+    },
+  };
+
+  console.log(props.restaurants);
+  if (props.restaurants.length !== 0) {
+    return (
+      <div style={styles.root}>
+        <GridList
+          cellHeight={180}
+          style={styles.gridList}
+        >
+          <Subheader>restaurants</Subheader>
+          {props.restaurants.map((food) => {
+            console.log(food);
+            if (food.restaurant.featured_image) {
+              return (
+                <GridTile
+                  key={food.restaurant.id}
+                  title={food.restaurant.name}
+                  subtitle= {`Cost for Two $${food.restaurant.average_cost_for_two}`}
+                  actionIcon={<IconButton onClick={() => props.addFoodToTrip(food, props.user, props.city)}><AddBorder color="white" /></IconButton>}
+                >
+                  <img src={food.restaurant.featured_image} alt='' />
+                </GridTile>
+              );
+            } else {
+              return(
+                <GridTile
+                  key={food.restaurant.id}
+                  title={food.restaurant.name}
+                  subtitle={`Cost for Two $${food.restaurant.average_cost_for_two}`}
+                  actionIcon={<IconButton onClick={() => props.addFoodToTrip(food, props.user, props.city)}><AddBorder color="white" /></IconButton>}
+                >
+                  <img src='' />
+                </GridTile>
+              )
+            }
+          })}
+        </GridList>
+      </div>
+    );
+  } else {
+    return null;
+  }
 }
 
 export default Eatin;

@@ -20,7 +20,7 @@ const Trip = (props) => {
 
   if (props.editable === true) {
     return (
-      <Card> 
+      <Card style = {{margin: '10px'}}> 
         <CardTitle
           title = {props.trip.city}
           subtitle = {moment(props.trip.fromDate).format('MM/DD/YYYY') + ' - ' + moment(props.trip.toDate).format('MM/DD/YYYY')}
