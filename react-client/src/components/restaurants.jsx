@@ -13,15 +13,18 @@ const Eatin = (props) => {
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'space-around',
+      width: '50%'
     },
     gridList: {
       width: '100%',
-      height: 900,
+      height: 600,
       overflowY: 'auto',
     },
+    anchor: {
+      color: 'white'
+    }
   };
 
-  console.log(props.restaurants);
   if (props.restaurants.length !== 0) {
     return (
       <div style={styles.root}>
@@ -31,12 +34,11 @@ const Eatin = (props) => {
         >
           <Subheader>restaurants</Subheader>
           {props.restaurants.map((food) => {
-            console.log(food);
             if (food.restaurant.featured_image) {
               return (
                 <GridTile
                   key={food.restaurant.id}
-                  title={food.restaurant.name}
+                  title= {<a style = {styles.anchor} href = {food.restaurant.url} target = "_blank" >{food.restaurant.name}</a>}
                   subtitle= {`Cost for Two $${food.restaurant.average_cost_for_two}`}
                   actionIcon={<IconButton onClick={() => props.addFoodToTrip(food, props.user, props.city)}><AddBorder color="white" /></IconButton>}
                 >

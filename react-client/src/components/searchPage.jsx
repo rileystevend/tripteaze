@@ -180,7 +180,7 @@ class SearchPage extends React.Component {
               />
               {activeTrip.events.map((event, index) => 
                 (<Activity key={index} sidebar = 'true'
-                  type='event' activity={event} />))}
+                  type='event' activity={event} delete={actions.deleteEvent} />))}
               {activeTrip.eatin.map((eatin, index) => 
                 (<Activity key={index} sidebar='true'
                   type='food' activity={eatin} />))}
@@ -236,7 +236,7 @@ class SearchPage extends React.Component {
           </div>
         </Paper>
         
-        <Paper style={{ display: 'flex', flexFlow: 'row wrap', margin: '10px' }}>
+        <Paper style={{ display: 'flex', flexFlow: 'row', margin: '10px' }}>
           <Events
             events={state.eventResults}
             addEventToTrip={actions.addEventToTrip}

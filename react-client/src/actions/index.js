@@ -163,7 +163,6 @@ const setTripEvents = (events) => ({ type: 'REFRESH_TRIP_EVENTS', payload: event
 export const updateFoodQuery = (query) => {return { type: 'UPDATE_FOOD_QUERY', payload: query }};
 
 export const searchForFood = (city, query) => {
-  console.log(city, query);
   return (dispatch) => {
     return axios({
       method: 'post',
@@ -182,7 +181,6 @@ export const searchForFood = (city, query) => {
 const updateFoodResults = (searchResults) => ({ type: 'UPDATE_FOOD_RESULTS', payload: searchResults})
 
 export const addFoodToTrip = (food, username, city) => {
-  console.log(food);
   return (dispatch) => {
     return axios({
       method: 'post',
@@ -200,7 +198,6 @@ export const addFoodToTrip = (food, username, city) => {
 }
 
 export const fetchFoodFromTrip = (username, city) => {
-  console.log(username, city)
   //dispatch({ type: 'LOADING' });	
   return (dispatch) => {
     return axios({
@@ -212,7 +209,6 @@ export const fetchFoodFromTrip = (username, city) => {
       }
     }).then(
       results => { 
-        console.log('fetched foods', results.data.foods);
         dispatch(setTripEatin(results.data.foods)) },
       error => { dispatch(badStuff(err)) }
     )
@@ -255,7 +251,6 @@ export const deleteEvent = (event, username, city) => {
 }
 
 export const toggleTripStatus = (user, trip) => {
-  console.log(user, trip);
   return dispatch => {
     return axios ({
       method: 'patch',

@@ -4,7 +4,7 @@ const config = require('../config.js');
 let searchForFoods = ( cityId, searchFood, cb ) => {
   
   let params = {
-    url: `https://developers.zomato.com/api/v2.1/search?entity_id=${cityId}&entity_type=city&q=${searchFood}&count=10`,
+    url: `https://developers.zomato.com/api/v2.1/search?entity_id=${cityId}&entity_type=city&q=${searchFood}&count=25`,
     headers: {
       'user-key': config.zomatoKey
     }

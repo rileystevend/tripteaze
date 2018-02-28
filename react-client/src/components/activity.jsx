@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton/';
 
 //onClick={() => props.deleteEvent(event,props.user,props.city)}
 
@@ -10,6 +11,8 @@ let Activity = (props) => {
   } else {
     cardStyle = { textAlign: 'left', margin: '5px', width: '300px' };
   }
+
+
   
   if (props.type === 'event') {
     return (
@@ -22,6 +25,9 @@ let Activity = (props) => {
           {props.activity.date}?
           {props.activity.details}?
         </CardText>
+        <CardActions>
+          <FlatButton onClick={() => props.deleteEvent(event, props.user, props.city)} label='Remove' />
+        </CardActions>
       </Card>
     );
 
@@ -29,13 +35,16 @@ let Activity = (props) => {
     return (
       <Card style={cardStyle}>
         <CardHeader title={props.activity.name} subtitle='Food' />
-        <CardMedia src={props.activity.logo} alt=''>
+        <CardMedia src={props.activity.featured_image} alt=''>
         </CardMedia>
         <CardText>
           We don't save much detail rn
           {props.activity.address}?
           {props.activity.details}?
         </CardText>
+        <CardActions>
+          <FlatButton onClick= {() => props.deleteEvent(event,props.user,props.city)} label = 'Remove' />
+        </CardActions>
       </Card>
     );
   }
