@@ -37,8 +37,14 @@ export const login = (username, password) => {
         password: password
       }
     }).then (
-      results => dispatch(authenticate()),
-      error => dispatch(badStuff(error))
+      results => {
+        if (results.data.error) {
+          alert(results.data.message);
+        } else {
+          dispatch(authenticate())
+        }
+      },
+      error => {console.log('error', error); dispatch(badStuff(error))}
     );
   }
 };
@@ -54,7 +60,13 @@ export const signup = (username, password) => {
         password: password
       }
     }).then (
-      results => dispatch(authenticate()),
+      results => {
+        if (results.data.error) {
+          alert(results.data.message);
+        } else {
+          dispatch(authenticate())
+        }
+      },
       error => dispatch(badStuff(error))
     );
   };
