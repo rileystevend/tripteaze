@@ -1,8 +1,7 @@
 import React from 'react';
+
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton/';
-
-//onClick={() => props.deleteEvent(event,props.user,props.city)}
 
 let Activity = (props) => {
   let cardStyle = {};

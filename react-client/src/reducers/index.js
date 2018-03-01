@@ -23,7 +23,9 @@ const reducer = function (state = initialState, action) {  //if state is undefin
 
   switch (action.type) {
     case 'SHOW_TRIPS' :
-      return Object.assign({}, state, {trips: action.payload})
+      return Object.assign({}, state, {trips: action.payload});
+    case 'RESET_TRIPS' :
+      return Object.assign({}, state, {trips: []});
     case 'ACTIVATE_EVENT_SNACKBAR' :
       return Object.assign({}, state, { eventSnackbar: true });
     case 'DEACTIVATE_EVENT_SNACKBAR' :
@@ -37,7 +39,7 @@ const reducer = function (state = initialState, action) {  //if state is undefin
     case 'UPDATE_PASSWORD':
       return Object.assign({}, state, {password: action.payload})
     case 'AUTHEN' :
-      return Object.assign({}, state, { authenticated: true });
+      return Object.assign({}, state, { authenticated: true, password: '' });
     case 'LOGOUT' :
       return initialState;
     case 'UPDATE_EVENT_QUERY':

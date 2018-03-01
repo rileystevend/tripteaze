@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux';
 import {Link} from 'react-router-dom';
 
 import Paper from 'material-ui/Paper';
-import { RaisedButton } from 'material-ui';
+import RaisedButton from 'material-ui/RaisedButton';
 
-import Trip from './trip.jsx';
+import Trip from './trip.jsx'; 
 import * as actions from '../actions/index.js';
 
 class UserPage extends React.Component {

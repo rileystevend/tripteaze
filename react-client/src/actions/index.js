@@ -52,6 +52,8 @@ export const login = (username, password) => {
 export const signup = (username, password) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
+    dispatch({ type: 'RESET_TRIPS' });
+    
     return axios({
       method: 'post',
       url: '/signup',

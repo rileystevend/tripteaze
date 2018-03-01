@@ -51,7 +51,8 @@ app.get('/login', (req, res) =>{
 app.get('/logout', (req, res) => {
    req.session.destroy((err) => {
      if (err) {
-       throw err
+			 throw err;
+			 res.status(500).end()
      }
    })
    res.end();

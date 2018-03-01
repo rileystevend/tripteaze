@@ -38,7 +38,7 @@ let searchForCityId = (city, cb) => {
   let params = {
     url: `https://developers.zomato.com/api/v2.1/cities?q=${city}`,
     headers: {
-      'user-key': config.zomatoKey
+      'user-key': key
     }
   }
 

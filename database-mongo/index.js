@@ -1,14 +1,17 @@
 var mongoose = require('mongoose');
 
 let uri;
+
 if (!process.env.MONGODB_URI) {
+  console.log('DEV')
   config = require('../config.js');
   uri = config.mongo;
 } else {
+  console.log('PROCESS PICKED UP', process.env.MONGODB_URI)
   uri = process.env.MONGODB_URI;
 }
 //URI is stored either on heroku or local config file
-
+console.log('heyyyyooooooo');
 let Schema = mongoose.Schema;
 mongoose.connect(uri);
 
