@@ -4,6 +4,12 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
+const styles = {
+  button: {
+    marginRight: '1em'
+  }
+}
+
 class Login extends React.Component {
   constructor (props) {
     super(props);
@@ -51,9 +57,13 @@ class Login extends React.Component {
 
     return (
       <div>
-        <RaisedButton label="Log In" onClick={this.handleOpen.bind(this)} />
+        <RaisedButton
+          label="Login"
+          onClick={this.handleOpen.bind(this)}
+          style={styles.button}
+        />
         <Dialog
-          title="Log In"
+          title="Login"
           actions={actions}
           modal={false}
           open={this.state.open}

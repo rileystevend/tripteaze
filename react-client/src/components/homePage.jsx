@@ -11,47 +11,80 @@ import { Link } from 'react-router-dom';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import {cyan500} from 'material-ui/styles/colors';
+import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 
-// import Background from '../../../images/bg.jpeg';
+// import Background from '../../../images/bg.jpg';
 
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const muiTheme = getMuiTheme({
+  card: {
+    fontWeight: 'bold',
+    titleColor: cyan700,
+    subtitleColor: cyan200
+  },
+  cardText: {
+    textColor: cyan800
+  },
   palette: {
-    textColor: cyan500,
-  }
+    textColor: cyan900
+  },
+  raisedButton: {
+    color: cyan700,
+    fontSize: 17,
+    margin: 12,
+    textColor: cyan50
+  },
+  flatButton: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    textColor: cyan600,
+  },
 });
 
 const styles = {
   body: {
-    border: '5px solid red',
-    display: 'block',
-    textAlign: 'center'
+    textAlign: 'center',
+    width: '100%'
   },
   discoverTrips: {
-    border: '5px solid green'
+    // backgroundColor: cyan50,
+    background: `linear-gradient(to bottom right, #f9f9f9, ${cyan50})`,
+    color: cyan800,
+    fontSize: 30,
+    fontWeight: 'bold',
+    padding: '0.5%',
+    textAlign: 'center',
   },
   header: {
-    backgroundImage: `url('http://blog.hotelengine.com/wp-content/uploads/2017/10/pexels-photo-346885-1200x550.jpeg')`,
-    border: '5px solid blue',
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: '100px',
+    // backgroundColor: cyan100,
+    background: `linear-gradient(to bottom right, ${cyan50}, ${cyan100})`,
+    // backgroundImage: `url(${Background})`,
+    // backgroundImage: `url('http://blog.hotelengine.com/wp-content/uploads/2017/10/pexels-photo-346885-1200x550.jpeg')`,
+    // border: '1px solid white',
+    // margin: '0 auto',
+    fontSize: 45,
+    fontWeight: 'bold',
+    paddingTop: '15%',
+    marginTop: '3%',
     textAlign: 'center'
   },
-  paperContainer: {
-    // margin: '0 auto',
-    // position: 'relative',
-  },
   navLinks: {
-    border: '5px solid yellow',
-    float: 'right',
+    // border: '1px solid gray',
     display: 'flex',
     flexDirection: 'row',
+    marginTop: '0.5%',
+    marginLeft: '0.5%',
+    position: 'absolute',
+    // right: '0.5em'
+  },
+  tripButton: {
+    width: '50%',
     margin: '0 auto',
+    // marginBottom: '1%',
+    marginTop: '2%'
   }
 }
 
@@ -86,47 +119,40 @@ class Home extends React.Component {
 
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-
-        <Paper style={styles.paperContainer}>
-          <div style={styles.header}>
-            <h1> TripTeaze </h1>
-        
-            <div style={styles.navLinks}>
-              <Login login={actions.login}
-                username={state.username}
-                password={state.password}
-                updateUsername={actions.updateUsername}
-                updatePassword={actions.updatePassword}
-              />
-              <Signup signup={actions.signup}
-                username={state.username}
-                password={state.password}
-                updateUsername={actions.updateUsername}
-                updatePassword={actions.updatePassword}
-              />
-              <RaisedButton label="User Page" onClick={this.toUserPage.bind(this)} />
-            </div>
+        <Paper>
+          <div style={styles.navLinks}>
+            <Login login={actions.login}
+              username={state.username}
+              password={state.password}
+              updateUsername={actions.updateUsername}
+              updatePassword={actions.updatePassword}
+            />
+            <Signup signup={actions.signup}
+              username={state.username}
+              password={state.password}
+              updateUsername={actions.updateUsername}
+              updatePassword={actions.updatePassword}
+            />
           </div>
 
-          <div style = {styles.body}>
+          <div style={styles.header}>TripTeaze</div>
+
+          <div style={styles.body}>
             <RaisedButton
-              label="Create a trip!"
+              label="Create a trip"
               onClick={this.toSearchPage.bind(this)}
-              style={{
-                width: '50%',
-                margin: '0 auto',
-                backgroundColor: '#FF9800',
-              }}
+              style={styles.tripButton}
             />
 
-            <div style={styles.discoverTrips}>
-              <h3> ~Discover~ </h3>
+            <div style={{marginTop: '1em'}}>
+              <div style={styles.discoverTrips}>Discover</div>
 
               {state.trips.map((trip, index) => (
                 <Trip key={index} trip={trip} />
               ))}
             </div>
           </div>
+
         </Paper>
       </MuiThemeProvider>
     )};
