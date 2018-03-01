@@ -7,6 +7,20 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import FlatButton from 'material-ui/FlatButton';
 import moment from 'moment';
 
+const styles = {
+  tripDetails: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  tripCard: {
+    border: '5px solid purple',
+    display: 'inline-block',
+    width: '50%',
+    verticalAlign: 'top'
+  }
+}
+
 const Trip = (props) => {
 
   const makePublic = () => {
@@ -55,16 +69,16 @@ const Trip = (props) => {
     // we should eventually add a pic as 'cardMedia'
   } else {
     return (
-      <Card>
+      <Card style={styles.tripCard}>
         <CardTitle title={props.trip.city} />
         <CardText>
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+          <div style={styles.tripDetails}>
             {props.trip.events.map((event, index) =>
               <Activity key={index}
                 type='event' activity={event} />
             )}
           </div>
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+          <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
               <Activity key={index}
                 type='eatin' activity={food} />

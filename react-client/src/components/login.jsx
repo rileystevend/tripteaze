@@ -12,6 +12,7 @@ class Login extends React.Component {
       open: false
     }
   }
+
   submit (event) {
     event.preventDefault();
     this.props.login(this.props.username, this.props.password);
@@ -24,13 +25,14 @@ class Login extends React.Component {
   changePassword (event) {
     this.props.updatePassword(event.target.value);
   }
+
   handleOpen() {
     this.setState({ open: true });
-  };
+  }
 
   handleClose() {
     this.setState({ open: false });
-  };
+  }
 
   render() {
     const actions = [
@@ -57,10 +59,18 @@ class Login extends React.Component {
           open={this.state.open}
           onRequestClose={this.handleClose.bind(this)}>
           <label>Username:</label>
-          <TextField id='LUsername' type="text" onChange={this.changeUsername.bind(this)} />
+          <TextField
+            id='LUsername'
+            type="text"
+            onChange={this.changeUsername.bind(this)}
+          />
           <br/>
           <label>Password:</label>
-          <TextField id='LPassword' type="password" onChange={this.changePassword.bind(this)} />
+          <TextField
+            id='LPassword'
+            type="password"
+            onChange={this.changePassword.bind(this)}
+          />
         </Dialog>
       </div>
     )
