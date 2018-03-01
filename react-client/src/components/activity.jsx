@@ -11,7 +11,7 @@ let Activity = (props) => {
   } else {
     cardStyle = { textAlign: 'left', margin: '5px', width: '300px' };
   }
-
+  
 
   
   if (props.type === 'event') {
@@ -26,7 +26,7 @@ let Activity = (props) => {
           {props.activity.details}?
         </CardText>
         <CardActions>
-          <FlatButton onClick={() => props.deleteEvent(event, props.user, props.city)} label='Remove' />
+          <FlatButton onClick={() => props.deleteEvent(props.activity, props.user, props.city)} label='Remove' />
         </CardActions>
       </Card>
     );

@@ -180,7 +180,10 @@ class SearchPage extends React.Component {
               />
               {activeTrip.events.map((event, index) => 
                 (<Activity key={index} sidebar = 'true'
-                  type='event' activity={event} delete={actions.deleteEvent} />))}
+                  type='event' activity={event}
+                  user={state.username}
+                  city={this.state.activeCity}
+                  deleteEvent={actions.deleteEvent} />))}
               {activeTrip.eatin.map((eatin, index) => 
                 (<Activity key={index} sidebar='true'
                   type='food' activity={eatin} />))}
@@ -242,6 +245,8 @@ class SearchPage extends React.Component {
             addEventToTrip={actions.addEventToTrip}
             user={state.username}
             city={this.state.activeCity}
+            eventSnackbar={state.eventSnackbar}
+            onRequestClose={actions.deactivateEventSnackbar}
           />
           <Eatin
             restaurants={state.foodResults}
