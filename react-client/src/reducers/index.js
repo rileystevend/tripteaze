@@ -10,6 +10,7 @@ const initialState = {
   tripToDate: '',
   minToDate: {}, // so users cannot set a "to" date before the "from" date
   eventResults: [],
+  eventSnackbar: false,
   foodQuery: '',
   foodResults: [],
   activeTrip: {
@@ -23,6 +24,10 @@ const reducer = function (state = initialState, action) {  //if state is undefin
   switch (action.type) {
     case 'SHOW_TRIPS' :
       return Object.assign({}, state, {trips: action.payload})
+    case 'ACTIVATE_EVENT_SNACKBAR' :
+      return Object.assign({}, state, { eventSnackbar: true });
+    case 'DEACTIVATE_EVENT_SNACKBAR' :
+      return Object.assign({}, state, { eventSnackbar: false });
     case 'UPDATE_EVENT_RESULTS' :
       return Object.assign({}, state, {eventResults: action.payload})
     case 'UPDATE_FOOD_RESULTS':

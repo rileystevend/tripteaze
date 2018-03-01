@@ -145,7 +145,10 @@ export const addEventToTrip = (event, username, city) => {
         tripCity: city
       }
     }).then(
-      results => { dispatch(fetchEventsFromTrip(username, city)) },
+      results => { 
+        dispatch(fetchEventsFromTrip(username, city));
+        dispatch(activateEventSnackbar());
+      },
       error => dispatch(badStuff(error))
     );
   };
@@ -169,6 +172,10 @@ export const fetchEventsFromTrip = (username, city) => {
 }
 
 const setTripEvents = (events) => ({ type: 'REFRESH_TRIP_EVENTS', payload: events });
+
+export const activateEventSnackbar = () => ({type: 'ACTIVATE_EVENT_SNACKBAR'});
+
+export const deactivateEventSnackbar = () => ({type: 'DEACTIVATE_EVENT_SNACKBAR'});
 
 /***************************** FOOD *************************************/
 
@@ -256,11 +263,12 @@ export const deleteEvent = (event, username, city) => {
         eventID: event.id
       }
     }).then (
-      results => {dispatch(fetchEventsFromTrip(username,city))},
+      results => { dispatch(fetchEventsFromTrip(username, city)) },
       error => {dispatch(badStuff(error))}
     );
   };
 }
+
 
 export const toggleTripStatus = (user, trip) => {
   return dispatch => {

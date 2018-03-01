@@ -29,6 +29,9 @@ const Trip = (props) => {
           <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
             {props.trip.events.map((event, index) =>
               <Activity key={index}
+                deleteEvent={props.deleteEvent}
+                user={props.user}
+                city={props.trip.city}
                 type='event' activity={event} />
             )}
           </div>

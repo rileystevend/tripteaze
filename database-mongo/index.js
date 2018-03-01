@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
-
+const config = require('../config.js');
 //using URI stored on heroku or localhost
-const uri = process.env.MONGODB_URI ? process.env.MONGODB_URI : 'mongodb://localhost/test'
+const uri = process.env.MONGODB_URI ? process.env.MONGODB_URI : config.mongo
 
 let Schema = mongoose.Schema;
 mongoose.connect(uri);

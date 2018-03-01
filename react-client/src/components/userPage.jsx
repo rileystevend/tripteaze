@@ -41,6 +41,7 @@ class UserPage extends React.Component {
                 user = {this.props.state.username} 
                 trip = {trip} 
                 editable = {true}
+                deleteEvent={this.props.actions.deleteEvent}
                 delete = {this.props.actions.deleteTrip}
                 toggleStatus = {this.props.actions.toggleTripStatus}
               />)}

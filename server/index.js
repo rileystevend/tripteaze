@@ -216,7 +216,7 @@ app.post('/events', function (req, res) {
 });
 
 app.post('/events/remove', function (req, res) {
-	console.log('event to be removed',req.body);
+
 	db.remove('event', req.body.eventID, function(err) {
 		if(err) {
 			res.status(500).send(err);
@@ -244,7 +244,7 @@ app.post('/events/add', function (req,res) {
 app.get('/events', (req, res) => {
 	const user = req.query.tripUser;
 	const city = req.query.tripCity;
-	console.log('get events', req.query);
+
 	db.showTripEvents(user, city, function(err, data) {
 		if (err) {
 			res.status(500).end(err);
