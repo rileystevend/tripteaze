@@ -34,13 +34,21 @@ import Login from './login.jsx';
 import Eatin from './restaurants.jsx';
 
 export const styles = {
+  activityContainer: {
+    display: 'inline-block',
+    marginBottom: '1%',
+    marginLeft: '2%',
+    marginTop: '1%',
+    verticalAlign: 'top',
+    width: '47%'
+  },
   activityTitle: {
     backgroundColor: '#f9f9f9',
     color: cyan800,
     fontSize: 20,
     fontWeight: 'bold',
     padding: '1%',
-    marginBottom: '1%',
+    margin: '2%',
     textAlign: 'left'
   },
   cardTitle: {
@@ -61,21 +69,6 @@ export const styles = {
     verticalAlign: 'top',
     width: '30%',
   },
-  eventContainer: {
-    display: 'inline-block',
-    marginBottom: '1%',
-    marginTop: '1%',
-    verticalAlign: 'top',
-    width: '49%'
-  },
-  foodContainer: {
-    display: 'inline-block',
-    marginBottom: '1%',
-    marginLeft: '2%',
-    marginTop: '1%',
-    verticalAlign: 'top',
-    width: '49%'
-  },
   navButtons: {
     marginRight: '1em',
     marginLeft: '1em'
@@ -86,16 +79,14 @@ export const styles = {
     margin: '10px'
   },
   searchBar: {
-    padding: '3%',
-    paddingLeft: '5%'
+    paddingLeft: '5%',
+    paddingRight: '5%'
   },
   searchInput: {
     width: '80%'
   },
   searchResults: {
-    display: 'flex',
-    flexFlow: 'row',
-    margin: '10px'
+    margin: '2%'
   },
   tripDatesCard: {
     display: 'flex',
@@ -136,7 +127,10 @@ class SearchPage extends React.Component {
     } else {
       this.state = {
         open: false,
-        dropdown: 0
+        dropdown: 0,
+        // if user is anon
+        anonSubmit: false,
+        anonOpen: false
       }
     }
   }
@@ -165,14 +159,26 @@ class SearchPage extends React.Component {
     return newWords.join(' ');
   } 
 
-  submit (event) {  //makes a new trip
+  submit (event) {  // makes a new trip for logged in user
+    let state = this.props.state;
+    event.preventDefault();
+    if (state.authenticated) {
+      if (state.city !== '' && state.tripFromDate !== '' && state.tripToDate !== '') {
+        this.props.actions.makeNewTrip(state.username, state.city, state.trips.length, state.tripFromDate, state.tripToDate);
+        this.setState({ activeCity: state.city, open: true });
+      }
+    }
+  };
+
+  // TODO: still trying to get this to work
+  submitAsAnon(event) {
     let state = this.props.state;
     event.preventDefault();
     if (state.city !== '' && state.tripFromDate !== '' && state.tripToDate !== '') {
-      this.props.actions.makeNewTrip(state.username, state.city, state.trips.length, state.tripFromDate, state.tripToDate);
-      this.setState({ activeCity: state.city, open: true });
+      this.setState({ anonOpen: true, anonSubmit: true });
     }
-  };
+    // console.log('props', state)
+  }
 
 /***************************** Event - search **********************************/
   updateEventQuery(event) {
@@ -223,7 +229,7 @@ class SearchPage extends React.Component {
       messageEvents = `Type a keyword to find events in ${activeCity}!`;
       messageFood= `Or search for food in ${activeCity}!`;
     }
-  
+
   /*************************** DATE SELECTION STUFF ***************************/
     let today = new Date();
 
@@ -243,8 +249,7 @@ class SearchPage extends React.Component {
     };
 
     /*************************** EXISTING TRIPS DROPDOWN ***************************/
-
-    const dropdown = () => { 
+    const dropdown = () => {
       if (this.props.state.authenticated) {
         return (
           <div>
@@ -325,54 +330,78 @@ class SearchPage extends React.Component {
             </Drawer>
           );
         }
+      // TODO: still trying to get this to work
+      // } else if (this.state.anonSubmit) {
+      //   return (
+      //     <Drawer
+      //       width={400}
+      //       openSecondary={true}
+      //       open={this.state.anonOpen}
+      //     >
+      //       <AppBar
+      //         title={this.props.state.city}
+      //         iconElementLeft={
+      //           <IconButton
+      //             onClick={() => (this.setState({ anonOpen: false, anonSubmit: false }))}
+      //           >
+      //             <NavigationClose />
+      //           </IconButton>}
+      //       />
+      //       <div>Please log in to save this trip!</div>
+      //     </Drawer>
+      //   )
       }
     }
 
     const navLinks = () => {
       if (state.authenticated) {
-        return (<div style={theme.styles.navLinks}>
-          <Link to='/'>
-            <RaisedButton
-              label="Home"
-            />
-          </Link>
-          <Link to='trips'>
-            <RaisedButton
-              label="My Trips"
-              disabled={!this.props.state.authenticated}
-              style={styles.navButtons}
-            />
-          </Link>
-          <Link to='/'>
-            <RaisedButton
-              disabled={!this.props.state.authenticated}
-              onClick={this.props.actions.logOut}
-              label='Log Out'
-            />
-          </Link>
-        </div>);
+        return (
+          <div style={theme.styles.navLinks}>
+            <Link to='/'>
+              <RaisedButton
+                label="Home"
+              />
+            </Link>
+            <Link to='trips'>
+              <RaisedButton
+                label="My Trips"
+                disabled={!this.props.state.authenticated}
+                style={styles.navButtons}
+              />
+            </Link>
+            <Link to='/'>
+              <RaisedButton
+                disabled={!this.props.state.authenticated}
+                onClick={this.props.actions.logOut}
+                label='Log Out'
+              />
+            </Link>
+          </div>
+        );
       } else {
-        return (<div style={theme.styles.navLinks}>
-          <Link to='/'>
-            <RaisedButton
-              label="Home"
+        return (
+          <div style={theme.styles.navLinks}>
+            <Link to='/'>
+              <RaisedButton
+                label="Home"
+              />
+            </Link>
+            <Signup
+              signup={actions.signup}
+              username={state.username}
+              password={state.password}
+              updateUsername={actions.updateUsername}
+              updatePassword={actions.updatePassword}
             />
-          </Link>
-          <Signup
-            signup={actions.signup}
-            username={state.username}
-            password={state.password}
-            updateUsername={actions.updateUsername}
-            updatePassword={actions.updatePassword}
-          />
-          <Login
-            login={actions.login}
-            username={state.username}
-            password={state.password}
-            updateUsername={actions.updateUsername}
-            updatePassword={actions.updatePassword}
-          />
-        </div>);
+            <Login
+              login={actions.login}
+              username={state.username}
+              password={state.password}
+              updateUsername={actions.updateUsername}
+              updatePassword={actions.updatePassword}
+            />
+          </div>
+        )
       }
     }
 
@@ -404,12 +433,34 @@ class SearchPage extends React.Component {
       }
     }
 
+    /************************ CREATE TRIP SEARCH BUTTON ************************/
+    // Renders the appropriate search button based on if user is logged in or not
+    const searchButton = () => {
+      // if (this.props.state.authenticated) {
+        return (
+          <RaisedButton
+            onClick={this.submit.bind(this)}
+            label='Create Trip'
+            disabled={!this.props.state.authenticated}
+          />
+        )
+      // TODO: still trying to get this to work
+      // } else {
+      //   return (
+      //     <RaisedButton
+      //       onClick={this.submitAsAnon.bind(this)}
+      //       label='Create Trip'
+      //     />
+      //   )
+      // }
+    }
+
     /*************************** STUFF ON PAGE ***************************/
     return (
       <MuiThemeProvider muiTheme={theme.muiTheme}>
         <Paper>
           {/************************** NAVIGATION **************************/}
-          {navLinks()};
+          {navLinks()}
           {/******************************* HEADER *******************************/}
           <div style={theme.styles.header}>
             <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
@@ -458,11 +509,7 @@ class SearchPage extends React.Component {
                       onChange={this.updateCity.bind(this)}
                     />
                     <br/>
-                    <RaisedButton
-                      onClick={this.submit.bind(this)}
-                      label='Create Trip'
-                      disabled={!this.props.state.authenticated}
-                    />
+                    {searchButton()}
                   </div>
                 </div>
               </CardText>
@@ -488,12 +535,13 @@ class SearchPage extends React.Component {
             </Card>
           </div>
           
+          {/************************** EXPLORE SECTION **************************/}
           <div style={{marginTop: '3%'}}>
             <div style={theme.styles.discoverTrips}>Explore</div>
             {/************************** SEARCH EVENTS **************************/}
-            <Paper style={styles.eventContainer}>
+            <Paper style={styles.activityContainer}>
+              <div style={styles.activityTitle}>Events</div>
               <div style={styles.searchBar}>
-                <div style={styles.activityTitle}>Events</div>
                 <TextField
                   id = 'event'
                   onChange = {this.updateEventQuery.bind(this)}
@@ -506,6 +554,7 @@ class SearchPage extends React.Component {
                 />
               </div>
 
+              {/************************** EVENT RESULTS **************************/}
               <div style={styles.searchResults}>
                 <Events
                   events={state.eventResults}
@@ -519,9 +568,9 @@ class SearchPage extends React.Component {
             </Paper>
 
             {/************************** SEARCH EATIN **************************/}
-            <Paper style={styles.foodContainer}>
+            <Paper style={styles.activityContainer}>
+            <div style={styles.activityTitle}>Restaurants</div>
               <div style={styles.searchBar}>
-                <div style={styles.activityTitle}>Restaurants</div>
                 <TextField
                   id='food'
                   onChange={this.updateFoodQuery.bind(this)}
@@ -534,6 +583,7 @@ class SearchPage extends React.Component {
                 />
               </div>
 
+              {/************************** EATIN RESULTS **************************/}
               <div style={styles.searchResults}>
                 <Eatin
                   restaurants={state.foodResults}

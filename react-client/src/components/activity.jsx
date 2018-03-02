@@ -73,7 +73,7 @@ let Activity = (props) => {
               style={styles.anchor}
             >{props.activity.name}</a>
           }
-          subtitle = 'Event'
+          // subtitle = {moment(props.activity.start_time).format('MM/DD/YY')}
           titleStyle = {styles.cardTitle}
           subtitleStyle = {styles.cardSubtitle}
         />

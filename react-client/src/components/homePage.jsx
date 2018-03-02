@@ -90,10 +90,22 @@ export const styles = {
     marginLeft: '0.5%',
     position: 'absolute',
   },
+  getStarted: {
+    background: `linear-gradient(to bottom right, white, #f9f9f9)`,
+    color: cyan600,
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginTop: '2%',
+    paddingTop: '1%'
+  },
   tripButton: {
     width: '50%',
     margin: '0 auto',
-    marginTop: '2%'
+    marginTop: '1%'
+  },
+  tripTeazeText: {
+    textDecoration: 'none',
+    color: cyan900
   }
 }
 
@@ -119,34 +131,67 @@ class Home extends React.Component {
     let state = this.props.state;
 
     if (this.props.state.authenticated) {
-      return (<div style={styles.navLinks}>
-        <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage.bind(this)} 
-          label = 'Your Trips'
-        />
-        <RaisedButton style={{ marginRight: '15px' }} onClick = {this.toSearchPage.bind(this)} 
-          label = 'Search'
-        />
-        <RaisedButton style={{ marginRight: '15px' }} onClick = {actions.logOut}
-          label = 'Log Out'
-        />
-      </div>);
+      return (
+        <div style={styles.navLinks}>
+          <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage.bind(this)} 
+            label = 'My Trips'
+          />
+          <RaisedButton style={{ marginRight: '15px' }} onClick = {this.toSearchPage.bind(this)} 
+            label = 'Build'
+          />
+          <RaisedButton style={{ marginRight: '15px' }} onClick = {actions.logOut}
+            label = 'Log Out'
+          />
+        </div>
+      );
+    }
+  }
+
+  getStarted() {
+    let actions = this.props.actions;
+    let state = this.props.state;
+
+    if (state.authenticated) {
+      return (
+        <div>
+          <div style={styles.discoverTrips}>Hello, {state.username}!</div>
+
+          <RaisedButton
+            label="Create new trip"
+            onClick={this.toSearchPage.bind(this)}
+            style={styles.tripButton}
+          />
+        </div>
+      )
     } else {
-      return (<div style={styles.navLinks}>
-        <Login login={actions.login}
-          username={state.username}
-          password={state.password}
-          updateUsername={actions.updateUsername}
-          updatePassword={actions.updatePassword}
-          forward={this.toUserPage.bind(this)}
-        />
-        <Signup signup={actions.signup}
-          username={state.username}
-          password={state.password}
-          updateUsername={actions.updateUsername}
-          updatePassword={actions.updatePassword}
-          forward={this.toUserPage.bind(this)}
-        />
-      </div>);
+      return (
+        <div>
+          <div style={styles.discoverTrips}>
+            Get Started
+            <br/>
+            <div style={{color: cyan500, fontSize: 12, fontStyle: 'italic', fontWeight: 'normal'}}>Don't wait! Plan your next trip today!</div>
+          </div>
+
+          <div style={{display: 'inline-block', marginTop: '1%'}}>
+          <Login login={actions.login}
+            username={state.username}
+            password={state.password}
+            updateUsername={actions.updateUsername}
+            updatePassword={actions.updatePassword}
+            forward={this.toUserPage.bind(this)}
+          />
+          </div>
+          <div style={{display: 'inline-block', marginTop: '1%'}}>
+            <Signup signup={actions.signup}
+              username={state.username}
+              password={state.password}
+              updateUsername={actions.updateUsername}
+              updatePassword={actions.updatePassword}
+              forward={this.toUserPage.bind(this)}
+            />
+          </div>
+        </div>
+      )
     }
   }
 
@@ -161,22 +206,19 @@ class Home extends React.Component {
         <Paper>
           {/************************** NAVIGATION **************************/}
           {this.navBar()}
+
           {/************************** HEADER **************************/}
           <div style={styles.header}>
-            <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
+            <Link to="/" style={styles.tripTeazeText}>
               TripTeaze
             </Link>
           </div>
           
           {/************************** CREATE TRIP **************************/}
           <div style={styles.body}>
-            <RaisedButton
-              label="Create a trip"
-              onClick={this.toSearchPage.bind(this)}
-              style={styles.tripButton}
-            />
+            {this.getStarted()}
 
-            <div style={{marginTop: '1em'}}>
+            <div style={{marginTop: '1%'}}>
               <div style={styles.discoverTrips}>Discover</div>
 
               {state.trips.map((trip, index) => (
