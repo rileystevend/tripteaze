@@ -97,9 +97,16 @@ export const styles = {
     flexFlow: 'row',
     margin: '10px'
   },
-  tripDates: {
+  tripDatesCard: {
     display: 'flex',
     flexFlow: 'column wrap'
+  },
+  tripDatesHeaders: {
+    backgroundColor: '#f9f9f9',
+    color: cyan900,
+    fontSize: 15,
+    fontWeight: 'bold',
+    padding: '1%'
   },
   welcomeUser: {
     marginTop: '1%'
@@ -403,23 +410,26 @@ class SearchPage extends React.Component {
               <CardText
                 expandable={true}
               >
-                <div style = {styles.tripDates}>
-                  <h4>Trip Dates:</h4>
-                  <DatePicker
+                <div style={styles.tripDatesCard}>
+                  <div style={styles.tripDatesHeaders}>Trip Dates:</div>
+                  <div>
+                    <DatePicker
                       floatingLabelText="From"
                       autoOk={true}
                       onChange={updateFromDate}
                       minDate={today}
                     />
-                  <DatePicker
-                    floatingLabelText="To"
-                    autoOk={true}
-                    onChange={updateToDate}
-                    // defaultDate={} TODO: set default "to" date as the "from" date
-                    minDate={this.props.state.minToDate}
-                  />
+                    <DatePicker
+                      floatingLabelText="To"
+                      autoOk={true}
+                      onChange={updateToDate}
+                      // defaultDate={} TODO: set default "to" date as the "from" date
+                      minDate={this.props.state.minToDate}
+                    />
+                  </div>
+                  <br/>
                   <div>
-                    <h4 style = {{width: '100%'}}> {message} </h4>
+                    <div style={styles.tripDatesHeaders}> {message} </div>
                     <TextField
                       id='city'
                       value={this.props.state.city}
