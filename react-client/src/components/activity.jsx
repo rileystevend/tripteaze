@@ -7,7 +7,7 @@ import moment from 'moment';
 
 //onClick={() => props.deleteEvent(event,props.user,props.city)}
 
-const styles = {
+export const styles = {
   anchor: {
     color: cyan700,
     textDecoration: 'none'

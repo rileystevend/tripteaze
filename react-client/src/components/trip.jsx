@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { GridList, GridTile } from 'material-ui/GridList';
 import moment from 'moment';
 import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+import * as activityStyles from './homePage.jsx';  // * does all named exports from that file
 
 const styles = {
   activityHeader: {
@@ -29,10 +30,9 @@ const styles = {
     flexWrap: 'wrap',
   },
   tripCard: {
-    // border: '1px solid red',
     display: 'inline-block',
     margin: '1em 0.5em 1em',
-    width: '33%',
+    width: '32%',
     verticalAlign: 'top'
   }
 }
@@ -50,13 +50,23 @@ const Trip = (props) => {
 
   if (props.editable === true) {
     return (
-      <Card style = {{margin: '10px'}}> 
+      <Card
+        style={styles.tripCard}
+        initiallyExpanded={true
+      }> 
         <CardTitle
           title = {props.trip.city}
-          subtitle = {moment(props.trip.fromDate).format('MM/DD/YYYY') + ' - ' + moment(props.trip.toDate).format('MM/DD/YYYY')}
+          subtitle = {moment(props.trip.fromDate).format('MM/DD/YYYY') + ' - ' + moment(props.trip.toDate).format('MM/DD/YYYY')} // Trip dates
+          actAsExpander={true}
+          showExpandableButton={true}
+          titleStyle = {activityStyles.styles.cardTitle}
+          subtitleStyle = {activityStyles.styles.cardSubtitle}
         />
-        <CardText>
-          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+        <CardText
+          expandable={true}
+        >
+          <div style={styles.activityHeader}>Events:</div>
+          <div style={styles.tripDetails}>
             {props.trip.events.map((event, index) =>
               <Activity key={index}
                 delete={props.deleteEvent}
@@ -65,7 +75,9 @@ const Trip = (props) => {
                 type='event' activity={event} />
             )}
           </div>
-          <div style={{ display: 'flex', flexFlow: 'row wrap' }}>
+
+          <div style={styles.activityHeader}>Food:</div>
+          <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
               <Activity key={index}
                 delete={props.deleteFood}
@@ -75,14 +87,13 @@ const Trip = (props) => {
             )}
           </div>
         </CardText>
+
         <CardActions>
           <FlatButton label = 'Make Public' onClick = {makePublic} />
           <FlatButton label= 'Delete' onClick = {deleteTrip} />
         </CardActions>
       </Card>
     ); 
-
-    // we should eventually add a pic as 'cardMedia'
   } else {
     return (
       <Card
@@ -95,7 +106,9 @@ const Trip = (props) => {
           actAsExpander={true}
           showExpandableButton={true}
         />
-        <CardText expandable={true}>
+        <CardText
+          expandable={true}
+        >
           <div style={styles.activityHeader}>Events:</div>
           <div style={styles.tripDetails}>
             {props.trip.events.map((event, index) =>
@@ -106,7 +119,7 @@ const Trip = (props) => {
               />
             )}
           </div>
-
+          
           <div style={styles.activityHeader}>Food:</div>
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
