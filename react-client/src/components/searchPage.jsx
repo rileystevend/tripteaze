@@ -355,49 +355,53 @@ class SearchPage extends React.Component {
 
     const navLinks = () => {
       if (state.authenticated) {
-        return (<div style={theme.styles.navLinks}>
-          <Link to='/'>
-            <RaisedButton
-              label="Home"
-            />
-          </Link>
-          <Link to='trips'>
-            <RaisedButton
-              label="My Trips"
-              disabled={!this.props.state.authenticated}
-              style={styles.navButtons}
-            />
-          </Link>
-          <Link to='/'>
-            <RaisedButton
-              disabled={!this.props.state.authenticated}
-              onClick={this.props.actions.logOut}
-              label='Log Out'
-            />
-          </Link>
-        </div>);
+        return (
+          <div style={theme.styles.navLinks}>
+            <Link to='/'>
+              <RaisedButton
+                label="Home"
+              />
+            </Link>
+            <Link to='trips'>
+              <RaisedButton
+                label="My Trips"
+                disabled={!this.props.state.authenticated}
+                style={styles.navButtons}
+              />
+            </Link>
+            <Link to='/'>
+              <RaisedButton
+                disabled={!this.props.state.authenticated}
+                onClick={this.props.actions.logOut}
+                label='Log Out'
+              />
+            </Link>
+          </div>
+        );
       } else {
-        return (<div style={theme.styles.navLinks}>
-          <Link to='/'>
-            <RaisedButton
-              label="Home"
+        return (
+          <div style={theme.styles.navLinks}>
+            <Link to='/'>
+              <RaisedButton
+                label="Home"
+              />
+            </Link>
+            <Signup
+              signup={actions.signup}
+              username={state.username}
+              password={state.password}
+              updateUsername={actions.updateUsername}
+              updatePassword={actions.updatePassword}
             />
-          </Link>
-          <Signup
-            signup={actions.signup}
-            username={state.username}
-            password={state.password}
-            updateUsername={actions.updateUsername}
-            updatePassword={actions.updatePassword}
-          />
-          <Login
-            login={actions.login}
-            username={state.username}
-            password={state.password}
-            updateUsername={actions.updateUsername}
-            updatePassword={actions.updatePassword}
-          />
-        </div>);
+            <Login
+              login={actions.login}
+              username={state.username}
+              password={state.password}
+              updateUsername={actions.updateUsername}
+              updatePassword={actions.updatePassword}
+            />
+          </div>
+        )
       }
     }
 
@@ -456,7 +460,7 @@ class SearchPage extends React.Component {
       <MuiThemeProvider muiTheme={theme.muiTheme}>
         <Paper>
           {/************************** NAVIGATION **************************/}
-          {navLinks()};
+          {navLinks()}
           {/******************************* HEADER *******************************/}
           <div style={theme.styles.header}>
             <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
