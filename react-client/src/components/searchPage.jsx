@@ -64,6 +64,7 @@ export const styles = {
   eventContainer: {
     display: 'inline-block',
     marginBottom: '1%',
+    marginTop: '1%',
     verticalAlign: 'top',
     width: '49%'
   },
@@ -71,6 +72,7 @@ export const styles = {
     display: 'inline-block',
     marginBottom: '1%',
     marginLeft: '2%',
+    marginTop: '1%',
     verticalAlign: 'top',
     width: '49%'
   },
@@ -98,6 +100,9 @@ export const styles = {
   tripDates: {
     display: 'flex',
     flexFlow: 'column wrap'
+  },
+  welcomeUser: {
+    marginTop: '1%'
   }
 }
 
@@ -298,6 +303,19 @@ class SearchPage extends React.Component {
         }
       }
     }
+
+    /*************************** WELCOME USER TEXT ***************************/
+    const welcomeUser = () => {
+      if (this.props.state.authenticated) {
+        return (
+          <div style={theme.styles.discoverTrips}>Welcome back, {state.username}!</div>
+        )
+      } else {
+        return (
+          <div style={theme.styles.discoverTrips}>Welcome!</div>
+        )
+      }
+    }
   
     return (
       <MuiThemeProvider muiTheme={theme.muiTheme}>
@@ -345,6 +363,8 @@ class SearchPage extends React.Component {
               TripTeaze
             </Link>
           </div>
+
+          <div style={styles.welcomeUser}>{welcomeUser()}</div>
           
           {/************************** CREATE TRIP CARD **************************/}
           <div style={styles.createTripCard}>
@@ -413,6 +433,7 @@ class SearchPage extends React.Component {
           </div>
           
           <div style={{marginTop: '3%'}}>
+            <div style={theme.styles.discoverTrips}>Explore</div>
             {/************************** SEARCH EVENTS **************************/}
             <Paper style={styles.eventContainer}>
               <div style={styles.searchBar}>

@@ -50,7 +50,7 @@ class UserPage extends React.Component {
       );
     } else {
       return (
-        <div>Your Trips</div>
+        <div>{this.props.state.username}'s Current Trips</div>
       );
     }
   }
@@ -65,12 +65,6 @@ class UserPage extends React.Component {
               <Link to= '/'>
                 <RaisedButton
                   label="Home"
-                />
-              </Link>
-              <Link to= 'plan'>
-                <RaisedButton
-                  label="New Trip"
-                  style={{marginLeft: '1em'}}
                 />
               </Link>
               <Link to='/'> 
@@ -90,7 +84,14 @@ class UserPage extends React.Component {
             </div>
 
             {/************************** MESSAGE **************************/}
-            <div style={{marginTop: '1em'}}>
+            <div style={theme.styles.body}>
+              <Link to="plan">
+                <RaisedButton
+                  label="Create a trip"
+                  style={theme.styles.tripButton}
+                />
+              </Link>
+
               <div style={theme.styles.discoverTrips}>{this.generateMessage()}</div>
 
               {/************************** USER'S TRIPS **************************/}

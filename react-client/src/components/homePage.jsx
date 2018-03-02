@@ -68,6 +68,7 @@ export const styles = {
     color: cyan800,
     fontSize: 30,
     fontWeight: 'bold',
+    marginTop: '1%',
     padding: '0.5%',
     textAlign: 'center'
   },
