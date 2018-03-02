@@ -106,11 +106,11 @@ class Home extends React.Component {
     this.props.actions.fetchTrips('public');
   }
 
-  componentDidUpdate() {
-    if (this.props.state.authenticated) {
-      this.props.history.push('/trips');
-    }
-  }
+  // componentDidUpdate() {
+  //   if (this.props.state.authenticated) {
+  //     this.props.history.push('/trips');
+  //   }
+  // }
 
   toUserPage () {
     this.props.history.push('/trips');
@@ -118,6 +118,42 @@ class Home extends React.Component {
 
   toSearchPage () {
     this.props.history.push('/plan')
+  }
+
+  navBar() {
+    let actions = this.props.actions; //access shortcuts
+    let state = this.props.state;
+
+    if (this.props.state.authenticated) {
+      return (<div style={styles.navLinks}>
+        <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage} 
+          label = 'Your Trips'
+        />
+        <RaisedButton style={{ marginRight: '15px' }} onClick = {this.toSearchPage} 
+          label = 'Build'
+        />
+        <RaisedButton style={{ marginRight: '15px' }} onClick = {actions.logOut}
+          label = 'Log Out'
+        />
+      </div>);
+    } else {
+      return (<div style={styles.navLinks}>
+        <Login login={actions.login}
+          username={state.username}
+          password={state.password}
+          updateUsername={actions.updateUsername}
+          updatePassword={actions.updatePassword}
+          forward={this.toUserPage.bind(this)}
+        />
+        <Signup signup={actions.signup}
+          username={state.username}
+          password={state.password}
+          updateUsername={actions.updateUsername}
+          updatePassword={actions.updatePassword}
+          forward={this.toUserPage.bind(this)}
+        />
+      </div>);
+    }
   }
 
   render () {
@@ -130,21 +166,7 @@ class Home extends React.Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <Paper>
           {/************************** NAVIGATION **************************/}
-          <div style={styles.navLinks}>
-            <Login login={actions.login}
-              username={state.username}
-              password={state.password}
-              updateUsername={actions.updateUsername}
-              updatePassword={actions.updatePassword}
-            />
-            <Signup signup={actions.signup}
-              username={state.username}
-              password={state.password}
-              updateUsername={actions.updateUsername}
-              updatePassword={actions.updatePassword}
-            />
-          </div>
-
+          {this.navBar()}
           {/************************** HEADER **************************/}
           <div style={styles.header}>
             <Link to="/" style={{textDecoration: 'none', color: cyan900}}>

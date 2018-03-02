@@ -3,7 +3,6 @@ var mongoose = require('mongoose');
 let uri;
 
 if (!process.env.MONGODB_URI) {
-  console.log('DEV')
   config = require('../config.js');
   uri = config.mongo;
 } else {
@@ -11,14 +10,13 @@ if (!process.env.MONGODB_URI) {
   uri = process.env.MONGODB_URI;
 }
 //URI is stored either on heroku or local config file
-console.log('heyyyyooooooo');
 let Schema = mongoose.Schema;
 mongoose.connect(uri);
 
 var db = mongoose.connection;
 
 db.on('error', function() {
-  console.log(process.env.MONGODB_URI);
+  console.log(uri);
   console.log('mongoose connection error');
 });
 

@@ -117,7 +117,15 @@ class SearchPage extends React.Component {
   constructor (props) {
     super(props);
 
-    if (props.state.trips.length !== 0) {
+    if (props.state.trips.length !== 0  && props.state.activeTrip.status) {
+      this.state = {
+        open: true,
+        activeCity: props.state.trips[props.state.activeTrip.index].city,
+        dropdown: props.state.trips[props.state.activeTrip.index].city,
+        activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
+        activeToDate: props.state.trips[props.state.activeTrip.index].toDate
+      }
+    } else if (props.state.trips.length !== 0) {
       this.state = {
         open: false,
         activeCity: props.state.trips[props.state.activeTrip.index].city,
@@ -174,11 +182,11 @@ class SearchPage extends React.Component {
   submitEventQuery (event) {
     let state = this.props.state;
     event.preventDefault();
-    if (state.activeTrip.status || state.city) {
+    if ((state.activeTrip.status || state.city) && state.eventQuery) {
       let city = state.activeTrip.status ? this.state.activeCity : state.city;
       this.props.actions.searchEvents(this.state.activeCity, state.eventQuery, this.state.activeFromDate, this.state.activeToDate);
     } else {
-      window.alert('Please select a city for your trip first!');
+      window.alert('Please select a city and search terms first!');
     }
   };
 
@@ -188,11 +196,12 @@ class SearchPage extends React.Component {
   };
 
   submitFoodQuery (event) {
+    let state = this.props.state;
     event.preventDefault();
-    if(this.props.state.activeTrip.status) {
-      this.props.actions.searchForFood(this.state.activeCity, this.props.state.foodQuery)
+    if((state.activeTrip.status || state.city) && state.foodQuery) {
+      this.props.actions.searchForFood(this.state.activeCity, state.foodQuery)
     } else {
-      window.alert('Please select a city for your trip first!')
+      window.alert('Please select a city and search terms first!')
     }
   };
 

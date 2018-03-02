@@ -39,6 +39,10 @@ class UserPage extends React.Component {
     }
   }
 
+  toSearchPage() {
+    this.props.history.push('/plan');
+  }
+
   generateMessage () {
     if (this.props.state.trips.length === 0) {
       return (
@@ -98,11 +102,14 @@ class UserPage extends React.Component {
               {this.props.state.trips.map((trip, index) => 
                 <Trip
                   key = {index}
+                  index = {index} //you're not allowed to later access 'key' as prop, which is dumb
                   user = {this.props.state.username} 
                   trip = {trip} 
                   editable = {true}
                   delete = {this.props.actions.deleteTrip}
                   toggleStatus = {this.props.actions.toggleTripStatus}
+                  toSearchPage = {this.toSearchPage.bind(this)}
+                  activate = {this.props.actions.activateTrip}
                 />
               )}
             </div>

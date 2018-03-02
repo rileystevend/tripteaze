@@ -24,6 +24,8 @@ class Signup extends React.Component {
 	submit (event) {
 		event.preventDefault();
 		this.props.signup(this.props.username, this.props.password);
+		this.setState({ open: false });
+		this.props.forward();
 	}
 
 	changeUsername (event) {
