@@ -90,10 +90,22 @@ export const styles = {
     marginLeft: '0.5%',
     position: 'absolute',
   },
+  getStarted: {
+    background: `linear-gradient(to bottom right, white, #f9f9f9)`,
+    color: cyan600,
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginTop: '2%',
+    paddingTop: '1%'
+  },
   tripButton: {
     width: '50%',
     margin: '0 auto',
-    marginTop: '2%'
+    // marginTop: '1%'
+  },
+  tripTeazeText: {
+    textDecoration: 'none',
+    color: cyan900
   }
 }
 
@@ -163,18 +175,38 @@ class Home extends React.Component {
           {this.navBar()}
           {/************************** HEADER **************************/}
           <div style={styles.header}>
-            <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
+            <Link to="/" style={styles.tripTeazeText}>
               TripTeaze
             </Link>
           </div>
           
           {/************************** CREATE TRIP **************************/}
           <div style={styles.body}>
-            <RaisedButton
+          Don't wait! Plan your next trip today!
+            <div style={styles.discoverTrips}>Get Started</div>
+
+            <div style={{display: 'inline-block', marginTop: '1%'}}>
+              <Login login={actions.login}
+                username={state.username}
+                password={state.password}
+                updateUsername={actions.updateUsername}
+                updatePassword={actions.updatePassword}
+              />
+            </div>
+            <div style={{display: 'inline-block', marginTop: '1%'}}>
+              <Signup signup={actions.signup}
+                username={state.username}
+                password={state.password}
+                updateUsername={actions.updateUsername}
+                updatePassword={actions.updatePassword}
+              />
+            </div>
+
+            {/* <RaisedButton
               label="Create a trip"
               onClick={this.toSearchPage.bind(this)}
               style={styles.tripButton}
-            />
+            /> */}
 
             <div style={{marginTop: '1em'}}>
               <div style={styles.discoverTrips}>Discover</div>
