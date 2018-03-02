@@ -32,7 +32,7 @@ import Signup from './signup.jsx';
 import Login from './login.jsx';
 import Eatin from './restaurants.jsx';
 
-const styles = {
+export const styles = {
   activityTitle: {
     backgroundColor: '#f9f9f9',
     color: cyan800,
@@ -71,8 +71,9 @@ const styles = {
     verticalAlign: 'top',
     width: '49%'
   },
-  myTripsButton: {
-    marginRight: '1em'
+  navButtons: {
+    marginRight: '1em',
+    marginLeft: '1em'
   },
   paper: {
     display: 'flex',
@@ -218,32 +219,29 @@ class SearchPage extends React.Component {
 
     /*************************** EXISTING TRIPS DROPDOWN ***************************/
     const dropdown = () => {
-      if (state.authenticated && state.trips.length > 0) {
-        return (
-          <div>
-            <SelectField 
-              // floatingLabelText="Existing Trips" 
-              value={this.state.dropdown} 
-              onChange = {this.updateCity.bind(this)}
-            > 
-              <MenuItem value = ' ' primaryText = 'Make a New Trip' />
-                {state.trips.map((trip, index) => 
-                  <MenuItem
-                    key = {index}
-                    value = {trip.city}
-                    primaryText = {trip.city} 
-                  />)
-                }
-            </SelectField>
-            <br/>
-            <RaisedButton
-              onClick={() => (this.setState({ open: !this.state.open }))}
-              label='Show Details'
-              disabled={!state.activeTrip.status}
-            />
-          </div>
-        );
-      }
+      return (
+        <div>
+          <SelectField 
+            value={this.state.dropdown} 
+            onChange = {this.updateCity.bind(this)}
+          > 
+            <MenuItem value = ' ' primaryText = 'Make a New Trip' />
+              {state.trips.map((trip, index) => 
+                <MenuItem
+                  key = {index}
+                  value = {trip.city}
+                  primaryText = {trip.city} 
+                />)
+              }
+          </SelectField>
+          <br/>
+          <RaisedButton
+            onClick={() => (this.setState({ open: !this.state.open }))}
+            label='Show Details'
+            disabled={!state.activeTrip.status}
+          />
+        </div>
+      );
     }
 
     /*************************** TRIP DETAILS SIDEBAR ***************************/
@@ -300,24 +298,9 @@ class SearchPage extends React.Component {
             <Link to= '/'>
               <RaisedButton
                 label="Home"
-                style={styles.myTripsButton}
+                // style={styles.navButtons}
               />
             </Link>
-
-            <Link to= 'trips'>
-              <RaisedButton
-                label="My Trips"
-                disabled={!this.props.state.authenticated}
-                style={styles.myTripsButton}
-              />
-            </Link>
-            <Login
-              login={actions.login}
-              username={state.username}
-              password={state.password}
-              updateUsername={actions.updateUsername}
-              updatePassword={actions.updatePassword}
-            />
             <Signup
               signup={actions.signup}
               username={state.username}
@@ -325,11 +308,25 @@ class SearchPage extends React.Component {
               updateUsername={actions.updateUsername}
               updatePassword={actions.updatePassword}
             />
+            <Login
+              login={actions.login}
+              username={state.username}
+              password={state.password}
+              updateUsername={actions.updateUsername}
+              updatePassword={actions.updatePassword}
+            />
+            <Link to= 'trips'>
+              <RaisedButton
+                label="My Trips"
+                disabled={!this.props.state.authenticated}
+                style={styles.navButtons}
+              />
+            </Link>
             <Link to='/'>
               <RaisedButton
+                disabled={!this.props.state.authenticated}
                 onClick={this.props.actions.logOut}
                 label='Log Out'
-                style={{marginLeft: '1em'}}
               />
             </Link>
           </div>
@@ -390,7 +387,9 @@ class SearchPage extends React.Component {
 
           {/************************** EXISTING TRIPS CARD **************************/}
           <div style={styles.existingTripsCard}>
-            <Card>
+            <Card
+              initiallyExpanded={true}
+            >
               <CardTitle
                 title="Current Trips"
                 titleStyle={styles.cardTitle}
