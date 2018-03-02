@@ -298,7 +298,6 @@ class SearchPage extends React.Component {
             <Link to= '/'>
               <RaisedButton
                 label="Home"
-                // style={styles.navButtons}
               />
             </Link>
             <Signup

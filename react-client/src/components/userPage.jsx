@@ -12,9 +12,21 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 
 import Paper from 'material-ui/Paper';
-
+import Login from './login.jsx';
 import Trip from './trip.jsx'; 
 import * as actions from '../actions/index.js';
+
+const styles = {
+  notLoggedIn: {
+    background: `linear-gradient(to bottom right, #f9f9f9, ${cyan50})`,
+    color: cyan800,
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginTop: '2%',
+    padding: '0.5%',
+    textAlign: 'center'
+  }
+}
 
 class UserPage extends React.Component {
   constructor (props) {
@@ -100,9 +112,40 @@ class UserPage extends React.Component {
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>
           <Paper>
-          <div style={theme.styles.discoverTrips}>
-            Sorry! Please log in to access this content!
-          </div>
+            {/************************** NAVIGATION **************************/}
+            <div style={theme.styles.navLinks}>
+              <Link to= '/'>
+                <RaisedButton
+                  label="Home"
+                />
+              </Link>
+              <Link to= 'plan'>
+                <RaisedButton
+                  label="New Trip"
+                  style={{marginLeft: '1em'}}
+                />
+              </Link>
+              <Link to='/'> 
+                <RaisedButton
+                  onClick = {this.props.actions.logOut}
+                  style={{marginLeft: '1em'}}
+                  label = 'Log Out'
+                /> 
+              </Link>
+            </div>
+
+            {/************************** HEADER **************************/}
+            <div style={theme.styles.header}>
+              <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
+                TripTeaze
+              </Link>
+            </div>
+          
+            <div style={styles.notLoggedIn}>
+              Oops! Please 
+              <Link to="/" style={{textDecoration: 'none', color: cyan900}}> login </Link>
+              to access this content!
+            </div>
           </Paper>
         </MuiThemeProvider>
       );
