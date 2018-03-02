@@ -127,7 +127,10 @@ class SearchPage extends React.Component {
     } else {
       this.state = {
         open: false,
-        dropdown: 0
+        dropdown: 0,
+        // if user is anon
+        anonSubmit: false,
+        anonOpen: false
       }
     }
   }
@@ -156,14 +159,26 @@ class SearchPage extends React.Component {
     return newWords.join(' ');
   } 
 
-  submit (event) {  //makes a new trip
+  submit (event) {  // makes a new trip for logged in user
+    let state = this.props.state;
+    event.preventDefault();
+    if (state.authenticated) {
+      if (state.city !== '' && state.tripFromDate !== '' && state.tripToDate !== '') {
+        this.props.actions.makeNewTrip(state.username, state.city, state.trips.length, state.tripFromDate, state.tripToDate);
+        this.setState({ activeCity: state.city, open: true });
+      }
+    }
+  };
+
+  // TODO: still trying to get this to work
+  submitAsAnon(event) {
     let state = this.props.state;
     event.preventDefault();
     if (state.city !== '' && state.tripFromDate !== '' && state.tripToDate !== '') {
-      this.props.actions.makeNewTrip(state.username, state.city, state.trips.length, state.tripFromDate, state.tripToDate);
-      this.setState({ activeCity: state.city, open: true });
+      this.setState({ anonOpen: true, anonSubmit: true });
     }
-  };
+    console.log('props', state)
+  }
 
 /***************************** Event - search **********************************/
   updateEventQuery(event) {
@@ -214,7 +229,7 @@ class SearchPage extends React.Component {
       messageEvents = `Type a keyword to find events in ${activeCity}!`;
       messageFood= `Or search for food in ${activeCity}!`;
     }
-  
+
   /*************************** DATE SELECTION STUFF ***************************/
     let today = new Date();
 
@@ -234,8 +249,7 @@ class SearchPage extends React.Component {
     };
 
     /*************************** EXISTING TRIPS DROPDOWN ***************************/
-
-    const dropdown = () => { 
+    const dropdown = () => {
       if (this.props.state.authenticated) {
         return (
           <div>
@@ -316,6 +330,26 @@ class SearchPage extends React.Component {
             </Drawer>
           );
         }
+      // TODO: still trying to get this to work
+      // } else if (this.state.anonSubmit) {
+      //   return (
+      //     <Drawer
+      //       width={400}
+      //       openSecondary={true}
+      //       open={this.state.anonOpen}
+      //     >
+      //       <AppBar
+      //         title={this.props.state.city}
+      //         iconElementLeft={
+      //           <IconButton
+      //             onClick={() => (this.setState({ anonOpen: false, anonSubmit: false }))}
+      //           >
+      //             <NavigationClose />
+      //           </IconButton>}
+      //       />
+      //       <div>Please log in to save this trip!</div>
+      //     </Drawer>
+      //   )
       }
     }
 
@@ -395,6 +429,28 @@ class SearchPage extends React.Component {
       }
     }
 
+    /************************ CREATE TRIP SEARCH BUTTON ************************/
+    // Renders the appropriate search button based on if user is logged in or not
+    // TODO: still trying to get this to work
+    const searchButton = () => {
+      // if (this.props.state.authenticated) {
+        return (
+          <RaisedButton
+            onClick={this.submit.bind(this)}
+            label='Create Trip'
+            disabled={!this.props.state.authenticated}
+          />
+        )
+      // } else {
+      //   return (
+      //     <RaisedButton
+      //       onClick={this.submitAsAnon.bind(this)}
+      //       label='Create Trip'
+      //     />
+      //   )
+      // }
+    }
+
     /*************************** STUFF ON PAGE ***************************/
     return (
       <MuiThemeProvider muiTheme={theme.muiTheme}>
@@ -449,11 +505,7 @@ class SearchPage extends React.Component {
                       onChange={this.updateCity.bind(this)}
                     />
                     <br/>
-                    <RaisedButton
-                      onClick={this.submit.bind(this)}
-                      label='Create Trip'
-                      disabled={!this.props.state.authenticated}
-                    />
+                    {searchButton()}
                   </div>
                 </div>
               </CardText>
