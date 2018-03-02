@@ -52,6 +52,12 @@ const Trip = (props) => {
     props.delete(props.user, props.trip);
   }
 
+  const activateAndSearch = () => {
+    console.log('here we go!')
+    props.activate(props.index);
+    props.toSearchPage();
+  }
+
   // Activity header divs based on if there are events or restaurants on the trip
   const showActivityDiv = (activityType, trip) => {
     // If activity = event and there are events in the current trip
@@ -121,6 +127,10 @@ const Trip = (props) => {
           <FlatButton
             label= 'Delete'
             onClick = {deleteTrip}
+          />
+          <FlatButton
+            label = 'Add More'
+            onClick = {activateAndSearch}
           />
         </CardActions>
       </Card>

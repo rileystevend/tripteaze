@@ -117,7 +117,15 @@ class SearchPage extends React.Component {
   constructor (props) {
     super(props);
 
-    if (props.state.trips.length !== 0) {
+    if (props.state.trips.length !== 0  && props.state.activeTrip.status) {
+      this.state = {
+        open: true,
+        activeCity: props.state.trips[props.state.activeTrip.index].city,
+        dropdown: props.state.trips[props.state.activeTrip.index].city,
+        activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
+        activeToDate: props.state.trips[props.state.activeTrip.index].toDate
+      }
+    } else if (props.state.trips.length !== 0) {
       this.state = {
         open: false,
         activeCity: props.state.trips[props.state.activeTrip.index].city,
