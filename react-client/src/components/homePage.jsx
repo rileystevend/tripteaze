@@ -126,10 +126,10 @@ class Home extends React.Component {
 
     if (this.props.state.authenticated) {
       return (<div style={styles.navLinks}>
-        <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage} 
+        <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage.bind(this)} 
           label = 'Your Trips'
         />
-        <RaisedButton style={{ marginRight: '15px' }} onClick = {this.toSearchPage} 
+        <RaisedButton style={{ marginRight: '15px' }} onClick = {this.toSearchPage.bind(this)} 
           label = 'Build'
         />
         <RaisedButton style={{ marginRight: '15px' }} onClick = {actions.logOut}

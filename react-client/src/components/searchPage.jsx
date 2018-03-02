@@ -141,6 +141,12 @@ class SearchPage extends React.Component {
     }
   }
 
+  componentWillUpdate () {
+    if (this.props.state.authenticated && !this.props.state.trips) {
+      this.props.action.fetchTrips(this.props.state.username); 
+    }
+  }
+
   updateCity (event, index, value) {
     if (value && index !== 0) {
       this.setState({dropdown: value, open: true});

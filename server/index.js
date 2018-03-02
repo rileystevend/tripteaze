@@ -5,7 +5,7 @@ const session = require('express-session');
 const db = require('../database-mongo/index.js');
 const eventbrite = require('../APIhelper/eventbrite.js');
 const zomato = require('../APIhelper/zomatoHelper.js')
-
+const path = require('path');
 
 const app = express();
 app.use(bodyParser.json());
@@ -56,7 +56,11 @@ app.get('/logout', (req, res) => {
      }
    })
    res.end();
-})
+});
+
+app.get('/plan', (req, res) => {
+	res.sendFile(path.join(__dirname, '/../react-client/dist', 'index.html')); 
+});
 
 /*************************** SIGN UP STUFF ***************************/
 
@@ -115,6 +119,8 @@ app.get('/trips', (req, res) => {
 				});
 			}
 		});
+	} else if (!type) { 
+		res.sendFile(path.join(__dirname, '/../react-client/dist', 'index.html'));
 	} else {
 		db.showUserTrips(type, function(err, data) {
 			if (err || !data) {
@@ -308,6 +314,10 @@ app.get('/foods', (req, res) => {
 			res.status(200).json({ foods: data });
 		}
 	});
+});
+
++app.get('/*', function (req, res) {
+	res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 /****************************************************************************/
