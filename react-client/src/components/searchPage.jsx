@@ -34,13 +34,21 @@ import Login from './login.jsx';
 import Eatin from './restaurants.jsx';
 
 export const styles = {
+  activityContainer: {
+    display: 'inline-block',
+    marginBottom: '1%',
+    marginLeft: '2%',
+    marginTop: '1%',
+    verticalAlign: 'top',
+    width: '47%'
+  },
   activityTitle: {
     backgroundColor: '#f9f9f9',
     color: cyan800,
     fontSize: 20,
     fontWeight: 'bold',
     padding: '1%',
-    marginBottom: '1%',
+    margin: '2%',
     textAlign: 'left'
   },
   cardTitle: {
@@ -61,21 +69,6 @@ export const styles = {
     verticalAlign: 'top',
     width: '30%',
   },
-  eventContainer: {
-    display: 'inline-block',
-    marginBottom: '1%',
-    marginTop: '1%',
-    verticalAlign: 'top',
-    width: '49%'
-  },
-  foodContainer: {
-    display: 'inline-block',
-    marginBottom: '1%',
-    marginLeft: '2%',
-    marginTop: '1%',
-    verticalAlign: 'top',
-    width: '49%'
-  },
   navButtons: {
     marginRight: '1em',
     marginLeft: '1em'
@@ -86,16 +79,14 @@ export const styles = {
     margin: '10px'
   },
   searchBar: {
-    padding: '3%',
-    paddingLeft: '5%'
+    paddingLeft: '5%',
+    paddingRight: '5%'
   },
   searchInput: {
     width: '80%'
   },
   searchResults: {
-    display: 'flex',
-    flexFlow: 'row',
-    margin: '10px'
+    margin: '2%'
   },
   tripDatesCard: {
     display: 'flex',
@@ -488,12 +479,13 @@ class SearchPage extends React.Component {
             </Card>
           </div>
           
+          {/************************** EXPLORE SECTION **************************/}
           <div style={{marginTop: '3%'}}>
             <div style={theme.styles.discoverTrips}>Explore</div>
             {/************************** SEARCH EVENTS **************************/}
-            <Paper style={styles.eventContainer}>
+            <Paper style={styles.activityContainer}>
+              <div style={styles.activityTitle}>Events</div>
               <div style={styles.searchBar}>
-                <div style={styles.activityTitle}>Events</div>
                 <TextField
                   id = 'event'
                   onChange = {this.updateEventQuery.bind(this)}
@@ -506,6 +498,7 @@ class SearchPage extends React.Component {
                 />
               </div>
 
+              {/************************** EVENT RESULTS **************************/}
               <div style={styles.searchResults}>
                 <Events
                   events={state.eventResults}
@@ -519,9 +512,9 @@ class SearchPage extends React.Component {
             </Paper>
 
             {/************************** SEARCH EATIN **************************/}
-            <Paper style={styles.foodContainer}>
+            <Paper style={styles.activityContainer}>
+            <div style={styles.activityTitle}>Restaurants</div>
               <div style={styles.searchBar}>
-                <div style={styles.activityTitle}>Restaurants</div>
                 <TextField
                   id='food'
                   onChange={this.updateFoodQuery.bind(this)}
@@ -534,6 +527,7 @@ class SearchPage extends React.Component {
                 />
               </div>
 
+              {/************************** EATIN RESULTS **************************/}
               <div style={styles.searchResults}>
                 <Eatin
                   restaurants={state.foodResults}
