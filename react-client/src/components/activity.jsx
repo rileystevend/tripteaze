@@ -10,7 +10,6 @@ let Activity = (props) => {
   } else {
     cardStyle = { textAlign: 'left', margin: '5px', width: '300px' };
   }
-  
 
   
   if (props.type === 'event') {
@@ -20,12 +19,13 @@ let Activity = (props) => {
         <CardMedia src = {props.activity.logo} alt =''>
         </CardMedia>
         <CardText>
+        Event
           We don't save much detail rn
           {props.activity.date}?
           {props.activity.details}?
         </CardText>
         <CardActions>
-          <FlatButton onClick={() => props.deleteEvent(props.activity, props.user, props.city)} label='Remove' />
+          <FlatButton onClick={() => props.delete(props.activity, props.user, props.city)} label='Remove' />
         </CardActions>
       </Card>
     );
@@ -37,12 +37,13 @@ let Activity = (props) => {
         <CardMedia src={props.activity.featured_image} alt=''>
         </CardMedia>
         <CardText>
+        Food
           We don't save much detail rn
           {props.activity.address}?
           {props.activity.details}?
         </CardText>
         <CardActions>
-          <FlatButton onClick= {() => props.deleteEvent(event,props.user,props.city)} label = 'Remove' />
+          <FlatButton onClick= {() => props.delete(props.activity,props.user,props.city)} label = 'Remove' />
         </CardActions>
       </Card>
     );

@@ -183,10 +183,13 @@ class SearchPage extends React.Component {
                   type='event' activity={event}
                   user={state.username}
                   city={this.state.activeCity}
-                  deleteEvent={actions.deleteEvent} />))}
+                  delete={actions.deleteEvent} />))}
               {activeTrip.eatin.map((eatin, index) => 
                 (<Activity key={index} sidebar='true'
-                  type='food' activity={eatin} />))}
+                  type='food' activity={eatin}
+                  user={state.username}
+                  city={this.state.activeCity}
+                  delete={actions.deleteFood} />))}
             </Drawer>
           );
         }

@@ -48,6 +48,7 @@ class UserPage extends React.Component {
                 trip = {trip} 
                 editable = {true}
                 deleteEvent={this.props.actions.deleteEvent}
+                deleteFood ={this.props.actions.deleteFood}
                 delete = {this.props.actions.deleteTrip}
                 toggleStatus = {this.props.actions.toggleTripStatus}
               />)}

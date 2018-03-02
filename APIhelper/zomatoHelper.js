@@ -3,7 +3,6 @@ const request = require('request');
 let key;
 
 if (!process.env.ZOMATO) {
-  console.log('dev environment')
   config = require('../config.js');
   key = config.zomatoKey;
 } else {
@@ -51,7 +50,6 @@ let searchForCityId = (city, cb) => {
       console.log('errrrrrr, ', err)
     }
   }
-
   request(params, callback)
 }
 
