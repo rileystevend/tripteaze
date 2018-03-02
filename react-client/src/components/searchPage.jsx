@@ -267,24 +267,13 @@ class SearchPage extends React.Component {
                   </IconButton>}
               />
               {activeTrip.events.map((event, index) => 
-<<<<<<< HEAD
-                (<Activity key={index} sidebar = 'true'
-                  type='event' activity={event}
-                  user={state.username}
-                  city={this.state.activeCity}
-                  delete={actions.deleteEvent} />))}
-              {activeTrip.eatin.map((eatin, index) => 
-                (<Activity key={index} sidebar='true'
-                  type='food' activity={eatin}
-                  user={state.username}
-                  city={this.state.activeCity}
-                  delete={actions.deleteFood} />))}
-=======
                 (<Activity
                   key={index}
                   sidebar = 'true'
                   type='event'
                   activity={event}
+                  user={state.username}
+                  city={this.state.activeCity}
                   delete={actions.deleteEvent}
                 />))}
 
@@ -293,9 +282,10 @@ class SearchPage extends React.Component {
                   key={index}
                   sidebar='true'
                   type='food'
+                  user={state.username}
+                  city={this.state.activeCity}
                   activity={eatin}
                 />))}
->>>>>>> MAJOR style changes
             </Drawer>
           );
         }
@@ -303,22 +293,6 @@ class SearchPage extends React.Component {
     }
   
     return (
-<<<<<<< HEAD
-      <div>
-        <Link to= 'trips'> UserPage </Link>
-        <Link to='/'>
-          <RaisedButton onClick={this.props.actions.logOut} label='Log Out' />
-        </Link>
-        {drawer()}
-        <Paper style = {{display: 'flex', flexFlow: 'row wrap', margin: '10px'}}>
-          <div style= {{ display: 'flex', flexFlow: 'column wrap' }}>
-            <h5> Select Your Trip Dates! </h5>
-            <DatePicker
-                floatingLabelText="From"
-                autoOk={true}
-                onChange={updateFromDate}
-                minDate={today}
-=======
       <MuiThemeProvider muiTheme={theme.muiTheme}>
         <Paper>
           {/************************** NAVIGATION **************************/}
@@ -335,7 +309,6 @@ class SearchPage extends React.Component {
                 label="My Trips"
                 disabled={!this.props.state.authenticated}
                 style={styles.myTripsButton}
->>>>>>> MAJOR style changes
               />
             </Link>
             <Login
@@ -352,6 +325,12 @@ class SearchPage extends React.Component {
               updateUsername={actions.updateUsername}
               updatePassword={actions.updatePassword}
             />
+            <Link to='/'>
+              <RaisedButton
+                onClick={this.props.actions.logOut}
+                label='Log Out'
+              />
+            </Link>
           </div>
 
           {/******************************* HEADER *******************************/}
@@ -448,6 +427,8 @@ class SearchPage extends React.Component {
                   addEventToTrip={actions.addEventToTrip}
                   user={state.username}
                   city={this.state.activeCity}
+                  eventSnackbar={state.eventSnackbar}
+                  onRequestClose={actions.deactivateEventSnackbar}
                 />
               </div>
             </Paper>
@@ -479,28 +460,7 @@ class SearchPage extends React.Component {
             </Paper>
           </div>
         </Paper>
-<<<<<<< HEAD
-        
-        <Paper style={{ display: 'flex', flexFlow: 'row', margin: '10px' }}>
-          <Events
-            events={state.eventResults}
-            addEventToTrip={actions.addEventToTrip}
-            user={state.username}
-            city={this.state.activeCity}
-            eventSnackbar={state.eventSnackbar}
-            onRequestClose={actions.deactivateEventSnackbar}
-          />
-          <Eatin
-            restaurants={state.foodResults}
-            addFoodToTrip={actions.addFoodToTrip}
-            user={state.username}
-            city={this.state.activeCity}
-          />
-        </Paper>
-      </div>
-=======
       </MuiThemeProvider>
->>>>>>> MAJOR style changes
     );
   }  
 }

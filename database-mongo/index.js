@@ -1,12 +1,10 @@
 var mongoose = require('mongoose');
 const config = require('../config.js');
 
-<<<<<<< HEAD
 let uri;
 
 if (!process.env.MONGODB_URI) {
   console.log('DEV')
-  config = require('../config.js');
   uri = config.mongo;
 } else {
   console.log('PROCESS PICKED UP', process.env.MONGODB_URI)
@@ -14,11 +12,6 @@ if (!process.env.MONGODB_URI) {
 }
 //URI is stored either on heroku or local config file
 console.log('heyyyyooooooo');
-=======
-//using URI stored on heroku or localhost
-const uri = process.env.MONGODB_URI ? process.env.MONGODB_URI : config.mongo;
-
->>>>>>> progress on stylin
 let Schema = mongoose.Schema;
 mongoose.connect(uri);
 
