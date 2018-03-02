@@ -10,9 +10,10 @@ import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
-
 import Paper from 'material-ui/Paper';
+
 import Login from './login.jsx';
+import Signup from './signup.jsx';
 import Trip from './trip.jsx'; 
 import * as actions from '../actions/index.js';
 
@@ -33,14 +34,12 @@ class UserPage extends React.Component {
     super(props);
   }
 
-  componentWillMount() {
-    if (this.props.state.authenticated) {
-      this.props.actions.fetchTrips(this.props.state.username);
-    }
-  }
-
   toSearchPage() {
     this.props.history.push('/plan');
+  }
+
+  toUserPage() {
+    this.props.history.push('/trips');
   }
 
   generateMessage () {
@@ -60,6 +59,9 @@ class UserPage extends React.Component {
   }
 
   render() {
+    let actions = this.props.actions;
+    let state = this.props.state;
+
     if (this.props.state.authenticated === true) { // If logged in
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>
@@ -73,7 +75,7 @@ class UserPage extends React.Component {
               </Link>
               <Link to='/'> 
                 <RaisedButton
-                  onClick = {this.props.actions.logOut}
+                  onClick = {actions.logOut}
                   style={{marginLeft: '1em'}}
                   label = 'Log Out'
                 /> 
@@ -103,13 +105,13 @@ class UserPage extends React.Component {
                 <Trip
                   key = {index}
                   index = {index} //you're not allowed to later access 'key' as prop, which is dumb
-                  user = {this.props.state.username} 
+                  user = {state.username} 
                   trip = {trip} 
                   editable = {true}
-                  delete = {this.props.actions.deleteTrip}
-                  toggleStatus = {this.props.actions.toggleTripStatus}
+                  delete = {actions.deleteTrip}
+                  toggleStatus = {actions.toggleTripStatus}
                   toSearchPage = {this.toSearchPage.bind(this)}
-                  activate = {this.props.actions.activateTrip}
+                  activate = {actions.activateTrip}
                 />
               )}
             </div>
@@ -123,23 +125,24 @@ class UserPage extends React.Component {
             {/************************** NAVIGATION **************************/}
             <div style={theme.styles.navLinks}>
               <Link to= '/'>
-                <RaisedButton
+                <RaisedButton style = {{marginRight: '15px'}}
                   label="Home"
                 />
               </Link>
-              <Link to= 'plan'>
-                <RaisedButton
-                  label="New Trip"
-                  style={{marginLeft: '1em'}}
-                />
-              </Link>
-              <Link to='/'> 
-                <RaisedButton
-                  onClick = {this.props.actions.logOut}
-                  style={{marginLeft: '1em'}}
-                  label = 'Log Out'
-                /> 
-              </Link>
+              <Login login={actions.login}
+                username={state.username}
+                password={state.password}
+                updateUsername={actions.updateUsername}
+                updatePassword={actions.updatePassword}
+                forward={this.toUserPage.bind(this)}
+              />
+              <Signup signup={actions.signup}
+                username={state.username}
+                password={state.password}
+                updateUsername={actions.updateUsername}
+                updatePassword={actions.updatePassword}
+                forward={this.toUserPage.bind(this)}
+              />
             </div>
 
             {/************************** HEADER **************************/}
