@@ -106,12 +106,6 @@ class Home extends React.Component {
     this.props.actions.fetchTrips('public');
   }
 
-  // componentDidUpdate() {
-  //   if (this.props.state.authenticated) {
-  //     this.props.history.push('/trips');
-  //   }
-  // }
-
   toUserPage () {
     this.props.history.push('/trips');
   }
@@ -126,11 +120,11 @@ class Home extends React.Component {
 
     if (this.props.state.authenticated) {
       return (<div style={styles.navLinks}>
-        <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage} 
+        <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage.bind(this)} 
           label = 'Your Trips'
         />
-        <RaisedButton style={{ marginRight: '15px' }} onClick = {this.toSearchPage} 
-          label = 'Build'
+        <RaisedButton style={{ marginRight: '15px' }} onClick = {this.toSearchPage.bind(this)} 
+          label = 'Search'
         />
         <RaisedButton style={{ marginRight: '15px' }} onClick = {actions.logOut}
           label = 'Log Out'

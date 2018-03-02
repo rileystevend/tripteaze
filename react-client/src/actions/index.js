@@ -44,6 +44,7 @@ export const login = (username, password) => {
           alert(results.data.message);
         } else {
           dispatch(authenticate())
+          dispatch(fetchTrips(username));
         }
       },
       error => {console.log('error', error); dispatch(badStuff(error))}

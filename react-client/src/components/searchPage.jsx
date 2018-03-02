@@ -244,7 +244,7 @@ class SearchPage extends React.Component {
 
     /*************************** EXISTING TRIPS DROPDOWN ***************************/
 
-    const dropdown = () => {
+    const dropdown = () => { 
       if (this.props.state.authenticated) {
         return (
           <div>
@@ -328,6 +328,54 @@ class SearchPage extends React.Component {
       }
     }
 
+    const navLinks = () => {
+      if (state.authenticated) {
+        return (<div style={theme.styles.navLinks}>
+          <Link to='/'>
+            <RaisedButton
+              label="Home"
+            />
+          </Link>
+          <Link to='trips'>
+            <RaisedButton
+              label="My Trips"
+              disabled={!this.props.state.authenticated}
+              style={styles.navButtons}
+            />
+          </Link>
+          <Link to='/'>
+            <RaisedButton
+              disabled={!this.props.state.authenticated}
+              onClick={this.props.actions.logOut}
+              label='Log Out'
+            />
+          </Link>
+        </div>);
+      } else {
+        return (<div style={theme.styles.navLinks}>
+          <Link to='/'>
+            <RaisedButton
+              label="Home"
+            />
+          </Link>
+          <Signup
+            signup={actions.signup}
+            username={state.username}
+            password={state.password}
+            updateUsername={actions.updateUsername}
+            updatePassword={actions.updatePassword}
+          />
+          <Login
+            login={actions.login}
+            username={state.username}
+            password={state.password}
+            updateUsername={actions.updateUsername}
+            updatePassword={actions.updatePassword}
+          />
+        </div>);
+      }
+    }
+
     /************************* ACTIVITY HEADER DIVS ******************************/
     const showActivityDiv = (activityType, trip) => {
       // If activity = event and there are events in the current trip
@@ -361,42 +409,7 @@ class SearchPage extends React.Component {
       <MuiThemeProvider muiTheme={theme.muiTheme}>
         <Paper>
           {/************************** NAVIGATION **************************/}
-          <div style={theme.styles.navLinks}>
-            <Link to= '/'>
-              <RaisedButton
-                label="Home"
-              />
-            </Link>
-            <Signup
-              signup={actions.signup}
-              username={state.username}
-              password={state.password}
-              updateUsername={actions.updateUsername}
-              updatePassword={actions.updatePassword}
-            />
-            <Login
-              login={actions.login}
-              username={state.username}
-              password={state.password}
-              updateUsername={actions.updateUsername}
-              updatePassword={actions.updatePassword}
-            />
-            <Link to= 'trips'>
-              <RaisedButton
-                label="My Trips"
-                disabled={!this.props.state.authenticated}
-                style={styles.navButtons}
-              />
-            </Link>
-            <Link to='/'>
-              <RaisedButton
-                disabled={!this.props.state.authenticated}
-                onClick={this.props.actions.logOut}
-                label='Log Out'
-              />
-            </Link>
-          </div>
-
+          {navLinks()};
           {/******************************* HEADER *******************************/}
           <div style={theme.styles.header}>
             <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
