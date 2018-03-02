@@ -227,26 +227,36 @@ class SearchPage extends React.Component {
     };
 
     /*************************** EXISTING TRIPS DROPDOWN ***************************/
-    const dropdown = () => {
-      return (
-        <div>
-          <SelectField 
-            value={this.state.dropdown} 
-            onChange = {this.updateCity.bind(this)}
-          > 
-            <MenuItem value = ' ' primaryText = 'Make a New Trip' />
-              {state.trips.map((trip, index) => 
 
-                <MenuItem key = {index} value = {trip.city} primaryText = {trip.city}
-              />)}
+    const dropdown = () => {
+      if (this.props.state.authenticated) {
+        return (
+          <div>
+            <SelectField 
+              value={this.state.dropdown} 
+              onChange = {this.updateCity.bind(this)}
+            > 
+              <MenuItem primaryText = 'Make a New Trip' />
+                {state.trips.map((trip, index) => 
+                  <MenuItem
+                    key = {index}
+                    value = {trip.city}
+                    primaryText = {trip.city} 
+                  />)
+                }
             </SelectField>
+            <br/>
             <RaisedButton
               onClick={() => (this.setState({ open: !this.state.open }))}
               label='Show Details'
               disabled={!state.activeTrip.status}
             />
           </div>
-        );
+        )
+      } else {
+        return (
+          <div>Please login to view your current trips!</div>
+        )
       }
     }
 
@@ -329,7 +339,8 @@ class SearchPage extends React.Component {
         )
       }
     }
-  
+
+    /*************************** STUFF ON PAGE ***************************/
     return (
       <MuiThemeProvider muiTheme={theme.muiTheme}>
         <Paper>
