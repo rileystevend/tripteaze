@@ -177,7 +177,7 @@ class SearchPage extends React.Component {
     if (state.city !== '' && state.tripFromDate !== '' && state.tripToDate !== '') {
       this.setState({ anonOpen: true, anonSubmit: true });
     }
-    console.log('props', state)
+    // console.log('props', state)
   }
 
 /***************************** Event - search **********************************/
@@ -431,7 +431,6 @@ class SearchPage extends React.Component {
 
     /************************ CREATE TRIP SEARCH BUTTON ************************/
     // Renders the appropriate search button based on if user is logged in or not
-    // TODO: still trying to get this to work
     const searchButton = () => {
       // if (this.props.state.authenticated) {
         return (
@@ -441,6 +440,7 @@ class SearchPage extends React.Component {
             disabled={!this.props.state.authenticated}
           />
         )
+      // TODO: still trying to get this to work
       // } else {
       //   return (
       //     <RaisedButton
