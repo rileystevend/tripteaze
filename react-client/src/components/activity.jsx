@@ -36,14 +36,35 @@ let Activity = (props) => {
       margin: '0 2% 3% 2%',
     };
   }
-  
+
+  // Remove buttons should only appear on a user's trips page
+  let showRemoveButton = () => {
+    if (props.user) {
+      return (
+        <CardActions>
+          <FlatButton onClick={() => props.delete(props.activity, props.user, props.city)} label='Remove' />
+        </CardActions>
+      )
+    }
+  }
+
+  // Converts price to dollar signs for restaurants
+  let calcDollarSigns = (price) => {
+    let dollarSigns = '';
+    for (var i = 0; i < price; i++) {
+      dollarSigns += '$';
+    }
+    return dollarSigns;
+  }
+
+  // Renders activities shown on page
   if (props.type === 'event') {
     return (
       <Card style={cardStyle}> 
         <CardMedia>
           <img src={props.activity.logo} alt =''/>
         </CardMedia>
-
+        
         <CardTitle
           title = {
             <a
@@ -63,9 +84,7 @@ let Activity = (props) => {
 
         </CardText>
 
-        <CardActions>
-          <FlatButton onClick={() => props.delete(props.activity, props.user, props.city)} label='Remove' />
-        </CardActions>
+        {showRemoveButton()}
       </Card>
     );
 
@@ -84,7 +103,7 @@ let Activity = (props) => {
               style={styles.anchor}
             >{props.activity.name}</a>
           }
-          // subtitle='Food'
+          subtitle={calcDollarSigns(props.activity.price)}
           titleStyle = {styles.cardTitle}
           subtitleStyle = {styles.cardSubtitle}
         />
@@ -94,9 +113,7 @@ let Activity = (props) => {
           {props.activity.details}
         </CardText>
 
-        <CardActions>
-          <FlatButton onClick= {() => props.delete(props.activity,props.user,props.city)} label = 'Remove' />
-        </CardActions>
+        {showRemoveButton()}
       </Card>
     );
   }
