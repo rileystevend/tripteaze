@@ -53,7 +53,6 @@ const Trip = (props) => {
   }
 
   const activateAndSearch = () => {
-    console.log('here we go!')
     props.activate(props.index);
     props.toSearchPage();
   }
