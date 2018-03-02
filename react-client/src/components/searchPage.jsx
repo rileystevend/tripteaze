@@ -97,9 +97,16 @@ export const styles = {
     flexFlow: 'row',
     margin: '10px'
   },
-  tripDates: {
+  tripDatesCard: {
     display: 'flex',
     flexFlow: 'column wrap'
+  },
+  tripDatesHeaders: {
+    backgroundColor: '#f9f9f9',
+    color: cyan900,
+    fontSize: 15,
+    fontWeight: 'bold',
+    padding: '1%'
   },
   welcomeUser: {
     marginTop: '1%'
@@ -227,26 +234,36 @@ class SearchPage extends React.Component {
     };
 
     /*************************** EXISTING TRIPS DROPDOWN ***************************/
-    const dropdown = () => {
-      return (
-        <div>
-          <SelectField 
-            value={this.state.dropdown} 
-            onChange = {this.updateCity.bind(this)}
-          > 
-            <MenuItem value = ' ' primaryText = 'Make a New Trip' />
-              {state.trips.map((trip, index) => 
 
-                <MenuItem key = {index} value = {trip.city} primaryText = {trip.city}
-              />)}
+    const dropdown = () => {
+      if (this.props.state.authenticated) {
+        return (
+          <div>
+            <SelectField 
+              value={this.state.dropdown} 
+              onChange = {this.updateCity.bind(this)}
+            > 
+              <MenuItem primaryText = 'Make a New Trip' />
+                {state.trips.map((trip, index) => 
+                  <MenuItem
+                    key = {index}
+                    value = {trip.city}
+                    primaryText = {trip.city} 
+                  />)
+                }
             </SelectField>
+            <br/>
             <RaisedButton
               onClick={() => (this.setState({ open: !this.state.open }))}
               label='Show Details'
               disabled={!state.activeTrip.status}
             />
           </div>
-        );
+        )
+      } else {
+        return (
+          <div>Please login to view your current trips!</div>
+        )
       }
     }
 
@@ -270,7 +287,7 @@ class SearchPage extends React.Component {
                     <NavigationClose />
                   </IconButton>}
               />
-              <div style={tripStyle.styles.activityHeader}>Events:</div>
+              {showActivityDiv('event', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.events.map((event, index) => 
                   (<Activity
@@ -284,7 +301,7 @@ class SearchPage extends React.Component {
                   />))}
               </div>
               
-              <div style={tripStyle.styles.activityHeader}>Food:</div>
+              {showActivityDiv('eatin', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.eatin.map((eatin, index) => 
                   (<Activity
@@ -302,6 +319,21 @@ class SearchPage extends React.Component {
       }
     }
 
+    /************************* ACTIVITY HEADER DIVS ******************************/
+    const showActivityDiv = (activityType, trip) => {
+      // If activity = event and there are events in the current trip
+      if (activityType === 'event' && trip.events.length > 0) {
+        return (
+          <div style={tripStyle.styles.activityHeader}>Events:</div>
+        )
+      // If activity = eatin and there are restaurants in the current trip
+      } else if (activityType === 'eatin' && trip.eatin.length > 0) {
+        return (
+          <div style={tripStyle.styles.activityHeader}>Food:</div>
+        )
+      }
+    };
+
     /*************************** WELCOME USER TEXT ***************************/
     const welcomeUser = () => {
       if (this.props.state.authenticated) {
@@ -314,7 +346,8 @@ class SearchPage extends React.Component {
         )
       }
     }
-  
+
+    /*************************** STUFF ON PAGE ***************************/
     return (
       <MuiThemeProvider muiTheme={theme.muiTheme}>
         <Paper>
@@ -377,23 +410,26 @@ class SearchPage extends React.Component {
               <CardText
                 expandable={true}
               >
-                <div style = {styles.tripDates}>
-                  <h4>Trip Dates:</h4>
-                  <DatePicker
+                <div style={styles.tripDatesCard}>
+                  <div style={styles.tripDatesHeaders}>Trip Dates:</div>
+                  <div>
+                    <DatePicker
                       floatingLabelText="From"
                       autoOk={true}
                       onChange={updateFromDate}
                       minDate={today}
                     />
-                  <DatePicker
-                    floatingLabelText="To"
-                    autoOk={true}
-                    onChange={updateToDate}
-                    // defaultDate={} TODO: set default "to" date as the "from" date
-                    minDate={this.props.state.minToDate}
-                  />
+                    <DatePicker
+                      floatingLabelText="To"
+                      autoOk={true}
+                      onChange={updateToDate}
+                      // defaultDate={} TODO: set default "to" date as the "from" date
+                      minDate={this.props.state.minToDate}
+                    />
+                  </div>
+                  <br/>
                   <div>
-                    <h4 style = {{width: '100%'}}> {message} </h4>
+                    <div style={styles.tripDatesHeaders}> {message} </div>
                     <TextField
                       id='city'
                       value={this.props.state.city}
