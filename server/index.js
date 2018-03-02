@@ -51,10 +51,11 @@ app.get('/login', (req, res) =>{
 app.get('/logout', (req, res) => {
    req.session.destroy((err) => {
      if (err) {
-       throw err
+			 throw err;
+			 res.status(500).send(err)
      }
    })
-   res.redirect(301, /* figured could redirect to*/ '/login' /*or'/homepage' */);
+   res.end();
 })
 
 /*************************** SIGN UP STUFF ***************************/
@@ -103,11 +104,11 @@ app.get('/trips', (req, res) => {
 	if (type === 'public') {
 		db.showAllPublicTrips(function(err, data) {
 			if (err  || !data) {
-				res.status(500).end(err);
+				res.status(500).send(err);
 			} else {
 				getTripsEvents(data, function (err, tripsEvents) {
 					if (err) {
-						res.status(500).end(err);
+						res.status(500).send(err);
 					} else {
 						res.status(200).json({ trips: tripsEvents });
 					}
@@ -117,11 +118,11 @@ app.get('/trips', (req, res) => {
 	} else {
 		db.showUserTrips(type, function(err, data) {
 			if (err || !data) {
-				res.status(500).end(err);
+				res.status(500).send(err);
 			} else {
 				getTripsEvents(data, function (err, fullTrips) {
 					if (err) {
-						res.status(500).end(err);
+						res.status(500).send(err);
 					} else {
 						res.status(200).json({ trips: fullTrips });
 					}
@@ -169,7 +170,6 @@ app.post('/trips', (req, res) => {
 			console.log(err);
 			res.status(500).send(err);
 		} else {
-			res.status(200);
 			res.status(200).json({ city: data.city });
 		}
 	});
@@ -206,7 +206,6 @@ app.post('/events', function (req, res) {
 	eventbrite.searchEvents(query, city, fromDate, (err, data) => {
 
 		if(err) {
-			console.log('error', err);
 			res.status(500).send(err);
 		} else {
 			res.status(200);
@@ -261,18 +260,16 @@ app.post('/foods', (req, res) => {
 	let searchFood = req.body.foodQuery;
 	zomato.searchForCityId( city, ( err, data ) => {
 		if (err) {
-			res.status(500).end()
+			res.status(500).send(err);
 		} else {
 			let cityId = data
 			zomato.searchForFoods( cityId, searchFood, (err, result) => {
 				if (err) {
-					res.status(500).end();
-					console.log('err')
+					res.status(500).send(err);
 				} else {
 					res.status(200).json({foods: result})
 				}
-				res.end();
-			})
+			});
 		}
 	});
 });
@@ -294,7 +291,6 @@ app.post('/foods/add', function (req, res) {
 	const city = req.body.tripCity;
 	db.addRestaurantToTrip(food, user, city, function (err) {
 		if (err) {
-			console.log(err);
 			res.status(500).send(err);
 		} else {
 			res.status(201).end();
@@ -307,7 +303,7 @@ app.get('/foods', (req, res) => {
 	const city = req.query.tripCity;
 	db.showTripRestaurants(user, city, function (err, data) {
 		if (err) {
-			res.status(500).end(err);
+			res.status(500).send(err);
 		} else {
 			res.status(200).json({ foods: data });
 		}

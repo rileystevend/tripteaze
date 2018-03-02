@@ -14,7 +14,9 @@ export const fetchTrips = (param) => {
         search: param
       }
     }).then(
-      results => dispatch(setTrips(results.data.trips)),
+      results => {
+        dispatch(setTrips(results.data.trips))
+      },
       error => dispatch(badStuff(error))
     );
   }
@@ -52,6 +54,8 @@ export const login = (username, password) => {
 export const signup = (username, password) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
+    dispatch({ type: 'RESET_TRIPS' });
+    
     return axios({
       method: 'post',
       url: '/signup',
@@ -71,6 +75,21 @@ export const signup = (username, password) => {
     );
   };
 }
+
+export const logOut = () => {
+  return (dispatch) => {
+    return axios ({
+      method: 'get',
+      url: 'logout', 
+    }).then(
+      results => {
+        dispatch(deauthenticate());
+      }
+    )
+  }
+}
+
+export const deauthenticate = () => ({ type: 'LOGOUT' });
 
 export const authenticate = () => ({ type: 'AUTHEN' });
 
@@ -105,7 +124,8 @@ export const makeNewTrip = (username, city, index, fromDate, toDate) => {
     }).then(
       results => {
         dispatch(activateTrip(index));
-        dispatch(fetchTrips(username))},
+        dispatch(fetchTrips(username))
+      },
         error => dispatch(badStuff(error))
     );
   };
@@ -191,7 +211,8 @@ export const searchForFood = (city, query) => {
         foodQuery: query
       }
     }).then(
-      results => {dispatch(updateFoodResults(results.data.foods))},
+      results => {
+        dispatch(updateFoodResults(results.data.foods))},
       error => dispatch(badStuff(error))
     )
   }
@@ -265,6 +286,21 @@ export const deleteEvent = (event, username, city) => {
     }).then (
       results => { dispatch(fetchEventsFromTrip(username, city)) },
       error => {dispatch(badStuff(error))}
+    );
+  };
+}
+
+export const deleteFood = (food, username, city) => {
+  return (dispatch) => {
+    return axios({
+      method: 'post',
+      url: '/foods/remove',
+      data: {
+        foodID: food.id
+      }
+    }).then(
+      results => { dispatch(fetchFoodFromTrip(username, city)) },
+      error => { dispatch(badStuff(error)) }
     );
   };
 }

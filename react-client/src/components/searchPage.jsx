@@ -183,10 +183,13 @@ class SearchPage extends React.Component {
                   type='event' activity={event}
                   user={state.username}
                   city={this.state.activeCity}
-                  deleteEvent={actions.deleteEvent} />))}
+                  delete={actions.deleteEvent} />))}
               {activeTrip.eatin.map((eatin, index) => 
                 (<Activity key={index} sidebar='true'
-                  type='food' activity={eatin} />))}
+                  type='food' activity={eatin}
+                  user={state.username}
+                  city={this.state.activeCity}
+                  delete={actions.deleteFood} />))}
             </Drawer>
           );
         }
@@ -196,6 +199,9 @@ class SearchPage extends React.Component {
     return (
       <div>
         <Link to= 'trips'> UserPage </Link>
+        <Link to='/'>
+          <RaisedButton onClick={this.props.actions.logOut} label='Log Out' />
+        </Link>
         {drawer()}
         <Paper style = {{display: 'flex', flexFlow: 'row wrap', margin: '10px'}}>
           <div style= {{ display: 'flex', flexFlow: 'column wrap' }}>
