@@ -62,11 +62,13 @@ export const styles = {
   },
   eventContainer: {
     display: 'inline-block',
+    marginBottom: '1%',
     verticalAlign: 'top',
     width: '49%'
   },
   foodContainer: {
     display: 'inline-block',
+    marginBottom: '1%',
     marginLeft: '2%',
     verticalAlign: 'top',
     width: '49%'
