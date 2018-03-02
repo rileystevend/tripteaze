@@ -135,7 +135,7 @@ export const makeNewTrip = (username, city, index, fromDate, toDate) => {
 
 export const updateEventQuery = (query) => ({ type: 'UPDATE_EVENT_QUERY', payload: query });
 
-export const searchEvents = (city, query, fromDate) => {
+export const searchEvents = (city, query, fromDate, toDate) => {
   return (dispatch) => {
     return axios({
       method: 'post',
@@ -143,7 +143,8 @@ export const searchEvents = (city, query, fromDate) => {
       data: {
         tripCity: city,
         eventQuery: query,
-        tripFromDate: fromDate
+        tripFromDate: fromDate,
+        tripToDate: toDate
       }
     }).then(
       results => (dispatch(updateEventResults(results.data))),

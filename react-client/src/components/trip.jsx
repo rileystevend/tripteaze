@@ -41,10 +41,11 @@ const Trip = (props) => {
 
   const makePublic = () => {
     props.toggleStatus(props.user, props.trip);
+    window.alert('Your trip has been made public!');
   }
 
   const deleteTrip = () => {
-    console.log('delete');
+    window.alert('Your trip has been deleted!');
     props.delete(props.user, props.trip);
   }
 
