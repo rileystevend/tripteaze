@@ -329,6 +329,7 @@ class SearchPage extends React.Component {
               <RaisedButton
                 onClick={this.props.actions.logOut}
                 label='Log Out'
+                style={{marginLeft: '1em'}}
               />
             </Link>
           </div>

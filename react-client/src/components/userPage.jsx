@@ -12,7 +12,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 
 import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
 
 import Trip from './trip.jsx'; 
 import * as actions from '../actions/index.js';

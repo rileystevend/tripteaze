@@ -19,9 +19,7 @@ export const muiTheme = getMuiTheme({
   appBar: {
     color: cyan700,
     textColor: cyan50,
-    // height: spacing.desktopKeylineIncrement,
-    titleFontWeight: 'bold',
-    // padding: spacing.desktopGutter,
+    titleFontWeight: 'bold'
   },
   card: {
     fontWeight: 'bold',
@@ -34,7 +32,7 @@ export const muiTheme = getMuiTheme({
   datePicker: {
     calendarTextColor: cyan700,
     calendarYearBackgroundColor: cyan50,
-    headerColor: cyan800,
+    headerColor: cyan800
   },
   dialog: {
     titleFontSize: 25,
@@ -71,7 +69,7 @@ export const styles = {
     fontSize: 30,
     fontWeight: 'bold',
     padding: '0.5%',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   header: {
     background: `linear-gradient(to bottom right, ${cyan50}, ${cyan100})`,
