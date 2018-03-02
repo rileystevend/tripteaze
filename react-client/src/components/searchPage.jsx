@@ -115,7 +115,8 @@ class SearchPage extends React.Component {
         open: false,
         activeCity: props.state.trips[props.state.activeTrip.index].city,
         dropdown: 0,
-        activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate
+        activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
+        activeToDate: props.state.trips[props.state.activeTrip.index].toDate
       }
     } else {
       this.state = {
@@ -168,7 +169,7 @@ class SearchPage extends React.Component {
     event.preventDefault();
     if (state.activeTrip.status || state.city) {
       let city = state.activeTrip.status ? this.state.activeCity : state.city;
-      this.props.actions.searchEvents(this.state.activeCity, state.eventQuery, this.state.activeFromDate)
+      this.props.actions.searchEvents(this.state.activeCity, state.eventQuery, this.state.activeFromDate, this.state.activeToDate);
     } else {
       window.alert('Please select a city for your trip first!');
     }
@@ -235,21 +236,18 @@ class SearchPage extends React.Component {
           > 
             <MenuItem value = ' ' primaryText = 'Make a New Trip' />
               {state.trips.map((trip, index) => 
-                <MenuItem
-                  key = {index}
-                  value = {trip.city}
-                  primaryText = {trip.city} 
-                />)
-              }
-          </SelectField>
-          <br/>
-          <RaisedButton
-            onClick={() => (this.setState({ open: !this.state.open }))}
-            label='Show Details'
-            disabled={!state.activeTrip.status}
-          />
-        </div>
-      );
+
+                <MenuItem key = {index} value = {trip.city} primaryText = {trip.city}
+              />)}
+            </SelectField>
+            <RaisedButton
+              onClick={() => (this.setState({ open: !this.state.open }))}
+              label='Show Details'
+              disabled={!state.activeTrip.status}
+            />
+          </div>
+        );
+      }
     }
 
     /*************************** TRIP DETAILS SIDEBAR ***************************/
