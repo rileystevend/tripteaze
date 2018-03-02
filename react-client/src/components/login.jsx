@@ -30,6 +30,7 @@ class Login extends React.Component {
     event.preventDefault();
     this.props.login(this.props.username, this.props.password);
     this.setState({ open: false });
+    this.props.forward();
   }
 
   changeUsername (event) {
