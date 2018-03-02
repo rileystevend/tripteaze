@@ -37,18 +37,37 @@ export const styles = {
   }
 }
 
+// User's trips page
 const Trip = (props) => {
 
+  // Makes user's trip public
   const makePublic = () => {
     props.toggleStatus(props.user, props.trip);
     window.alert('Your trip has been made public!');
   }
 
+  // Deletes a trip
   const deleteTrip = () => {
     window.alert('Your trip has been deleted!');
     props.delete(props.user, props.trip);
   }
 
+  // Activity header divs based on if there are events or restaurants on the trip
+  const showActivityDiv = (activityType, trip) => {
+    // If activity = event and there are events in the current trip
+    if (activityType === 'event' && trip.events.length > 0) {
+      return (
+        <div style={styles.activityHeader}>Events:</div>
+      )
+    // If activity = eatin and there are restaurants in the current trip
+    } else if (activityType === 'eatin' && trip.eatin.length > 0) {
+      return (
+        <div style={styles.activityHeader}>Food:</div>
+      )
+    }
+  }
+
+  // Renders list of user's current trips
   if (props.editable === true) {
     return (
       <Card
@@ -66,7 +85,7 @@ const Trip = (props) => {
         <CardText
           expandable={true}
         >
-          <div style={styles.activityHeader}>Events:</div>
+          {showActivityDiv('event', props.trip)}
           <div style={styles.tripDetails}>
             {props.trip.events.map((event, index) =>
               <Activity key={index}
@@ -78,8 +97,9 @@ const Trip = (props) => {
               />
             )}
           </div>
-
-          <div style={styles.activityHeader}>Food:</div>
+          
+          {showActivityDiv('eatin', props.trip)}
+          {/* <div style={styles.activityHeader}>Food:</div> */}
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
               <Activity key={index}
@@ -94,8 +114,14 @@ const Trip = (props) => {
         </CardText>
 
         <CardActions>
-          <FlatButton label = 'Make Public' onClick = {makePublic} />
-          <FlatButton label= 'Delete' onClick = {deleteTrip} />
+          <FlatButton
+            label = 'Make Public'
+            onClick = {makePublic}
+          />
+          <FlatButton
+            label= 'Delete'
+            onClick = {deleteTrip}
+          />
         </CardActions>
       </Card>
     ); 
@@ -114,7 +140,7 @@ const Trip = (props) => {
         <CardText
           expandable={true}
         >
-          <div style={styles.activityHeader}>Events:</div>
+          {showActivityDiv('event', props.trip)}
           <div style={styles.tripDetails}>
             {props.trip.events.map((event, index) =>
               <Activity
@@ -125,7 +151,7 @@ const Trip = (props) => {
             )}
           </div>
           
-          <div style={styles.activityHeader}>Food:</div>
+          {showActivityDiv('eatin', props.trip)}
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
               <Activity

@@ -270,7 +270,7 @@ class SearchPage extends React.Component {
                     <NavigationClose />
                   </IconButton>}
               />
-              <div style={tripStyle.styles.activityHeader}>Events:</div>
+              {showActivityDiv('event', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.events.map((event, index) => 
                   (<Activity
@@ -284,7 +284,7 @@ class SearchPage extends React.Component {
                   />))}
               </div>
               
-              <div style={tripStyle.styles.activityHeader}>Food:</div>
+              {showActivityDiv('eatin', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.eatin.map((eatin, index) => 
                   (<Activity
@@ -301,6 +301,21 @@ class SearchPage extends React.Component {
         }
       }
     }
+
+    /************************* ACTIVITY HEADER DIVS ******************************/
+    const showActivityDiv = (activityType, trip) => {
+      // If activity = event and there are events in the current trip
+      if (activityType === 'event' && trip.events.length > 0) {
+        return (
+          <div style={tripStyle.styles.activityHeader}>Events:</div>
+        )
+      // If activity = eatin and there are restaurants in the current trip
+      } else if (activityType === 'eatin' && trip.eatin.length > 0) {
+        return (
+          <div style={tripStyle.styles.activityHeader}>Food:</div>
+        )
+      }
+    };
 
     /*************************** WELCOME USER TEXT ***************************/
     const welcomeUser = () => {
