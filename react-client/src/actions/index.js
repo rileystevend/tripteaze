@@ -124,7 +124,11 @@ export const makeNewTrip = (username, city, index, fromDate, toDate) => {
     }).then(
       results => {
         dispatch(activateTrip(index));
-        dispatch(fetchTrips(username))
+        dispatch(fetchTrips(username));
+        dispatch(updateCity(''));
+        dispatch(updateToDate(''));
+        dispatch(setMinToDate({}));
+        dispatch(updateFromDate(''));
       },
         error => dispatch(badStuff(error))
     );
