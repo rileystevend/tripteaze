@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
-const config = require('../config.js');
 
 let uri;
 
 if (!process.env.MONGODB_URI) {
   console.log('DEV')
+  config = require('../config.js');
   uri = config.mongo;
 } else {
   console.log('PROCESS PICKED UP', process.env.MONGODB_URI)
