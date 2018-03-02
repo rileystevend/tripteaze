@@ -19,6 +19,7 @@ import Toggle from 'material-ui/Toggle';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 
 import * as theme from './homePage.jsx';  // * does all named exports from that file
+import * as tripStyle from './trip.jsx';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -266,26 +267,32 @@ class SearchPage extends React.Component {
                     <NavigationClose />
                   </IconButton>}
               />
-              {activeTrip.events.map((event, index) => 
-                (<Activity
-                  key={index}
-                  sidebar = 'true'
-                  type='event'
-                  activity={event}
-                  user={state.username}
-                  city={this.state.activeCity}
-                  delete={actions.deleteEvent}
-                />))}
-
-              {activeTrip.eatin.map((eatin, index) => 
-                (<Activity
-                  key={index}
-                  sidebar='true'
-                  type='food'
-                  user={state.username}
-                  city={this.state.activeCity}
-                  activity={eatin}
-                />))}
+              <div style={tripStyle.styles.activityHeader}>Events:</div>
+              <div style={tripStyle.styles.tripDetails}>
+                {activeTrip.events.map((event, index) => 
+                  (<Activity
+                    key={index}
+                    sidebar = 'true'
+                    type='event'
+                    activity={event}
+                    user={state.username}
+                    city={this.state.activeCity}
+                    delete={actions.deleteEvent}
+                  />))}
+              </div>
+              
+              <div style={tripStyle.styles.activityHeader}>Food:</div>
+              <div style={tripStyle.styles.tripDetails}>
+                {activeTrip.eatin.map((eatin, index) => 
+                  (<Activity
+                    key={index}
+                    sidebar='true'
+                    type='food'
+                    user={state.username}
+                    city={this.state.activeCity}
+                    activity={eatin}
+                  />))}
+              </div>
             </Drawer>
           );
         }
