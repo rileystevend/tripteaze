@@ -8,7 +8,7 @@ import moment from 'moment';
 import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 import * as activityStyles from './homePage.jsx';  // * does all named exports from that file
 
-const styles = {
+export const styles = {
   activityHeader: {
     backgroundColor: '#f9f9f9',
     color: cyan600,
@@ -72,7 +72,9 @@ const Trip = (props) => {
                 delete={props.deleteEvent}
                 user={props.user}
                 city={props.trip.city}
-                type='event' activity={event} />
+                type='event'
+                activity={event}
+              />
             )}
           </div>
 
@@ -83,7 +85,9 @@ const Trip = (props) => {
                 delete={props.deleteFood}
                 user={props.user}
                 city={props.trip.city}
-                type='eatin' activity={food} />
+                type='eatin'
+                activity={food}
+              />
             )}
           </div>
         </CardText>

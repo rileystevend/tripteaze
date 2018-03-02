@@ -14,9 +14,6 @@ export const styles = {
   actionButtons: {
     backgroundColor: '#f9f9f9',
     margin: '1%'
-  },
-  button: {
-    marginRight: '1em'
   }
 }
 
@@ -74,7 +71,6 @@ class Login extends React.Component {
           <RaisedButton
             label="Login"
             onClick={this.handleOpen.bind(this)}
-            style={styles.button}
           />
           <Dialog
             title="Login"

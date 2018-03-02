@@ -12,9 +12,21 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 
 import Paper from 'material-ui/Paper';
-
+import Login from './login.jsx';
 import Trip from './trip.jsx'; 
 import * as actions from '../actions/index.js';
+
+const styles = {
+  notLoggedIn: {
+    background: `linear-gradient(to bottom right, #f9f9f9, ${cyan50})`,
+    color: cyan800,
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginTop: '2%',
+    padding: '0.5%',
+    textAlign: 'center'
+  }
+}
 
 class UserPage extends React.Component {
   constructor (props) {
@@ -38,13 +50,66 @@ class UserPage extends React.Component {
       );
     } else {
       return (
-        <div>Your Trips</div>
+        <div>{this.props.state.username}'s Current Trips</div>
       );
     }
   }
 
   render() {
     if (this.props.state.authenticated === true) { // If logged in
+      return (
+        <MuiThemeProvider muiTheme={theme.muiTheme}>
+          <Paper>
+            {/************************** NAVIGATION **************************/}
+            <div style={theme.styles.navLinks}>
+              <Link to= '/'>
+                <RaisedButton
+                  label="Home"
+                />
+              </Link>
+              <Link to='/'> 
+                <RaisedButton
+                  onClick = {this.props.actions.logOut}
+                  style={{marginLeft: '1em'}}
+                  label = 'Log Out'
+                /> 
+              </Link>
+            </div>
+
+            {/************************** HEADER **************************/}
+            <div style={theme.styles.header}>
+              <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
+                TripTeaze
+              </Link>
+            </div>
+
+            {/************************** MESSAGE **************************/}
+            <div style={theme.styles.body}>
+              <Link to="plan">
+                <RaisedButton
+                  label="Create a trip"
+                  style={theme.styles.tripButton}
+                />
+              </Link>
+
+              <div style={theme.styles.discoverTrips}>{this.generateMessage()}</div>
+
+              {/************************** USER'S TRIPS **************************/}
+              {this.props.state.trips.map((trip, index) => 
+                <Trip
+                  key = {index}
+                  user = {this.props.state.username} 
+                  trip = {trip} 
+                  editable = {true}
+                  delete = {this.props.actions.deleteTrip}
+                  toggleStatus = {this.props.actions.toggleTripStatus}
+                />
+              )}
+            </div>
+          </Paper>
+        </MuiThemeProvider>
+      );
+    } else { // If not logged in
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>
           <Paper>
@@ -76,33 +141,12 @@ class UserPage extends React.Component {
                 TripTeaze
               </Link>
             </div>
-
-            {/************************** MESSAGE **************************/}
-            <div style={{marginTop: '1em'}}>
-              <div style={theme.styles.discoverTrips}>{this.generateMessage()}</div>
-
-              {/************************** USER'S TRIPS **************************/}
-              {this.props.state.trips.map((trip, index) => 
-                <Trip
-                  key = {index}
-                  user = {this.props.state.username} 
-                  trip = {trip} 
-                  editable = {true}
-                  delete = {this.props.actions.deleteTrip}
-                  toggleStatus = {this.props.actions.toggleTripStatus}
-                />
-              )}
+          
+            <div style={styles.notLoggedIn}>
+              Oops! Please 
+              <Link to="/" style={{textDecoration: 'none', color: cyan900}}> login </Link>
+              to access this content!
             </div>
-          </Paper>
-        </MuiThemeProvider>
-      );
-    } else { // If not logged in
-      return (
-        <MuiThemeProvider muiTheme={theme.muiTheme}>
-          <Paper>
-          <div style={theme.styles.discoverTrips}>
-            Sorry! Please log in to access this content!
-          </div>
           </Paper>
         </MuiThemeProvider>
       );

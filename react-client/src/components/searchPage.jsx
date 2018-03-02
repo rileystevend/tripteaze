@@ -19,6 +19,7 @@ import Toggle from 'material-ui/Toggle';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 
 import * as theme from './homePage.jsx';  // * does all named exports from that file
+import * as tripStyle from './trip.jsx';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -32,7 +33,7 @@ import Signup from './signup.jsx';
 import Login from './login.jsx';
 import Eatin from './restaurants.jsx';
 
-const styles = {
+export const styles = {
   activityTitle: {
     backgroundColor: '#f9f9f9',
     color: cyan800,
@@ -62,17 +63,22 @@ const styles = {
   },
   eventContainer: {
     display: 'inline-block',
+    marginBottom: '1%',
+    marginTop: '1%',
     verticalAlign: 'top',
     width: '49%'
   },
   foodContainer: {
     display: 'inline-block',
+    marginBottom: '1%',
     marginLeft: '2%',
+    marginTop: '1%',
     verticalAlign: 'top',
     width: '49%'
   },
-  myTripsButton: {
-    marginRight: '1em'
+  navButtons: {
+    marginRight: '1em',
+    marginLeft: '1em'
   },
   paper: {
     display: 'flex',
@@ -94,6 +100,9 @@ const styles = {
   tripDates: {
     display: 'flex',
     flexFlow: 'column wrap'
+  },
+  welcomeUser: {
+    marginTop: '1%'
   }
 }
 
@@ -218,32 +227,29 @@ class SearchPage extends React.Component {
 
     /*************************** EXISTING TRIPS DROPDOWN ***************************/
     const dropdown = () => {
-      if (state.authenticated && state.trips.length > 0) {
-        return (
-          <div>
-            <SelectField 
-              // floatingLabelText="Existing Trips" 
-              value={this.state.dropdown} 
-              onChange = {this.updateCity.bind(this)}
-            > 
-              <MenuItem value = ' ' primaryText = 'Make a New Trip' />
-                {state.trips.map((trip, index) => 
-                  <MenuItem
-                    key = {index}
-                    value = {trip.city}
-                    primaryText = {trip.city} 
-                  />)
-                }
-            </SelectField>
-            <br/>
-            <RaisedButton
-              onClick={() => (this.setState({ open: !this.state.open }))}
-              label='Show Details'
-              disabled={!state.activeTrip.status}
-            />
-          </div>
-        );
-      }
+      return (
+        <div>
+          <SelectField 
+            value={this.state.dropdown} 
+            onChange = {this.updateCity.bind(this)}
+          > 
+            <MenuItem value = ' ' primaryText = 'Make a New Trip' />
+              {state.trips.map((trip, index) => 
+                <MenuItem
+                  key = {index}
+                  value = {trip.city}
+                  primaryText = {trip.city} 
+                />)
+              }
+          </SelectField>
+          <br/>
+          <RaisedButton
+            onClick={() => (this.setState({ open: !this.state.open }))}
+            label='Show Details'
+            disabled={!state.activeTrip.status}
+          />
+        </div>
+      );
     }
 
     /*************************** TRIP DETAILS SIDEBAR ***************************/
@@ -266,29 +272,48 @@ class SearchPage extends React.Component {
                     <NavigationClose />
                   </IconButton>}
               />
-              {activeTrip.events.map((event, index) => 
-                (<Activity
-                  key={index}
-                  sidebar = 'true'
-                  type='event'
-                  activity={event}
-                  user={state.username}
-                  city={this.state.activeCity}
-                  delete={actions.deleteEvent}
-                />))}
-
-              {activeTrip.eatin.map((eatin, index) => 
-                (<Activity
-                  key={index}
-                  sidebar='true'
-                  type='food'
-                  user={state.username}
-                  city={this.state.activeCity}
-                  activity={eatin}
-                />))}
+              <div style={tripStyle.styles.activityHeader}>Events:</div>
+              <div style={tripStyle.styles.tripDetails}>
+                {activeTrip.events.map((event, index) => 
+                  (<Activity
+                    key={index}
+                    sidebar = 'true'
+                    type='event'
+                    activity={event}
+                    user={state.username}
+                    city={this.state.activeCity}
+                    delete={actions.deleteEvent}
+                  />))}
+              </div>
+              
+              <div style={tripStyle.styles.activityHeader}>Food:</div>
+              <div style={tripStyle.styles.tripDetails}>
+                {activeTrip.eatin.map((eatin, index) => 
+                  (<Activity
+                    key={index}
+                    sidebar='true'
+                    type='food'
+                    user={state.username}
+                    city={this.state.activeCity}
+                    activity={eatin}
+                  />))}
+              </div>
             </Drawer>
           );
         }
+      }
+    }
+
+    /*************************** WELCOME USER TEXT ***************************/
+    const welcomeUser = () => {
+      if (this.props.state.authenticated) {
+        return (
+          <div style={theme.styles.discoverTrips}>Welcome back, {state.username}!</div>
+        )
+      } else {
+        return (
+          <div style={theme.styles.discoverTrips}>Welcome!</div>
+        )
       }
     }
   
@@ -300,24 +325,8 @@ class SearchPage extends React.Component {
             <Link to= '/'>
               <RaisedButton
                 label="Home"
-                style={styles.myTripsButton}
               />
             </Link>
-
-            <Link to= 'trips'>
-              <RaisedButton
-                label="My Trips"
-                disabled={!this.props.state.authenticated}
-                style={styles.myTripsButton}
-              />
-            </Link>
-            <Login
-              login={actions.login}
-              username={state.username}
-              password={state.password}
-              updateUsername={actions.updateUsername}
-              updatePassword={actions.updatePassword}
-            />
             <Signup
               signup={actions.signup}
               username={state.username}
@@ -325,11 +334,25 @@ class SearchPage extends React.Component {
               updateUsername={actions.updateUsername}
               updatePassword={actions.updatePassword}
             />
+            <Login
+              login={actions.login}
+              username={state.username}
+              password={state.password}
+              updateUsername={actions.updateUsername}
+              updatePassword={actions.updatePassword}
+            />
+            <Link to= 'trips'>
+              <RaisedButton
+                label="My Trips"
+                disabled={!this.props.state.authenticated}
+                style={styles.navButtons}
+              />
+            </Link>
             <Link to='/'>
               <RaisedButton
+                disabled={!this.props.state.authenticated}
                 onClick={this.props.actions.logOut}
                 label='Log Out'
-                style={{marginLeft: '1em'}}
               />
             </Link>
           </div>
@@ -340,6 +363,8 @@ class SearchPage extends React.Component {
               TripTeaze
             </Link>
           </div>
+
+          <div style={styles.welcomeUser}>{welcomeUser()}</div>
           
           {/************************** CREATE TRIP CARD **************************/}
           <div style={styles.createTripCard}>
@@ -390,7 +415,9 @@ class SearchPage extends React.Component {
 
           {/************************** EXISTING TRIPS CARD **************************/}
           <div style={styles.existingTripsCard}>
-            <Card>
+            <Card
+              initiallyExpanded={true}
+            >
               <CardTitle
                 title="Current Trips"
                 titleStyle={styles.cardTitle}
@@ -406,6 +433,7 @@ class SearchPage extends React.Component {
           </div>
           
           <div style={{marginTop: '3%'}}>
+            <div style={theme.styles.discoverTrips}>Explore</div>
             {/************************** SEARCH EVENTS **************************/}
             <Paper style={styles.eventContainer}>
               <div style={styles.searchBar}>

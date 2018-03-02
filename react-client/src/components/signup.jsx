@@ -5,7 +5,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import * as theme from './homePage.jsx';  // * does all named exports from that file
-import * as css from './login.jsx';
+import * as loginStyle from './login.jsx';
+import * as searchStyle from './searchPage.jsx';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -48,12 +49,12 @@ class Signup extends React.Component {
 				primary={true}
 				keyboardFocused={true}
 				onClick={this.submit.bind(this)}
-				style={css.styles.actionButtons}
+				style={loginStyle.styles.actionButtons}
 			/>,
 			<FlatButton
 				label="Cancel"
 				onClick={this.handleClose.bind(this)}
-				style={css.styles.actionButtons}
+				style={loginStyle.styles.actionButtons}
 			/>
 		];
 
@@ -63,6 +64,7 @@ class Signup extends React.Component {
 					<RaisedButton
 						label="Join"
 						onClick={this.handleOpen.bind(this)}
+						style={searchStyle.styles.navButtons}
 					/>
 					<Dialog 
 						title="Sign Up"
