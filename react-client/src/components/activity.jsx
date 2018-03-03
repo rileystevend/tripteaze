@@ -116,7 +116,7 @@ let Activity = (props) => {
         <CardHeader
           showExpandableButton={true}
           actAsExpander={true}
-          title="More.."
+          title="More..."
           titleStyle={{
             color: cyan700,
             fontSize: 12,
