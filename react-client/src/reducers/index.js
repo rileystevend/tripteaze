@@ -17,9 +17,9 @@ const initialState = {
   foodQuery: '',
   foodResults: [],
   activeTrip: {
-      status: false,
-      index: 0
-    }
+    status: false,
+    index: 0
+  }
 }; //will need to be updated as needed
 
 const reducer = function (state = initialState, action) {  //if state is undefined, state becomes inital state
@@ -88,7 +88,7 @@ const reducer = function (state = initialState, action) {  //if state is undefin
       newTripsEatin.splice(state.activeTrip.index, 1, newTripEatin);
       return Object.assign({}, state, { trips: newTripsEatin });
     default:
-      console.log('action not recognized!!!!', action.type);
+      // console.log('action not recognized!!!!', action.type);
       return state;  //if unrecognized action type nothing happens
   }
 }
@@ -107,7 +107,7 @@ EXAMPLE
 const initialState = { thing: 0 };
 
 const reducer = function (state = initialState, action) {  //if state is undefined, state becomes inital state
-                                                          //action is the object returned by a function in the actions/index.js file
+  //action is the object returned by a function in the actions/index.js file
 
   switch (action.type) {
     // case 'NEW_THING':

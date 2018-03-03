@@ -6,7 +6,6 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import FlatButton from 'material-ui/FlatButton/';
 import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 
-
 //onClick={() => props.deleteEvent(event,props.user,props.city)}
 
 export const styles = {
@@ -15,13 +14,13 @@ export const styles = {
     textDecoration: 'none'
   },
   cardTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: 'bold',
     lineHeight: '0 !important'
   },
   cardSubtitle: {
     color: cyan500,
-    fontSize: 12
+    fontSize: 13
   }
 }
 
@@ -38,13 +37,27 @@ let Activity = (props) => {
   }
 
   // Remove buttons should only appear on a user's trips page
-  let showRemoveButton = () => {
+  let showRemoveButton = (activity) => {
     if (props.user) {
-      return (
-        <CardActions>
-          <FlatButton onClick={() => props.delete(props.activity, props.user, props.city)} label='Remove' />
-        </CardActions>
-      )
+      if (activity === 'event') {
+        return (
+          <CardActions>
+            <FlatButton
+              onClick={() => props.deleteEvent(props.activity, props.user, props.city)} 
+              label='Remove'
+            />
+          </CardActions>
+        )
+      } else if (activity === 'eatin') {
+        return (
+          <CardActions>
+            <FlatButton
+              onClick= {() => props.deleteFood(props.activity,props.user,props.city)}
+              label = 'Remove'
+            />
+          </CardActions>
+        )
+      }
     }
   }
 
@@ -59,9 +72,31 @@ let Activity = (props) => {
 
   // Renders activities shown on page
   if (props.type === 'event') {
+    let fromDate = moment(props.activity.start_time).format('MM/DD/YY');
+    let startTime = moment(props.activity.start_time).format('h:mm A');
+
+    let toDate = moment(props.activity.end_time).format('MM/DD/YY');
+    let endTime = moment(props.activity.start_time).format('h:mm A');
+
+    let cardSubtitle = `${fromDate} ${startTime} - ${toDate} ${endTime}`;
+
+    // If start/end dates are the same
+    if (fromDate === toDate) {
+      // And if start/end times are the same
+      if (startTime === endTime) {
+        // Show only the start date/time
+        cardSubtitle = `${fromDate} @ ${startTime}`;
+      } else {
+        // Else show the start/end time
+        cardSubtitle = `${fromDate} from ${startTime} - ${endTime}`;
+      }
+    }
+
     return (
       <Card style={cardStyle}> 
-        <CardMedia>
+        <CardMedia
+          
+        >
           <img src={props.activity.logo} alt =''/>
         </CardMedia>
         
@@ -73,23 +108,50 @@ let Activity = (props) => {
               style={styles.anchor}
             >{props.activity.name}</a>
           }
-          // subtitle = {moment(props.activity.start_time).format('MM/DD/YY')}
+          subtitle = {cardSubtitle}
           titleStyle = {styles.cardTitle}
           subtitleStyle = {styles.cardSubtitle}
         />
 
-        <CardText>
+        <CardHeader
+          showExpandableButton={true}
+          actAsExpander={true}
+          title="More..."
+          titleStyle={{
+            color: cyan700,
+            fontSize: 12,
+            fontWeight: 'bold',
+            lineHeight: '0 !important',
+          }}
+          style={{
+            fontSize: 12,
+            lineHeight: '0 !important'
+          }}
+        />
 
-          {`${moment(props.activity.start_time).format('MM/DD/YY hh:mm A')} - ${moment(props.activity.end_time).format('MM/DD/YY hh:mm A')}`}
-
+        <CardText
+          style={{
+            color: cyan800,
+            fontSize: 12
+          }}
+          expandable={true}
+        >
+        <div style={{
+          backgroundColor: '#f9f9f9',
+          color: cyan900,
+          fontWeight: 'bold',
+          padding: '1%'
+        }}>About:</div>
+        <div style={{
+          color: cyan800,
+          fontSize: 11,
+          maxHeight: '250px',
+          overflow: 'auto'
+        }}>{props.activity.description}</div>
         </CardText>
-
-
-        {showRemoveButton()}
-
-        <CardActions>
-          <FlatButton onClick={() => props.deleteEvent(props.activity, props.user, props.city)} label='Remove' />
-        </CardActions>
+        
+        {/*********** Renders the remove button if user is logged in ***********/}
+        {showRemoveButton('event')}
       </Card>
     );
 
@@ -115,16 +177,14 @@ let Activity = (props) => {
         />
 
         <CardText>
-          {props.activity.address}
-          {props.activity.details}
+          <div style={{
+            color: cyan800,
+            fontSize: 11
+          }}>{props.activity.address}</div>
         </CardText>
-
-
-        {showRemoveButton()}
-
-        <CardActions>
-          <FlatButton onClick= {() => props.deleteFood(props.activity,props.user,props.city)} label = 'Remove' />
-        </CardActions>
+        
+        {/*********** Renders the remove button if user is logged in ***********/}
+        {showRemoveButton('eatin')}
       </Card>
     );
   }
