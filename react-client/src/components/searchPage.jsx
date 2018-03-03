@@ -288,6 +288,8 @@ class SearchPage extends React.Component {
       if (state.activeTrip.status) {
         let activeTrip = state.trips[state.activeTrip.index]; 
         if (activeTrip) {
+          let fromDate = moment(activeTrip.fromDate).format('MM/DD/YY');
+          let toDate = moment(activeTrip.toDate).format('MM/DD/YY');
           return (
             <Drawer
               width={400}
@@ -303,6 +305,7 @@ class SearchPage extends React.Component {
                     <NavigationClose />
                   </IconButton>}
               />
+              <div style={{margin: '2%', fontSize: 15, textAlign: 'center'}}>Trip Dates: {fromDate} - {toDate}</div>
               {showActivityDiv('event', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.events.map((event, index) => 
