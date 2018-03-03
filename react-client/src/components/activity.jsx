@@ -37,13 +37,29 @@ let Activity = (props) => {
   }
 
   // Remove buttons should only appear on a user's trips page
-  let showRemoveButton = () => {
+  let showRemoveButton = (activity) => {
     if (props.user) {
-      return (
-        <CardActions>
-          <FlatButton onClick={() => props.delete(props.activity, props.user, props.city)} label='Remove' />
-        </CardActions>
-      )
+      if (activity === 'event') {
+        return (
+          <CardActions>
+            <FlatButton
+              onClick={() => props.deleteEvent(props.activity, props.user, props.city)} 
+              label='Remove'
+            />
+          </CardActions>
+        )
+      } else if (activity === 'eatin') {
+        return (
+          <CardActions>
+            <FlatButton
+              onClick= {() => props.deleteFood(props.activity,props.user,props.city)}
+              label = 'Remove'
+            />
+          </CardActions>
+        )
+      }
+    } else {
+      console.log('not logged in', props.user)
     }
   }
 
@@ -135,12 +151,9 @@ let Activity = (props) => {
           overflow: 'auto'
         }}>{props.activity.description}</div>
         </CardText>
-  
-        {showRemoveButton()}
-
-        <CardActions>
-          <FlatButton onClick={() => props.deleteEvent(props.activity, props.user, props.city)} label='Remove' />
-        </CardActions>
+        
+        {/*********** Renders the remove button if user is logged in ***********/}
+        {showRemoveButton('event')}
       </Card>
     );
 
@@ -171,13 +184,9 @@ let Activity = (props) => {
             fontSize: 11
           }}>{props.activity.address}</div>
         </CardText>
-
-
-        {showRemoveButton()}
-
-        <CardActions>
-          <FlatButton onClick= {() => props.deleteFood(props.activity,props.user,props.city)} label = 'Remove' />
-        </CardActions>
+        
+        {/*********** Renders the remove button if user is logged in ***********/}
+        {showRemoveButton('eatin')}
       </Card>
     );
   }
