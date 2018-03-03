@@ -108,10 +108,16 @@ class UserPage extends React.Component {
                   user = {state.username} 
                   trip = {trip} 
                   editable = {true}
-                  delete = {actions.deleteTrip}
-                  toggleStatus = {actions.toggleTripStatus}
                   toSearchPage = {this.toSearchPage.bind(this)}
                   activate = {actions.activateTrip}
+                  delete = {this.props.actions.deleteTrip}
+                  deleteEvent = {this.props.actions.deleteEvent}
+                  deleteFood = {this.props.actions.deleteFood}
+                  toggleStatus = {this.props.actions.toggleTripStatus}
+                  publicSnackbar={this.props.state.publicSnackbar}
+                  onRequestClosePublic={this.props.actions.deactivatePublicSnackbar}
+                  deleteSnackbar={this.props.state.deleteSnackbar}
+                  onRequestCloseDelete={this.props.actions.deactivateDeleteSnackbar}
                 />
               )}
             </div>

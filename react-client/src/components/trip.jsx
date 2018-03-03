@@ -7,6 +7,7 @@ import { GridList, GridTile } from 'material-ui/GridList';
 import moment from 'moment';
 import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 import * as activityStyles from './homePage.jsx';  // * does all named exports from that file
+import Snackbar from 'material-ui/Snackbar';
 
 export const styles = {
   activityHeader: {
@@ -43,12 +44,11 @@ const Trip = (props) => {
   // Makes user's trip public
   const makePublic = () => {
     props.toggleStatus(props.user, props.trip);
-    window.alert('Your trip has been made public!');
+    console.log('heyyyy');
   }
 
   // Deletes a trip
   const deleteTrip = () => {
-    window.alert('Your trip has been deleted!');
     props.delete(props.user, props.trip);
   }
 
@@ -94,7 +94,7 @@ const Trip = (props) => {
           <div style={styles.tripDetails}>
             {props.trip.events.map((event, index) =>
               <Activity key={index}
-                delete={props.deleteEvent}
+                deleteEvent={props.deleteEvent}
                 user={props.user}
                 city={props.trip.city}
                 type='event'
@@ -108,7 +108,7 @@ const Trip = (props) => {
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
               <Activity key={index}
-                delete={props.deleteFood}
+                deleteFood={props.deleteFood}
                 user={props.user}
                 city={props.trip.city}
                 type='eatin'
@@ -132,6 +132,9 @@ const Trip = (props) => {
             onClick = {activateAndSearch}
           />
         </CardActions>
+
+        <Snackbar open={props.deleteSnackbar} message={'Your trip has been deleted!'} autoHideDuration={3000} onRequestClose={props.onRequestCloseDelete}/>
+        <Snackbar open={props.publicSnackbar} message={'Your trip has been made public!'} autoHideDuration={3000} onRequestClose={props.onRequestClosePublic}/>
       </Card>
     ); 
   } else {

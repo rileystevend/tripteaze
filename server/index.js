@@ -183,19 +183,20 @@ app.post('/trips', (req, res) => {
 
 app.patch('/trips', (req, res) => {
 	if (req.body.public !== undefined) {
+
 		db.modifyTripDetails(req.body.public, null, req.body.user, req.body.tripCity, function(err, data) {
 			if (err) {
 				res.status(500).send(err);
 			} else {
-				res.status(202).end();
+				res.sendStatus(204);
 			}
-		})
+		});
 	} else {
 		db.remove('trip', req.body.tripID, function(err, data) {
 			if (err) {
 				res.status(500).send(err);
 			} else {
-				res.status(202).end();
+				res.status(204).end();
 			}
 		})
 	}
@@ -264,6 +265,7 @@ app.get('/events', (req, res) => {
 app.post('/foods', (req, res) => {
 	let city =  req.body.tripCity;
 	let searchFood = req.body.foodQuery;
+	
 	zomato.searchForCityId( city, ( err, data ) => {
 		if (err) {
 			res.status(500).send(err);
@@ -281,7 +283,7 @@ app.post('/foods', (req, res) => {
 });
 
 app.post('/foods/remove', function (req, res) {
-	console.log('food to be removed', req.body);
+	
 	db.remove('restaurant', req.body.foodID, function (err) {
 		if (err) {
 			res.status(500).send(err);
