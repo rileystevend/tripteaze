@@ -608,7 +608,7 @@ class SearchPage extends React.Component {
     );
   }  
 }
-}
+
 
 const mapStateToProps = state => (
   { state: state }
