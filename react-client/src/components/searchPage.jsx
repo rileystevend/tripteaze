@@ -281,7 +281,7 @@ class SearchPage extends React.Component {
           <div>Please login to view your current trips!</div>
         )
       }
-    
+    }
 
     /*************************** TRIP DETAILS SIDEBAR ***************************/
     const drawer = () => {
