@@ -19,6 +19,13 @@ export const styles = {
     margin: '0.5em',
     textAlign: 'left'
   },
+  cardSubtitle: {
+    color: cyan600
+  },
+  cardTitle: {
+    color: cyan900,
+    fontWeight: 'bold'
+  },
   cityTitle: {
     color: cyan900,
     fontSize: 22,
@@ -74,6 +81,8 @@ const Trip = (props) => {
 
   // Renders list of user's current trips
   if (props.editable === true) {
+    let fromDate =moment(props.trip.fromDate).add(1, 'days').format('MM/DD/YY');
+    let toDate = moment(props.trip.toDate).add(1, 'days').format('MM/DD/YY');
     return (
       <Card
         style={styles.tripCard}
@@ -81,11 +90,11 @@ const Trip = (props) => {
       }> 
         <CardTitle
           title = {props.trip.city}
-          subtitle = {moment(props.trip.fromDate).format('MM/DD/YYYY') + ' - ' + moment(props.trip.toDate).format('MM/DD/YYYY')} // Trip dates
+          subtitle = {fromDate + ' - ' + toDate} // Trip dates
           actAsExpander={true}
           showExpandableButton={true}
-          titleStyle = {activityStyles.styles.cardTitle}
-          subtitleStyle = {activityStyles.styles.cardSubtitle}
+          titleStyle = {styles.cardTitle}
+          subtitleStyle = {styles.cardSubtitle}
         />
         <CardText
           expandable={true}
@@ -104,7 +113,6 @@ const Trip = (props) => {
           </div>
           
           {showActivityDiv('eatin', props.trip)}
-          {/* <div style={styles.activityHeader}>Food:</div> */}
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
               <Activity key={index}

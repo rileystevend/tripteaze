@@ -73,11 +73,11 @@ export const styles = {
     marginRight: '1em',
     marginLeft: '1em'
   },
-  paper: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-    margin: '10px'
-  },
+  // paper: {
+  //   display: 'flex',
+  //   flexFlow: 'row wrap',
+  //   margin: '10px'
+  // },
   searchBar: {
     paddingLeft: '5%',
     paddingRight: '5%'
@@ -288,8 +288,9 @@ class SearchPage extends React.Component {
       if (state.activeTrip.status) {
         let activeTrip = state.trips[state.activeTrip.index]; 
         if (activeTrip) {
-          let fromDate = moment(activeTrip.fromDate).format('MM/DD/YY');
-          let toDate = moment(activeTrip.toDate).format('MM/DD/YY');
+          // momentjs is weird and shows the dates as 1 day off bc time zones, so 1 day has to be added back for the dates to show correctly
+          let fromDate = moment(activeTrip.fromDate).add(1, 'days').format('MM/DD/YY');
+          let toDate = moment(activeTrip.toDate).add(1, 'days').format('MM/DD/YY');
           return (
             <Drawer
               width={400}
@@ -305,7 +306,7 @@ class SearchPage extends React.Component {
                     <NavigationClose />
                   </IconButton>}
               />
-              <div style={{margin: '2%', fontSize: 15, textAlign: 'center'}}>Trip Dates: {fromDate} - {toDate}</div>
+              <div style={{margin: '2%', fontSize: 25, fontWeight: 'bold', textAlign: 'center'}}>{fromDate} - {toDate}</div>
               {showActivityDiv('event', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.events.map((event, index) => 
