@@ -84,7 +84,12 @@ let Activity = (props) => {
 
         </CardText>
 
+
         {showRemoveButton()}
+
+        <CardActions>
+          <FlatButton onClick={() => props.deleteEvent(props.activity, props.user, props.city)} label='Remove' />
+        </CardActions>
       </Card>
     );
 
@@ -103,6 +108,7 @@ let Activity = (props) => {
               style={styles.anchor}
             >{props.activity.name}</a>
           }
+
           subtitle={calcDollarSigns(props.activity.price)}
           titleStyle = {styles.cardTitle}
           subtitleStyle = {styles.cardSubtitle}
@@ -113,7 +119,12 @@ let Activity = (props) => {
           {props.activity.details}
         </CardText>
 
+
         {showRemoveButton()}
+
+        <CardActions>
+          <FlatButton onClick= {() => props.deleteFood(props.activity,props.user,props.city)} label = 'Remove' />
+        </CardActions>
       </Card>
     );
   }

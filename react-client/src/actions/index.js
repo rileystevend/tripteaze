@@ -205,7 +205,7 @@ export const deactivateEventSnackbar = () => ({type: 'DEACTIVATE_EVENT_SNACKBAR'
 
 /***************************** FOOD *************************************/
 
-export const updateFoodQuery = (query) => {return { type: 'UPDATE_FOOD_QUERY', payload: query }};
+export const updateFoodQuery = (query) => ({ type: 'UPDATE_FOOD_QUERY', payload: query });
 
 export const searchForFood = (city, query) => {
   return (dispatch) => {
@@ -237,7 +237,10 @@ export const addFoodToTrip = (food, username, city) => {
         tripCity: city
       }
     }).then(
-      results => { dispatch(fetchFoodFromTrip(username, city)) },
+      results => { 
+        dispatch(fetchFoodFromTrip(username, city));
+        dispatch(activateFoodSnackbar());
+      },
       error => dispatch(badStuff(error))
     );
   };
@@ -263,6 +266,10 @@ export const fetchFoodFromTrip = (username, city) => {
 
 const setTripEatin = (foods) => ({ type: 'REFRESH_TRIP_EATIN', payload: foods });
 
+export const activateFoodSnackbar = () => ({type: 'ACTIVATE_FOOD_SNACKBAR'});
+
+export const deactivateFoodSnackbar = () => ({type: 'DEACTIVATE_FOOD_SNACKBAR'});
+
 //////////////////////////////USER PAGE STUFF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 export const deleteTrip = (user, trip) => {
@@ -275,7 +282,10 @@ export const deleteTrip = (user, trip) => {
         tripID: trip.id
       }
     }).then (
-      results => {dispatch(fetchTrips(user))},
+      results => {
+        dispatch(fetchTrips(user));
+        dispatch(activateDeleteSnackbar());
+      },
       error => dispatch(badStuff(error))
     )
   }
@@ -323,11 +333,22 @@ export const toggleTripStatus = (user, trip) => {
         public : !trip.public
       }
     }).then (
-      results => (dispatch(fetchTrips(user))),
+      results => {
+        dispatch(fetchTrips(user));
+        dispatch(activatePublicSnackbar());
+      },
       error => dispatch(badStuff(error))
     )
   }
 }
+
+export const activateDeleteSnackbar = () => ({type: 'ACTIVATE_DELETE_SNACKBAR'});
+
+export const deactivateDeleteSnackbar = () => ({type: 'DEACTIVATE_DELETE_SNACKBAR'});
+
+export const activatePublicSnackbar = () => ({type: 'ACTIVATE_PUBLIC_SNACKBAR'});
+
+export const deactivatePublicSnackbar = () => ({type: 'DEACTIVATE_PUBLIC_SNACKBAR'});
 
 export const activateTrip = (tripIndex) => ({ type: 'ACTIVATE', payload: tripIndex });
 

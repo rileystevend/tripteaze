@@ -204,8 +204,10 @@ class SearchPage extends React.Component {
   submitFoodQuery (event) {
     let state = this.props.state;
     event.preventDefault();
-    if((state.activeTrip.status || state.city) && state.foodQuery) {
-      this.props.actions.searchForFood(this.state.activeCity, state.foodQuery)
+
+    if(state.activeTrip.status || state.city) {
+      let city = state.activeTrip.status ? this.state.activeCity : state.city;
+      this.props.actions.searchForFood(this.state.activeCity, this.props.state.foodQuery)
     } else {
       window.alert('Please select a city and search terms first!')
     }
@@ -279,7 +281,7 @@ class SearchPage extends React.Component {
           <div>Please login to view your current trips!</div>
         )
       }
-    }
+    
 
     /*************************** TRIP DETAILS SIDEBAR ***************************/
     const drawer = () => {
@@ -311,7 +313,7 @@ class SearchPage extends React.Component {
                     activity={event}
                     user={state.username}
                     city={this.state.activeCity}
-                    delete={actions.deleteEvent}
+                    deleteEvent={this.props.actions.deleteEvent}
                   />))}
               </div>
               
@@ -324,6 +326,7 @@ class SearchPage extends React.Component {
                     type='food'
                     user={state.username}
                     city={this.state.activeCity}
+                    deleteFood={this.props.actions.deleteFood}
                     activity={eatin}
                   />))}
               </div>
@@ -590,6 +593,8 @@ class SearchPage extends React.Component {
                   addFoodToTrip={actions.addFoodToTrip}
                   user={state.username}
                   city={this.state.activeCity}
+                  foodSnackbar={state.foodSnackbar}
+                  onRequestClose={actions.deactivateFoodSnackbar}
                 />
               </div>
             </Paper>

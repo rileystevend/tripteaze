@@ -3,6 +3,8 @@ import React from 'react';
 import { GridList, GridTile } from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import AddBorder from 'material-ui/svg-icons/content/add-circle-outline';
+import Snackbar from 'material-ui/Snackbar';
+
 
 
 const Eatin = (props) => {
@@ -40,6 +42,7 @@ const Eatin = (props) => {
                   subtitle= {`Cost for Two $${food.restaurant.average_cost_for_two}`}
                   actionIcon={<IconButton onClick={() => props.addFoodToTrip(food, props.user, props.city)}><AddBorder color="white" /></IconButton>}
                 >
+                  <Snackbar open={props.foodSnackbar} message={'Restaurant has been added to your trip!'} autoHideDuration={3000} onRequestClose={props.onRequestClose}/>
                   <img src={food.restaurant.featured_image} alt='' />
                 </GridTile>
               );
@@ -51,6 +54,7 @@ const Eatin = (props) => {
                   subtitle={`Cost for Two $${food.restaurant.average_cost_for_two}`}
                   actionIcon={<IconButton onClick={() => props.addFoodToTrip(food, props.user, props.city)}><AddBorder color="white" /></IconButton>}
                 >
+                  <Snackbar open={props.foodSnackbar} message={'Restaurant has been added to your trip!'} autoHideDuration={3000} onRequestClose={props.onRequestClose}/>
                   <img src='' />
                 </GridTile>
               )

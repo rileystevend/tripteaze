@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 let uri;
 
+
 if (!process.env.MONGODB_URI) {
   config = require('../config.js');
   uri = config.mongo;
@@ -336,9 +337,11 @@ let modifyTripDetails = (makePublic, makeArchived, username, city, callback) => 
             isArchived: makeArchived
           }
         }, function (err) {
-          if(err) {
+          if (err) {
             callback(err);
             console.log('error: ', err);
+          } else {
+            callback();
           }
         }
       );
