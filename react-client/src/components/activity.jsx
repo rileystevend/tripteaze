@@ -58,8 +58,6 @@ let Activity = (props) => {
           </CardActions>
         )
       }
-    } else {
-      console.log('not logged in', props.user)
     }
   }
 
