@@ -40,9 +40,10 @@ export const muiTheme = getMuiTheme({
     bodyColor: cyan600
   },
   flatButton: {
-    fontSize: 17,
+    color: '#f9f9f9',
+    fontSize: 14,
     fontWeight: 'bold',
-    textColor: cyan800,
+    textColor: cyan800
   },
   palette: {
     textColor: cyan900

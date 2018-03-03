@@ -30,12 +30,12 @@ export const styles = {
     color: cyan900,
     fontSize: 22,
     fontWeight: 'bold',
-    lineHeight: '0 !important',
+    lineHeight: '0 !important'
   },
   tripDetails: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   tripCard: {
     display: 'inline-block',
@@ -86,8 +86,8 @@ const Trip = (props) => {
     return (
       <Card
         style={styles.tripCard}
-        initiallyExpanded={true
-      }> 
+        initiallyExpanded={true}
+      > 
         <CardTitle
           title = {props.trip.city}
           subtitle = {fromDate + ' - ' + toDate} // Trip dates
