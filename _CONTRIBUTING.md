@@ -35,25 +35,7 @@ Use github’s interface to make a fork of the repo, then add that repo as an up
 ```
 git remote add upstream https://github.com/reactorcore/<NAME_OF_REPO>.git
 ```
-
-### Cut a namespaced feature branch from master
-
-Your branch should follow this naming convention:
-  - bug/...
-  - feat/...
-  - test/...
-  - doc/...
-  - refactor/...
-
-These commands will help you do this:
-
-``` bash
-
-# Creates your branch and brings you there
-git checkout -b `your-branch-name`
-```
-
-### Make commits to your feature branch.
+### Make commits to your master branch.
 
 Prefix each commit like so
   - (feat) Added a new feature
@@ -79,7 +61,7 @@ changes.
   be a blank line and then a more detailed description of the commit. This can be
   as detailed as you want, so dig into details here and keep the first line short.
 
-### Rebase upstream changes into your branch
+### Rebase upstream changes into your fork
 
 Once you are done making changes, you can begin the process of getting
 your code merged into the main repo. Step 1 is to rebase upstream

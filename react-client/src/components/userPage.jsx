@@ -36,7 +36,7 @@ class UserPage extends React.Component {
 
   componentWillMount () {
     this.props.actions.deactivate();
-    this.props.actions.fetchTrips(this.props.state.username);
+    this.props.actions.fetchTrips(this.props.store.username);
   }
 
   toSearchPage() {
@@ -48,7 +48,7 @@ class UserPage extends React.Component {
   }
 
   generateMessage () {
-    if (this.props.state.userTrips.length === 0) {
+    if (this.props.store.userTrips.length === 0) {
       return (
         <div>
           You don't have any trips yet :(
@@ -58,16 +58,16 @@ class UserPage extends React.Component {
       );
     } else {
       return (
-        <div>{this.props.state.username}'s Current Trips</div>
+        <div>{this.props.store.username}'s Current Trips</div>
       );
     }
   }
 
   render() {
     let actions = this.props.actions;
-    let state = this.props.state;
+    let store = this.props.store;
 
-    if (this.props.state.authenticated === true) { // If logged in
+    if (this.props.store.authenticated === true) { // If logged in
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>
           <Paper>
@@ -106,32 +106,32 @@ class UserPage extends React.Component {
               <div style={theme.styles.discoverTrips}>{this.generateMessage()}</div>
 
               {/************************** USER'S TRIPS **************************/}
-              {this.props.state.userTrips.map((trip, index) => 
+              {store.userTrips.map((trip, index) => 
                 <Trip
                   key = {index}
                   index = {index} //you're not allowed to later access 'key' as prop, which is dumb
-                  user = {state.username} 
+                  user = {store.username} 
                   trip = {trip} 
                   editable = {true}
                   toSearchPage = {this.toSearchPage.bind(this)}
                   activate = {actions.activateTrip}
-                  delete = {this.props.actions.deleteTrip}
-                  deleteEvent = {this.props.actions.deleteEvent}
-                  deleteFood = {this.props.actions.deleteFood}
-                  toggleStatus = {this.props.actions.toggleTripStatus}
-                  publicSnackbar={this.props.state.publicSnackbar}
-                  onRequestClosePublic={this.props.actions.deactivatePublicSnackbar}
-                  privateSnackbar={this.props.state.privateSnackbar}
-                  onRequestClosePrivate={this.props.actions.deactivatePrivateSnackbar}
-                  deleteSnackbar={this.props.state.deleteSnackbar}
-                  onRequestCloseDelete={this.props.actions.deactivateDeleteSnackbar}
+                  delete = {actions.deleteTrip}
+                  deleteEvent = {actions.deleteEvent}
+                  deleteFood = {actions.deleteFood}
+                  toggleStatus = {actions.toggleTripStatus}
+                  publicSnackbar={store.publicSnackbar}
+                  onRequestClosePublic={actions.deactivatePublicSnackbar}
+                  privateSnackbar={store.privateSnackbar}
+                  onRequestClosePrivate={actions.deactivatePrivateSnackbar}
+                  deleteSnackbar={store.deleteSnackbar}
+                  onRequestCloseDelete={actions.deactivateDeleteSnackbar}
                 />
               )}
             </div>
           </Paper>
         </MuiThemeProvider>
       );
-    } else if (this.props.state.loading) { 
+    } else if (store.loading) { 
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>
           <Paper>
@@ -176,15 +176,15 @@ class UserPage extends React.Component {
                 />
               </Link>
               <Login login={actions.login}
-                username={state.username}
-                password={state.password}
+                username={store.username}
+                password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
                 forward={this.toUserPage.bind(this)}
               />
               <Signup signup={actions.signup}
-                username={state.username}
-                password={state.password}
+                username={store.username}
+                password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
                 forward={this.toUserPage.bind(this)}
@@ -211,7 +211,7 @@ class UserPage extends React.Component {
 }
 
 const mapStateToProps = state => (
-  {state: state}
+  {store: state}
 );
 
 const mapDispatchToProps = dispatch =>

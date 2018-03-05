@@ -1,22 +1,6 @@
-# Project Name
+# TripTeaze
 
 > Pithy project description
-
-## Team
-
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
-
-## Table of Contents
-
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
-    1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
-1. [Team](#team)
-1. [Contributing](#contributing)
 
 ## Usage
 
@@ -25,27 +9,25 @@
 ## Requirements
 
 - Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
 
 ## Development
+
+npm run react-dev
+npm run server-dev
 
 ### Installing Dependencies
 
 From within the root directory:
 
-```sh
-sudo npm install -g bower
 npm install
-bower install
-```
+
+you'll need a gitignored config.js file in the root directory for API keys: 'token' for eventbrite, 'zomatoKey' for zomato and 'mongo' a url to an mlab mongodb.  Get your own keys or ask us for ours.  
+
+The heroku deployment uses process.env variables for these EVENTBRITE, ZOMATO and MONGODB_URI respectively, set those up on heroku
 
 ### Roadmap
 
 View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
-
 
 ## Contributing
 

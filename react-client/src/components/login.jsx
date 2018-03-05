@@ -50,6 +50,7 @@ class Login extends React.Component {
   }
 
   render() {
+    //these are the buttons on the modal
     const actions = [
       <FlatButton
         label="Login"

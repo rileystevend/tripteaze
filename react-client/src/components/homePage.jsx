@@ -129,9 +129,9 @@ class Home extends React.Component {
 
   navBar() {
     let actions = this.props.actions; //access shortcuts
-    let state = this.props.state;
+    let store = this.props.store;
 
-    if (this.props.state.authenticated) {
+    if (this.props.store.authenticated) {
       return (
         <div style={styles.navLinks}>
           <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage.bind(this)} 
@@ -150,12 +150,12 @@ class Home extends React.Component {
 
   getStarted() {
     let actions = this.props.actions;
-    let state = this.props.state;
+    let store = this.props.store;
 
-    if (state.authenticated) {
+    if (store.authenticated) {
       return (
         <div>
-          <div style={styles.discoverTrips}>Hello, {state.username}!</div>
+          <div style={styles.discoverTrips}>Hello, {store.username}!</div>
 
           <RaisedButton
             label="Create new trip"
@@ -175,8 +175,8 @@ class Home extends React.Component {
 
           <div style={{display: 'inline-block', marginTop: '1%'}}>
           <Login login={actions.login}
-            username={state.username}
-            password={state.password}
+            username={store.username}
+            password={store.password}
             updateUsername={actions.updateUsername}
             updatePassword={actions.updatePassword}
             forward={this.toUserPage.bind(this)}
@@ -184,8 +184,8 @@ class Home extends React.Component {
           </div>
           <div style={{display: 'inline-block', marginTop: '1%'}}>
             <Signup signup={actions.signup}
-              username={state.username}
-              password={state.password}
+              username={store.username}
+              password={store.password}
               updateUsername={actions.updateUsername}
               updatePassword={actions.updatePassword}
               forward={this.toUserPage.bind(this)}
@@ -198,8 +198,8 @@ class Home extends React.Component {
 
   render () {
     let actions = this.props.actions; //access shortcuts
-    let state = this.props.state;
-    //has props.state with all the state things
+    let store = this.props.store;
+    //store is redux store
     //and props.actions with all the action creating functions
 
     return (
@@ -222,7 +222,7 @@ class Home extends React.Component {
             <div style={{marginTop: '1%'}}>
               <div style={styles.discoverTrips}>Discover</div>
 
-              {state.publicTrips.map((trip, index) => (
+              {store.publicTrips.map((trip, index) => (
                 <Trip key={index} trip={trip} />
               ))}
             </div>
@@ -234,7 +234,7 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => (
-  { state: state }
+  { store: state }
 );
 
 const mapDispatchToProps = dispatch => (
