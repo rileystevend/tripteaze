@@ -3,30 +3,6 @@ import axios from 'axios';
 ////////////////////////////////HOME PAGE STUFF\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const loading = () => ({type: 'TOGGLE_LOADING'});
 
-export const fetchTrips = (param) => {
-  return (dispatch) => {
-    dispatch(loading());
-    return axios({
-      method: 'get',
-      url: '/trips',
-      params: {
-        search: param
-      }
-    }).then(
-      results => {
-        if (param === 'public') {
-          dispatch(setPublicTrips(results.data.trips));
-          dispatch(loading());
-        } else {
-          dispatch(setUserTrips(results.data.trips));
-          dispatch(loading());
-        }
-      },
-      error => dispatch(badStuff(error))
-    );
-  }
-};
-
 const setUserTrips = (trips) => ({ type: 'SHOW_USER_TRIPS', payload: trips});
 
 const setPublicTrips = (trips) => ({ type: 'SHOW_PUBLIC_TRIPS', payload: trips});
@@ -125,10 +101,6 @@ export const fetchTrips = (param) => {
     );
   }
 };
-
-const setUserTrips = (trips) => ({ type: 'SHOW_USER_TRIPS', payload: trips });
-
-const setPublicTrips = (trips) => { return { type: 'SHOW_PUBLIC_TRIPS', payload: trips } };
 
 export const updateTripDates = (user, city, fromDate, toDate) => {
   return dispatch => {
@@ -414,29 +386,6 @@ export const toggleTripStatus = (user, trip) => {
   }
 }
 
-
-export const updateTripDates = (user, city, fromDate, toDate) => {
-  return dispatch => {
-    return axios ({
-      method: 'patch',
-      url: '/plan',
-      data: {
-        user: user,
-        tripCity: city,
-        tripFromDate: fromDate,
-        tripToDate: toDate
-      }
-    }).then (
-      results => {
-        dispatch(updateFromDate(''));
-        dispatch(updateToDate(''));
-        dispatch(setMinToDate({}));
-      },
-      error => dispatch(badStuff(error))
-    )
-  }
-}
-
 export const makePublic = () => ({type: 'UPDATE_TO_PUBLIC'});
 
 export const makePrivate = () => ({type: 'UPDATE_TO_PRIVATE'});
@@ -450,33 +399,9 @@ export const activatePublicSnackbar = () => ({type: 'ACTIVATE_PUBLIC_SNACKBAR'})
 
 export const deactivatePublicSnackbar = () => ({type: 'DEACTIVATE_PUBLIC_SNACKBAR'});
 
-
-export const activateTrip = (tripIndex) => {
-  //return { type: 'ACTIVATE', payload: tripIndex }
-  return (dispatch) => {
-    dispatch(updateFoodResults([]));
-    dispatch(updateEventResults([]));
-    dispatch(actuallyActivate(tripIndex));
-  }
-};
-
-const actuallyActivate = (tripIndex) => ({ type: 'ACTIVATE', payload: tripIndex });
-
-export const deactivate = () => {
-  return (dispatch) => {
-    dispatch(updateFoodResults([]));
-    dispatch(updateEventResults([]));
-    dispatch(actuallyDeactivate());
-  }
-};
-
 export const activatePrivateSnackbar = () => ({type: 'ACTIVATE_PRIVATE_SNACKBAR'});
 
 export const deactivatePrivateSnackbar = () => ({type: 'DEACTIVATE_PRIVATE_SNACKBAR'});
-
-export const activateTrip = (tripIndex) => ({ type: 'ACTIVATE', payload: tripIndex });
-
-const actuallyDeactivate = () => ({type: 'DEACTIVATE'});
   
 //ACTION_NAME must correspond with reducer switch option
 
