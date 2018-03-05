@@ -10,9 +10,11 @@ const initialState = {
   userTrips: [],
   tripFromDate: '',
   tripToDate: '',
+  isPublic: false,
   minToDate: {}, // so users cannot set a "to" date before the "from" date
   deleteSnackbar: false,
   publicSnackbar: false,
+  privateSnackbar: false,
   eventResults: [],
   eventSnackbar: false,
   foodSnackbar: false,
@@ -51,6 +53,10 @@ const reducer = function (state = initialState, action) {  //if state is undefin
       return Object.assign({}, state, { publicSnackbar: true });
     case 'DEACTIVATE_PUBLIC_SNACKBAR' :
       return Object.assign({}, state, { publicSnackbar: false });
+    case 'ACTIVATE_PRIVATE_SNACKBAR' :
+      return Object.assign({}, state, { privateSnackbar: true });
+    case 'DEACTIVATE_PRIVATE_SNACKBAR' :
+      return Object.assign({}, state, { privateSnackbar: false });
     case 'UPDATE_EVENT_RESULTS' :
       return Object.assign({}, state, {eventResults: action.payload})
     case 'UPDATE_FOOD_RESULTS':
@@ -68,7 +74,11 @@ const reducer = function (state = initialState, action) {  //if state is undefin
     case 'UPDATE_FOOD_QUERY':
       return Object.assign({}, state, {foodQuery: action.payload});
     case 'UPDATE_CITY' :
-      return Object.assign({}, state, { city: action.payload })
+      return Object.assign({}, state, { city: action.payload });
+    case 'UPDATE_TO_PUBLIC' :
+      return Object.assign({}, state, { isPublic: true });
+    case 'UPDATE_TO_PRIVATE' :
+      return Object.assign({}, state, { isPublic: false });
     case 'UPDATE_TRIP_FROM_DATE':
       return Object.assign({}, state, { tripFromDate: action.payload })
     case 'UPDATE_TRIP_TO_DATE':

@@ -32,7 +32,7 @@ export const fetchTrips = (param) => {
 
 const setUserTrips = (trips) => ({ type: 'SHOW_USER_TRIPS', payload: trips});
 
-const setPublicTrips = (trips) => {return { type: 'SHOW_PUBLIC_TRIPS', payload: trips}};
+const setPublicTrips = (trips) => ({ type: 'SHOW_PUBLIC_TRIPS', payload: trips});
 
 export const updateUsername = (username) => ({ type: 'UPDATE_USERNAME', payload: username });
 
@@ -132,6 +132,7 @@ export const makeNewTrip = (username, city, index, fromDate, toDate) => {
       results => {
         dispatch(activateTrip(index));
         dispatch(fetchTrips(username));
+        dispatch(makePrivate());
         dispatch(updateCity(''));
         dispatch(updateToDate(''));
         dispatch(setMinToDate({}));
@@ -336,17 +337,18 @@ export const toggleTripStatus = (user, trip) => {
       data: {
         user: user,
         tripCity: trip.city,
-        public: !trip.public
+        public : !trip.isPublic
       }
     }).then (
       results => {
         dispatch(fetchTrips(user));
-        dispatch(activatePublicSnackbar());
+        trip.isPublic === false ? dispatch(activatePublicSnackbar()) : dispatch(activatePrivateSnackbar());
       },
       error => dispatch(badStuff(error))
     )
   }
 }
+
 
 export const updateTripDates = (user, city, fromDate, toDate) => {
   return dispatch => {
@@ -370,6 +372,11 @@ export const updateTripDates = (user, city, fromDate, toDate) => {
   }
 }
 
+export const makePublic = () => ({type: 'UPDATE_TO_PUBLIC'});
+
+export const makePrivate = () => ({type: 'UPDATE_TO_PRIVATE'});
+
+
 export const activateDeleteSnackbar = () => ({type: 'ACTIVATE_DELETE_SNACKBAR'});
 
 export const deactivateDeleteSnackbar = () => ({type: 'DEACTIVATE_DELETE_SNACKBAR'});
@@ -377,6 +384,7 @@ export const deactivateDeleteSnackbar = () => ({type: 'DEACTIVATE_DELETE_SNACKBA
 export const activatePublicSnackbar = () => ({type: 'ACTIVATE_PUBLIC_SNACKBAR'});
 
 export const deactivatePublicSnackbar = () => ({type: 'DEACTIVATE_PUBLIC_SNACKBAR'});
+
 
 export const activateTrip = (tripIndex) => {
   //return { type: 'ACTIVATE', payload: tripIndex }
@@ -396,6 +404,12 @@ export const deactivate = () => {
     dispatch(actuallyDeactivate());
   }
 };
+
+export const activatePrivateSnackbar = () => ({type: 'ACTIVATE_PRIVATE_SNACKBAR'});
+
+export const deactivatePrivateSnackbar = () => ({type: 'DEACTIVATE_PRIVATE_SNACKBAR'});
+
+export const activateTrip = (tripIndex) => ({ type: 'ACTIVATE', payload: tripIndex });
 
 const actuallyDeactivate = () => ({type: 'DEACTIVATE'});
   

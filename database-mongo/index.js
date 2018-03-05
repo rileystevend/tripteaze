@@ -112,12 +112,13 @@ let addRestaurantToTrip = (food, username, city, callback) => {
       console.log('error: ', err);
       callback(err);
     } else {
-      console.log(user);
+      
       Trip.findOne({user: user.id, city: city}, function (err, trip) {
         if(err) {
           console.log('error', err);
           callback(err);
         } else {
+
           Restaurant.findOneAndUpdate({ id: food.restaurant.id},
             {$set: {
               id: food.restaurant.id,
@@ -327,7 +328,7 @@ let modifyTripDetails = (makePublic, makeArchived, username, fromDate, toDate, c
         callback(err);
         console.log('error', err);
       }
-      makePublic = makePublic || trip.isPublic;
+      //makePublic = makePublic || trip.isPublic;
       makeArchived = makeArchived || trip.isArchived;
       newFromDate = fromDate || trip.tripFromDate;
       newToDate = toDate || trip.tripToDate;
