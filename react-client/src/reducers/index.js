@@ -52,10 +52,8 @@ const reducer = function (state = initialState, action) {  //if state is undefin
     case 'DEACTIVATE_PUBLIC_SNACKBAR' :
       return Object.assign({}, state, { publicSnackbar: false });
     case 'UPDATE_EVENT_RESULTS' :
-      console.log(action.payload)
       return Object.assign({}, state, {eventResults: action.payload})
     case 'UPDATE_FOOD_RESULTS':
-      console.log(action.payload)
       return Object.assign({}, state, {foodResults: action.payload})
     case 'UPDATE_USERNAME':
       return Object.assign({}, state, {username: action.payload})
