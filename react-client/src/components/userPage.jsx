@@ -35,6 +35,7 @@ class UserPage extends React.Component {
   }
 
   componentWillMount () {
+    this.props.actions.deactivate();
     this.props.actions.fetchTrips(this.props.state.username);
   }
 
@@ -65,8 +66,6 @@ class UserPage extends React.Component {
   render() {
     let actions = this.props.actions;
     let state = this.props.state;
-
-    console.log('----> trips', this.props.state.trips)
 
     if (this.props.state.authenticated === true) { // If logged in
       return (
@@ -126,6 +125,39 @@ class UserPage extends React.Component {
                   onRequestCloseDelete={this.props.actions.deactivateDeleteSnackbar}
                 />
               )}
+            </div>
+          </Paper>
+        </MuiThemeProvider>
+      );
+    } else if (this.props.state.loading) { 
+      return (
+        <MuiThemeProvider muiTheme={theme.muiTheme}>
+          <Paper>
+            {/************************** NAVIGATION **************************/}
+            <div style={theme.styles.navLinks}>
+              <Link to='/'>
+                <RaisedButton
+                  label="Home"
+                />
+              </Link>
+              <Link to='/'>
+                <RaisedButton
+                  onClick={actions.logOut}
+                  style={{ marginLeft: '1em' }}
+                  label='Log Out'
+                />
+              </Link>
+            </div>
+
+            {/************************** HEADER **************************/}
+            <div style={theme.styles.header}>
+              <Link to="/" style={{ textDecoration: 'none', color: cyan900 }}>
+                TripTeaze
+                </Link>
+            </div>
+
+            <div style={styles.notLoggedIn}>
+              <h3> Please wait while we find your trips! </h3>
             </div>
           </Paper>
         </MuiThemeProvider>

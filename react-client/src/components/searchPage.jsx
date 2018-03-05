@@ -104,27 +104,27 @@ export const styles = {
 class SearchPage extends React.Component {
   constructor (props) {
     super(props);
-    if (props.state.trips.length !== 0  && props.state.activeTrip.status) {
+    if (props.state.userTrips.length !== 0  && props.state.activeTrip.status) {
       this.state = {
         open: true,
-        activeCity: props.state.trips[props.state.activeTrip.index].city,
-        dropdown: props.state.trips[props.state.activeTrip.index].city,
-        activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
-        activeToDate: props.state.trips[props.state.activeTrip.index].toDate,
+        activeCity: props.state.userTrips[props.state.activeTrip.index].city,
+        dropdown: props.state.userTrips[props.state.activeTrip.index].city,
+        activeFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
+        activeToDate: props.state.userTrips[props.state.activeTrip.index].toDate,
         editDatesOpen: false,
-        tempFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
-        tempToDate: props.state.trips[props.state.activeTrip.index].toDate
+        tempFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
+        tempToDate: props.state.userTrips[props.state.activeTrip.index].toDate
       }
     } else if (props.state.userTrips.length !== 0) {
       this.state = {
         open: false,
         activeCity: props.state.userTrips[props.state.activeTrip.index].city,
         dropdown: 0,
-        activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
-        activeToDate: props.state.trips[props.state.activeTrip.index].toDate,
+        activeFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
+        activeToDate: props.state.userTrips[props.state.activeTrip.index].toDate,
         editDatesOpen: false,
-        tempFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
-        tempToDate: props.state.trips[props.state.activeTrip.index].toDate
+        tempFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
+        tempToDate: props.state.userTrips[props.state.activeTrip.index].toDate
       }
     } else {
       this.state = {
@@ -269,15 +269,15 @@ class SearchPage extends React.Component {
 
     const submitEditDates = () => {
       let state = this.props.state;
-      let city = state.trips[state.activeTrip.index].city;
+      let city = state.userTrips[state.activeTrip.index].city;
       let newFromDate = state.tripFromDate;
       let newToDate = state.tripToDate;
 
       // updates trip dates in the db
       actions.updateTripDates(state.username, city, newFromDate, newToDate);
 
-      state.trips[state.activeTrip.index].fromDate = state.tripFromDate;
-      state.trips[state.activeTrip.index].toDate = state.tripToDate;
+      state.userTrips[state.activeTrip.index].fromDate = state.tripFromDate;
+      state.userTrips[state.activeTrip.index].toDate = state.tripToDate;
 
       this.setState({
         activeFromDate: newFromDate,
