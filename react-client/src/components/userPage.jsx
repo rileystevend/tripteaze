@@ -130,6 +130,39 @@ class UserPage extends React.Component {
           </Paper>
         </MuiThemeProvider>
       );
+    } else if (this.props.state.loading) { 
+      return (
+        <MuiThemeProvider muiTheme={theme.muiTheme}>
+          <Paper>
+            {/************************** NAVIGATION **************************/}
+            <div style={theme.styles.navLinks}>
+              <Link to='/'>
+                <RaisedButton
+                  label="Home"
+                />
+              </Link>
+              <Link to='/'>
+                <RaisedButton
+                  onClick={actions.logOut}
+                  style={{ marginLeft: '1em' }}
+                  label='Log Out'
+                />
+              </Link>
+            </div>
+
+            {/************************** HEADER **************************/}
+            <div style={theme.styles.header}>
+              <Link to="/" style={{ textDecoration: 'none', color: cyan900 }}>
+                TripTeaze
+                </Link>
+            </div>
+
+            <div style={styles.notLoggedIn}>
+              <h3> Please wait while we find your trips! </h3>
+            </div>
+          </Paper>
+        </MuiThemeProvider>
+      );
     } else { // If not logged in
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>

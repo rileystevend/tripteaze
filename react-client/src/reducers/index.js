@@ -1,4 +1,5 @@
 const initialState = {
+  loading: false,
   username: '',
   password: '',
   authenticated: false,
@@ -26,6 +27,8 @@ const initialState = {
 const reducer = function (state = initialState, action) {  //if state is undefined, state becomes inital state
 
   switch (action.type) {
+    case 'TOGGLE_LOADING' : 
+      return Object.assign({}, state, {loading: !state.loading});
     case 'SHOW_USER_TRIPS' :
       return Object.assign({}, state, {userTrips: action.payload});
     case 'SHOW_PUBLIC_TRIPS' :
@@ -49,8 +52,10 @@ const reducer = function (state = initialState, action) {  //if state is undefin
     case 'DEACTIVATE_PUBLIC_SNACKBAR' :
       return Object.assign({}, state, { publicSnackbar: false });
     case 'UPDATE_EVENT_RESULTS' :
+      console.log(action.payload)
       return Object.assign({}, state, {eventResults: action.payload})
     case 'UPDATE_FOOD_RESULTS':
+      console.log(action.payload)
       return Object.assign({}, state, {foodResults: action.payload})
     case 'UPDATE_USERNAME':
       return Object.assign({}, state, {username: action.payload})

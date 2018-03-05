@@ -4,9 +4,11 @@ import axios from 'axios';
 //export const actionName = (neededParams) => ({type: 'ACTION_NAME', param: neededParams});
 
 ////////////////////////////////HOME PAGE STUFF\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+const loading = () => ({type: 'TOGGLE_LOADING'});
+
 export const fetchTrips = (param) => {
-  //dispatch({ type: 'LOADING' });
   return (dispatch) => {
+    dispatch(loading());
     return axios({
       method: 'get',
       url: '/trips',
@@ -17,8 +19,10 @@ export const fetchTrips = (param) => {
       results => {
         if (param === 'public') {
           dispatch(setPublicTrips(results.data.trips));
+          dispatch(loading());
         } else {
           dispatch(setUserTrips(results.data.trips));
+          dispatch(loading());
         }
       },
       error => dispatch(badStuff(error))
@@ -35,7 +39,6 @@ export const updateUsername = (username) => ({ type: 'UPDATE_USERNAME', payload:
 export const updatePassword = (password) => ({ type: 'UPDATE_PASSWORD', payload: password });
 
 export const login = (username, password) => {
-  //dispatch({ type: 'LOADING' });
   return (dispatch) => {
     return axios({
       method: 'get',
@@ -59,7 +62,6 @@ export const login = (username, password) => {
 };
 
 export const signup = (username, password) => {
-  //dispatch({ type: 'LOADING' });
   return (dispatch) => {
     return axios({
       method: 'post',
@@ -73,7 +75,7 @@ export const signup = (username, password) => {
         if (results.data.error) {
           alert(results.data.message);
         } else {
-          dispatch(authenticate())
+          dispatch(authenticate());
         }
       },
       error => dispatch(badStuff(error))
@@ -376,7 +378,16 @@ export const activatePublicSnackbar = () => ({type: 'ACTIVATE_PUBLIC_SNACKBAR'})
 
 export const deactivatePublicSnackbar = () => ({type: 'DEACTIVATE_PUBLIC_SNACKBAR'});
 
-export const activateTrip = (tripIndex) => ({ type: 'ACTIVATE', payload: tripIndex });
+export const activateTrip = (tripIndex) => {
+  //return { type: 'ACTIVATE', payload: tripIndex }
+  return (dispatch) => {
+    dispatch(updateFoodResults([]));
+    dispatch(updateEventResults([]));
+    dispatch(actuallyActivate(tripIndex));
+  }
+};
+
+const actuallyActivate = (tripIndex) => ({ type: 'ACTIVATE', payload: tripIndex });
 
 export const deactivate = () => ({type: 'DEACTIVATE'});
   
