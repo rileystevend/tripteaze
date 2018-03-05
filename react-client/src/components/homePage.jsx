@@ -80,7 +80,6 @@ export const styles = {
     fontSize: 45,
     fontWeight: 'bold',
     paddingTop: '15%',
-    marginTop: '3%',
     textAlign: 'center',
     textDecoration: 'none'
   },
