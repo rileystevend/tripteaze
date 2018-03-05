@@ -20,12 +20,12 @@ import DatePicker from 'material-ui/DatePicker';
 import Toggle from 'material-ui/Toggle';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 
-import * as theme from './homePage.jsx';  // * does all named exports from that file
-import * as tripStyle from './trip.jsx';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+import * as theme from './homePage.jsx';  // * does all named exports from that file
+import * as tripStyle from './trip.jsx';
 
 import * as actions from '../actions/index.js';
 import Activity from './activity.jsx';
@@ -167,6 +167,8 @@ class SearchPage extends React.Component {
       if (state.city !== '' && state.tripFromDate !== '' && state.tripToDate !== '') {
         this.props.actions.makeNewTrip(state.username, state.city, state.userTrips.length, state.tripFromDate, state.tripToDate);
         this.setState({ activeCity: state.city, open: true, activeFromDate: state.tripFromDate, activeToDate: state.tripToDate});
+      } else {
+        window.alert('Please make sure to fill in the dates and city name!');
       }
     }
   };
@@ -544,7 +546,6 @@ class SearchPage extends React.Component {
         <Paper>
           {/************************** NAVIGATION **************************/}
           {navLinks()}
-
           {/******************************* HEADER *******************************/}
           <div style={theme.styles.header}>
             <Link to="/" style={{textDecoration: 'none', color: cyan900}}>

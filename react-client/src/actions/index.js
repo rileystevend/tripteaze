@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-//SIMPLE ACTION
-//export const actionName = (neededParams) => ({type: 'ACTION_NAME', param: neededParams});
-
 ////////////////////////////////HOME PAGE STUFF\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const loading = () => ({type: 'TOGGLE_LOADING'});
 
@@ -47,7 +44,7 @@ export const login = (username, password) => {
         username: username,
         password: password
       }
-    }).then (
+    }).then(
       results => {
         if (results.data.error) {
           alert(results.data.message);
@@ -56,7 +53,7 @@ export const login = (username, password) => {
           dispatch(fetchTrips(username));
         }
       },
-      error => {console.log('error', error); dispatch(badStuff(error))}
+      error => { console.log('error', error); dispatch(badStuff(error)) }
     );
   }
 };
@@ -70,7 +67,7 @@ export const signup = (username, password) => {
         username: username,
         password: password
       }
-    }).then (
+    }).then(
       results => {
         if (results.data.error) {
           alert(results.data.message);
@@ -83,11 +80,13 @@ export const signup = (username, password) => {
   };
 }
 
+export const authenticate = () => ({ type: 'AUTHEN' });
+
 export const logOut = () => {
   return (dispatch) => {
-    return axios ({
+    return axios({
       method: 'get',
-      url: 'logout', 
+      url: 'logout',
     }).then(
       results => {
         dispatch(deauthenticate());
@@ -98,18 +97,63 @@ export const logOut = () => {
 
 export const deauthenticate = () => ({ type: 'LOGOUT' });
 
-export const authenticate = () => ({ type: 'AUTHEN' });
-
 export const badStuff = (error) => ({type: 'ERROR', payload: error});
 
 /////////////////////////////SEARCH PAGE STUFF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 /*****************************MAKE A TRIP *************************************/
+export const fetchTrips = (param) => {
+  return (dispatch) => {
+    dispatch(loading());
+    return axios({
+      method: 'get',
+      url: '/trips',
+      params: {
+        search: param
+      }
+    }).then(
+      results => {
+        if (param === 'public') {
+          dispatch(setPublicTrips(results.data.trips));
+          dispatch(loading());
+        } else {
+          dispatch(setUserTrips(results.data.trips));
+          dispatch(loading());
+        }
+      },
+      error => dispatch(badStuff(error))
+    );
+  }
+};
 
-// Updates the "from" date for the trip
+const setUserTrips = (trips) => ({ type: 'SHOW_USER_TRIPS', payload: trips });
+
+const setPublicTrips = (trips) => { return { type: 'SHOW_PUBLIC_TRIPS', payload: trips } };
+
+export const updateTripDates = (user, city, fromDate, toDate) => {
+  return dispatch => {
+    return axios({
+      method: 'patch',
+      url: '/plan',
+      data: {
+        user: user,
+        tripCity: city,
+        tripFromDate: fromDate,
+        tripToDate: toDate
+      }
+    }).then(
+      results => {
+        dispatch(updateFromDate(''));
+        dispatch(updateToDate(''));
+        dispatch(setMinToDate({}));
+      },
+      error => dispatch(badStuff(error))
+    )
+  }
+}
+
 export const updateFromDate = (date) => ({ type: 'UPDATE_TRIP_FROM_DATE', payload: date });
 
-// Updates the "to" date for the trip
 export const updateToDate = (date) => ({ type: 'UPDATE_TRIP_TO_DATE', payload: date });
 
 export const setMinToDate = (date) => ({ type: 'SET_MIN_TO_DATE', payload: date });
@@ -142,6 +186,28 @@ export const makeNewTrip = (username, city, index, fromDate, toDate) => {
     );
   };
 }
+
+
+export const activateTrip = (tripIndex) => {
+  //return { type: 'ACTIVATE', payload: tripIndex }
+  return (dispatch) => {
+    dispatch(updateFoodResults([]));
+    dispatch(updateEventResults([]));
+    dispatch(actuallyActivate(tripIndex));
+  }
+};
+
+const actuallyActivate = (tripIndex) => ({ type: 'ACTIVATE', payload: tripIndex });
+
+export const deactivate = () => {
+  return (dispatch) => {
+    dispatch(updateFoodResults([]));
+    dispatch(updateEventResults([]));
+    dispatch(actuallyDeactivate());
+  }
+};
+
+const actuallyDeactivate = () => ({ type: 'DEACTIVATE' });
 
 /***************************** EVENTS *************************************/
 
@@ -327,7 +393,6 @@ export const deleteFood = (food, username, city) => {
     );
   };
 }
-
 
 export const toggleTripStatus = (user, trip) => {
   return dispatch => {
