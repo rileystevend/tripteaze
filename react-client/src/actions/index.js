@@ -15,14 +15,20 @@ export const fetchTrips = (param) => {
       }
     }).then(
       results => {
-        dispatch(setTrips(results.data.trips))
+        if (param === 'public') {
+          dispatch(setPublicTrips(results.data.trips));
+        } else {
+          dispatch(setUserTrips(results.data.trips));
+        }
       },
       error => dispatch(badStuff(error))
     );
   }
 };
 
-const setTrips = (trips) => ({ type: 'SHOW_TRIPS', payload: trips});
+const setUserTrips = (trips) => ({ type: 'SHOW_USER_TRIPS', payload: trips});
+
+const setPublicTrips = (trips) => {return { type: 'SHOW_PUBLIC_TRIPS', payload: trips}};
 
 export const updateUsername = (username) => ({ type: 'UPDATE_USERNAME', payload: username });
 
@@ -55,8 +61,6 @@ export const login = (username, password) => {
 export const signup = (username, password) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
-    dispatch({ type: 'RESET_TRIPS' });
-    
     return axios({
       method: 'post',
       url: '/signup',

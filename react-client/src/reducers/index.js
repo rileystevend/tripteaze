@@ -5,7 +5,8 @@ const initialState = {
   currentError: '',
   city: '',
   eventQuery: '',
-  trips: [],
+  publicTrips: [],
+  userTrips: [],
   tripFromDate: '',
   tripToDate: '',
   minToDate: {}, // so users cannot set a "to" date before the "from" date
@@ -25,10 +26,12 @@ const initialState = {
 const reducer = function (state = initialState, action) {  //if state is undefined, state becomes inital state
 
   switch (action.type) {
-    case 'SHOW_TRIPS' :
-      return Object.assign({}, state, {trips: action.payload});
-    case 'RESET_TRIPS' :
-      return Object.assign({}, state, {trips: []});
+    case 'SHOW_USER_TRIPS' :
+      return Object.assign({}, state, {userTrips: action.payload});
+    case 'SHOW_PUBLIC_TRIPS' :
+      return Object.assign({}, state, {publicTrips: action.payload});
+    case 'RESET_USER_TRIPS' :
+      return Object.assign({}, state, {userTrips: []});
     case 'ACTIVATE_EVENT_SNACKBAR' :
       return Object.assign({}, state, { eventSnackbar: true });
     case 'DEACTIVATE_EVENT_SNACKBAR' :
@@ -76,17 +79,17 @@ const reducer = function (state = initialState, action) {  //if state is undefin
     case 'ERROR' :
       return Object.assign({}, state, { currentError: action.payload })
     case 'REFRESH_TRIP_EVENTS' :
-      const oldTrip = state.trips[state.activeTrip.index];
+      const oldTrip = state.userTrips[state.activeTrip.index];
       const newTrip = Object.assign({}, oldTrip, { events: action.payload });
-      const newTrips = state.trips.slice();
+      const newTrips = state.userTrips.slice();
       newTrips.splice(state.activeTrip.index, 1, newTrip);
-      return Object.assign({}, state, { trips: newTrips });
+      return Object.assign({}, state, { userTrips: newTrips });
     case 'REFRESH_TRIP_EATIN':
-      const oldTripEatin = state.trips[state.activeTrip.index];
+      const oldTripEatin = state.userTrips[state.activeTrip.index];
       const newTripEatin = Object.assign({}, oldTripEatin, { eatin: action.payload });
-      const newTripsEatin = state.trips.slice();
+      const newTripsEatin = state.userTrips.slice();
       newTripsEatin.splice(state.activeTrip.index, 1, newTripEatin);
-      return Object.assign({}, state, { trips: newTripsEatin });
+      return Object.assign({}, state, { userTrips: newTripsEatin });
     default:
       // console.log('action not recognized!!!!', action.type);
       return state;  //if unrecognized action type nothing happens

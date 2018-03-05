@@ -34,6 +34,10 @@ class UserPage extends React.Component {
     super(props);
   }
 
+  componentWillMount () {
+    this.props.actions.fetchTrips(this.props.state.username);
+  }
+
   toSearchPage() {
     this.props.history.push('/plan');
   }
@@ -43,7 +47,7 @@ class UserPage extends React.Component {
   }
 
   generateMessage () {
-    if (this.props.state.trips.length === 0) {
+    if (this.props.state.userTrips.length === 0) {
       return (
         <div>
           You don't have any trips yet :(
@@ -101,7 +105,7 @@ class UserPage extends React.Component {
               <div style={theme.styles.discoverTrips}>{this.generateMessage()}</div>
 
               {/************************** USER'S TRIPS **************************/}
-              {this.props.state.trips.map((trip, index) => 
+              {this.props.state.userTrips.map((trip, index) => 
                 <Trip
                   key = {index}
                   index = {index} //you're not allowed to later access 'key' as prop, which is dumb
