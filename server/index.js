@@ -6,6 +6,7 @@ const db = require('../database-mongo/index.js');
 const eventbrite = require('../APIhelper/eventbrite.js');
 const zomato = require('../APIhelper/zomatoHelper.js')
 const path = require('path');
+const moment = require('moment');
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,8 +18,6 @@ app.use(session({
 }));
 
 app.use(express.static(__dirname + '/../react-client/dist'));
-
-
 
 /***********************************************************************/
 /*                        login                                        */
@@ -184,8 +183,7 @@ app.post('/trips', (req, res) => {
 
 app.patch('/trips', (req, res) => {
 	if (req.body.public !== undefined) {
-
-		db.modifyTripDetails(req.body.public, null, req.body.user, req.body.tripCity, function(err, data) {
+		db.modifyTripDetails(req.body.public, null, req.body.user, null, null, req.body.tripCity, function(err, data) {
 			if (err) {
 				res.status(500).send(err);
 			} else {
@@ -203,6 +201,17 @@ app.patch('/trips', (req, res) => {
 	}
 });
 
+app.patch('/plan', (req, res) => {
+	console.log('-----> server', req.body);
+	db.modifyTripDetails(null, null, req.body.user, req.body.tripFromDate, req.body.tripToDate, req.body.tripCity, function(err, data) {
+		if (err) {
+			res.status(500).send(err);
+		} else {
+			res.sendStatus(204);
+		}
+	});
+});
+
 /******************************** Search - Events *****************************/
 
 app.post('/events', function (req, res) {
@@ -210,7 +219,6 @@ app.post('/events', function (req, res) {
 	const query = req.body.eventQuery;
 	const toDate = req.body.tripToDate;
 	const fromDate = req.body.tripFromDate;
-	console.log(fromDate, toDate);
 	eventbrite.searchEvents(query, city, fromDate, toDate, (err, data) => {
 
 		if(err) {

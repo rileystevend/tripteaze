@@ -334,12 +334,34 @@ export const toggleTripStatus = (user, trip) => {
       data: {
         user: user,
         tripCity: trip.city,
-        public : !trip.public
+        public: !trip.public
       }
     }).then (
       results => {
         dispatch(fetchTrips(user));
         dispatch(activatePublicSnackbar());
+      },
+      error => dispatch(badStuff(error))
+    )
+  }
+}
+
+export const updateTripDates = (user, city, fromDate, toDate) => {
+  return dispatch => {
+    return axios ({
+      method: 'patch',
+      url: '/plan',
+      data: {
+        user: user,
+        tripCity: city,
+        tripFromDate: fromDate,
+        tripToDate: toDate
+      }
+    }).then (
+      results => {
+        dispatch(updateFromDate(''));
+        dispatch(updateToDate(''));
+        dispatch(setMinToDate({}));
       },
       error => dispatch(badStuff(error))
     )
