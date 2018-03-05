@@ -204,13 +204,10 @@ app.patch('/trips', (req, res) => {
 });
 
 app.patch('/plan', (req, res) => {
-	// let formattedFromDate = moment(req.body.tripFromDate).add(1, 'days').format('YYYY-MM-DD');
-	// let formattedToDate = moment(req.body.tripToDate).add(1, 'days').format('YYYY-MM-DD');
 	db.modifyTripDetails(null, null, req.body.user, req.body.tripFromDate, req.body.tripToDate, req.body.tripCity, function(err, data) {
 		if (err) {
 			res.status(500).send(err);
 		} else {
-			console.log('------> patch', req.body)
 			res.sendStatus(204);
 		}
 	});
@@ -223,7 +220,6 @@ app.post('/events', function (req, res) {
 	const query = req.body.eventQuery;
 	const toDate = req.body.tripToDate;
 	const fromDate = req.body.tripFromDate;
-	console.log(fromDate, toDate);
 	eventbrite.searchEvents(query, city, fromDate, toDate, (err, data) => {
 
 		if(err) {

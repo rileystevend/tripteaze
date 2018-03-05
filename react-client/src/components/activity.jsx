@@ -6,8 +6,6 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import FlatButton from 'material-ui/FlatButton/';
 import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 
-//onClick={() => props.deleteEvent(event,props.user,props.city)}
-
 export const styles = {
   anchor: {
     color: cyan700,

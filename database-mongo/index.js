@@ -118,7 +118,6 @@ let addRestaurantToTrip = (food, username, city, callback) => {
           console.log('error', err);
           callback(err);
         } else {
-          // console.log(trip.city, trip.id);
           Restaurant.findOneAndUpdate({ id: food.restaurant.id},
             {$set: {
               id: food.restaurant.id,
@@ -313,7 +312,7 @@ let showTripRestaurants = (username, city, callback) => {
 };
 
 
-//allows user to update whether trip is public and/or archived
+//allows user to update whether trip is public, archived, and/or if the trip dates changed
 //assumes username and city are known to obtain corresponding trip and update
 let modifyTripDetails = (makePublic, makeArchived, username, fromDate, toDate, city, callback) => {
   //first find corresponding user
@@ -352,41 +351,6 @@ let modifyTripDetails = (makePublic, makeArchived, username, fromDate, toDate, c
     });
   });
 };
-
-// ORIGINAL IN CASE I JACK IT UP
-// let modifyTripDetails = (makePublic, makeArchived, username, city, callback) => {
-//   //first find corresponding user
-//   User.findOne({name: username}, function (err, user) {
-//     if(err) {
-//       callback(err);
-//       console.log('error: ', err);
-//     }
-//     //then find corresponding trip based on city for selected user
-//     Trip.findOne({user: user.id, city: city}, function (err, trip) {
-//       if(err) {
-//         callback(err);
-//         console.log('error', err);
-//       }
-//       makePublic = makePublic || trip.isPublic;
-//       makeArchived = makeArchived || trip.isArchived;
-//       Trip.update({id: trip.id},
-//         {$set:
-//           {
-//             isPublic: makePublic,
-//             isArchived: makeArchived
-//           }
-//         }, function (err) {
-//           if (err) {
-//             callback(err);
-//             console.log('error: ', err);
-//           } else {
-//             callback();
-//           }
-//         }
-//       );
-//     });
-//   });
-// };
 
 getTripEvents = (tripID, callback) => {
   Event.find({ trip: tripID }, function (err, events) {

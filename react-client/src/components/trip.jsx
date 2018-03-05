@@ -80,7 +80,6 @@ const Trip = (props) => {
 
   // Renders list of user's current trips
   if (props.editable === true) {
-    console.log('props in trip:', props)
     let fromDate =moment(props.trip.fromDate).format('MM/DD/YY');
     let toDate = moment(props.trip.toDate).format('MM/DD/YY');
     return (

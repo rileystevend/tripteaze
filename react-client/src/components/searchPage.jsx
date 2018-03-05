@@ -178,7 +178,6 @@ class SearchPage extends React.Component {
   };
 
   submitEventQuery (event) {
-    console.log('***submit event query***', this.props.state)
     let state = this.props.state;
     event.preventDefault();
     if ((state.activeTrip.status || state.city) && state.eventQuery) {
@@ -288,10 +287,6 @@ class SearchPage extends React.Component {
         tempToDate: newToDate,
         editDatesOpen: false,
       });
-
-      console.log('-------------------> submit edit dates state', this.props.state);
-      console.log('-------------------> date', moment(newFromDate).toDate()); 
-
     };
 
     /*************************** EXISTING TRIPS DROPDOWN ***************************/
@@ -340,7 +335,6 @@ class SearchPage extends React.Component {
         primary={true}
         style={{marginLeft: '2%'}}
         onClick={() => {
-          console.log('cancel state', this.props.state)
           updateFromDate(null, '');
           updateToDate(null, '');
           this.setState({
@@ -354,15 +348,8 @@ class SearchPage extends React.Component {
       if (state.activeTrip.status) {
         let activeTrip = state.userTrips[state.activeTrip.index]; 
         if (activeTrip) {
-          // momentjs is weird and shows the dates as 1 day off bc time zones, so 1 day has to be added back for the dates to show correctly - seems to work now?
           let fromDate = moment(activeTrip.fromDate).format('MM/DD/YY');
           let toDate = moment(activeTrip.toDate).format('MM/DD/YY');
-
-          let tempFromDate = moment(this.state.tempFromDate).format('MM/DD/YY');
-          let tempToDate = moment(this.state.tempToDate).format('MM/DD/YY');
-          console.log('active trip', activeTrip)
-          console.log('state trips', state.trips)
-          console.log('this state', this.state)
           return (
             <Drawer
               width={400}
@@ -378,13 +365,19 @@ class SearchPage extends React.Component {
                     <NavigationClose />
                   </IconButton>}
               />
-              <div style={{margin: '2%', fontSize: 25, fontWeight: 'bold', textAlign: 'center'}}>
+              <div style={{
+                margin: '2%',
+                fontSize: 25,
+                fontWeight: 'bold',
+                textAlign: 'center'
+              }}>
                 {fromDate} - {toDate}
-                
-                <div>
+                <div style={{display: 'inline-block', marginLeft: '1%'}}>
                   <FlatButton
                     label="Edit"
                     onClick={() => this.setState({editDatesOpen: true})}
+                    backgroundColor='transparent'
+                    hoverColor='#f9f9f9'
                   />
                   <Dialog
                     title="Modify Trip Dates"
@@ -393,9 +386,18 @@ class SearchPage extends React.Component {
                     open={this.state.editDatesOpen}
                     onRequestClose={() => this.setState({editDatesOpen: false})}
                   >
-                    Current Trip Dates for {this.state.activeCity}:
-                    <br/> {fromDate} - {toDate}
+                    <div
+                      style={{color: cyan800}}
+                    >Trip Dates for {this.state.activeCity}:
+                    </div>
+
+                    <div style={{
+                      color: cyan900,
+                      fontWeight: 'bold'
+                    }}>{fromDate} - {toDate}</div>
+
                     <br/><br/>
+
                     Edit your trip dates below:
                     <DatePicker
                       floatingLabelText="From"
@@ -527,16 +529,14 @@ class SearchPage extends React.Component {
     }
 
     /************************ CREATE TRIP SEARCH BUTTON ************************/
-    // Renders the appropriate search button based on if user is logged in or not
     const searchButton = () => {
-      // if (this.props.state.authenticated) {
-        return (
-          <RaisedButton
-            onClick={this.submit.bind(this)}
-            label='Create Trip'
-            disabled={!this.props.state.authenticated}
-          />
-        )
+      return (
+        <RaisedButton
+          onClick={this.submit.bind(this)}
+          label='Create Trip'
+          disabled={!this.props.state.authenticated}
+        />
+      )
     }
 
     /*************************** STUFF ON PAGE ***************************/
@@ -545,6 +545,7 @@ class SearchPage extends React.Component {
         <Paper>
           {/************************** NAVIGATION **************************/}
           {navLinks()}
+
           {/******************************* HEADER *******************************/}
           <div style={theme.styles.header}>
             <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
@@ -580,7 +581,7 @@ class SearchPage extends React.Component {
                       floatingLabelText="To"
                       autoOk={true}
                       onChange={updateToDate}
-                      // defaultDate={} TODO: set default "to" date as the "from" date
+                      // defaultDate={} // set default "to" date as the "from" date?
                       minDate={this.props.state.minToDate}
                     />
                   </div>

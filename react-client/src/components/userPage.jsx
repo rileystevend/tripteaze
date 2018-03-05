@@ -66,6 +66,8 @@ class UserPage extends React.Component {
     let actions = this.props.actions;
     let state = this.props.state;
 
+    console.log('----> trips', this.props.state.trips)
+
     if (this.props.state.authenticated === true) { // If logged in
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>

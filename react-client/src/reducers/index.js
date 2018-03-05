@@ -91,7 +91,6 @@ const reducer = function (state = initialState, action) {  //if state is undefin
       newTripsEatin.splice(state.activeTrip.index, 1, newTripEatin);
       return Object.assign({}, state, { userTrips: newTripsEatin });
     default:
-      // console.log('action not recognized!!!!', action.type);
       return state;  //if unrecognized action type nothing happens
   }
 }

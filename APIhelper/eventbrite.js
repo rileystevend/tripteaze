@@ -20,8 +20,8 @@ let searchEvents = (query, city, fromDate, toDate, cb) => {
 		formattedFromDate = fromDate;
 		formattedToDate = toDate;
 	} else {
-		formattedFromDate = moment(fromDate).add(1, 'days').format('YYYY-MM-DD');
-		formattedToDate = moment(toDate).add(1, 'days').format('YYYY-MM-DD');
+		formattedFromDate = moment(fromDate).format('YYYY-MM-DD');
+		formattedToDate = moment(toDate).format('YYYY-MM-DD');
 	}
 	
 	let params = {
