@@ -17,7 +17,7 @@ let searchForFoods = ( cityId, searchFood, cb ) => {
       'user-key': key
     }
   }
-  console.log(cityId, searchFood);
+  
   callback = (err, res, body) => {
     if(!err && res.statusCode === 200) {
       var temp = JSON.parse(body);

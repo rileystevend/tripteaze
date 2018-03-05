@@ -63,6 +63,8 @@ const Trip = (props) => {
     props.toSearchPage();
   }
 
+  //const message = props.trip.isPublic ? 'Your trip has been made private!' : 'Your trip has been made public!';
+
   // Activity header divs based on if there are events or restaurants on the trip
   const showActivityDiv = (activityType, trip) => {
     // If activity = event and there are events in the current trip
@@ -127,7 +129,7 @@ const Trip = (props) => {
 
         <CardActions>
           <FlatButton
-            label = 'Make Public'
+            label = {props.trip.isPublic ? 'Make Private' : 'Make Public'}
             onClick = {makePublic}
           />
           <FlatButton
@@ -142,6 +144,7 @@ const Trip = (props) => {
 
         <Snackbar open={props.deleteSnackbar} message={'Your trip has been deleted!'} autoHideDuration={3000} onRequestClose={props.onRequestCloseDelete}/>
         <Snackbar open={props.publicSnackbar} message={'Your trip has been made public!'} autoHideDuration={3000} onRequestClose={props.onRequestClosePublic}/>
+        <Snackbar open={props.privateSnackbar} message={'Your trip has been made private!'} autoHideDuration={3000} onRequestClose={props.onRequestClosePrivate}/>
       </Card>
     ); 
   } else {

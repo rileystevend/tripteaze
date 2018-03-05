@@ -183,6 +183,7 @@ app.post('/trips', (req, res) => {
 
 app.patch('/trips', (req, res) => {
 	if (req.body.public !== undefined) {
+
 		db.modifyTripDetails(req.body.public, null, req.body.user, null, null, req.body.tripCity, function(err, data) {
 			if (err) {
 				res.status(500).send(err);

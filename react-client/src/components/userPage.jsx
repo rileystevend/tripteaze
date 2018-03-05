@@ -121,6 +121,8 @@ class UserPage extends React.Component {
                   toggleStatus = {this.props.actions.toggleTripStatus}
                   publicSnackbar={this.props.state.publicSnackbar}
                   onRequestClosePublic={this.props.actions.deactivatePublicSnackbar}
+                  privateSnackbar={this.props.state.privateSnackbar}
+                  onRequestClosePrivate={this.props.actions.deactivatePrivateSnackbar}
                   deleteSnackbar={this.props.state.deleteSnackbar}
                   onRequestCloseDelete={this.props.actions.deactivateDeleteSnackbar}
                 />
