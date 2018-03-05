@@ -116,6 +116,7 @@ class Home extends React.Component {
   }
 
   componentWillMount() {
+    this.props.actions.deactivate();
     this.props.actions.fetchTrips('public');
   }
 

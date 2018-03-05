@@ -35,6 +35,7 @@ class UserPage extends React.Component {
   }
 
   componentWillMount () {
+    this.props.actions.deactivate();
     this.props.actions.fetchTrips(this.props.state.username);
   }
 

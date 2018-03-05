@@ -389,7 +389,15 @@ export const activateTrip = (tripIndex) => {
 
 const actuallyActivate = (tripIndex) => ({ type: 'ACTIVATE', payload: tripIndex });
 
-export const deactivate = () => ({type: 'DEACTIVATE'});
+export const deactivate = () => {
+  return (dispatch) => {
+    dispatch(updateFoodResults([]));
+    dispatch(updateEventResults([]));
+    dispatch(actuallyDeactivate());
+  }
+};
+
+const actuallyDeactivate = () => ({type: 'DEACTIVATE'});
   
 //ACTION_NAME must correspond with reducer switch option
 
