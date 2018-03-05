@@ -10,7 +10,9 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
+import Dialog from 'material-ui/Dialog';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
@@ -73,11 +75,6 @@ export const styles = {
     marginRight: '1em',
     marginLeft: '1em'
   },
-  // paper: {
-  //   display: 'flex',
-  //   flexFlow: 'row wrap',
-  //   margin: '10px'
-  // },
   searchBar: {
     paddingLeft: '5%',
     paddingRight: '5%'
@@ -111,26 +108,30 @@ class SearchPage extends React.Component {
     if (props.state.userTrips.length !== 0  && props.state.activeTrip.status) {
       this.state = {
         open: true,
-        activeCity: props.state.userTrips[props.state.activeTrip.index].city,
-        dropdown: props.state.userTrips[props.state.activeTrip.index].city,
-        activeFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
-        activeToDate: props.state.userTrips[props.state.activeTrip.index].toDate
+        activeCity: props.state.trips[props.state.activeTrip.index].city,
+        dropdown: props.state.trips[props.state.activeTrip.index].city,
+        activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
+        activeToDate: props.state.trips[props.state.activeTrip.index].toDate,
+        editDatesOpen: false,
+        tempFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
+        tempToDate: props.state.trips[props.state.activeTrip.index].toDate
       }
     } else if (props.state.userTrips.length !== 0) {
       this.state = {
         open: false,
         activeCity: props.state.userTrips[props.state.activeTrip.index].city,
         dropdown: 0,
-        activeFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
-        activeToDate: props.state.userTrips[props.state.activeTrip.index].toDate
+        activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
+        activeToDate: props.state.trips[props.state.activeTrip.index].toDate,
+        editDatesOpen: false,
+        tempFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
+        tempToDate: props.state.trips[props.state.activeTrip.index].toDate
       }
     } else {
       this.state = {
         open: false,
         dropdown: 0,
-        // if user is anon
-        anonSubmit: false,
-        anonOpen: false
+        editDatesOpen: false
       }
     }
   }
@@ -171,22 +172,13 @@ class SearchPage extends React.Component {
     }
   };
 
-  // TODO: still trying to get this to work
-  submitAsAnon(event) {
-    let state = this.props.state;
-    event.preventDefault();
-    if (state.city !== '' && state.tripFromDate !== '' && state.tripToDate !== '') {
-      this.setState({ anonOpen: true, anonSubmit: true });
-    }
-    // console.log('props', state)
-  }
-
 /***************************** Event - search **********************************/
   updateEventQuery(event) {
     this.props.actions.updateEventQuery(event.target.value)
   };
 
   submitEventQuery (event) {
+    console.log('***submit event query***', this.props.state)
     let state = this.props.state;
     event.preventDefault();
     if ((state.activeTrip.status || state.city) && state.eventQuery) {
@@ -236,19 +228,70 @@ class SearchPage extends React.Component {
   /*************************** DATE SELECTION STUFF ***************************/
     let today = new Date();
 
-    let updateFromDate = (event, date) => {
+    let formatDate = (date) => {
       // Dates need to be in YYYY-MM-DD format
-      let fromDate = moment(date).format('YYYY-MM-DD');
+      return moment(date).format('YYYY-MM-DDT00:00:00.000Z');
+    }
+
+    let updateFromDate = (event, date) => {
+      let fromDate;
+      if (date !== '') {
+        fromDate = formatDate(date);
+      } else {
+        fromDate = '';
+      }
+
       actions.updateFromDate(fromDate);
 
       // This sets minimum "To" date based on the current "From" date in the correct date format
-      actions.setMinToDate(date);
+      if (date !== '') {
+        actions.setMinToDate(date);
+      } else {
+        actions.setMinToDate({});
+      }
+
+      this.setState({
+        activeFromDate: fromDate
+      });
     }
 
     const updateToDate = (event, date) => {
-      // Dates need to be in YYYY-MM-DD format
-      let toDate = moment(date).format('YYYY-MM-DD');
+      let toDate;
+      if (date !== '') {
+        toDate = formatDate(date);
+      } else {
+        toDate = '';
+      }
       actions.updateToDate(toDate);
+
+      this.setState({
+        activeToDate: toDate
+      });
+    };
+
+    const submitEditDates = () => {
+      let state = this.props.state;
+      let city = state.trips[state.activeTrip.index].city;
+      let newFromDate = state.tripFromDate;
+      let newToDate = state.tripToDate;
+
+      // updates trip dates in the db
+      actions.updateTripDates(state.username, city, newFromDate, newToDate);
+
+      state.trips[state.activeTrip.index].fromDate = state.tripFromDate;
+      state.trips[state.activeTrip.index].toDate = state.tripToDate;
+
+      this.setState({
+        activeFromDate: newFromDate,
+        activeToDate: newToDate,
+        tempFromDate: newFromDate,
+        tempToDate: newToDate,
+        editDatesOpen: false,
+      });
+
+      console.log('-------------------> submit edit dates state', this.props.state);
+      console.log('-------------------> date', moment(newFromDate).toDate()); 
+
     };
 
     /*************************** EXISTING TRIPS DROPDOWN ***************************/
@@ -266,8 +309,8 @@ class SearchPage extends React.Component {
                     key = {index}
                     value = {trip.city}
                     primaryText = {trip.city} 
-                  />)
-                }
+                  />
+                )}
             </SelectField>
             <br/>
             <RaisedButton
@@ -285,13 +328,41 @@ class SearchPage extends React.Component {
     }
 
     /*************************** TRIP DETAILS SIDEBAR ***************************/
+    const editDateActions = [
+      <FlatButton
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onClick={submitEditDates}
+      />,
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        style={{marginLeft: '2%'}}
+        onClick={() => {
+          console.log('cancel state', this.props.state)
+          updateFromDate(null, '');
+          updateToDate(null, '');
+          this.setState({
+            editDatesOpen: false,
+          });
+        }}
+      />
+    ];
+
     const drawer = () => {
       if (state.activeTrip.status) {
         let activeTrip = state.userTrips[state.activeTrip.index]; 
         if (activeTrip) {
-          // momentjs is weird and shows the dates as 1 day off bc time zones, so 1 day has to be added back for the dates to show correctly
-          let fromDate = moment(activeTrip.fromDate).add(1, 'days').format('MM/DD/YY');
-          let toDate = moment(activeTrip.toDate).add(1, 'days').format('MM/DD/YY');
+          // momentjs is weird and shows the dates as 1 day off bc time zones, so 1 day has to be added back for the dates to show correctly - seems to work now?
+          let fromDate = moment(activeTrip.fromDate).format('MM/DD/YY');
+          let toDate = moment(activeTrip.toDate).format('MM/DD/YY');
+
+          let tempFromDate = moment(this.state.tempFromDate).format('MM/DD/YY');
+          let tempToDate = moment(this.state.tempToDate).format('MM/DD/YY');
+          console.log('active trip', activeTrip)
+          console.log('state trips', state.trips)
+          console.log('this state', this.state)
           return (
             <Drawer
               width={400}
@@ -307,7 +378,41 @@ class SearchPage extends React.Component {
                     <NavigationClose />
                   </IconButton>}
               />
-              <div style={{margin: '2%', fontSize: 25, fontWeight: 'bold', textAlign: 'center'}}>{fromDate} - {toDate}</div>
+              <div style={{margin: '2%', fontSize: 25, fontWeight: 'bold', textAlign: 'center'}}>
+                {fromDate} - {toDate}
+                
+                <div>
+                  <FlatButton
+                    label="Edit"
+                    onClick={() => this.setState({editDatesOpen: true})}
+                  />
+                  <Dialog
+                    title="Modify Trip Dates"
+                    actions={editDateActions}
+                    modal={false}
+                    open={this.state.editDatesOpen}
+                    onRequestClose={() => this.setState({editDatesOpen: false})}
+                  >
+                    Current Trip Dates for {this.state.activeCity}:
+                    <br/> {fromDate} - {toDate}
+                    <br/><br/>
+                    Edit your trip dates below:
+                    <DatePicker
+                      floatingLabelText="From"
+                      autoOk={true}
+                      onChange={updateFromDate}
+                      minDate={today}
+                    />
+                    <DatePicker
+                      floatingLabelText="To"
+                      autoOk={true}
+                      onChange={updateToDate}
+                      minDate={this.props.state.minToDate}
+                    />
+                  </Dialog>
+                </div>
+              </div>
+
               {showActivityDiv('event', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.events.map((event, index) => 
@@ -338,26 +443,6 @@ class SearchPage extends React.Component {
             </Drawer>
           );
         }
-      // TODO: still trying to get this to work
-      // } else if (this.state.anonSubmit) {
-      //   return (
-      //     <Drawer
-      //       width={400}
-      //       openSecondary={true}
-      //       open={this.state.anonOpen}
-      //     >
-      //       <AppBar
-      //         title={this.props.state.city}
-      //         iconElementLeft={
-      //           <IconButton
-      //             onClick={() => (this.setState({ anonOpen: false, anonSubmit: false }))}
-      //           >
-      //             <NavigationClose />
-      //           </IconButton>}
-      //       />
-      //       <div>Please log in to save this trip!</div>
-      //     </Drawer>
-      //   )
       }
     }
 
@@ -452,15 +537,6 @@ class SearchPage extends React.Component {
             disabled={!this.props.state.authenticated}
           />
         )
-      // TODO: still trying to get this to work
-      // } else {
-      //   return (
-      //     <RaisedButton
-      //       onClick={this.submitAsAnon.bind(this)}
-      //       label='Create Trip'
-      //     />
-      //   )
-      // }
     }
 
     /*************************** STUFF ON PAGE ***************************/
@@ -609,7 +685,6 @@ class SearchPage extends React.Component {
     );
   }  
 }
-
 
 const mapStateToProps = state => (
   { state: state }

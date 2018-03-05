@@ -94,9 +94,7 @@ let Activity = (props) => {
 
     return (
       <Card style={cardStyle}> 
-        <CardMedia
-          
-        >
+        <CardMedia>
           <img src={props.activity.logo} alt =''/>
         </CardMedia>
         
@@ -136,18 +134,19 @@ let Activity = (props) => {
           }}
           expandable={true}
         >
-        <div style={{
-          backgroundColor: '#f9f9f9',
-          color: cyan900,
-          fontWeight: 'bold',
-          padding: '1%'
-        }}>About:</div>
-        <div style={{
-          color: cyan800,
-          fontSize: 11,
-          maxHeight: '250px',
-          overflow: 'auto'
-        }}>{props.activity.description}</div>
+          <div style={{
+            backgroundColor: '#f9f9f9',
+            color: cyan900,
+            fontWeight: 'bold',
+            padding: '1%'
+          }}>About:</div>
+          <div style={{
+            color: cyan800,
+            fontSize: 11,
+            maxHeight: '250px',
+            overflow: 'auto',
+            padding: '1%'
+          }}>{props.activity.description}</div>
         </CardText>
         
         {/*********** Renders the remove button if user is logged in ***********/}

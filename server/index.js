@@ -6,6 +6,7 @@ const db = require('../database-mongo/index.js');
 const eventbrite = require('../APIhelper/eventbrite.js');
 const zomato = require('../APIhelper/zomatoHelper.js')
 const path = require('path');
+const moment = require('moment');
 
 const app = express();
 app.use(bodyParser.json());
@@ -184,8 +185,7 @@ app.post('/trips', (req, res) => {
 
 app.patch('/trips', (req, res) => {
 	if (req.body.public !== undefined) {
-
-		db.modifyTripDetails(req.body.public, null, req.body.user, req.body.tripCity, function(err, data) {
+		db.modifyTripDetails(req.body.public, null, req.body.user, null, null, req.body.tripCity, function(err, data) {
 			if (err) {
 				res.status(500).send(err);
 			} else {
@@ -201,6 +201,19 @@ app.patch('/trips', (req, res) => {
 			}
 		})
 	}
+});
+
+app.patch('/plan', (req, res) => {
+	// let formattedFromDate = moment(req.body.tripFromDate).add(1, 'days').format('YYYY-MM-DD');
+	// let formattedToDate = moment(req.body.tripToDate).add(1, 'days').format('YYYY-MM-DD');
+	db.modifyTripDetails(null, null, req.body.user, req.body.tripFromDate, req.body.tripToDate, req.body.tripCity, function(err, data) {
+		if (err) {
+			res.status(500).send(err);
+		} else {
+			console.log('------> patch', req.body)
+			res.sendStatus(204);
+		}
+	});
 });
 
 /******************************** Search - Events *****************************/

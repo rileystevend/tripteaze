@@ -80,8 +80,9 @@ const Trip = (props) => {
 
   // Renders list of user's current trips
   if (props.editable === true) {
-    let fromDate =moment(props.trip.fromDate).add(1, 'days').format('MM/DD/YY');
-    let toDate = moment(props.trip.toDate).add(1, 'days').format('MM/DD/YY');
+    console.log('props in trip:', props)
+    let fromDate =moment(props.trip.fromDate).format('MM/DD/YY');
+    let toDate = moment(props.trip.toDate).format('MM/DD/YY');
     return (
       <Card
         style={styles.tripCard}
