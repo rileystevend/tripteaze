@@ -287,7 +287,7 @@ class SearchPage extends React.Component {
     /*************************** TRIP DETAILS SIDEBAR ***************************/
     const drawer = () => {
       if (state.activeTrip.status) {
-        let activeTrip = state.trips[state.activeTrip.index]; 
+        let activeTrip = state.userTrips[state.activeTrip.index]; 
         if (activeTrip) {
           // momentjs is weird and shows the dates as 1 day off bc time zones, so 1 day has to be added back for the dates to show correctly
           let fromDate = moment(activeTrip.fromDate).add(1, 'days').format('MM/DD/YY');
