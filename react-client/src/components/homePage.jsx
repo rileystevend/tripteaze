@@ -222,7 +222,7 @@ class Home extends React.Component {
             <div style={{marginTop: '1%'}}>
               <div style={styles.discoverTrips}>Discover</div>
 
-              {state.trips.map((trip, index) => (
+              {state.publicTrips.map((trip, index) => (
                 <Trip key={index} trip={trip} />
               ))}
             </div>

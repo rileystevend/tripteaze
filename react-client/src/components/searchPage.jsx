@@ -108,21 +108,21 @@ class SearchPage extends React.Component {
   constructor (props) {
     super(props);
 
-    if (props.state.trips.length !== 0  && props.state.activeTrip.status) {
+    if (props.state.userTrips.length !== 0  && props.state.activeTrip.status) {
       this.state = {
         open: true,
-        activeCity: props.state.trips[props.state.activeTrip.index].city,
-        dropdown: props.state.trips[props.state.activeTrip.index].city,
-        activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
-        activeToDate: props.state.trips[props.state.activeTrip.index].toDate
+        activeCity: props.state.userTrips[props.state.activeTrip.index].city,
+        dropdown: props.state.userTrips[props.state.activeTrip.index].city,
+        activeFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
+        activeToDate: props.state.userTrips[props.state.activeTrip.index].toDate
       }
-    } else if (props.state.trips.length !== 0) {
+    } else if (props.state.userTrips.length !== 0) {
       this.state = {
         open: false,
-        activeCity: props.state.trips[props.state.activeTrip.index].city,
+        activeCity: props.state.userTrips[props.state.activeTrip.index].city,
         dropdown: 0,
-        activeFromDate: props.state.trips[props.state.activeTrip.index].fromDate,
-        activeToDate: props.state.trips[props.state.activeTrip.index].toDate
+        activeFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
+        activeToDate: props.state.userTrips[props.state.activeTrip.index].toDate
       }
     } else {
       this.state = {
@@ -138,8 +138,8 @@ class SearchPage extends React.Component {
   updateCity (event, index, value) {
     if (value && index !== 0) {
       this.setState({dropdown: value, open: true});
-      this.setState({activeCity: this.props.state.trips[index - 1].city});
-      this.setState({activeFromDate: this.props.state.trips[index - 1].fromDate, activeToDate: this.props.state.trips[index - 1].toDate});
+      this.setState({activeCity: this.props.state.userTrips[index - 1].city});
+      this.setState({activeFromDate: this.props.state.userTrips[index - 1].fromDate, activeToDate: this.props.state.userTrips[index - 1].toDate});
       this.props.actions.updateCity('');
       this.props.actions.activateTrip(index - 1);
     } else if (index === 0) {
@@ -165,7 +165,7 @@ class SearchPage extends React.Component {
     event.preventDefault();
     if (state.authenticated) {
       if (state.city !== '' && state.tripFromDate !== '' && state.tripToDate !== '') {
-        this.props.actions.makeNewTrip(state.username, state.city, state.trips.length, state.tripFromDate, state.tripToDate);
+        this.props.actions.makeNewTrip(state.username, state.city, state.userTrips.length, state.tripFromDate, state.tripToDate);
         this.setState({ activeCity: state.city, open: true, activeFromDate: state.tripFromDate, activeToDate: state.tripToDate});
       }
     }
@@ -261,7 +261,7 @@ class SearchPage extends React.Component {
               onChange = {this.updateCity.bind(this)}
             > 
               <MenuItem primaryText = 'Make a New Trip' />
-                {state.trips.map((trip, index) => 
+                {state.userTrips.map((trip, index) => 
                   <MenuItem
                     key = {index}
                     value = {trip.city}
