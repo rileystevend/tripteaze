@@ -204,6 +204,7 @@ app.patch('/trips', (req, res) => {
 });
 
 app.patch('/plan', (req, res) => {
+	console.log('-----> server', req.body);
 	db.modifyTripDetails(null, null, req.body.user, req.body.tripFromDate, req.body.tripToDate, req.body.tripCity, function(err, data) {
 		if (err) {
 			res.status(500).send(err);

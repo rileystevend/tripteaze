@@ -104,8 +104,7 @@ export const styles = {
 class SearchPage extends React.Component {
   constructor (props) {
     super(props);
-
-    if (props.state.userTrips.length !== 0  && props.state.activeTrip.status) {
+    if (props.state.trips.length !== 0  && props.state.activeTrip.status) {
       this.state = {
         open: true,
         activeCity: props.state.trips[props.state.activeTrip.index].city,
@@ -285,7 +284,7 @@ class SearchPage extends React.Component {
         activeToDate: newToDate,
         tempFromDate: newFromDate,
         tempToDate: newToDate,
-        editDatesOpen: false,
+        editDatesOpen: false
       });
     };
 
