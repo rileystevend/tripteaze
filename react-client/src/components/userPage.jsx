@@ -1,15 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {Link} from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import * as theme from './homePage.jsx';  // * does all named exports from that file
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+// import getMuiTheme from 'material-ui/styles/getMuiTheme';
+// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+import { cyan50, cyan800, cyan900 } from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
 
 import Login from './login.jsx';
@@ -27,7 +28,7 @@ const styles = {
     padding: '0.5%',
     textAlign: 'center'
   }
-}
+};
 
 class UserPage extends React.Component {
   constructor (props) {
@@ -51,14 +52,14 @@ class UserPage extends React.Component {
     if (this.props.store.userTrips.length === 0) {
       return (
         <div>
-          You don't have any trips yet :(
+          You don&apos;t have any trips yet :(
           <p/>
           Why not go <Link to='/plan' style={{textDecoration: 'none', color: cyan900}}>plan</Link> one?
         </div>
       );
     } else {
       return (
-        <div>{this.props.store.username}'s Current Trips</div>
+        <div>{this.props.store.username}&apos;s Current Trips</div>
       );
     }
   }
@@ -155,7 +156,7 @@ class UserPage extends React.Component {
             <div style={theme.styles.header}>
               <Link to="/" style={{ textDecoration: 'none', color: cyan900 }}>
                 TripTeaze
-                </Link>
+              </Link>
             </div>
 
             <div style={styles.notLoggedIn}>
@@ -211,7 +212,7 @@ class UserPage extends React.Component {
 }
 
 const mapStateToProps = state => (
-  {store: state}
+  {store: state} // eslint-disable-line
 );
 
 const mapDispatchToProps = dispatch =>
