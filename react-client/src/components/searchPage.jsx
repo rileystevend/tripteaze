@@ -101,30 +101,31 @@ export const styles = {
   }
 }
 
+//this is a terrible nightmare component that should be overhauled
 class SearchPage extends React.Component {
   constructor (props) {
     super(props);
-    if (props.state.userTrips.length !== 0  && props.state.activeTrip.status) {
+    if (props.store.userTrips.length !== 0  && props.store.activeTrip.status) {
       this.state = {
         open: true,
-        activeCity: props.state.userTrips[props.state.activeTrip.index].city,
-        dropdown: props.state.userTrips[props.state.activeTrip.index].city,
-        activeFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
-        activeToDate: props.state.userTrips[props.state.activeTrip.index].toDate,
+        activeCity: props.store.userTrips[props.store.activeTrip.index].city,
+        dropdown: props.store.userTrips[props.store.activeTrip.index].city,
+        activeFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
+        activeToDate: props.store.userTrips[props.store.activeTrip.index].toDate,
         editDatesOpen: false,
-        tempFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
-        tempToDate: props.state.userTrips[props.state.activeTrip.index].toDate
+        tempFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
+        tempToDate: props.store.userTrips[props.store.activeTrip.index].toDate
       }
-    } else if (props.state.userTrips.length !== 0) {
+    } else if (props.store.userTrips.length !== 0) {
       this.state = {
         open: false,
-        activeCity: props.state.userTrips[props.state.activeTrip.index].city,
+        activeCity: props.store.userTrips[props.store.activeTrip.index].city,
         dropdown: 0,
-        activeFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
-        activeToDate: props.state.userTrips[props.state.activeTrip.index].toDate,
+        activeFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
+        activeToDate: props.store.userTrips[props.store.activeTrip.index].toDate,
         editDatesOpen: false,
-        tempFromDate: props.state.userTrips[props.state.activeTrip.index].fromDate,
-        tempToDate: props.state.userTrips[props.state.activeTrip.index].toDate
+        tempFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
+        tempToDate: props.store.userTrips[props.store.activeTrip.index].toDate
       }
     } else {
       this.state = {
@@ -135,21 +136,25 @@ class SearchPage extends React.Component {
     }
   }
 
+  //works for input box and dropdown menu
   updateCity (event, index, value) {
-    if (value && index !== 0) {
+    let store = this.props.store;
+    let actions = this.props.actions;
+    if (value && index !== 0) { //is dropdown
       this.setState({dropdown: value, open: true});
-      this.setState({activeCity: this.props.state.userTrips[index - 1].city});
-      this.setState({activeFromDate: this.props.state.userTrips[index - 1].fromDate, activeToDate: this.props.state.userTrips[index - 1].toDate});
-      this.props.actions.updateCity('');
-      this.props.actions.activateTrip(index - 1);
-    } else if (index === 0) {
+      this.setState({activeCity: store.userTrips[index - 1].city});
+      this.setState({activeFromDate: store.userTrips[index - 1].fromDate, activeToDate: store.userTrips[index - 1].toDate});
+      actions.updateCity('');
+      actions.activateTrip(index - 1);
+    } else if (index === 0) { //top option of dropdown
       this.setState({ dropdown: value });
-      this.props.actions.deactivate();
-    } else {
-      this.props.actions.updateCity(this.formatCity(event.target.value));
+      actions.deactivate();
+    } else { //is textbox
+      actions.updateCity(this.formatCity(event.target.value));
     }
   }
 
+  //makes cities always only have a capital letter as the first char of each word
   formatCity (city) {
     const words = city.split(' ');
     let newWords = [];
@@ -160,13 +165,15 @@ class SearchPage extends React.Component {
     return newWords.join(' ');
   } 
 
-  submit (event) {  // makes a new trip for logged in user
-    let state = this.props.state;
+  //creates a new trip from the input box
+  submit (event) { 
+    let store = this.props.store;
+    let actions = this.props.actions;
     event.preventDefault();
-    if (state.authenticated) {
-      if (state.city !== '' && state.tripFromDate !== '' && state.tripToDate !== '') {
-        this.props.actions.makeNewTrip(state.username, state.city, state.userTrips.length, state.tripFromDate, state.tripToDate);
-        this.setState({ activeCity: state.city, open: true, activeFromDate: state.tripFromDate, activeToDate: state.tripToDate});
+    if (store.authenticated) {
+      if (store.city !== '' && store.tripFromDate !== '' && store.tripToDate !== '') { //checks for required entries
+        actions.makeNewTrip(store.username, store.city, store.userTrips.length, store.tripFromDate, store.tripToDate);
+        this.setState({ activeCity: store.city, open: true, activeFromDate: store.tripFromDate, activeToDate: store.tripToDate});
       } else {
         window.alert('Please make sure to fill in the dates and city name!');
       }
@@ -179,11 +186,13 @@ class SearchPage extends React.Component {
   };
 
   submitEventQuery (event) {
-    let state = this.props.state;
-    event.preventDefault();
-    if ((state.activeTrip.status || state.city) && state.eventQuery) {
-      let city = state.activeTrip.status ? this.state.activeCity : state.city;
-      this.props.actions.searchEvents(this.state.activeCity, state.eventQuery, this.state.activeFromDate, this.state.activeToDate);
+    let store = this.props.store;
+    let actions = this.props.actions;
+
+    event.preventDefault();  //prevent refresh, might not need this anymore
+    if ((store.activeTrip.status || store.city) && store.eventQuery) {
+      let city = store.activeTrip.status ? this.state.activeCity : store.city; //lets you maybe search on a city without creating a trip
+      actions.searchEvents(this.state.activeCity, store.eventQuery, this.state.activeFromDate, this.state.activeToDate);
     } else {
       window.alert('Please select a city and search terms first!');
     }
@@ -195,12 +204,12 @@ class SearchPage extends React.Component {
   };
 
   submitFoodQuery (event) {
-    let state = this.props.state;
+    let store = this.props.store;
     event.preventDefault();
 
-    if(state.activeTrip.status || state.city) {
-      let city = state.activeTrip.status ? this.state.activeCity : state.city;
-      this.props.actions.searchForFood(this.state.activeCity, this.props.state.foodQuery)
+    if(store.activeTrip.status || store.city) {
+      let city = store.activeTrip.status ? this.state.activeCity : store.city;
+      this.props.actions.searchForFood(this.state.activeCity, store.foodQuery)
     } else {
       window.alert('Please select a city and search terms first!')
     }
@@ -212,10 +221,10 @@ class SearchPage extends React.Component {
     let messageEvents = '';
     let messageFood = '';
     let activeCity = this.state.activeCity;
-    let state = this.props.state;
+    let store = this.props.store; //the redux store
     let actions = this.props.actions;
 
-    if (!state.activeTrip.status) {
+    if (!store.activeTrip.status) {
       message = 'Pick a city for your trip!';
       messageEvents = 'First pick a city before searching events!';
       messageFood = '';
@@ -226,14 +235,15 @@ class SearchPage extends React.Component {
     }
 
   /*************************** DATE SELECTION STUFF ***************************/
+  // all this probably shouldn't be in the render method but oh well
     let today = new Date();
 
     let formatDate = (date) => {
       // Dates need to be in YYYY-MM-DD format
-      return moment(date).format('YYYY-MM-DDT00:00:00.000Z');
+      return moment(date).format('YYYY-MM-DDT00:00:00.000Z'); //<-- moment is cool library
     }
 
-    let updateFromDate = (event, date) => {
+    let updateFromDate = (event, date) => { //pulls from material date pickker
       let fromDate;
       if (date !== '') {
         fromDate = formatDate(date);
@@ -241,7 +251,7 @@ class SearchPage extends React.Component {
         fromDate = '';
       }
 
-      actions.updateFromDate(fromDate);
+      actions.updateFromDate(fromDate); //update store
 
       // This sets minimum "To" date based on the current "From" date in the correct date format
       if (date !== '') {
@@ -268,18 +278,18 @@ class SearchPage extends React.Component {
         activeToDate: toDate
       });
     };
-
+    //some of this is just trying to keep this component's state and the redux store in sync which is 
+    //kind of bad form for redux for this component to have so much stuff
     const submitEditDates = () => {
-      let state = this.props.state;
-      let city = state.userTrips[state.activeTrip.index].city;
-      let newFromDate = state.tripFromDate;
-      let newToDate = state.tripToDate;
+      let city = this.state.activeCity;
+      let newFromDate = store.tripFromDate;
+      let newToDate = store.tripToDate;
 
       // updates trip dates in the db
-      actions.updateTripDates(state.username, city, newFromDate, newToDate);
+      actions.updateTripDates(store.username, city, newFromDate, newToDate);
 
-      state.userTrips[state.activeTrip.index].fromDate = state.tripFromDate;
-      state.userTrips[state.activeTrip.index].toDate = state.tripToDate;
+      store.userTrips[store.activeTrip.index].fromDate = store.tripFromDate;
+      store.userTrips[store.activeTrip.index].toDate = store.tripToDate;
 
       this.setState({
         activeFromDate: newFromDate,
@@ -292,7 +302,7 @@ class SearchPage extends React.Component {
 
     /*************************** EXISTING TRIPS DROPDOWN ***************************/
     const dropdown = () => {
-      if (this.props.state.authenticated) {
+      if (store.authenticated) {  //logged in
         return (
           <div>
             <SelectField 
@@ -300,7 +310,7 @@ class SearchPage extends React.Component {
               onChange = {this.updateCity.bind(this)}
             > 
               <MenuItem primaryText = 'Make a New Trip' />
-                {state.userTrips.map((trip, index) => 
+                {store.userTrips.map((trip, index) => 
                   <MenuItem
                     key = {index}
                     value = {trip.city}
@@ -312,7 +322,7 @@ class SearchPage extends React.Component {
             <RaisedButton
               onClick={() => (this.setState({ open: !this.state.open }))}
               label='Show Details'
-              disabled={!state.activeTrip.status}
+              disabled={!store.activeTrip.status}
             />
           </div>
         )
@@ -324,6 +334,7 @@ class SearchPage extends React.Component {
     }
 
     /*************************** TRIP DETAILS SIDEBAR ***************************/
+    //edit a trip's dates modal buttons
     const editDateActions = [
       <FlatButton
         label="Submit"
@@ -346,8 +357,8 @@ class SearchPage extends React.Component {
     ];
 
     const drawer = () => {
-      if (state.activeTrip.status) {
-        let activeTrip = state.userTrips[state.activeTrip.index]; 
+      if (store.activeTrip.status) {
+        let activeTrip = store.userTrips[store.activeTrip.index]; 
         if (activeTrip) {
           let fromDate = moment(activeTrip.fromDate).format('MM/DD/YY');
           let toDate = moment(activeTrip.toDate).format('MM/DD/YY');
@@ -410,7 +421,7 @@ class SearchPage extends React.Component {
                       floatingLabelText="To"
                       autoOk={true}
                       onChange={updateToDate}
-                      minDate={this.props.state.minToDate}
+                      minDate={store.minToDate}
                     />
                   </Dialog>
                 </div>
@@ -424,9 +435,9 @@ class SearchPage extends React.Component {
                     sidebar = 'true'
                     type='event'
                     activity={event}
-                    user={state.username}
+                    user={store.username}
                     city={this.state.activeCity}
-                    deleteEvent={this.props.actions.deleteEvent}
+                    deleteEvent={actions.deleteEvent}
                   />))}
               </div>
               
@@ -437,9 +448,9 @@ class SearchPage extends React.Component {
                     key={index}
                     sidebar='true'
                     type='food'
-                    user={state.username}
+                    user={store.username}
                     city={this.state.activeCity}
-                    deleteFood={this.props.actions.deleteFood}
+                    deleteFood={actions.deleteFood}
                     activity={eatin}
                   />))}
               </div>
@@ -448,9 +459,9 @@ class SearchPage extends React.Component {
         }
       }
     }
-
+    //differ for logged in and out users
     const navLinks = () => {
-      if (state.authenticated) {
+      if (store.authenticated) {
         return (
           <div style={theme.styles.navLinks}>
             <Link to='/'>
@@ -461,14 +472,14 @@ class SearchPage extends React.Component {
             <Link to='trips'>
               <RaisedButton
                 label="My Trips"
-                disabled={!this.props.state.authenticated}
+                disabled={!store.authenticated}
                 style={styles.navButtons}
               />
             </Link>
             <Link to='/'>
               <RaisedButton
-                disabled={!this.props.state.authenticated}
-                onClick={this.props.actions.logOut}
+                disabled={!store.authenticated}
+                onClick={actions.logOut}
                 label='Log Out'
               />
             </Link>
@@ -484,15 +495,15 @@ class SearchPage extends React.Component {
             </Link>
             <Signup
               signup={actions.signup}
-              username={state.username}
-              password={state.password}
+              username={store.username}
+              password={store.password}
               updateUsername={actions.updateUsername}
               updatePassword={actions.updatePassword}
             />
             <Login
               login={actions.login}
-              username={state.username}
-              password={state.password}
+              username={store.username}
+              password={store.password}
               updateUsername={actions.updateUsername}
               updatePassword={actions.updatePassword}
             />
@@ -518,9 +529,9 @@ class SearchPage extends React.Component {
 
     /*************************** WELCOME USER TEXT ***************************/
     const welcomeUser = () => {
-      if (this.props.state.authenticated) {
+      if (store.authenticated) {
         return (
-          <div style={theme.styles.discoverTrips}>Welcome back, {state.username}!</div>
+          <div style={theme.styles.discoverTrips}>Welcome back, {store.username}!</div>
         )
       } else {
         return (
@@ -535,7 +546,7 @@ class SearchPage extends React.Component {
         <RaisedButton
           onClick={this.submit.bind(this)}
           label='Create Trip'
-          disabled={!this.props.state.authenticated}
+          disabled={!store.authenticated}
         />
       )
     }
@@ -582,7 +593,7 @@ class SearchPage extends React.Component {
                       autoOk={true}
                       onChange={updateToDate}
                       // defaultDate={} // set default "to" date as the "from" date?
-                      minDate={this.props.state.minToDate}
+                      minDate={store.minToDate}
                     />
                   </div>
                   <br/>
@@ -590,7 +601,7 @@ class SearchPage extends React.Component {
                     <div style={styles.tripDatesHeaders}> {message} </div>
                     <TextField
                       id='city'
-                      value={this.props.state.city}
+                      value={store.city}
                       onChange={this.updateCity.bind(this)}
                     />
                     <br/>
@@ -642,11 +653,11 @@ class SearchPage extends React.Component {
               {/************************** EVENT RESULTS **************************/}
               <div style={styles.searchResults}>
                 <Events
-                  events={state.eventResults}
+                  events={store.eventResults}
                   addEventToTrip={actions.addEventToTrip}
-                  user={state.username}
+                  user={store.username}
                   city={this.state.activeCity}
-                  eventSnackbar={state.eventSnackbar}
+                  eventSnackbar={store.eventSnackbar}
                   onRequestClose={actions.deactivateEventSnackbar}
                 />
               </div>
@@ -671,11 +682,11 @@ class SearchPage extends React.Component {
               {/************************** EATIN RESULTS **************************/}
               <div style={styles.searchResults}>
                 <Eatin
-                  restaurants={state.foodResults}
+                  restaurants={store.foodResults}
                   addFoodToTrip={actions.addFoodToTrip}
-                  user={state.username}
+                  user={store.username}
                   city={this.state.activeCity}
-                  foodSnackbar={state.foodSnackbar}
+                  foodSnackbar={store.foodSnackbar}
                   onRequestClose={actions.deactivateFoodSnackbar}
                 />
               </div>
@@ -686,11 +697,14 @@ class SearchPage extends React.Component {
     );
   }  
 }
+//react-redux stuff
 
+//state is the redux store
 const mapStateToProps = state => (
-  { state: state }
+  { store: state }
 );
 
+//dispatch is the movement of actions to the reducer
 const mapDispatchToProps = dispatch => (
   { actions: bindActionCreators(actions, dispatch) }
 );

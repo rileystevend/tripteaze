@@ -23,7 +23,7 @@ const styles = {
     color: 'white'
   }
 };
-
+//these are search results for events
 const Events = (props) => {
 
   if (props.events.length !== 0) {
