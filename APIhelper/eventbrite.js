@@ -15,7 +15,7 @@ if (!process.env.EVENTBRITE) {
 let searchEvents = (query, city, fromDate, toDate, cb) => {
   let formattedFromDate;
   let formattedToDate;
-	
+
   if(fromDate.length <= 10 && toDate.length <= 10) {
     formattedFromDate = fromDate;
     formattedToDate = toDate;
@@ -23,7 +23,7 @@ let searchEvents = (query, city, fromDate, toDate, cb) => {
     formattedFromDate = moment(fromDate).format('YYYY-MM-DD');
     formattedToDate = moment(toDate).format('YYYY-MM-DD');
   }
-	
+
   let params = {
     url: `https://www.eventbriteapi.com/v3/events/search/?q=${query}&location.address=${city}&start_date.range_start=${formattedFromDate}T00:00:00&start_date.range_end=${formattedToDate}T23:59:00&sort_by=date`,
     headers: {

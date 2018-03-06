@@ -135,10 +135,10 @@ class Home extends React.Component {
     if (this.props.store.authenticated) {
       return (
         <div style={styles.navLinks}>
-          <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage.bind(this)} 
+          <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage.bind(this)}
             label = 'My Trips'
           />
-          <RaisedButton style={{ marginRight: '15px' }} onClick = {this.toSearchPage.bind(this)} 
+          <RaisedButton style={{ marginRight: '15px' }} onClick = {this.toSearchPage.bind(this)}
             label = 'Build'
           />
           <RaisedButton style={{ marginRight: '15px' }} onClick = {actions.logOut}
@@ -215,7 +215,7 @@ class Home extends React.Component {
               TripTeaze
             </Link>
           </div>
-          
+
           {/************************** CREATE TRIP **************************/}
           <div style={styles.body}>
             {this.getStarted()}

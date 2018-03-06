@@ -43,7 +43,7 @@ class Signup extends React.Component {
   handleClose () {
     this.setState({ open: false });
   }
-	
+
   render () {
     const actions = [
       <FlatButton
@@ -70,7 +70,7 @@ class Signup extends React.Component {
             onClick={this.handleOpen.bind(this)}
             style={searchStyle.styles.navButtons}
           />
-          <Dialog 
+          <Dialog
             title="Sign Up"
             actions={actions}
             modal={false}

@@ -165,10 +165,10 @@ class SearchPage extends React.Component {
       newWords.push(word);
     }
     return newWords.join(' ');
-  } 
+  }
 
   //creates a new trip from the input box
-  submit (event) { 
+  submit (event) {
     let store = this.props.store;
     let actions = this.props.actions;
     event.preventDefault();
@@ -280,7 +280,7 @@ class SearchPage extends React.Component {
         activeToDate: toDate
       });
     };
-    //some of this is just trying to keep this component's state and the redux store in sync which is 
+    //some of this is just trying to keep this component's state and the redux store in sync which is
     //kind of bad form for redux for this component to have so much stuff
     const submitEditDates = () => {
       let city = this.state.activeCity;
@@ -307,16 +307,16 @@ class SearchPage extends React.Component {
       if (store.authenticated) {  //logged in
         return (
           <div>
-            <SelectField 
-              value={this.state.dropdown} 
+            <SelectField
+              value={this.state.dropdown}
               onChange = {this.updateCity.bind(this)}
-            > 
+            >
               <MenuItem primaryText = 'Make a New Trip' />
-              {store.userTrips.map((trip, index) => 
+              {store.userTrips.map((trip, index) =>
                 <MenuItem
                   key = {index}
                   value = {trip.city}
-                  primaryText = {trip.city} 
+                  primaryText = {trip.city}
                 />
               )}
             </SelectField>
@@ -362,7 +362,7 @@ class SearchPage extends React.Component {
 
     const drawer = () => {
       if (store.activeTrip.status) {
-        let activeTrip = store.userTrips[store.activeTrip.index]; 
+        let activeTrip = store.userTrips[store.activeTrip.index];
         if (activeTrip) {
           let fromDate = moment(activeTrip.fromDate).format('MM/DD/YY');
           let toDate = moment(activeTrip.toDate).format('MM/DD/YY');
@@ -433,7 +433,7 @@ class SearchPage extends React.Component {
 
               {showActivityDiv('event', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
-                {activeTrip.events.map((event, index) => 
+                {activeTrip.events.map((event, index) =>
                   (<Activity
                     key={index}
                     sidebar = 'true'
@@ -444,10 +444,10 @@ class SearchPage extends React.Component {
                     deleteEvent={actions.deleteEvent}
                   />))}
               </div>
-              
+
               {showActivityDiv('eatin', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
-                {activeTrip.eatin.map((eatin, index) => 
+                {activeTrip.eatin.map((eatin, index) =>
                   (<Activity
                     key={index}
                     sidebar='true'
@@ -569,7 +569,7 @@ class SearchPage extends React.Component {
           </div>
 
           <div style={styles.welcomeUser}>{welcomeUser()}</div>
-          
+
           {/************************** CREATE TRIP CARD **************************/}
           <div style={styles.createTripCard}>
             {drawer()}
@@ -634,7 +634,7 @@ class SearchPage extends React.Component {
               </CardText>
             </Card>
           </div>
-          
+
           {/************************** EXPLORE SECTION **************************/}
           <div style={{marginTop: '3%'}}>
             <div style={theme.styles.discoverTrips}>Explore</div>
@@ -648,9 +648,9 @@ class SearchPage extends React.Component {
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
                 />
-                <RaisedButton 
-                  onClick={this.submitEventQuery.bind(this)} 
-                  label='Search' 
+                <RaisedButton
+                  onClick={this.submitEventQuery.bind(this)}
+                  label='Search'
                 />
               </div>
 
@@ -677,9 +677,9 @@ class SearchPage extends React.Component {
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
                 />
-                <RaisedButton 
-                  onClick={this.submitFoodQuery.bind(this)} 
-                  label='Search'              
+                <RaisedButton
+                  onClick={this.submitFoodQuery.bind(this)}
+                  label='Search'
                 />
               </div>
 
@@ -699,13 +699,13 @@ class SearchPage extends React.Component {
         </Paper>
       </MuiThemeProvider>
     );
-  }  
+  }
 }
 //react-redux stuff
 
 //state is the redux store
 const mapStateToProps = state => (
-  { store: state } 
+  { store: state }
 );
 
 //dispatch is the movement of actions to the reducer

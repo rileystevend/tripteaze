@@ -112,7 +112,7 @@ let addRestaurantToTrip = (food, username, city, callback) => {
       console.log('error: ', err);
       callback(err);
     } else {
-      
+
       Trip.findOne({user: user.id, city: city}, function (err, trip) {
         if(err) {
           console.log('error', err);
@@ -454,7 +454,7 @@ module.exports = {
 // module.exports.getTripEvents = getTripEvents;
 
 
-// {restaurant: { 
+// {restaurant: {
 //   R: { res_id: 16608481 },
 //   apikey: '4c7506bb724adf55c75f64091cfc569e',
 //   id: '16608481',
