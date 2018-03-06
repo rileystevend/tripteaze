@@ -19,6 +19,13 @@ class Signup extends React.Component {
     this.state = {
       open: false
     };
+
+    this.submit = this.submit.bind(this);
+    this.changeUsername = this.changeUsername.bind(this);
+    this.changePassword = this.changePassword.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleEnterKey = this.handleEnterKey.bind(this);
   }
 
   submit (event) {
@@ -44,19 +51,25 @@ class Signup extends React.Component {
     this.setState({ open: false });
   }
 
+  handleEnterKey(e) {
+    if (e.key === 'Enter') {
+      this.submit(e);
+    }
+  }
+
   render () {
     const actions = [
       <FlatButton
         label="Join"
         primary={true}
         keyboardFocused={true}
-        onClick={this.submit.bind(this)}
+        onClick={this.submit}
         style={loginStyle.styles.actionButtons}
         key="join"
       />,
       <FlatButton
         label="Cancel"
-        onClick={this.handleClose.bind(this)}
+        onClick={this.handleClose}
         style={loginStyle.styles.actionButtons}
         key="cancel"
       />
@@ -67,7 +80,7 @@ class Signup extends React.Component {
         <div>
           <RaisedButton
             label="Join"
-            onClick={this.handleOpen.bind(this)}
+            onClick={this.handleOpen}
             style={searchStyle.styles.navButtons}
           />
           <Dialog
@@ -75,12 +88,22 @@ class Signup extends React.Component {
             actions={actions}
             modal={false}
             open={this.state.open}
-            onRequestClose={this.handleClose.bind(this)}>
+            onRequestClose={this.handleClose}
+          >
             <label>Username:</label>
-            <TextField id = "SUUsername" onChange = {this.changeUsername.bind(this)} />
+            <TextField
+              id="SUUsername"
+              onChange={this.changeUsername}
+              onKeyUp={this.handleEnterKey}
+            />
             <br/>
             <label>Password:</label>
-            <TextField id = 'SUPassword' type="password" onChange = {this.changePassword.bind(this)} />
+            <TextField
+              id='SUPassword'
+              type="password"
+              onChange={this.changePassword}
+              onKeyUp={this.handleEnterKey}
+            />
           </Dialog>
         </div>
       </MuiThemeProvider>
