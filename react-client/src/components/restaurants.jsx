@@ -5,8 +5,7 @@ import IconButton from 'material-ui/IconButton';
 import AddBorder from 'material-ui/svg-icons/content/add-circle-outline';
 import Snackbar from 'material-ui/Snackbar';
 
-
-
+//these are search results for restaurants
 const Eatin = (props) => {
 
   const styles = {

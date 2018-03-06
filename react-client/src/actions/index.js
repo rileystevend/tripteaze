@@ -337,6 +337,7 @@ export const deleteTrip = (user, trip) => {
 }
 
 export const deleteEvent = (event, username, city) => {
+  console.log('delete!')
   return (dispatch) => {
     return axios ({
       method: 'post',
@@ -352,6 +353,7 @@ export const deleteEvent = (event, username, city) => {
 }
 
 export const deleteFood = (food, username, city) => {
+  console.log('delete!')
   return (dispatch) => {
     return axios({
       method: 'post',
