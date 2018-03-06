@@ -10,16 +10,16 @@ if (!process.env.ZOMATO) {
 }
 
 let searchForFoods = ( cityId, searchFood, cb ) => {
-  
+
   let params = {
     url: `https://developers.zomato.com/api/v2.1/search?entity_id=${cityId}&entity_type=city&q=${searchFood}&count=25`,
     headers: {
       'user-key': key
     }
   };
-  
+
   const callback = (err, res, body) => {
-    if(!err && res.statusCode === 200) {
+    if (!err && res.statusCode === 200) {
       let temp = JSON.parse(body);
       cb(null, temp.restaurants);
     } else {
@@ -42,12 +42,13 @@ let searchForCityId = (city, cb) => {
   };
 
   const callback = (err, res, body) => {
-    if(!err && res.statusCode === 200) {
+    if (!err && res.statusCode === 200) {
       let temp = JSON.parse(body);
-      cb(null, temp.location_suggestions[0].id);
-    } else {
-      cb(err, null);
-      console.log('errrrrrr, ', err);
+      try {
+        cb(null, temp.location_suggestions[0].id);
+      } catch (e) {
+        callback(e, null);
+      }
     }
   };
   request(params, callback);

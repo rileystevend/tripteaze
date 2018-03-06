@@ -90,7 +90,7 @@ const Trip = (props) => {
       <Card
         style={styles.tripCard}
         initiallyExpanded={true}
-      > 
+      >
         <CardTitle
           title = {props.trip.city}
           subtitle = {fromDate + ' - ' + toDate} // Trip dates
@@ -114,7 +114,7 @@ const Trip = (props) => {
               />
             )}
           </div>
-          
+
           {showActivityDiv('eatin', props.trip)}
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
@@ -148,7 +148,7 @@ const Trip = (props) => {
         <Snackbar open={props.publicSnackbar} message={'Your trip has been made public!'} autoHideDuration={3000} onRequestClose={props.onRequestClosePublic}/>
         <Snackbar open={props.privateSnackbar} message={'Your trip has been made private!'} autoHideDuration={3000} onRequestClose={props.onRequestClosePrivate}/>
       </Card>
-    ); 
+    );
   } else {
     return (
       <Card
@@ -174,7 +174,7 @@ const Trip = (props) => {
               />
             )}
           </div>
-          
+
           {showActivityDiv('eatin', props.trip)}
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
@@ -190,5 +190,5 @@ const Trip = (props) => {
     );
   }
 };
- 
+
 export default Trip;

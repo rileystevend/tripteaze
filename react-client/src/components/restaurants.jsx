@@ -46,7 +46,7 @@ const Eatin = (props) => {
                 </GridTile>
               );
             } else {
-              return(
+              return (
                 <GridTile
                   key={food.restaurant.id}
                   title={food.restaurant.name}

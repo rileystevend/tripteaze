@@ -36,7 +36,7 @@ const Root = ({ store }) => (
 
 let store = createStore(reducer, applyMiddleware(thunk));
 
-ReactDOM.render( <Root store={store} /> 
+ReactDOM.render( <Root store={store} />
   , document.getElementById('app'));
 
 

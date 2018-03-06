@@ -105,7 +105,7 @@ export const styles = {
 
 //this is a terrible nightmare component that should be overhauled
 class SearchPage extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     if (props.store.userTrips.length !== 0  && props.store.activeTrip.status) {
       this.state = {
@@ -136,10 +136,31 @@ class SearchPage extends React.Component {
         editDatesOpen: false
       };
     }
+
+    this.submit = this.submit.bind(this);
+    this.updateCity = this.updateCity.bind(this);
+    this.updateEventQuery = this.updateEventQuery.bind(this);
+    this.submitEventQuery = this.submitEventQuery.bind(this);
+    this.updateFoodQuery = this.updateFoodQuery.bind(this);
+    this.submitFoodQuery = this.submitFoodQuery.bind(this);
+    this.handleEnterKey = this.handleEnterKey.bind(this);
+  }
+
+  handleEnterKey(e) {
+    let store = this.props.store;
+    if (store.authenticated && e.key === 'Enter') {
+      if (e.target.id === 'city') {
+        this.submit(e);
+      } else if (e.target.id === 'event') {
+        this.submitEventQuery(e);
+      } else if (e.target.id === 'food') {
+        this.submitFoodQuery(e);
+      }
+    }
   }
 
   //works for input box and dropdown menu
-  updateCity (event, index, value) {
+  updateCity(event, index, value) {
     let store = this.props.store;
     let actions = this.props.actions;
     if (value && index !== 0) { //is dropdown
@@ -157,7 +178,7 @@ class SearchPage extends React.Component {
   }
 
   //makes cities always only have a capital letter as the first char of each word
-  formatCity (city) {
+  formatCity(city) {
     const words = city.split(' ');
     let newWords = [];
     for (let word of words) {
@@ -165,10 +186,10 @@ class SearchPage extends React.Component {
       newWords.push(word);
     }
     return newWords.join(' ');
-  } 
+  }
 
   //creates a new trip from the input box
-  submit (event) { 
+  submit(event) {
     let store = this.props.store;
     let actions = this.props.actions;
     event.preventDefault();
@@ -187,7 +208,7 @@ class SearchPage extends React.Component {
     this.props.actions.updateEventQuery(event.target.value);
   }
 
-  submitEventQuery (event) {
+  submitEventQuery(event) {
     let store = this.props.store;
     let actions = this.props.actions;
 
@@ -201,15 +222,15 @@ class SearchPage extends React.Component {
   }
 
   /***************************** Food - search **********************************/
-  updateFoodQuery (event) {
+  updateFoodQuery(event) {
     this.props.actions.updateFoodQuery(event.target.value);
   }
 
-  submitFoodQuery (event) {
+  submitFoodQuery(event) {
     let store = this.props.store;
     event.preventDefault();
 
-    if(store.activeTrip.status || store.city) {
+    if ((store.activeTrip.status || store.city) && store.foodQuery) {
       // let city = store.activeTrip.status ? this.state.activeCity : store.city;
       this.props.actions.searchForFood(this.state.activeCity, store.foodQuery);
     } else {
@@ -218,7 +239,7 @@ class SearchPage extends React.Component {
   }
 
   /***************************** MESSAGE *****************************/
-  render () {
+  render() {
     let message =  '';
     let messageEvents = ''; // eslint-disable-line
     let messageFood = ''; // eslint-disable-line
@@ -280,7 +301,7 @@ class SearchPage extends React.Component {
         activeToDate: toDate
       });
     };
-    //some of this is just trying to keep this component's state and the redux store in sync which is 
+    //some of this is just trying to keep this component's state and the redux store in sync which is
     //kind of bad form for redux for this component to have so much stuff
     const submitEditDates = () => {
       let city = this.state.activeCity;
@@ -307,16 +328,16 @@ class SearchPage extends React.Component {
       if (store.authenticated) {  //logged in
         return (
           <div>
-            <SelectField 
-              value={this.state.dropdown} 
-              onChange = {this.updateCity.bind(this)}
-            > 
+            <SelectField
+              value={this.state.dropdown}
+              onChange = {this.updateCity}
+            >
               <MenuItem primaryText = 'Make a New Trip' />
-              {store.userTrips.map((trip, index) => 
+              {store.userTrips.map((trip, index) =>
                 <MenuItem
                   key = {index}
                   value = {trip.city}
-                  primaryText = {trip.city} 
+                  primaryText = {trip.city}
                 />
               )}
             </SelectField>
@@ -362,7 +383,7 @@ class SearchPage extends React.Component {
 
     const drawer = () => {
       if (store.activeTrip.status) {
-        let activeTrip = store.userTrips[store.activeTrip.index]; 
+        let activeTrip = store.userTrips[store.activeTrip.index];
         if (activeTrip) {
           let fromDate = moment(activeTrip.fromDate).format('MM/DD/YY');
           let toDate = moment(activeTrip.toDate).format('MM/DD/YY');
@@ -433,7 +454,7 @@ class SearchPage extends React.Component {
 
               {showActivityDiv('event', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
-                {activeTrip.events.map((event, index) => 
+                {activeTrip.events.map((event, index) =>
                   (<Activity
                     key={index}
                     sidebar = 'true'
@@ -444,10 +465,10 @@ class SearchPage extends React.Component {
                     deleteEvent={actions.deleteEvent}
                   />))}
               </div>
-              
+
               {showActivityDiv('eatin', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
-                {activeTrip.eatin.map((eatin, index) => 
+                {activeTrip.eatin.map((eatin, index) =>
                   (<Activity
                     key={index}
                     sidebar='true'
@@ -548,7 +569,7 @@ class SearchPage extends React.Component {
     const searchButton = () => {
       return (
         <RaisedButton
-          onClick={this.submit.bind(this)}
+          onClick={this.submit}
           label='Create Trip'
           disabled={!store.authenticated}
         />
@@ -569,7 +590,7 @@ class SearchPage extends React.Component {
           </div>
 
           <div style={styles.welcomeUser}>{welcomeUser()}</div>
-          
+
           {/************************** CREATE TRIP CARD **************************/}
           <div style={styles.createTripCard}>
             {drawer()}
@@ -606,7 +627,8 @@ class SearchPage extends React.Component {
                     <TextField
                       id='city'
                       value={store.city}
-                      onChange={this.updateCity.bind(this)}
+                      onChange={this.updateCity}
+                      onKeyUp={this.handleEnterKey}
                     />
                     <br/>
                     {searchButton()}
@@ -634,7 +656,7 @@ class SearchPage extends React.Component {
               </CardText>
             </Card>
           </div>
-          
+
           {/************************** EXPLORE SECTION **************************/}
           <div style={{marginTop: '3%'}}>
             <div style={theme.styles.discoverTrips}>Explore</div>
@@ -644,13 +666,14 @@ class SearchPage extends React.Component {
               <div style={styles.searchBar}>
                 <TextField
                   id = 'event'
-                  onChange = {this.updateEventQuery.bind(this)}
+                  onChange = {this.updateEventQuery}
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
+                  onKeyUp={this.handleEnterKey}
                 />
-                <RaisedButton 
-                  onClick={this.submitEventQuery.bind(this)} 
-                  label='Search' 
+                <RaisedButton
+                  onClick={this.submitEventQuery}
+                  label='Search'
                 />
               </div>
 
@@ -673,13 +696,14 @@ class SearchPage extends React.Component {
               <div style={styles.searchBar}>
                 <TextField
                   id='food'
-                  onChange={this.updateFoodQuery.bind(this)}
+                  onChange={this.updateFoodQuery}
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
+                  onKeyUp={this.handleEnterKey}
                 />
-                <RaisedButton 
-                  onClick={this.submitFoodQuery.bind(this)} 
-                  label='Search'              
+                <RaisedButton
+                  onClick={this.submitFoodQuery}
+                  label='Search'
                 />
               </div>
 
@@ -699,13 +723,13 @@ class SearchPage extends React.Component {
         </Paper>
       </MuiThemeProvider>
     );
-  }  
+  }
 }
 //react-redux stuff
 
 //state is the redux store
 const mapStateToProps = state => (
-  { store: state } // eslint-disable-line
+  { store: state }
 );
 
 //dispatch is the movement of actions to the reducer
