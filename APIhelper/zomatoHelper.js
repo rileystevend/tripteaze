@@ -44,7 +44,11 @@ let searchForCityId = (city, cb) => {
   const callback = (err, res, body) => {
     if(!err && res.statusCode === 200) {
       let temp = JSON.parse(body);
-      cb(null, temp.location_suggestions[0].id);
+      try {
+        cb(null, temp.location_suggestions[0].id);
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       cb(err, null);
       console.log('errrrrrr, ', err);
