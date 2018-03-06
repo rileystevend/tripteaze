@@ -27,7 +27,21 @@ The heroku deployment uses process.env variables for these EVENTBRITE, ZOMATO an
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+-new found bug, when you delete events/activities on the userpage it deletes it from the wrong trip
+-when you try and delete your last trip it does delete but it doesn't disappear right away
+-more search options
+-implement archiving of your own trips
+-sorting of your trips
+-comment/review system
+-friending
+-instagram api 4 more pics
+-getting session stuff to work?
+-passport
+-anon user creating trips
+-once trip dates have changed, have any events outside of the new date range removed
+-Use archived parameter of trips somehow
+-Make page transitions better
+
 
 ## Contributing
 

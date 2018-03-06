@@ -101,6 +101,7 @@ export const styles = {
   }
 }
 
+//this is a terrible nightmare component that should be overhauled
 class SearchPage extends React.Component {
   constructor (props) {
     super(props);
@@ -135,23 +136,25 @@ class SearchPage extends React.Component {
     }
   }
 
+  //works for input box and dropdown menu
   updateCity (event, index, value) {
     let store = this.props.store;
     let actions = this.props.actions;
-    if (value && index !== 0) {
+    if (value && index !== 0) { //is dropdown
       this.setState({dropdown: value, open: true});
       this.setState({activeCity: store.userTrips[index - 1].city});
       this.setState({activeFromDate: store.userTrips[index - 1].fromDate, activeToDate: store.userTrips[index - 1].toDate});
       actions.updateCity('');
       actions.activateTrip(index - 1);
-    } else if (index === 0) {
+    } else if (index === 0) { //top option of dropdown
       this.setState({ dropdown: value });
       actions.deactivate();
-    } else {
+    } else { //is textbox
       actions.updateCity(this.formatCity(event.target.value));
     }
   }
 
+  //makes cities always only have a capital letter as the first char of each word
   formatCity (city) {
     const words = city.split(' ');
     let newWords = [];
@@ -162,12 +165,13 @@ class SearchPage extends React.Component {
     return newWords.join(' ');
   } 
 
-  submit (event) {  // makes a new trip for logged in user
+  //creates a new trip from the input box
+  submit (event) { 
     let store = this.props.store;
     let actions = this.props.actions;
     event.preventDefault();
     if (store.authenticated) {
-      if (store.city !== '' && store.tripFromDate !== '' && store.tripToDate !== '') {
+      if (store.city !== '' && store.tripFromDate !== '' && store.tripToDate !== '') { //checks for required entries
         actions.makeNewTrip(store.username, store.city, store.userTrips.length, store.tripFromDate, store.tripToDate);
         this.setState({ activeCity: store.city, open: true, activeFromDate: store.tripFromDate, activeToDate: store.tripToDate});
       } else {
@@ -185,9 +189,9 @@ class SearchPage extends React.Component {
     let store = this.props.store;
     let actions = this.props.actions;
 
-    event.preventDefault();
+    event.preventDefault();  //prevent refresh, might not need this anymore
     if ((store.activeTrip.status || store.city) && store.eventQuery) {
-      let city = store.activeTrip.status ? this.state.activeCity : store.city;
+      let city = store.activeTrip.status ? this.state.activeCity : store.city; //lets you maybe search on a city without creating a trip
       actions.searchEvents(this.state.activeCity, store.eventQuery, this.state.activeFromDate, this.state.activeToDate);
     } else {
       window.alert('Please select a city and search terms first!');
@@ -231,14 +235,15 @@ class SearchPage extends React.Component {
     }
 
   /*************************** DATE SELECTION STUFF ***************************/
+  // all this probably shouldn't be in the render method but oh well
     let today = new Date();
 
     let formatDate = (date) => {
       // Dates need to be in YYYY-MM-DD format
-      return moment(date).format('YYYY-MM-DDT00:00:00.000Z');
+      return moment(date).format('YYYY-MM-DDT00:00:00.000Z'); //<-- moment is cool library
     }
 
-    let updateFromDate = (event, date) => {
+    let updateFromDate = (event, date) => { //pulls from material date pickker
       let fromDate;
       if (date !== '') {
         fromDate = formatDate(date);
@@ -246,7 +251,7 @@ class SearchPage extends React.Component {
         fromDate = '';
       }
 
-      actions.updateFromDate(fromDate);
+      actions.updateFromDate(fromDate); //update store
 
       // This sets minimum "To" date based on the current "From" date in the correct date format
       if (date !== '') {
@@ -273,7 +278,8 @@ class SearchPage extends React.Component {
         activeToDate: toDate
       });
     };
-
+    //some of this is just trying to keep this component's state and the redux store in sync which is 
+    //kind of bad form for redux for this component to have so much stuff
     const submitEditDates = () => {
       let city = this.state.activeCity;
       let newFromDate = store.tripFromDate;
@@ -296,7 +302,7 @@ class SearchPage extends React.Component {
 
     /*************************** EXISTING TRIPS DROPDOWN ***************************/
     const dropdown = () => {
-      if (store.authenticated) {
+      if (store.authenticated) {  //logged in
         return (
           <div>
             <SelectField 
@@ -328,6 +334,7 @@ class SearchPage extends React.Component {
     }
 
     /*************************** TRIP DETAILS SIDEBAR ***************************/
+    //edit a trip's dates modal buttons
     const editDateActions = [
       <FlatButton
         label="Submit"
@@ -452,7 +459,7 @@ class SearchPage extends React.Component {
         }
       }
     }
-
+    //differ for logged in and out users
     const navLinks = () => {
       if (store.authenticated) {
         return (
@@ -690,11 +697,14 @@ class SearchPage extends React.Component {
     );
   }  
 }
+//react-redux stuff
 
+//state is the redux store
 const mapStateToProps = state => (
   { store: state }
 );
 
+//dispatch is the movement of actions to the reducer
 const mapDispatchToProps = dispatch => (
   { actions: bindActionCreators(actions, dispatch) }
 );
