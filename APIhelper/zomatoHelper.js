@@ -47,11 +47,8 @@ let searchForCityId = (city, cb) => {
       try {
         cb(null, temp.location_suggestions[0].id);
       } catch (e) {
-        console.log(e);
+        callback(e, null);
       }
-    } else {
-      cb(err, null);
-      console.log('errrrrrr, ', err);
     }
   };
   request(params, callback);
