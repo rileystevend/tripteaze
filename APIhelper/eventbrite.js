@@ -16,7 +16,7 @@ let searchEvents = (query, city, fromDate, toDate, cb) => {
   let formattedFromDate;
   let formattedToDate;
 
-  if(fromDate.length <= 10 && toDate.length <= 10) {
+  if (fromDate.length <= 10 && toDate.length <= 10) {
     formattedFromDate = fromDate;
     formattedToDate = toDate;
   } else {
@@ -33,7 +33,7 @@ let searchEvents = (query, city, fromDate, toDate, cb) => {
   };
 
   function callback(error, response, body) {
-    if(!error && response.statusCode == 200) {
+    if (!error && response.statusCode == 200) {
       const info = JSON.parse(body);
       cb(null, info.events);
     } else {

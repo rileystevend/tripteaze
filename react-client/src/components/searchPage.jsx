@@ -230,7 +230,7 @@ class SearchPage extends React.Component {
     let store = this.props.store;
     event.preventDefault();
 
-    if((store.activeTrip.status || store.city) && store.foodQuery) {
+    if ((store.activeTrip.status || store.city) && store.foodQuery) {
       // let city = store.activeTrip.status ? this.state.activeCity : store.city;
       this.props.actions.searchForFood(this.state.activeCity, store.foodQuery);
     } else {

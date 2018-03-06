@@ -222,7 +222,7 @@ app.post('/events', function(req, res) {
   const fromDate = req.body.tripFromDate;
   eventbrite.searchEvents(query, city, fromDate, toDate, (err, data) => {
 
-    if(err) {
+    if (err) {
       res.status(500).send(err);
     } else {
       res.status(200);
@@ -234,7 +234,7 @@ app.post('/events', function(req, res) {
 app.post('/events/remove', function(req, res) {
 
   db.remove('event', req.body.eventID, function(err) {
-    if(err) {
+    if (err) {
       res.status(500).send(err);
     } else {
       res.status(200).end();
