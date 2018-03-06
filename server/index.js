@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(session({
 	secret: 'shhhhh af',
 	resave: false,
-	saveUnitialized: true
+  	saveUninitialized: true
 }));
 
 app.use(express.static(__dirname + '/../react-client/dist'));
@@ -32,8 +32,8 @@ app.checkPassword = (userName, pw, checkPw) => {
 }
 
 app.get('/login', (req, res) =>{
-  let userName = req.query.username
-  let password = req.query.password
+  let userName = req.query.username;
+  let password = req.query.password;
 
   db.retrieveUserPassword(userName, (err, userPw) => {
 		if (err) {

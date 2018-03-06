@@ -12,7 +12,7 @@ if (!process.env.MONGODB_URI) {
 }
 //URI is stored either on heroku or local config file
 let Schema = mongoose.Schema;
-mongoose.connect(uri);
+mongoose.connect(uri, {useMongoClient: true});
 
 let db = mongoose.connection;
 
