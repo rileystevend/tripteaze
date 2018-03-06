@@ -558,7 +558,7 @@ class SearchPage extends React.Component {
     /*************************** STUFF ON PAGE ***************************/
     return (
       <MuiThemeProvider muiTheme={theme.muiTheme}>
-        <Paper>
+        <Paper style={this.state.open === true ? {marginRight: '400px'} : {}}>
           {/************************** NAVIGATION **************************/}
           {navLinks()}
           {/******************************* HEADER *******************************/}
