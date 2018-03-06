@@ -705,7 +705,7 @@ class SearchPage extends React.Component {
 
 //state is the redux store
 const mapStateToProps = state => (
-  { store: state } // eslint-disable-line
+  { store: state } 
 );
 
 //dispatch is the movement of actions to the reducer

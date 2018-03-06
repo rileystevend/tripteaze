@@ -40,8 +40,14 @@
     ],
     "import/named": 2,
     "react/jsx-no-undef": 1,
-    "react/prop-types": 1,
+    "react/prop-types": "off",
     "no-case-declarations": "off",
-    "no-var": "error"
+    "no-var": "error",
+    "react-redux/mapStateToProps-no-store": "off",
+    "react-redux/prefer-separate-component-file": "off",
+    "eol-last": [
+      "error",
+      "always"
+    ]
   }
 }

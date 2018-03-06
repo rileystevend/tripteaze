@@ -212,7 +212,7 @@ class UserPage extends React.Component {
 }
 
 const mapStateToProps = state => (
-  {store: state} // eslint-disable-line
+  {store: state} 
 );
 
 const mapDispatchToProps = dispatch =>
