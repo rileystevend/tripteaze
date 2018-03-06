@@ -105,7 +105,7 @@ export const styles = {
 
 //this is a terrible nightmare component that should be overhauled
 class SearchPage extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     if (props.store.userTrips.length !== 0  && props.store.activeTrip.status) {
       this.state = {
@@ -139,7 +139,7 @@ class SearchPage extends React.Component {
   }
 
   //works for input box and dropdown menu
-  updateCity (event, index, value) {
+  updateCity(event, index, value) {
     let store = this.props.store;
     let actions = this.props.actions;
     if (value && index !== 0) { //is dropdown
@@ -157,7 +157,7 @@ class SearchPage extends React.Component {
   }
 
   //makes cities always only have a capital letter as the first char of each word
-  formatCity (city) {
+  formatCity(city) {
     const words = city.split(' ');
     let newWords = [];
     for (let word of words) {
@@ -168,7 +168,7 @@ class SearchPage extends React.Component {
   }
 
   //creates a new trip from the input box
-  submit (event) {
+  submit(event) {
     let store = this.props.store;
     let actions = this.props.actions;
     event.preventDefault();
@@ -187,7 +187,7 @@ class SearchPage extends React.Component {
     this.props.actions.updateEventQuery(event.target.value);
   }
 
-  submitEventQuery (event) {
+  submitEventQuery(event) {
     let store = this.props.store;
     let actions = this.props.actions;
 
@@ -201,11 +201,11 @@ class SearchPage extends React.Component {
   }
 
   /***************************** Food - search **********************************/
-  updateFoodQuery (event) {
+  updateFoodQuery(event) {
     this.props.actions.updateFoodQuery(event.target.value);
   }
 
-  submitFoodQuery (event) {
+  submitFoodQuery(event) {
     let store = this.props.store;
     event.preventDefault();
 
@@ -218,7 +218,7 @@ class SearchPage extends React.Component {
   }
 
   /***************************** MESSAGE *****************************/
-  render () {
+  render() {
     let message =  '';
     let messageEvents = ''; // eslint-disable-line
     let messageFood = ''; // eslint-disable-line

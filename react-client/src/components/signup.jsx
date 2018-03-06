@@ -13,7 +13,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 
 class Signup extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -28,26 +28,26 @@ class Signup extends React.Component {
     this.handleEnterKey = this.handleEnterKey.bind(this);
   }
 
-  submit (event) {
+  submit(event) {
     event.preventDefault();
     this.props.signup(this.props.username, this.props.password);
     this.setState({ open: false });
     this.props.forward();
   }
 
-  changeUsername (event) {
+  changeUsername(event) {
     this.props.updateUsername(event.target.value);
   }
 
-  changePassword (event) {
+  changePassword(event) {
     this.props.updatePassword(event.target.value);
   }
 
-  handleOpen () {
+  handleOpen() {
     this.setState({ open: true });
   }
 
-  handleClose () {
+  handleClose() {
     this.setState({ open: false });
   }
 
@@ -57,7 +57,7 @@ class Signup extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const actions = [
       <FlatButton
         label="Join"

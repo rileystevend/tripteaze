@@ -18,7 +18,7 @@ export const styles = {
 };
 
 class Login extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -33,18 +33,18 @@ class Login extends React.Component {
     this.handleEnterKey = this.handleEnterKey.bind(this);
   }
 
-  submit (event) {
+  submit(event) {
     event.preventDefault();
     this.props.login(this.props.username, this.props.password);
     this.setState({ open: false });
     this.props.forward();
   }
 
-  changeUsername (event) {
+  changeUsername(event) {
     this.props.updateUsername(event.target.value);
   }
 
-  changePassword (event) {
+  changePassword(event) {
     this.props.updatePassword(event.target.value);
   }
 

@@ -110,7 +110,7 @@ app.get('/trips', (req, res) => {
       if (err  || !data) {
         res.status(500).send(err);
       } else {
-        getTripsEvents(data, function (err, tripsEvents) {
+        getTripsEvents(data, function(err, tripsEvents) {
           if (err) {
             res.status(500).send(err);
           } else {
@@ -126,7 +126,7 @@ app.get('/trips', (req, res) => {
       if (err || !data) {
         res.status(500).send(err);
       } else {
-        getTripsEvents(data, function (err, fullTrips) {
+        getTripsEvents(data, function(err, fullTrips) {
           if (err) {
             res.status(500).send(err);
           } else {
@@ -152,9 +152,9 @@ const getTripsEvents = (trips, callback) => {
     }));
 
     const tripID = trips[i].id;
-    db.getTripEvents(tripID, function (err, events) {
+    db.getTripEvents(tripID, function(err, events) {
       fullTrips[i].events = events;
-      db.getTripRestaurants(tripID, function (err, food) {
+      db.getTripRestaurants(tripID, function(err, food) {
         fullTrips[i].eatin = food;
         numFinished++;
         if (numFinished === trips.length) {
@@ -215,7 +215,7 @@ app.patch('/plan', (req, res) => {
 
 /******************************** Search - Events *****************************/
 
-app.post('/events', function (req, res) {
+app.post('/events', function(req, res) {
   const city = req.body.tripCity;
   const query = req.body.eventQuery;
   const toDate = req.body.tripToDate;
@@ -231,7 +231,7 @@ app.post('/events', function (req, res) {
   });
 });
 
-app.post('/events/remove', function (req, res) {
+app.post('/events/remove', function(req, res) {
 
   db.remove('event', req.body.eventID, function(err) {
     if(err) {
@@ -242,7 +242,7 @@ app.post('/events/remove', function (req, res) {
   });
 });
 
-app.post('/events/add', function (req,res) {
+app.post('/events/add', function(req,res) {
   const event = req.body.tripEvent;
   const user = req.body.tripUser;
   const city = req.body.tripCity;
@@ -292,9 +292,9 @@ app.post('/foods', (req, res) => {
   });
 });
 
-app.post('/foods/remove', function (req, res) {
+app.post('/foods/remove', function(req, res) {
 
-  db.remove('restaurant', req.body.foodID, function (err) {
+  db.remove('restaurant', req.body.foodID, function(err) {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -303,11 +303,11 @@ app.post('/foods/remove', function (req, res) {
   });
 });
 
-app.post('/foods/add', function (req, res) {
+app.post('/foods/add', function(req, res) {
   const food = req.body.tripFood;
   const user = req.body.tripUser;
   const city = req.body.tripCity;
-  db.addRestaurantToTrip(food, user, city, function (err) {
+  db.addRestaurantToTrip(food, user, city, function(err) {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -319,7 +319,7 @@ app.post('/foods/add', function (req, res) {
 app.get('/foods', (req, res) => {
   const user = req.query.tripUser;
   const city = req.query.tripCity;
-  db.showTripRestaurants(user, city, function (err, data) {
+  db.showTripRestaurants(user, city, function(err, data) {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -328,7 +328,7 @@ app.get('/foods', (req, res) => {
   });
 });
 
-+app.get('/*', function (req, res) {
++app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 

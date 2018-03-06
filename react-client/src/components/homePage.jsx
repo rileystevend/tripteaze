@@ -111,7 +111,7 @@ export const styles = {
 };
 
 class Home extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
   }
 
@@ -120,11 +120,11 @@ class Home extends React.Component {
     this.props.actions.fetchTrips('public');
   }
 
-  toUserPage () {
+  toUserPage() {
     this.props.history.push('/trips');
   }
 
-  toSearchPage () {
+  toSearchPage() {
     this.props.history.push('/plan');
   }
 
@@ -197,7 +197,7 @@ class Home extends React.Component {
     }
   }
 
-  render () {
+  render() {
     // let actions = this.props.actions; //access shortcuts
     let store = this.props.store;
     //store is redux store

@@ -25,7 +25,7 @@ db.once('open', function() {
   console.log('mongoose connected successfully');
 });
 
-function toLower (v) {
+function toLower(v) {
   return v.toLowerCase();
 }
 
@@ -84,7 +84,7 @@ let Restaurant = mongoose.model('Restaurant', restaurantSchema);
 let Event = mongoose.model('Event', eventSchema);
 
 let addNewTrip = (username, city, fromDate, toDate, callback) => {
-  User.findOne({name: username}, function (err, user) {
+  User.findOne({name: username}, function(err, user) {
     if(err) {
       callback(err);
     }
@@ -107,13 +107,13 @@ let addNewTrip = (username, city, fromDate, toDate, callback) => {
 
 let addRestaurantToTrip = (food, username, city, callback) => {
   //first find corresponding user
-  User.findOne({name: username}, function (err, user) {
+  User.findOne({name: username}, function(err, user) {
     if(err) {
       console.log('error: ', err);
       callback(err);
     } else {
 
-      Trip.findOne({user: user.id, city: city}, function (err, trip) {
+      Trip.findOne({user: user.id, city: city}, function(err, trip) {
         if(err) {
           console.log('error', err);
           callback(err);
@@ -150,13 +150,13 @@ let addRestaurantToTrip = (food, username, city, callback) => {
 
 let addEventToTrip = (event, username, city, callback) => {
   //first find corresponding user
-  User.findOne({name: username}, function (err, user) {
+  User.findOne({name: username}, function(err, user) {
     if(err) {
       console.log('error: ', err);
       callback(err);
     }
     //then find corresponding trip based on city for selected user
-    Trip.findOne({user: user.id, city: city}, function (err, trip) {
+    Trip.findOne({user: user.id, city: city}, function(err, trip) {
       if(err) {
         console.log('error', err);
         callback(err);
@@ -246,14 +246,14 @@ let retrieveUserPassword = (username, callback) => {
 //for user page-display all existing trips for user after being logged in
 let showUserTrips = (username, callback) => {
   //first find corresponding user
-  User.findOne({name: username}, function (err, user) {
+  User.findOne({name: username}, function(err, user) {
     if(err || user === null) {
       console.log('error: ', err);
       callback(err);
 
     } else {
       //then find all trips for selected user
-      Trip.find({user: user.id}, function (err, trips) {
+      Trip.find({user: user.id}, function(err, trips) {
         if(err) {
           callback(err, null);
         } else {
@@ -266,13 +266,13 @@ let showUserTrips = (username, callback) => {
 
 let showTripEvents = (username, city, callback) => {
 //first find corresponding user
-  User.findOne({name: username}, function (err, user) {
+  User.findOne({name: username}, function(err, user) {
     if(err || user === null) {
       console.log('error: ', err);
       callback(err);
     } else {
       //then find trip based on selected user and city
-      Trip.findOne({user: user.id, city: city}, function (err, trip) {
+      Trip.findOne({user: user.id, city: city}, function(err, trip) {
         if(err || trip === null) {
           console.log('error', err);
           callback(err);
@@ -290,13 +290,13 @@ let showTripEvents = (username, city, callback) => {
 
 let showTripRestaurants = (username, city, callback) => {
   //first find corresponding user
-  User.findOne({ name: username }, function (err, user) {
+  User.findOne({ name: username }, function(err, user) {
     if (err || user === null) {
       console.log('error: ', err);
       callback(err);
     } else {
       //then find trip based on selected user and city
-      Trip.findOne({ user: user.id, city: city }, function (err, trip) {
+      Trip.findOne({ user: user.id, city: city }, function(err, trip) {
         if (err || trip === null) {
           console.log('error', err);
           callback(err);
@@ -317,13 +317,13 @@ let showTripRestaurants = (username, city, callback) => {
 //assumes username and city are known to obtain corresponding trip and update
 let modifyTripDetails = (makePublic, makeArchived, username, fromDate, toDate, city, callback) => {
   //first find corresponding user
-  User.findOne({name: username}, function (err, user) {
+  User.findOne({name: username}, function(err, user) {
     if(err) {
       callback(err);
       console.log('error: ', err);
     }
     //then find corresponding trip based on city for selected user
-    Trip.findOne({user: user.id, city: city}, function (err, trip) {
+    Trip.findOne({user: user.id, city: city}, function(err, trip) {
       if(err) {
         callback(err);
         console.log('error', err);
@@ -340,7 +340,7 @@ let modifyTripDetails = (makePublic, makeArchived, username, fromDate, toDate, c
             tripFromDate: newFromDate,
             tripToDate: newToDate
           }
-        }, function (err) {
+        }, function(err) {
           if (err) {
             callback(err);
             console.log('error: ', err);
@@ -354,7 +354,7 @@ let modifyTripDetails = (makePublic, makeArchived, username, fromDate, toDate, c
 };
 
 let getTripEvents = (tripID, callback) => {
-  Event.find({ trip: tripID }, function (err, events) {
+  Event.find({ trip: tripID }, function(err, events) {
     if (err) {
       callback(err, null);
     } else {
@@ -364,7 +364,7 @@ let getTripEvents = (tripID, callback) => {
 };
 
 let getTripRestaurants = (tripID, callback) => {
-  Restaurant.find({ trip: tripID }, function (err, eatin) {
+  Restaurant.find({ trip: tripID }, function(err, eatin) {
     if (err) {
       callback(err, null);
     } else {
@@ -377,7 +377,7 @@ let getTripRestaurants = (tripID, callback) => {
 //or trip that we are wanting to remove from the database
 let remove = (modelType, ID, callback) => {
   if(modelType === 'restaurant') {
-    Restaurant.remove( {id: ID}, function (err) {
+    Restaurant.remove( {id: ID}, function(err) {
       if(err) {
         console.log('error: ',err);
         callback(err);
@@ -386,7 +386,7 @@ let remove = (modelType, ID, callback) => {
       }
     });
   } else if (modelType === 'event') {
-    Event.remove( {id: ID}, function (err) {
+    Event.remove( {id: ID}, function(err) {
       if(err) {
         callback(err);
         console.log('error: ',err);
@@ -396,7 +396,7 @@ let remove = (modelType, ID, callback) => {
       }
     });
   } else if (modelType === 'trip') {
-    Trip.remove( {id: ID}, function (err) {
+    Trip.remove( {id: ID}, function(err) {
       if(err) {
         callback(err);
         console.log('error: ',err);

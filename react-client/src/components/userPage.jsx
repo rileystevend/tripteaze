@@ -31,11 +31,11 @@ const styles = {
 };
 
 class UserPage extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.props.actions.deactivate();
     this.props.actions.fetchTrips(this.props.store.username);
   }
@@ -48,7 +48,7 @@ class UserPage extends React.Component {
     this.props.history.push('/trips');
   }
 
-  generateMessage () {
+  generateMessage() {
     if (this.props.store.userTrips.length === 0) {
       return (
         <div>

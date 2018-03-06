@@ -26,7 +26,7 @@ const initialState = {
   }
 };
 //you should probably look up combine reducers to make this easier to look at
-const reducer = function (state = initialState, action) {  //if state is undefined, state becomes inital state
+const reducer = function(state = initialState, action) {  //if state is undefined, state becomes inital state
 
   switch (action.type) {
   case 'TOGGLE_LOADING' :
