@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 let uri;
 
@@ -12,9 +12,9 @@ if (!process.env.MONGODB_URI) {
 }
 //URI is stored either on heroku or local config file
 let Schema = mongoose.Schema;
-mongoose.connect(uri);
+mongoose.connect(uri, {useMongoClient: true});
 
-var db = mongoose.connection;
+const db = mongoose.connection;
 
 db.on('error', function() {
   console.log(uri);
@@ -29,13 +29,13 @@ function toLower (v) {
   return v.toLowerCase();
 }
 
-var userSchema = Schema({
+const userSchema = Schema({
   id: Schema.Types.ObjectId,
   name: {type: String, set: toLower, index: true, required: [true, "can't be blank"]},
   password: String
 });
 
-var tripSchema = Schema({
+const tripSchema = Schema({
   id: Schema.Types.ObjectId,
   city: String,
   tripFromDate: Date,
@@ -47,7 +47,7 @@ var tripSchema = Schema({
 
 });
 
-var restaurantSchema = Schema({
+const restaurantSchema = Schema({
   id: {type: Number, index: true},
   name: String,
   url: String,
@@ -62,7 +62,7 @@ var restaurantSchema = Schema({
 });
 
 
-var eventSchema = Schema({
+const eventSchema = Schema({
   id: {type: Number, index: true},
   name: String,
   description: String,
@@ -78,10 +78,10 @@ var eventSchema = Schema({
   trip: {type: Schema.Types.ObjectId, ref: 'Trip'}
 });
 
-var User = mongoose.model('User', userSchema);
-var Trip = mongoose.model('Trip', tripSchema);
-var Restaurant = mongoose.model('Restaurant', restaurantSchema);
-var Event = mongoose.model('Event', eventSchema);
+const User = mongoose.model('User', userSchema);
+const Trip = mongoose.model('Trip', tripSchema);
+const Restaurant = mongoose.model('Restaurant', restaurantSchema);
+const Event = mongoose.model('Event', eventSchema);
 
 let addNewTrip = (username, city, fromDate, toDate, callback) => {
   User.findOne({name: username}, function (err, user) {
