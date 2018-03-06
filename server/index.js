@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(session({
 	secret: 'shhhhh af',
 	resave: false,
-	saveUnitialized: true
+  	saveUninitialized: true
 }));
 
 app.use(express.static(__dirname + '/../react-client/dist'));
