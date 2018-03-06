@@ -56,7 +56,7 @@ const Eatin = (props) => {
                   <Snackbar open={props.foodSnackbar} message={'Restaurant has been added to your trip!'} autoHideDuration={3000} onRequestClose={props.onRequestClose}/>
                   <img src='' />
                 </GridTile>
-              )
+              );
             }
           })}
         </GridList>
@@ -65,6 +65,6 @@ const Eatin = (props) => {
   } else {
     return null;
   }
-}
+};
 
 export default Eatin;

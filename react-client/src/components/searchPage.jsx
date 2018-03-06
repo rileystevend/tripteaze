@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -17,19 +17,21 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import DatePicker from 'material-ui/DatePicker';
-import Toggle from 'material-ui/Toggle';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+// import Toggle from 'material-ui/Toggle';
+// import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardTitle, CardText } from 'material-ui/Card';
 
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+// import getMuiTheme from 'material-ui/styles/getMuiTheme';
+// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+import { cyan800, cyan900 } from 'material-ui/styles/colors';
 import * as theme from './homePage.jsx';  // * does all named exports from that file
 import * as tripStyle from './trip.jsx';
 
 import * as actions from '../actions/index.js';
 import Activity from './activity.jsx';
-import UserPage from './userPage.jsx';
+// import UserPage from './userPage.jsx';
 import Events from './events.jsx';
 import Signup from './signup.jsx';
 import Login from './login.jsx';
@@ -99,7 +101,7 @@ export const styles = {
   welcomeUser: {
     marginTop: '1%'
   }
-}
+};
 
 //this is a terrible nightmare component that should be overhauled
 class SearchPage extends React.Component {
@@ -115,7 +117,7 @@ class SearchPage extends React.Component {
         editDatesOpen: false,
         tempFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
         tempToDate: props.store.userTrips[props.store.activeTrip.index].toDate
-      }
+      };
     } else if (props.store.userTrips.length !== 0) {
       this.state = {
         open: false,
@@ -126,13 +128,13 @@ class SearchPage extends React.Component {
         editDatesOpen: false,
         tempFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
         tempToDate: props.store.userTrips[props.store.activeTrip.index].toDate
-      }
+      };
     } else {
       this.state = {
         open: false,
         dropdown: 0,
         editDatesOpen: false
-      }
+      };
     }
   }
 
@@ -178,12 +180,12 @@ class SearchPage extends React.Component {
         window.alert('Please make sure to fill in the dates and city name!');
       }
     }
-  };
+  }
 
-/***************************** Event - search **********************************/
+  /***************************** Event - search **********************************/
   updateEventQuery(event) {
-    this.props.actions.updateEventQuery(event.target.value)
-  };
+    this.props.actions.updateEventQuery(event.target.value);
+  }
 
   submitEventQuery (event) {
     let store = this.props.store;
@@ -191,35 +193,35 @@ class SearchPage extends React.Component {
 
     event.preventDefault();  //prevent refresh, might not need this anymore
     if ((store.activeTrip.status || store.city) && store.eventQuery) {
-      let city = store.activeTrip.status ? this.state.activeCity : store.city; //lets you maybe search on a city without creating a trip
+      // let city = store.activeTrip.status ? this.state.activeCity : store.city; //lets you maybe search on a city without creating a trip
       actions.searchEvents(this.state.activeCity, store.eventQuery, this.state.activeFromDate, this.state.activeToDate);
     } else {
       window.alert('Please select a city and search terms first!');
     }
-  };
+  }
 
-/***************************** Food - search **********************************/
+  /***************************** Food - search **********************************/
   updateFoodQuery (event) {
-    this.props.actions.updateFoodQuery(event.target.value)
-  };
+    this.props.actions.updateFoodQuery(event.target.value);
+  }
 
   submitFoodQuery (event) {
     let store = this.props.store;
     event.preventDefault();
 
     if(store.activeTrip.status || store.city) {
-      let city = store.activeTrip.status ? this.state.activeCity : store.city;
-      this.props.actions.searchForFood(this.state.activeCity, store.foodQuery)
+      // let city = store.activeTrip.status ? this.state.activeCity : store.city;
+      this.props.actions.searchForFood(this.state.activeCity, store.foodQuery);
     } else {
-      window.alert('Please select a city and search terms first!')
+      window.alert('Please select a city and search terms first!');
     }
-  };
+  }
 
-/***************************** MESSAGE *****************************/
+  /***************************** MESSAGE *****************************/
   render () {
     let message =  '';
-    let messageEvents = '';
-    let messageFood = '';
+    let messageEvents = ''; // eslint-disable-line
+    let messageFood = ''; // eslint-disable-line
     let activeCity = this.state.activeCity;
     let store = this.props.store; //the redux store
     let actions = this.props.actions;
@@ -229,19 +231,19 @@ class SearchPage extends React.Component {
       messageEvents = 'First pick a city before searching events!';
       messageFood = '';
     } else {
-      message = `You\'re going to ${activeCity}! \n Or plan a different trip: `;
+      message = `You're going to ${activeCity}! \n Or plan a different trip: `;
       messageEvents = `Type a keyword to find events in ${activeCity}!`;
       messageFood= `Or search for food in ${activeCity}!`;
     }
 
-  /*************************** DATE SELECTION STUFF ***************************/
-  // all this probably shouldn't be in the render method but oh well
+    /*************************** DATE SELECTION STUFF ***************************/
+    // all this probably shouldn't be in the render method but oh well
     let today = new Date();
 
     let formatDate = (date) => {
       // Dates need to be in YYYY-MM-DD format
       return moment(date).format('YYYY-MM-DDT00:00:00.000Z'); //<-- moment is cool library
-    }
+    };
 
     let updateFromDate = (event, date) => { //pulls from material date pickker
       let fromDate;
@@ -263,7 +265,7 @@ class SearchPage extends React.Component {
       this.setState({
         activeFromDate: fromDate
       });
-    }
+    };
 
     const updateToDate = (event, date) => {
       let toDate;
@@ -310,13 +312,13 @@ class SearchPage extends React.Component {
               onChange = {this.updateCity.bind(this)}
             > 
               <MenuItem primaryText = 'Make a New Trip' />
-                {store.userTrips.map((trip, index) => 
-                  <MenuItem
-                    key = {index}
-                    value = {trip.city}
-                    primaryText = {trip.city} 
-                  />
-                )}
+              {store.userTrips.map((trip, index) => 
+                <MenuItem
+                  key = {index}
+                  value = {trip.city}
+                  primaryText = {trip.city} 
+                />
+              )}
             </SelectField>
             <br/>
             <RaisedButton
@@ -325,13 +327,13 @@ class SearchPage extends React.Component {
               disabled={!store.activeTrip.status}
             />
           </div>
-        )
+        );
       } else {
         return (
           <div>Please login to view your current trips!</div>
-        )
+        );
       }
-    }
+    };
 
     /*************************** TRIP DETAILS SIDEBAR ***************************/
     //edit a trip's dates modal buttons
@@ -341,11 +343,13 @@ class SearchPage extends React.Component {
         primary={true}
         keyboardFocused={true}
         onClick={submitEditDates}
+        key="submit"
       />,
       <FlatButton
         label="Cancel"
         primary={true}
         style={{marginLeft: '2%'}}
+        key="cancel"
         onClick={() => {
           updateFromDate(null, '');
           updateToDate(null, '');
@@ -458,7 +462,7 @@ class SearchPage extends React.Component {
           );
         }
       }
-    }
+    };
     //differ for logged in and out users
     const navLinks = () => {
       if (store.authenticated) {
@@ -508,9 +512,9 @@ class SearchPage extends React.Component {
               updatePassword={actions.updatePassword}
             />
           </div>
-        )
+        );
       }
-    }
+    };
 
     /************************* ACTIVITY HEADER DIVS ******************************/
     const showActivityDiv = (activityType, trip) => {
@@ -518,12 +522,12 @@ class SearchPage extends React.Component {
       if (activityType === 'event' && trip.events.length > 0) {
         return (
           <div style={tripStyle.styles.activityHeader}>Events:</div>
-        )
+        );
       // If activity = eatin and there are restaurants in the current trip
       } else if (activityType === 'eatin' && trip.eatin.length > 0) {
         return (
           <div style={tripStyle.styles.activityHeader}>Food:</div>
-        )
+        );
       }
     };
 
@@ -532,13 +536,13 @@ class SearchPage extends React.Component {
       if (store.authenticated) {
         return (
           <div style={theme.styles.discoverTrips}>Welcome back, {store.username}!</div>
-        )
+        );
       } else {
         return (
           <div style={theme.styles.discoverTrips}>Welcome!</div>
-        )
+        );
       }
-    }
+    };
 
     /************************ CREATE TRIP SEARCH BUTTON ************************/
     const searchButton = () => {
@@ -548,8 +552,8 @@ class SearchPage extends React.Component {
           label='Create Trip'
           disabled={!store.authenticated}
         />
-      )
-    }
+      );
+    };
 
     /*************************** STUFF ON PAGE ***************************/
     return (
@@ -665,7 +669,7 @@ class SearchPage extends React.Component {
 
             {/************************** SEARCH EATIN **************************/}
             <Paper style={styles.activityContainer}>
-            <div style={styles.activityTitle}>Restaurants</div>
+              <div style={styles.activityTitle}>Restaurants</div>
               <div style={styles.searchBar}>
                 <TextField
                   id='food'
@@ -701,7 +705,7 @@ class SearchPage extends React.Component {
 
 //state is the redux store
 const mapStateToProps = state => (
-  { store: state }
+  { store: state } // eslint-disable-line
 );
 
 //dispatch is the movement of actions to the reducer

@@ -5,17 +5,17 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
 import * as theme from './homePage.jsx';  // * does all named exports from that file
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+// import getMuiTheme from 'material-ui/styles/getMuiTheme';
+// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 
 export const styles = {
   actionButtons: {
     backgroundColor: '#f9f9f9',
     margin: '1%'
   }
-}
+};
 
 class Login extends React.Component {
   constructor (props) {
@@ -23,7 +23,7 @@ class Login extends React.Component {
 
     this.state = {
       open: false
-    }
+    };
   }
 
   submit (event) {
@@ -58,12 +58,14 @@ class Login extends React.Component {
         // keyboardFocused={true}
         onClick={this.submit.bind(this)}
         style={styles.actionButtons}
+        key="login"
       />,
       <FlatButton
         label="Cancel"
         primary={true}
         onClick={this.handleClose.bind(this)}
         style={styles.actionButtons}
+        key="cancel"
       />
     ];
 
@@ -100,7 +102,7 @@ class Login extends React.Component {
           </Dialog>
         </div>
       </MuiThemeProvider>
-    )
+    );
   }
 }
 

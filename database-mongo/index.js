@@ -1,20 +1,20 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
 let uri;
 
 
 if (!process.env.MONGODB_URI) {
-  config = require('../config.js');
+  let config = require('../config.js');
   uri = config.mongo;
 } else {
-  console.log('PROCESS PICKED UP', process.env.MONGODB_URI)
+  console.log('PROCESS PICKED UP', process.env.MONGODB_URI);
   uri = process.env.MONGODB_URI;
 }
 //URI is stored either on heroku or local config file
 let Schema = mongoose.Schema;
 mongoose.connect(uri);
 
-var db = mongoose.connection;
+let db = mongoose.connection;
 
 db.on('error', function() {
   console.log(uri);
@@ -29,13 +29,13 @@ function toLower (v) {
   return v.toLowerCase();
 }
 
-var userSchema = Schema({
+let userSchema = Schema({
   id: Schema.Types.ObjectId,
-  name: {type: String, set: toLower, index: true, required: [true, "can't be blank"]},
+  name: {type: String, set: toLower, index: true, required: [true, 'can\'t be blank']},
   password: String
 });
 
-var tripSchema = Schema({
+let tripSchema = Schema({
   id: Schema.Types.ObjectId,
   city: String,
   tripFromDate: Date,
@@ -47,7 +47,7 @@ var tripSchema = Schema({
 
 });
 
-var restaurantSchema = Schema({
+let restaurantSchema = Schema({
   id: {type: Number, index: true},
   name: String,
   url: String,
@@ -62,7 +62,7 @@ var restaurantSchema = Schema({
 });
 
 
-var eventSchema = Schema({
+let eventSchema = Schema({
   id: {type: Number, index: true},
   name: String,
   description: String,
@@ -78,10 +78,10 @@ var eventSchema = Schema({
   trip: {type: Schema.Types.ObjectId, ref: 'Trip'}
 });
 
-var User = mongoose.model('User', userSchema);
-var Trip = mongoose.model('Trip', tripSchema);
-var Restaurant = mongoose.model('Restaurant', restaurantSchema);
-var Event = mongoose.model('Event', eventSchema);
+let User = mongoose.model('User', userSchema);
+let Trip = mongoose.model('Trip', tripSchema);
+let Restaurant = mongoose.model('Restaurant', restaurantSchema);
+let Event = mongoose.model('Event', eventSchema);
 
 let addNewTrip = (username, city, fromDate, toDate, callback) => {
   User.findOne({name: username}, function (err, user) {
@@ -130,7 +130,7 @@ let addRestaurantToTrip = (food, username, city, callback) => {
               location: [food.restaurant.location.latitude, food.restaurant.location.longitude],
               price: food.restaurant.price_range,
               trip: trip.id
-              }
+            }
             }, {upsert: true}, function(err) {
               if(err) {
                 console.log('error: ', err);
@@ -177,7 +177,7 @@ let addEventToTrip = (event, username, city, callback) => {
           category_id: event.category_id,
           logo: event.logo.url,
           trip: trip.id
-          }
+        }
         }, {upsert: true}, function(err) {
           if(err) {
             console.log('error: ', err);
@@ -199,7 +199,7 @@ let addNewUser = (name, password) => {
       id: new mongoose.Types.ObjectId(),
       name: name,
       password: password
-      }
+    }
     }, {upsert: true},
     function(err) {
       if(err) {
@@ -222,7 +222,7 @@ let userExists = (username, cb) => {
       // callback on the existing user if it exists
       cb(existingUser);
     }
-  })
+  });
 };
 
 //for login page-take in username and retrieve password from db
@@ -330,8 +330,8 @@ let modifyTripDetails = (makePublic, makeArchived, username, fromDate, toDate, c
       }
       //makePublic = makePublic || trip.isPublic;
       makeArchived = makeArchived || trip.isArchived;
-      newFromDate = fromDate || trip.tripFromDate;
-      newToDate = toDate || trip.tripToDate;
+      let newFromDate = fromDate || trip.tripFromDate;
+      let newToDate = toDate || trip.tripToDate;
       Trip.update({id: trip.id},
         {$set:
           {
@@ -353,7 +353,7 @@ let modifyTripDetails = (makePublic, makeArchived, username, fromDate, toDate, c
   });
 };
 
-getTripEvents = (tripID, callback) => {
+let getTripEvents = (tripID, callback) => {
   Event.find({ trip: tripID }, function (err, events) {
     if (err) {
       callback(err, null);
@@ -361,9 +361,9 @@ getTripEvents = (tripID, callback) => {
       callback(null, events);
     }
   });
-}
+};
 
-getTripRestaurants = (tripID, callback) => {
+let getTripRestaurants = (tripID, callback) => {
   Restaurant.find({ trip: tripID }, function (err, eatin) {
     if (err) {
       callback(err, null);
@@ -371,7 +371,7 @@ getTripRestaurants = (tripID, callback) => {
       callback(null, eatin);
     }
   });
-}
+};
 
 //removal function assumes we know the ID of the restaurant, event,
 //or trip that we are wanting to remove from the database
@@ -380,9 +380,9 @@ let remove = (modelType, ID, callback) => {
     Restaurant.remove( {id: ID}, function (err) {
       if(err) {
         console.log('error: ',err);
-        callback(err)
+        callback(err);
       } else {
-        callback()
+        callback();
       }
     });
   } else if (modelType === 'event') {
@@ -390,9 +390,9 @@ let remove = (modelType, ID, callback) => {
       if(err) {
         callback(err);
         console.log('error: ',err);
-        callback(err)
+        callback(err);
       } else {
-        callback()
+        callback();
       }
     });
   } else if (modelType === 'trip') {
@@ -400,14 +400,14 @@ let remove = (modelType, ID, callback) => {
       if(err) {
         callback(err);
         console.log('error: ',err);
-        callback(err)
+        callback(err);
       } else {
-        callback()
+        callback();
       }
     });
   } else {
     console.log('must specify correct model type to remove');
-    callback(err);
+    // callback(err); // there is no err here...
   }
 };
 //for home page-displays all existing public trips
@@ -421,22 +421,37 @@ let showAllPublicTrips = (callback) => {
   });
 };
 
+module.exports = {
+  addNewTrip,
+  addRestaurantToTrip,
+  addEventToTrip,
+  addNewUser,
+  retrieveUserPassword,
+  showUserTrips,
+  modifyTripDetails,
+  remove,
+  showAllPublicTrips,
+  userExists,
+  showTripEvents,
+  showTripRestaurants,
+  getTripRestaurants,
+  getTripEvents
+};
 
-
-module.exports.addNewTrip = addNewTrip;
-module.exports.addRestaurantToTrip = addRestaurantToTrip;
-module.exports.addEventToTrip = addEventToTrip;
-module.exports.addNewUser = addNewUser;
-module.exports.retrieveUserPassword = retrieveUserPassword;
-module.exports.showUserTrips = showUserTrips;
-module.exports.modifyTripDetails = modifyTripDetails;
-module.exports.remove = remove;
-module.exports.showAllPublicTrips = showAllPublicTrips;
-module.exports.userExists = userExists;
-module.exports.showTripEvents = showTripEvents;
-module.exports.showTripRestaurants = showTripRestaurants;
-module.exports.getTripRestaurants = getTripRestaurants;
-module.exports.getTripEvents = getTripEvents;
+// module.exports.addNewTrip = addNewTrip;
+// module.exports.addRestaurantToTrip = addRestaurantToTrip;
+// module.exports.addEventToTrip = addEventToTrip;
+// module.exports.addNewUser = addNewUser;
+// module.exports.retrieveUserPassword = retrieveUserPassword;
+// module.exports.showUserTrips = showUserTrips;
+// module.exports.modifyTripDetails = modifyTripDetails;
+// module.exports.remove = remove;
+// module.exports.showAllPublicTrips = showAllPublicTrips;
+// module.exports.userExists = userExists;
+// module.exports.showTripEvents = showTripEvents;
+// module.exports.showTripRestaurants = showTripRestaurants;
+// module.exports.getTripRestaurants = getTripRestaurants;
+// module.exports.getTripEvents = getTripEvents;
 
 
 // {restaurant: { 
