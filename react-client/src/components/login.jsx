@@ -30,6 +30,7 @@ class Login extends React.Component {
     this.changePassword = this.changePassword.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleEnterKey = this.handleEnterKey.bind(this);
   }
 
   submit (event) {
@@ -53,6 +54,12 @@ class Login extends React.Component {
 
   handleClose() {
     this.setState({ open: false });
+  }
+
+  handleEnterKey(e) {
+    if (e.key === 'Enter') {
+      this.submit(e);
+    }
   }
 
   render() {
@@ -95,6 +102,7 @@ class Login extends React.Component {
               id='LUsername'
               type="text"
               onChange={this.changeUsername}
+              onKeyUp={this.handleEnterKey}
             />
 
             <br/>
@@ -104,6 +112,7 @@ class Login extends React.Component {
               id='LPassword'
               type="password"
               onChange={this.changePassword}
+              onKeyUp={this.handleEnterKey}
             />
           </Dialog>
         </div>
