@@ -9,7 +9,7 @@
     "start": "webpack -d | node server/index.js",
     "postinstall": "node node_modules/webpack/bin/webpack.js --display-error-details"
   },
-  "author": "PIU - Stephanie Chou, Trent Hendricks, Mickey McClenon, Krisha Mehta",
+  "author": "Da Brain Trust LCC/LTD/GmbH",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",

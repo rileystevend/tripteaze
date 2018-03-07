@@ -60,6 +60,12 @@
         "before": true,
         "after": true
       }
+    ],
+    "react/jsx-no-bind": [
+      2,
+      {
+        "allowArrowFunctions": true
+      }
     ]
   }
 }

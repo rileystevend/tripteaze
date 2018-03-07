@@ -33,6 +33,9 @@ const styles = {
 class UserPage extends React.Component {
   constructor(props) {
     super(props);
+
+    this.toSearchPage = this.toSearchPage.bind(this);
+    this.toUserPage = this.toUserPage.bind(this);
   }
 
   componentWillMount() {
@@ -114,7 +117,7 @@ class UserPage extends React.Component {
                   user = {store.username}
                   trip = {trip}
                   editable = {true}
-                  toSearchPage = {this.toSearchPage.bind(this)}
+                  toSearchPage = {this.toSearchPage}
                   activate = {actions.activateTrip}
                   delete = {actions.deleteTrip}
                   deleteEvent = {actions.deleteEvent}
@@ -181,14 +184,14 @@ class UserPage extends React.Component {
                 password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
-                forward={this.toUserPage.bind(this)}
+                forward={this.toUserPage}
               />
               <Signup signup={actions.signup}
                 username={store.username}
                 password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
-                forward={this.toUserPage.bind(this)}
+                forward={this.toUserPage}
               />
             </div>
 
