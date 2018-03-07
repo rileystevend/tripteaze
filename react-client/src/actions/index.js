@@ -47,9 +47,9 @@ export const signup = (username, password) => {
         password: password
       }
     }).then(
-      results => {
-        if (results.data.error) {
-          alert(results.data.message);
+      ({ data }) => {
+        if (data.error) {
+          alert(data.message);
         } else {
           dispatch(authenticate());
         }
@@ -92,7 +92,7 @@ export const fetchTrips = (param) => {
       }
     }).then(
       results => {
-        console.log('fetchTrips results', results)
+        console.log('fetchTrips results', results);
         if (param === 'public') {
           dispatch(setPublicTrips(results.data.trips));
           dispatch(loading());
@@ -226,7 +226,7 @@ export const addEventToTrip = (event, id ) => {
       }
     }).then(
       () => {
-        dispatch(fetchEventsFromTrip(username, city));
+        dispatch(fetchEventsFromTrip(username, city)); // eslint-disable-line
         dispatch(activateEventSnackbar());
       },
       error => dispatch(badStuff(error))
