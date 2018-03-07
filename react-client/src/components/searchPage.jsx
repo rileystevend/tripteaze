@@ -36,7 +36,7 @@ import Events from './events.jsx';
 import Signup from './signup.jsx';
 import Login from './login.jsx';
 import Eatin from './restaurants.jsx';
-import Hotel from './hotels.jsx';
+import Hotels from './hotels.jsx';
 
 export const styles = {
   activityContainer: {
@@ -590,11 +590,15 @@ class SearchPage extends React.Component {
           <div style={tripStyle.styles.activityHeader}>Events:</div>
         );
       // If activity = eatin and there are restaurants in the current trip
+      } else if (activityType === 'hotel' && trip.hotels.length > 0) {
+        return (
+          <div style={tripStyle.styles.activityHeader}>Hotel:</div>
+        );
       } else if (activityType === 'eatin' && trip.eatin.length > 0) {
         return (
           <div style={tripStyle.styles.activityHeader}>Food:</div>
         );
-      }
+      } 
     };
 
     /*************************** WELCOME USER TEXT ***************************/
@@ -736,6 +740,36 @@ class SearchPage extends React.Component {
               </div>
             </Paper>
 
+            {/************************** SEARCH HotelS **************************/}
+            <Paper style={styles.activityContainer}>
+              <div style={styles.activityTitle}>Hotels</div>
+              <div style={styles.searchBar}>
+                <TextField
+                  id = 'hotel'
+                  onChange = {this.updateHotelQuery}
+                  inputStyle={{ width: '100%' }}
+                  style={styles.searchInput}
+                  onKeyUp={this.handleEnterKey}
+                />
+                <RaisedButton
+                  onClick={this.submitHotelQuery}
+                  label='Search'
+                />
+              </div>
+
+              {/************************** Hotel RESULTS **************************/}
+              <div style={styles.searchResults}>
+                <Hotels
+                  store={store}
+                  hotels={store.hotelResults}
+                  addHotelToTrip={actions.addHotelToTrip}
+                  user={store.username}
+                  city={this.state.activeCity}
+                  hotelSnackbar={store.hotelSnackbar}
+                  onRequestClose={actions.deactivateHotelSnackbar}
+                />
+              </div>
+            </Paper>
             {/************************** SEARCH EATIN **************************/}
             <Paper style={styles.activityContainer}>
               <div style={styles.activityTitle}>Restaurants</div>
