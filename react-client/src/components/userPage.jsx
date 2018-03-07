@@ -1,20 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import * as theme from './homePage.jsx';  // * does all named exports from that file
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+// import getMuiTheme from 'material-ui/styles/getMuiTheme';
+// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+import { cyan50, cyan800, cyan900 } from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
 
 import Login from './login.jsx';
 import Signup from './signup.jsx';
-import Trip from './trip.jsx'; 
+import Trip from './trip.jsx';
 import * as actions from '../actions/index.js';
 
 const styles = {
@@ -27,14 +28,17 @@ const styles = {
     padding: '0.5%',
     textAlign: 'center'
   }
-}
+};
 
 class UserPage extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
+
+    this.toSearchPage = this.toSearchPage.bind(this);
+    this.toUserPage = this.toUserPage.bind(this);
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.props.actions.deactivate();
     this.props.actions.fetchTrips(this.props.store.username);
   }
@@ -47,18 +51,18 @@ class UserPage extends React.Component {
     this.props.history.push('/trips');
   }
 
-  generateMessage () {
+  generateMessage() {
     if (this.props.store.userTrips.length === 0) {
       return (
         <div>
-          You don't have any trips yet :(
-          <p/>
+          You don&apos;t have any trips yet :(
+          <p />
           Why not go <Link to='/plan' style={{textDecoration: 'none', color: cyan900}}>plan</Link> one?
         </div>
       );
     } else {
       return (
-        <div>{this.props.store.username}'s Current Trips</div>
+        <div>{this.props.store.username}&apos;s Current Trips</div>
       );
     }
   }
@@ -78,12 +82,12 @@ class UserPage extends React.Component {
                   label="Home"
                 />
               </Link>
-              <Link to='/'> 
+              <Link to='/'>
                 <RaisedButton
                   onClick = {actions.logOut}
                   style={{marginLeft: '1em'}}
                   label = 'Log Out'
-                /> 
+                />
               </Link>
             </div>
 
@@ -106,14 +110,14 @@ class UserPage extends React.Component {
               <div style={theme.styles.discoverTrips}>{this.generateMessage()}</div>
 
               {/************************** USER'S TRIPS **************************/}
-              {store.userTrips.map((trip, index) => 
+              {store.userTrips.map((trip, index) =>
                 <Trip
                   key = {index}
                   index = {index} //you're not allowed to later access 'key' as prop, which is dumb
-                  user = {store.username} 
-                  trip = {trip} 
+                  user = {store.username}
+                  trip = {trip}
                   editable = {true}
-                  toSearchPage = {this.toSearchPage.bind(this)}
+                  toSearchPage = {this.toSearchPage}
                   activate = {actions.activateTrip}
                   delete = {actions.deleteTrip}
                   deleteEvent = {actions.deleteEvent}
@@ -131,7 +135,7 @@ class UserPage extends React.Component {
           </Paper>
         </MuiThemeProvider>
       );
-    } else if (store.loading) { 
+    } else if (store.loading) {
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>
           <Paper>
@@ -155,7 +159,7 @@ class UserPage extends React.Component {
             <div style={theme.styles.header}>
               <Link to="/" style={{ textDecoration: 'none', color: cyan900 }}>
                 TripTeaze
-                </Link>
+              </Link>
             </div>
 
             <div style={styles.notLoggedIn}>
@@ -180,14 +184,14 @@ class UserPage extends React.Component {
                 password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
-                forward={this.toUserPage.bind(this)}
+                // forward={this.toUserPage} THESE FORWARDS CRASH THE SITE
               />
               <Signup signup={actions.signup}
                 username={store.username}
                 password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
-                forward={this.toUserPage.bind(this)}
+                // forward={this.toUserPage} THESE FORWARDS CRASH THE SITE
               />
             </div>
 
@@ -197,9 +201,9 @@ class UserPage extends React.Component {
                 TripTeaze
               </Link>
             </div>
-          
+
             <div style={styles.notLoggedIn}>
-              Oops! Please 
+              Oops! Please
               <Link to="/" style={{textDecoration: 'none', color: cyan900}}> login </Link>
               to access this content!
             </div>

@@ -1,12 +1,14 @@
 import React from 'react';
 import Activity from './activity.jsx';
-import RaisedButton from 'material-ui/RaisedButton';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+// import RaisedButton from 'material-ui/RaisedButton';
+// import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import { GridList, GridTile } from 'material-ui/GridList';
+// import { GridList, GridTile } from 'material-ui/GridList';
 import moment from 'moment';
-import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
-import * as activityStyles from './homePage.jsx';  // * does all named exports from that file
+// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+import { cyan600, cyan900 } from 'material-ui/styles/colors';
+// import * as activityStyles from './homePage.jsx';  // * does all named exports from that file
 import Snackbar from 'material-ui/Snackbar';
 
 export const styles = {
@@ -43,7 +45,7 @@ export const styles = {
     width: '32%',
     verticalAlign: 'top'
   }
-}
+};
 
 // User's trips page
 const Trip = (props) => {
@@ -51,17 +53,17 @@ const Trip = (props) => {
   // Makes user's trip public
   const makePublic = () => {
     props.toggleStatus(props.user, props.trip);
-  }
+  };
 
   // Deletes a trip
   const deleteTrip = () => {
     props.delete(props.user, props.trip);
-  }
+  };
 
   const activateAndSearch = () => {
     props.activate(props.index);
     props.toSearchPage();
-  }
+  };
 
   //const message = props.trip.isPublic ? 'Your trip has been made private!' : 'Your trip has been made public!';
 
@@ -71,14 +73,14 @@ const Trip = (props) => {
     if (activityType === 'event' && trip.events.length > 0) {
       return (
         <div style={styles.activityHeader}>Events:</div>
-      )
+      );
     // If activity = eatin and there are restaurants in the current trip
     } else if (activityType === 'eatin' && trip.eatin.length > 0) {
       return (
         <div style={styles.activityHeader}>Food:</div>
-      )
+      );
     }
-  }
+  };
 
   // Renders list of user's current trips
   if (props.editable === true) {
@@ -88,7 +90,7 @@ const Trip = (props) => {
       <Card
         style={styles.tripCard}
         initiallyExpanded={true}
-      > 
+      >
         <CardTitle
           title = {props.trip.city}
           subtitle = {fromDate + ' - ' + toDate} // Trip dates
@@ -112,7 +114,7 @@ const Trip = (props) => {
               />
             )}
           </div>
-          
+
           {showActivityDiv('eatin', props.trip)}
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
@@ -142,11 +144,26 @@ const Trip = (props) => {
           />
         </CardActions>
 
-        <Snackbar open={props.deleteSnackbar} message={'Your trip has been deleted!'} autoHideDuration={3000} onRequestClose={props.onRequestCloseDelete}/>
-        <Snackbar open={props.publicSnackbar} message={'Your trip has been made public!'} autoHideDuration={3000} onRequestClose={props.onRequestClosePublic}/>
-        <Snackbar open={props.privateSnackbar} message={'Your trip has been made private!'} autoHideDuration={3000} onRequestClose={props.onRequestClosePrivate}/>
+        <Snackbar
+          open={props.deleteSnackbar}
+          message={'Your trip has been deleted!'}
+          autoHideDuration={3000}
+          onRequestClose={props.onRequestCloseDelete}
+        />
+        <Snackbar
+          open={props.publicSnackbar}
+          message={'Your trip has been made public!'}
+          autoHideDuration={3000}
+          onRequestClose={props.onRequestClosePublic}
+        />
+        <Snackbar
+          open={props.privateSnackbar}
+          message={'Your trip has been made private!'}
+          autoHideDuration={3000}
+          onRequestClose={props.onRequestClosePrivate}
+        />
       </Card>
-    ); 
+    );
   } else {
     return (
       <Card
@@ -172,7 +189,7 @@ const Trip = (props) => {
               />
             )}
           </div>
-          
+
           {showActivityDiv('eatin', props.trip)}
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
@@ -185,8 +202,8 @@ const Trip = (props) => {
           </div>
         </CardText>
       </Card>
-    )
+    );
   }
-}
- 
+};
+
 export default Trip;

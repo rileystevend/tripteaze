@@ -4,7 +4,8 @@ import moment from 'moment';
 
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton/';
-import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+import { cyan500, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 
 export const styles = {
   anchor: {
@@ -20,7 +21,7 @@ export const styles = {
     color: cyan500,
     fontSize: 13
   }
-}
+};
 
 let Activity = (props) => {
   let cardStyle = {};
@@ -41,11 +42,11 @@ let Activity = (props) => {
         return (
           <CardActions>
             <FlatButton
-              onClick={() => props.deleteEvent(props.activity, props.user, props.city)} 
+              onClick={() => props.deleteEvent(props.activity, props.user, props.city)}
               label='Remove'
             />
           </CardActions>
-        )
+        );
       } else if (activity === 'eatin') {
         return (
           <CardActions>
@@ -54,19 +55,19 @@ let Activity = (props) => {
               label = 'Remove'
             />
           </CardActions>
-        )
+        );
       }
     }
-  }
+  };
 
   // Converts price to dollar signs for restaurants
   let calcDollarSigns = (price) => {
     let dollarSigns = '';
-    for (var i = 0; i < price; i++) {
+    for (let i = 0; i < price; i++) {
       dollarSigns += '$';
     }
     return dollarSigns;
-  }
+  };
 
   // Renders activities shown on page
   if (props.type === 'event') {
@@ -91,11 +92,11 @@ let Activity = (props) => {
     }
 
     return (
-      <Card style={cardStyle}> 
+      <Card style={cardStyle}>
         <CardMedia>
-          <img src={props.activity.logo} alt =''/>
+          <img src={props.activity.logo} alt ='' />
         </CardMedia>
-        
+
         <CardTitle
           title = {
             <a
@@ -146,7 +147,7 @@ let Activity = (props) => {
             padding: '1%'
           }}>{props.activity.description}</div>
         </CardText>
-        
+
         {/*********** Renders the remove button if user is logged in ***********/}
         {showRemoveButton('event')}
       </Card>
@@ -156,7 +157,7 @@ let Activity = (props) => {
     return (
       <Card style={cardStyle}>
         <CardMedia>
-          <img src={props.activity.logo} alt =''/>
+          <img src={props.activity.logo} alt ='' />
         </CardMedia>
 
         <CardTitle
@@ -174,17 +175,16 @@ let Activity = (props) => {
         />
 
         <CardText>
-          <div style={{
-            color: cyan800,
-            fontSize: 11
-          }}>{props.activity.address}</div>
+          <div style={{ color: cyan800, fontSize: 11 }}>
+            {props.activity.address}
+          </div>
         </CardText>
-        
+
         {/*********** Renders the remove button if user is logged in ***********/}
         {showRemoveButton('eatin')}
       </Card>
     );
   }
-}
+};
 
 export default Activity;
