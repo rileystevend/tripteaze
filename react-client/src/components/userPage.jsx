@@ -40,7 +40,7 @@ class UserPage extends React.Component {
 
   componentWillMount() {
     this.props.actions.deactivate();
-    this.props.actions.fetchTrips(this.props.store.username);
+    // this.props.actions.fetchTrips(this.props.store.username); // will make trips crash on login
   }
 
   toSearchPage() {
@@ -71,7 +71,7 @@ class UserPage extends React.Component {
     let actions = this.props.actions;
     let store = this.props.store;
 
-    if (this.props.store.authenticated === false) { // If logged in
+    if (this.props.store.authenticated === false) {
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>
           <Paper>
@@ -87,14 +87,14 @@ class UserPage extends React.Component {
                 password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
-                // forward={this.toUserPage} THESE FORWARDS CRASH THE SITE
+                forward={this.toUserPage}
               />
               <Signup signup={actions.signup}
                 username={store.username}
                 password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
-                // forward={this.toUserPage} THESE FORWARDS CRASH THE SITE
+                forward={this.toUserPage}
               />
             </div>
 
@@ -146,7 +146,7 @@ class UserPage extends React.Component {
           </Paper>
         </MuiThemeProvider>
       );
-    } else { // If not logged in
+    } else {
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>
           <Paper>
@@ -187,23 +187,21 @@ class UserPage extends React.Component {
               {/************************** USER'S TRIPS **************************/}
               {store.userTrips.map((trip, index) =>
                 <Trip
-                  key = {index}
-                  index = {index} //you're not allowed to later access 'key' as prop, which is dumb
-                  user = {store.username}
-                  trip = {trip}
-                  editable = {true}
-                  toSearchPage = {this.toSearchPage}
-                  activate = {actions.activateTrip}
-                  delete = {actions.deleteTrip}
-                  deleteEvent = {actions.deleteEvent}
-                  deleteFood = {actions.deleteFood}
-                  toggleStatus = {actions.toggleTripStatus}
+                  key={index}
+                  index={index} //you're not allowed to later access 'key' as prop, which is dumb
+                  user={store.username}
+                  trip={trip}
+                  editable={true}
+                  toSearchPage={this.toSearchPage}
+                  activate={actions.activateTrip}
+                  delete={actions.deleteTrip}
+                  deleteEvent={actions.deleteEvent}
+                  deleteFood={actions.deleteFood}
+                  toggleStatus={actions.toggleTripStatus}
                   publicSnackbar={store.publicSnackbar}
                   onRequestClosePublic={actions.deactivatePublicSnackbar}
                   privateSnackbar={store.privateSnackbar}
                   onRequestClosePrivate={actions.deactivatePrivateSnackbar}
-                  deleteSnackbar={store.deleteSnackbar}
-                  onRequestCloseDelete={actions.deactivateDeleteSnackbar}
                 />
               )}
             </div>

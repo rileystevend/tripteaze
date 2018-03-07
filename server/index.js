@@ -96,6 +96,7 @@ app.post('/signup', async (req, res) => {
 });
 
 // Creates new session after new user is added to the database
+/*                        NOT USED                          */
 const createSession = (req, res, newUser) => { // eslint-disable-line
   return req.session.regenerate(() => {
     req.session.user = newUser;
