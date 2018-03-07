@@ -89,6 +89,7 @@ export const fetchTrips = (param) => {
       }
     }).then(
       results => {
+        console.log('fetchTrips results', results)
         if (param === 'public') {
           dispatch(setPublicTrips(results.data.trips));
           dispatch(loading());
@@ -205,15 +206,14 @@ export const searchEvents = (city, query, fromDate, toDate) => {
 
 const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENT_RESULTS', payload: searchResults });
 
-export const addEventToTrip = (event, username, city) => {
+export const addEventToTrip = (event, id ) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/events/add',
       data: {
         tripEvent: event,
-        tripUser: username,
-        tripCity: city
+        tripId: id
       }
     }).then(
       results => { 
@@ -271,15 +271,16 @@ export const searchForFood = (city, query) => {
   
 const updateFoodResults = (searchResults) => ({ type: 'UPDATE_FOOD_RESULTS', payload: searchResults})
 
-export const addFoodToTrip = (food, username, city) => {
+export const addFoodToTrip = (food, id, username, city) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/foods/add',
       data: {
         tripFood: food,
-        tripUser: username,
-        tripCity: city
+        tripId: id,
+        tripUser: username, //probably don't need
+        tripCity: city //probably don't need
       }
     }).then(
       results => { 

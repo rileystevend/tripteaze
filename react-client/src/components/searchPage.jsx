@@ -107,6 +107,7 @@ export const styles = {
 class SearchPage extends React.Component {
   constructor (props) {
     super(props);
+    console.log('props.store.userTrips[props.store.activeTrip.index]', props.store.userTrips[props.store.activeTrip.index]);
     if (props.store.userTrips.length !== 0  && props.store.activeTrip.status) {
       this.state = {
         open: true,
@@ -657,6 +658,7 @@ class SearchPage extends React.Component {
               {/************************** EVENT RESULTS **************************/}
               <div style={styles.searchResults}>
                 <Events
+                    store={store}
                   events={store.eventResults}
                   addEventToTrip={actions.addEventToTrip}
                   user={store.username}
@@ -686,6 +688,7 @@ class SearchPage extends React.Component {
               {/************************** EATIN RESULTS **************************/}
               <div style={styles.searchResults}>
                 <Eatin
+                    store={store}
                   restaurants={store.foodResults}
                   addFoodToTrip={actions.addFoodToTrip}
                   user={store.username}
