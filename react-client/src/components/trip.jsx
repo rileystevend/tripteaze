@@ -75,6 +75,11 @@ const Trip = (props) => {
         <div style={styles.activityHeader}>Events:</div>
       );
     // If activity = eatin and there are restaurants in the current trip
+    } else if (activityType === 'hotel' && trip.events.length > 0) {
+      return (
+        <div style={styles.activityHeader}>Hotel:</div>
+      );
+    // If activity = eatin and there are restaurants in the current trip
     } else if (activityType === 'eatin' && trip.eatin.length > 0) {
       return (
         <div style={styles.activityHeader}>Food:</div>
