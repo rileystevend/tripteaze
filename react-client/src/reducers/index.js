@@ -16,9 +16,12 @@ const initialState = {
   privateSnackbar: false,
   eventQuery: '',
   eventResults: [],
+  hotelQuery: '',
+  hotelResults: [],
   foodQuery: '',
   foodResults: [],
   eventSnackbar: false,
+  hotelSnackbar: false,
   foodSnackbar: false,
   activeTrip: {
     status: false,
