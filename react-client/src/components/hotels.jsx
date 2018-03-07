@@ -24,56 +24,56 @@ const styles = {
   }
 };
 //these are search results for events
-const Events = (props) => {
+const Hotels = (props) => {
 
-  if (props.events.length !== 0) {
+  if (props.hotels.length !== 0) {
     return (
       <div style={styles.root}>
         <GridList
           cellHeight={180}
           style={styles.gridList}
         >
-          {props.events.map((event) => {
-            if (event.logo) {
+          {props.hotels.map((hotel) => {
+            if (hotel.logo) {
               return (
                 <GridTile
-                  key={event.id}
-                  title={<a style={styles.anchor} href={event.url} target='_blank'>{event.name.text}</a>}
-                  subtitle={`${moment(event.start.local).format('MM/DD/YY hh:mm A')} - ${moment(event.end.local).format('MM/DD/YY hh:mm A')}`}
+                  key={hotel.id}
+                  title={<a style={styles.anchor} href={hotel.url} target='_blank'>{hotel.name.text}</a>}
+                  subtitle={`${moment(hotel.start.local).format('MM/DD/YY hh:mm A')} - ${moment(hotel.end.local).format('MM/DD/YY hh:mm A')}`}
                   actionIcon={
                     <IconButton
                       onClick={
-                        () => props.addEventToTrip(event, props.store.userTrips[props.store.activeTrip.index].id)
+                        () => props.addHotelToTrip(hotel, props.store.userTrips[props.store.activeTrip.index].id)
                       }>
                       <AddBorder color="white" />
                     </IconButton>}
                 >
                   <Snackbar
-                    open={props.eventSnackbar}
-                    message={'Event has been added to your trip!'}
+                    open={props.hotelSnackbar}
+                    message={'Hotel has been added to your trip!'}
                     autoHideDuration={3000}
                     onRequestClose={props.onRequestClose}
                   />
-                  <img src={event.logo.url} alt='' />
+                  <img src={hotel.logo.url} alt='' />
                 </GridTile>
               );
             } else {
               return (
                 <GridTile
-                  key={event.id}
-                  title={event.name.text}
+                  key={hotel.id}
+                  title={hotel.name.text}
                   subtitle='date range'
                   actionIcon={
                     <IconButton
-                      onClick={() => props.addEventToTrip(event, props.store.userTrips[props.store.activeTrip.index].id)}
+                      onClick={() => props.addHotelToTrip(hotel, props.store.userTrips[props.store.activeTrip.index].id)}
                     >
                       <AddBorder color="white" />
                     </IconButton>
                   }
                 >
                   <Snackbar
-                    open={props.eventSnackbar}
-                    message={'Event has been added to your trip!'}
+                    open={props.hotelSnackbar}
+                    message={'Hotel has been added to your trip!'}
                     autoHideDuration={3000}
                     onRequestClose={props.onRequestClose}
                   />
@@ -90,4 +90,4 @@ const Events = (props) => {
   }
 };
 
-export default Events;
+export default Hotels;
