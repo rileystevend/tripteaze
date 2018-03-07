@@ -36,6 +36,7 @@ import Events from './events.jsx';
 import Signup from './signup.jsx';
 import Login from './login.jsx';
 import Eatin from './restaurants.jsx';
+import Hotel from './hotels.jsx';
 
 export const styles = {
   activityContainer: {
@@ -142,6 +143,8 @@ class SearchPage extends React.Component {
     this.updateCity = this.updateCity.bind(this);
     this.updateEventQuery = this.updateEventQuery.bind(this);
     this.submitEventQuery = this.submitEventQuery.bind(this);
+    this.updateHotelQuery = this.updateHotelQuery.bind(this);
+    this.submitHotelQuery = this.submitHotelQuery.bind(this);
     this.updateFoodQuery = this.updateFoodQuery.bind(this);
     this.submitFoodQuery = this.submitFoodQuery.bind(this);
     this.handleEnterKey = this.handleEnterKey.bind(this);
@@ -156,7 +159,8 @@ class SearchPage extends React.Component {
         this.submitEventQuery(e);
       } else if (e.target.id === 'food') {
         this.submitFoodQuery(e);
-      }
+      } else if (e.target.id === 'hotel') {
+        this.submitHotelQuery(e);
     }
   }
 
@@ -243,12 +247,31 @@ class SearchPage extends React.Component {
       window.alert('Please select a city and search terms first!');
     }
   }
+  /***************************** Hotel - search **********************************/
+  updateHotelQuery(event) {
+    this.props.actions.updateHotelQuery(event.target.value);
+  }
+
+  submitHotelQuery(event) {
+    let store = this.props.store;
+    let actions = this.props.actions;
+
+    event.preventDefault();  //prevent refresh, might not need this anymore
+    if ((store.activeTrip.status || store.city) && store.hotelQuery) {
+      // let city = store.activeTrip.status ? this.state.activeCity : store.city; //lets you maybe search on a city without creating a trip
+      actions.searchHotels(this.state.activeCity, store.hotelQuery, this.state.activeFromDate, this.state.activeToDate);
+    } else {
+      window.alert('Please select a city and search terms first!');
+    }
+  }
+
 
   /***************************** MESSAGE *****************************/
   render() {
     let message =  '';
     let messageEvents = ''; // eslint-disable-line
     let messageFood = ''; // eslint-disable-line
+    let messageHotels = '';
     let activeCity = this.state.activeCity;
     let store = this.props.store; //the redux store
     let actions = this.props.actions;
@@ -260,6 +283,7 @@ class SearchPage extends React.Component {
     } else {
       message = `You're going to ${activeCity}! \n Or plan a different trip: `;
       messageEvents = `Type a keyword to find events in ${activeCity}!`;
+      messageHotels = 'Now add a hotel for your stay!';
       messageFood= `Or search for food in ${activeCity}!`;
     }
 
@@ -469,6 +493,20 @@ class SearchPage extends React.Component {
                     user={store.username}
                     city={this.state.activeCity}
                     deleteEvent={actions.deleteEvent}
+                  />))}
+              </div>
+
+              {showActivityDiv('hotel', activeTrip)}
+              <div style={tripStyle.styles.tripDetails}>
+                {activeTrip.hotels.map((hotel, index) =>
+                  (<Activity
+                    key={index}
+                    sidebar = 'true'
+                    type='hotel'
+                    activity={hotel}
+                    user={store.username}
+                    city={this.state.activeCity}
+                    deleteHotel={actions.deleteHotel}
                   />))}
               </div>
 
