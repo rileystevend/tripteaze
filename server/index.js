@@ -72,7 +72,7 @@ app.post('/signup', (req, res) => {
   // Checks if the username already exists in the db
   db.userExists(username, (existingUser) => {
     // If the username already exists
-    if (existingUser.length > 0) {
+    if (existingUser) {
       console.log('Username already exists!');
       // Redirect to the signup page
       res.status(200).json({error: true, message: 'Sorry! username already in use! Please pick a different one!'});

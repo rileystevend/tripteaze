@@ -221,22 +221,16 @@ let addNewUser = (name, password) => {
 // returns that user
 let userExists = async (username, cb) => {
   // checks database based on input username
-  let query = await mongoose.models['User']
-    .where('name', new RegExp('^'+username+'$', 'i'));
-
-  cb(query);
+  let user = await User.findOne({ name: new RegExp('^'+username+'$', 'i') });
+  cb(user);
 };
 
 //for login page-take in username and retrieve password from db
 //on server side, bcrypt will be used to compare user input password to stored db password
 //if they match user will be logged in, otherwise error message
 let retrieveUserPassword = async (username, callback) => {
-  let query = await mongoose.models['User']
-    .where('name', new RegExp('^'+username+'$', 'i'));
-
-  query.length ?
-    callback(null, query[0].password) :
-    callback('user does not exist');
+  let user = await User.findOne({ name: username });
+  user ? callback(null, user.password) : callback('user does not exist');
 };
 
 
