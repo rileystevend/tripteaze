@@ -211,35 +211,25 @@ let addNewUser = (name, password) => {
 
 // checks if username already exists in the database and
 // returns that user
-let userExists = (username, cb) => {
+let userExists = async (username, cb) => {
   // checks database based on input username
-  User.find({
-    name: username
-  }, (err, existingUser) => {
-    if (err) {
-      console.error('error in userExists: ', err);
-    } else {
-      // callback on the existing user if it exists
-      cb(existingUser);
-    }
-  });
+  let query = await mongoose.models['User']
+    .where( 'name', new RegExp('^'+username+'$', 'i') );
+
+  cb(query);
+
 };
 
 //for login page-take in username and retrieve password from db
 //on server side, bcrypt will be used to compare user input password to stored db password
 //if they match user will be logged in, otherwise error message
-let retrieveUserPassword = (username, callback) => {
-  User.find({name: username}, function(err, user) {
-    // If the user exists in the database
-    if (user.length > 0) {
-      // Then run the callback on that user's password
-      callback(null, user[0].password);
-    } else {
-      // Should probably send an alert or something...
-      console.log('user does not exist');
-      callback('user does not exist');
-    }
-  });
+let retrieveUserPassword = async (username, callback) => {
+  let query = await mongoose.models['User']
+    .where( 'name', new RegExp('^'+username+'$', 'i') );
+
+  query.length ?
+    callback(null, query[0].password) :
+    callback('user does not exist');
 };
 
 

@@ -196,7 +196,12 @@ class SearchPage extends React.Component {
     if (store.authenticated) {
       if (store.city !== '' && store.tripFromDate !== '' && store.tripToDate !== '') { //checks for required entries
         actions.makeNewTrip(store.username, store.city, store.userTrips.length, store.tripFromDate, store.tripToDate);
-        this.setState({ activeCity: store.city, open: true, activeFromDate: store.tripFromDate, activeToDate: store.tripToDate});
+        this.setState({
+          activeCity: store.city,
+          open: true,
+          activeFromDate: store.tripFromDate,
+          activeToDate: store.tripToDate
+        });
       } else {
         window.alert('Please make sure to fill in the dates and city name!');
       }
