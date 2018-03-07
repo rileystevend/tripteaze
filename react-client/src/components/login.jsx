@@ -105,7 +105,7 @@ class Login extends React.Component {
               onKeyUp={this.handleEnterKey}
             />
 
-            <br/>
+            <br />
 
             <label>Password:</label>
             <TextField

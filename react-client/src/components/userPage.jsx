@@ -2,7 +2,7 @@ import React from 'react';
 // import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import * as theme from './homePage.jsx';  // * does all named exports from that file
@@ -56,7 +56,7 @@ class UserPage extends React.Component {
       return (
         <div>
           You don&apos;t have any trips yet :(
-          <p/>
+          <p />
           Why not go <Link to='/plan' style={{textDecoration: 'none', color: cyan900}}>plan</Link> one?
         </div>
       );
@@ -184,14 +184,14 @@ class UserPage extends React.Component {
                 password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
-                forward={this.toUserPage}
+                // forward={this.toUserPage} THESE FORWARDS CRASH THE SITE
               />
               <Signup signup={actions.signup}
                 username={store.username}
                 password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
-                forward={this.toUserPage}
+                // forward={this.toUserPage} THESE FORWARDS CRASH THE SITE
               />
             </div>
 

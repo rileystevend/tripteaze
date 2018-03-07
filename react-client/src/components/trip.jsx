@@ -144,9 +144,24 @@ const Trip = (props) => {
           />
         </CardActions>
 
-        <Snackbar open={props.deleteSnackbar} message={'Your trip has been deleted!'} autoHideDuration={3000} onRequestClose={props.onRequestCloseDelete}/>
-        <Snackbar open={props.publicSnackbar} message={'Your trip has been made public!'} autoHideDuration={3000} onRequestClose={props.onRequestClosePublic}/>
-        <Snackbar open={props.privateSnackbar} message={'Your trip has been made private!'} autoHideDuration={3000} onRequestClose={props.onRequestClosePrivate}/>
+        <Snackbar
+          open={props.deleteSnackbar}
+          message={'Your trip has been deleted!'}
+          autoHideDuration={3000}
+          onRequestClose={props.onRequestCloseDelete}
+        />
+        <Snackbar
+          open={props.publicSnackbar}
+          message={'Your trip has been made public!'}
+          autoHideDuration={3000}
+          onRequestClose={props.onRequestClosePublic}
+        />
+        <Snackbar
+          open={props.privateSnackbar}
+          message={'Your trip has been made private!'}
+          autoHideDuration={3000}
+          onRequestClose={props.onRequestClosePrivate}
+        />
       </Card>
     );
   } else {

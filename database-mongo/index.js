@@ -31,7 +31,12 @@ function toLower(v) {
 
 let userSchema = Schema({
   id: Schema.Types.ObjectId,
-  name: {type: String, set: toLower, index: true, required: [true, 'can\'t be blank']},
+  name: {
+    type: String,
+    set: toLower,
+    index: true,
+    required: [true, 'can\'t be blank']
+  },
   password: String
 });
 
@@ -108,76 +113,33 @@ let addNewTrip = (username, city, fromDate, toDate, callback) => {
 const dbtest = async () => {
   let user = await User.findOne({name: 'shahzeb'});
   console.log('user', user);
-  return user
-}
+  return user;
+};
 
-const addRestaurantToTrip = async (food, tripId, username, city) => {
+const addRestaurantToTrip = async (food, tripId) => {
   //let user = await User.findOne({name: username});
   let trip = await Trip.findOne({id: tripId}); //problem here where it's only checking for username and city but not time
   await Restaurant.findOneAndUpdate(
-      {id: food.restaurant.id},
-      {$set: {
-          id: food.restaurant.id,
-          name: food.restaurant.name,
-          url: food.restaurant.url,
-          logo: food.restaurant.featured_image,
-          address: food.restaurant.location.address,
-          zip: food.restaurant.location.zipcode,
-          location: [food.restaurant.location.latitude, food.restaurant.location.longitude],
-          price: food.restaurant.price_range,
-          trip: trip.id
-        }
-      }, {upsert: true});
-};
-
-/*
-let addRestaurantToTrip = (food, username, city, callback) => {
-  //first find corresponding user
-  User.findOne({name: username}, function(err, user) {
-    if (err) {
-      console.log('error: ', err);
-      callback(err);
-    } else {
-      Trip.findOne({user: user.id, city: city}, function(err, trip) {
-        if (err) {
-          console.log('error', err);
-          callback(err);
-        } else {
-
-          Restaurant.findOneAndUpdate({ id: food.restaurant.id},
-            {$set: {
-              id: food.restaurant.id,
-              name: food.restaurant.name,
-              url: food.restaurant.url,
-              logo: food.restaurant.featured_image,
-              address: food.restaurant.location.address,
-              zip: food.restaurant.location.zipcode,
-              location: [food.restaurant.location.latitude, food.restaurant.location.longitude],
-              price: food.restaurant.price_range,
-              trip: trip.id
-            }
-            }, {upsert: true}, function(err) {
-              if (err) {
-                console.log('error: ', err);
-                callback(err);
-              } else {
-                callback();
-              }
-            }
-          );
-        }
-        //then add restaurant to database based on trip ID
-      });
+    {id: food.restaurant.id},
+    {$set: {
+      id: food.restaurant.id,
+      name: food.restaurant.name,
+      url: food.restaurant.url,
+      logo: food.restaurant.featured_image,
+      address: food.restaurant.location.address,
+      zip: food.restaurant.location.zipcode,
+      location: [food.restaurant.location.latitude, food.restaurant.location.longitude],
+      price: food.restaurant.price_range,
+      trip: trip.id
     }
-    //then find corresponding trip based on city for selected user
-  });
+    }, {upsert: true});
 };
-*/
 
-let addEventToTrip = async (event, tripId, callback) => {
+
+let addEventToTrip = async (event, tripId) => {
   let trip = await Trip.findOne({id: tripId});
-    //then add event to database based on trip ID
-    //need to look at eventbrite API for structure
+  //then add event to database based on trip ID
+  //need to look at eventbrite API for structure
   await Event.findOneAndUpdate({id: event.id},
     {$set: {
       name: event.name.text,
@@ -193,7 +155,7 @@ let addEventToTrip = async (event, tripId, callback) => {
       logo: event.logo.url,
       trip: trip.id
     }},
-      {upsert: true});
+    {upsert: true});
 };
 
 //for signup page-takes in username and password and adds user info to database
@@ -218,23 +180,16 @@ let addNewUser = (name, password) => {
 // returns that user
 let userExists = async (username, cb) => {
   // checks database based on input username
-  let query = await mongoose.models['User']
-    .where( 'name', new RegExp('^'+username+'$', 'i') );
-
-  cb(query);
-
+  let user = await User.findOne({ name: new RegExp('^'+username+'$', 'i') });
+  cb(user);
 };
 
 //for login page-take in username and retrieve password from db
 //on server side, bcrypt will be used to compare user input password to stored db password
 //if they match user will be logged in, otherwise error message
 let retrieveUserPassword = async (username, callback) => {
-  let query = await mongoose.models['User']
-    .where( 'name', new RegExp('^'+username+'$', 'i') );
-
-  query.length ?
-    callback(null, query[0].password) :
-    callback('user does not exist');
+  let user = await User.findOne({ name: username });
+  user ? callback(null, user.password) : callback('user does not exist');
 };
 
 

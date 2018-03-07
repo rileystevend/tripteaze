@@ -179,8 +179,17 @@ class Home extends React.Component {
         <div>
           <div style={styles.discoverTrips}>
             Get Started
-            <br/>
-            <div style={{color: cyan500, fontSize: 12, fontStyle: 'italic', fontWeight: 'normal'}}>Don&apos;t wait! Plan your next trip today!</div>
+            <br />
+            <div style={
+              {
+                color: cyan500,
+                fontSize: 12,
+                fontStyle: 'italic',
+                fontWeight: 'normal'
+              }
+            }>
+              Don&apos;t wait! Plan your next trip today!
+            </div>
           </div>
 
           <div style={{display: 'inline-block', marginTop: '1%'}}>

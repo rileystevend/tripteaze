@@ -347,7 +347,7 @@ class SearchPage extends React.Component {
                 />
               )}
             </SelectField>
-            <br/>
+            <br />
             <RaisedButton
               onClick={() => (this.setState({ open: !this.state.open }))}
               label='Show Details'
@@ -439,7 +439,7 @@ class SearchPage extends React.Component {
                       fontWeight: 'bold'
                     }}>{fromDate} - {toDate}</div>
 
-                    <br/><br/>
+                    <br /><br />
 
                     Edit your trip dates below:
                     <DatePicker
@@ -519,20 +519,21 @@ class SearchPage extends React.Component {
       } else {
         return (
           <div style={theme.styles.navLinks}>
-            <Link to='/'>
+            <Link to= '/'>
               <RaisedButton
+                style = {{marginRight: '15px'}}
                 label="Home"
               />
             </Link>
-            <Signup
-              signup={actions.signup}
+            <Login
+              login={actions.login}
               username={store.username}
               password={store.password}
               updateUsername={actions.updateUsername}
               updatePassword={actions.updatePassword}
             />
-            <Login
-              login={actions.login}
+            <Signup
+              signup={actions.signup}
               username={store.username}
               password={store.password}
               updateUsername={actions.updateUsername}
@@ -627,7 +628,7 @@ class SearchPage extends React.Component {
                       minDate={store.minToDate}
                     />
                   </div>
-                  <br/>
+                  <br />
                   <div>
                     <div style={styles.tripDatesHeaders}> {message} </div>
                     <TextField
@@ -636,7 +637,7 @@ class SearchPage extends React.Component {
                       onChange={this.updateCity}
                       onKeyUp={this.handleEnterKey}
                     />
-                    <br/>
+                    <br />
                     {searchButton()}
                   </div>
                 </div>
@@ -686,7 +687,7 @@ class SearchPage extends React.Component {
               {/************************** EVENT RESULTS **************************/}
               <div style={styles.searchResults}>
                 <Events
-                    store={store}
+                  store={store}
                   events={store.eventResults}
                   addEventToTrip={actions.addEventToTrip}
                   user={store.username}
@@ -717,7 +718,7 @@ class SearchPage extends React.Component {
               {/************************** EATIN RESULTS **************************/}
               <div style={styles.searchResults}>
                 <Eatin
-                    store={store}
+                  store={store}
                   restaurants={store.foodResults}
                   addFoodToTrip={actions.addFoodToTrip}
                   user={store.username}

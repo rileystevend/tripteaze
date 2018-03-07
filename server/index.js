@@ -76,7 +76,7 @@ app.post('/signup', (req, res) => {
   // Checks if the username already exists in the db
   db.userExists(username, (existingUser) => {
     // If the username already exists
-    if (existingUser.length > 0) {
+    if (existingUser) {
       console.log('Username already exists!');
       // Redirect to the signup page
       res.status(200).json({error: true, message: 'Sorry! username already in use! Please pick a different one!'});
@@ -246,17 +246,17 @@ app.post('/events/remove', function(req, res) {
   });
 });
 
-app.post('/events/add', function (req,res) {
-	const event = req.body.tripEvent;
-	const tripId = req.body.tripId;
-	db.addEventToTrip(event, tripId, function(err) {
-		if (err) {
-			console.log(err);
-			res.status(500).send(err);
-		} else {
-			res.status(201).end();
-		}
-	});
+app.post('/events/add', function(req,res) {
+  const event = req.body.tripEvent;
+  const tripId = req.body.tripId;
+  db.addEventToTrip(event, tripId, function(err) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      res.status(201).end();
+    }
+  });
 });
 
 app.get('/events', (req, res) => {
@@ -305,17 +305,17 @@ app.post('/foods/remove', function(req, res) {
   });
 });
 
-app.post('/foods/add', function (req, res) {
-	//instead of user and city we can use trip.id
-	const food = req.body.tripFood;
-  	const tripId = req.body.tripId;
-	db.addRestaurantToTrip(food, tripId, function (err) {
-		if (err) {
-			res.status(500).send(err);
-		} else {
-			res.status(201).end();
-		}
-	});
+app.post('/foods/add', function(req, res) {
+  //instead of user and city we can use trip.id
+  const food = req.body.tripFood;
+  const tripId = req.body.tripId;
+  db.addRestaurantToTrip(food, tripId, function(err) {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(201).end();
+    }
+  });
 });
 
 app.get('/foods', (req, res) => {
@@ -330,8 +330,8 @@ app.get('/foods', (req, res) => {
   });
 });
 
-app.get('/*', function (req, res) {
-	res.sendFile(path.join(__dirname, 'build', 'index.html'));
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 /****************************************************************************/
