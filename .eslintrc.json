@@ -5,7 +5,7 @@
     "import"
   ],
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2017,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -25,23 +25,51 @@
     "plugin:import/warnings"
   ],
   "rules": {
-    "semi": [
+    "eol-last": [
       "error",
       "always"
     ],
+    "import/named": 2,
     "indent": [
       "error",
       2
     ],
+    "keyword-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
     "no-console": "off",
+    "no-case-declarations": "off",
+    "no-var": "error",
+    "no-trailing-spaces": "error",
     "quotes": [
       2,
       "single"
     ],
-    "import/named": 2,
+    "semi": [
+      "error",
+      "always"
+    ],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
     "react/jsx-no-undef": 1,
-    "react/prop-types": 1,
-    "no-case-declarations": "off",
-    "no-var": "error"
+    "react/jsx-no-bind": [
+      2,
+      {
+        "allowArrowFunctions": true
+      }
+    ],
+    "react/prop-types": "off",
+    "react-redux/mapStateToProps-no-store": "off",
+    "react-redux/prefer-separate-component-file": "off"
   }
 }

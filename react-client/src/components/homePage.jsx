@@ -111,8 +111,11 @@ export const styles = {
 };
 
 class Home extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
+
+    this.toSearchPage = this.toSearchPage.bind(this);
+    this.toUserPage = this.toUserPage.bind(this);
   }
 
   componentWillMount() {
@@ -120,11 +123,11 @@ class Home extends React.Component {
     this.props.actions.fetchTrips('public');
   }
 
-  toUserPage () {
+  toUserPage() {
     this.props.history.push('/trips');
   }
 
-  toSearchPage () {
+  toSearchPage() {
     this.props.history.push('/plan');
   }
 
@@ -135,14 +138,20 @@ class Home extends React.Component {
     if (this.props.store.authenticated) {
       return (
         <div style={styles.navLinks}>
-          <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage.bind(this)} 
-            label = 'My Trips'
+          <RaisedButton
+            style={{marginRight: '15px'}}
+            onClick={this.toUserPage}
+            label='My Trips'
           />
-          <RaisedButton style={{ marginRight: '15px' }} onClick = {this.toSearchPage.bind(this)} 
-            label = 'Build'
+          <RaisedButton
+            style={{ marginRight: '15px' }}
+            onClick={this.toSearchPage}
+            label='Build'
           />
-          <RaisedButton style={{ marginRight: '15px' }} onClick = {actions.logOut}
-            label = 'Log Out'
+          <RaisedButton
+            style={{ marginRight: '15px' }}
+            onClick={actions.logOut}
+            label='Log Out'
           />
         </div>
       );
@@ -160,7 +169,7 @@ class Home extends React.Component {
 
           <RaisedButton
             label="Create new trip"
-            onClick={this.toSearchPage.bind(this)}
+            onClick={this.toSearchPage}
             style={styles.tripButton}
           />
         </div>
@@ -180,7 +189,7 @@ class Home extends React.Component {
               password={store.password}
               updateUsername={actions.updateUsername}
               updatePassword={actions.updatePassword}
-              forward={this.toUserPage.bind(this)}
+              forward={this.toUserPage}
             />
           </div>
           <div style={{display: 'inline-block', marginTop: '1%'}}>
@@ -189,7 +198,7 @@ class Home extends React.Component {
               password={store.password}
               updateUsername={actions.updateUsername}
               updatePassword={actions.updatePassword}
-              forward={this.toUserPage.bind(this)}
+              forward={this.toUserPage}
             />
           </div>
         </div>
@@ -197,7 +206,7 @@ class Home extends React.Component {
     }
   }
 
-  render () {
+  render() {
     // let actions = this.props.actions; //access shortcuts
     let store = this.props.store;
     //store is redux store
@@ -215,7 +224,7 @@ class Home extends React.Component {
               TripTeaze
             </Link>
           </div>
-          
+
           {/************************** CREATE TRIP **************************/}
           <div style={styles.body}>
             {this.getStarted()}

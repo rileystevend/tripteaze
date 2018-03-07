@@ -15,7 +15,7 @@ import Paper from 'material-ui/Paper';
 
 import Login from './login.jsx';
 import Signup from './signup.jsx';
-import Trip from './trip.jsx'; 
+import Trip from './trip.jsx';
 import * as actions from '../actions/index.js';
 
 const styles = {
@@ -31,11 +31,14 @@ const styles = {
 };
 
 class UserPage extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
+
+    this.toSearchPage = this.toSearchPage.bind(this);
+    this.toUserPage = this.toUserPage.bind(this);
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.props.actions.deactivate();
     this.props.actions.fetchTrips(this.props.store.username);
   }
@@ -48,7 +51,7 @@ class UserPage extends React.Component {
     this.props.history.push('/trips');
   }
 
-  generateMessage () {
+  generateMessage() {
     if (this.props.store.userTrips.length === 0) {
       return (
         <div>
@@ -79,12 +82,12 @@ class UserPage extends React.Component {
                   label="Home"
                 />
               </Link>
-              <Link to='/'> 
+              <Link to='/'>
                 <RaisedButton
                   onClick = {actions.logOut}
                   style={{marginLeft: '1em'}}
                   label = 'Log Out'
-                /> 
+                />
               </Link>
             </div>
 
@@ -107,14 +110,14 @@ class UserPage extends React.Component {
               <div style={theme.styles.discoverTrips}>{this.generateMessage()}</div>
 
               {/************************** USER'S TRIPS **************************/}
-              {store.userTrips.map((trip, index) => 
+              {store.userTrips.map((trip, index) =>
                 <Trip
                   key = {index}
                   index = {index} //you're not allowed to later access 'key' as prop, which is dumb
-                  user = {store.username} 
-                  trip = {trip} 
+                  user = {store.username}
+                  trip = {trip}
                   editable = {true}
-                  toSearchPage = {this.toSearchPage.bind(this)}
+                  toSearchPage = {this.toSearchPage}
                   activate = {actions.activateTrip}
                   delete = {actions.deleteTrip}
                   deleteEvent = {actions.deleteEvent}
@@ -132,7 +135,7 @@ class UserPage extends React.Component {
           </Paper>
         </MuiThemeProvider>
       );
-    } else if (store.loading) { 
+    } else if (store.loading) {
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>
           <Paper>
@@ -181,14 +184,14 @@ class UserPage extends React.Component {
                 password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
-                forward={this.toUserPage.bind(this)}
+                forward={this.toUserPage}
               />
               <Signup signup={actions.signup}
                 username={store.username}
                 password={store.password}
                 updateUsername={actions.updateUsername}
                 updatePassword={actions.updatePassword}
-                forward={this.toUserPage.bind(this)}
+                forward={this.toUserPage}
               />
             </div>
 
@@ -198,9 +201,9 @@ class UserPage extends React.Component {
                 TripTeaze
               </Link>
             </div>
-          
+
             <div style={styles.notLoggedIn}>
-              Oops! Please 
+              Oops! Please
               <Link to="/" style={{textDecoration: 'none', color: cyan900}}> login </Link>
               to access this content!
             </div>
@@ -212,7 +215,7 @@ class UserPage extends React.Component {
 }
 
 const mapStateToProps = state => (
-  {store: state} // eslint-disable-line
+  {store: state}
 );
 
 const mapDispatchToProps = dispatch =>

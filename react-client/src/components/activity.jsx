@@ -42,7 +42,7 @@ let Activity = (props) => {
         return (
           <CardActions>
             <FlatButton
-              onClick={() => props.deleteEvent(props.activity, props.user, props.city)} 
+              onClick={() => props.deleteEvent(props.activity, props.user, props.city)}
               label='Remove'
             />
           </CardActions>
@@ -92,11 +92,11 @@ let Activity = (props) => {
     }
 
     return (
-      <Card style={cardStyle}> 
+      <Card style={cardStyle}>
         <CardMedia>
           <img src={props.activity.logo} alt =''/>
         </CardMedia>
-        
+
         <CardTitle
           title = {
             <a
@@ -147,7 +147,7 @@ let Activity = (props) => {
             padding: '1%'
           }}>{props.activity.description}</div>
         </CardText>
-        
+
         {/*********** Renders the remove button if user is logged in ***********/}
         {showRemoveButton('event')}
       </Card>
@@ -180,7 +180,7 @@ let Activity = (props) => {
             fontSize: 11
           }}>{props.activity.address}</div>
         </CardText>
-        
+
         {/*********** Renders the remove button if user is logged in ***********/}
         {showRemoveButton('eatin')}
       </Card>
