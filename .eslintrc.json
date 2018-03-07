@@ -25,34 +25,14 @@
     "plugin:import/warnings"
   ],
   "rules": {
-    "semi": [
-      "error",
-      "always"
-    ],
-    "indent": [
-      "error",
-      2
-    ],
-    "no-console": "off",
-    "quotes": [
-      2,
-      "single"
-    ],
-    "import/named": 2,
-    "react/jsx-no-undef": 1,
-    "react/prop-types": "off",
-    "no-case-declarations": "off",
-    "no-var": "error",
-    "react-redux/mapStateToProps-no-store": "off",
-    "react-redux/prefer-separate-component-file": "off",
     "eol-last": [
       "error",
       "always"
     ],
-    "no-trailing-spaces": "error",
-    "space-before-function-paren": [
+    "import/named": 2,
+    "indent": [
       "error",
-      "never"
+      2
     ],
     "keyword-spacing": [
       "error",
@@ -61,11 +41,31 @@
         "after": true
       }
     ],
+    "no-console": "off",
+    "no-case-declarations": "off",
+    "no-var": "error",
+    "no-trailing-spaces": "error",
+    "quotes": [
+      2,
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "space-before-function-paren": [
+      "error",
+      "never"
+    ],
+    "react/jsx-no-undef": 1,
     "react/jsx-no-bind": [
       2,
       {
         "allowArrowFunctions": true
       }
-    ]
+    ],
+    "react/prop-types": "off",
+    "react-redux/mapStateToProps-no-store": "off",
+    "react-redux/prefer-separate-component-file": "off"
   }
 }
