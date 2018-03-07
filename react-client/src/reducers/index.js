@@ -103,6 +103,20 @@ const reducer = function(state = initialState, action) {  //if state is undefine
     const newTripsEatin = state.userTrips.slice();
     newTripsEatin.splice(state.activeTrip.index, 1, newTripEatin);
     return Object.assign({}, state, { userTrips: newTripsEatin });
+  case 'UPDATE_HOTEL_RESULTS' :
+    return Object.assign({}, state, {hotelResults: action.payload});
+  case 'ACTIVATE_HOTEL_SNACKBAR' :
+    return Object.assign({}, state, { hotelSnackbar: true });
+  case 'DEACTIVATE_HOTEL_SNACKBAR' :
+    return Object.assign({}, state, { hotelSnackbar: false });
+  case 'UPDATE_HOTEL_QUERY':
+    return Object.assign({}, state, {hotelQuery: action.payload});
+  case 'REFRESH_TRIP_HOTELS':
+    const oldTripHotel = state.userTrips[state.activeTrip.index];
+    const newTripHotel = Object.assign({}, oldTripHotel, { hotels: action.payload });
+    const newTripsHotel = state.userTrips.slice();
+    newTripsHotel.splice(state.activeTrip.index, 1, newTrip);
+    return Object.assign({}, state, { userTrips: newTrips });
   default:
     return state;  //if unrecognized action type nothing happens
   }
