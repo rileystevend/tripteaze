@@ -215,18 +215,18 @@ export const searchEvents = (city, query, fromDate, toDate) => {
 
 const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENT_RESULTS', payload: searchResults });
 
-export const addEventToTrip = (event, id ) => {
+export const addEventToTrip = (event, tripId ) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/events/add',
       data: {
         tripEvent: event,
-        tripId: id
+        tripId: tripId
       }
     }).then(
       () => {
-        dispatch(fetchEventsFromTrip(username, city)); // eslint-disable-line
+        dispatch(fetchEventsFromTrip(tripId, username, city)); // eslint-disable-line
         dispatch(activateEventSnackbar());
       },
       error => dispatch(badStuff(error))
@@ -234,7 +234,7 @@ export const addEventToTrip = (event, id ) => {
   };
 };
 
-export const fetchEventsFromTrip = (username, city) => {
+export const fetchEventsFromTrip = (tripId, username, city) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
     return axios({
@@ -242,7 +242,8 @@ export const fetchEventsFromTrip = (username, city) => {
       url: '/events',
       params: {
         tripUser: username,
-        tripCity: city
+        tripCity: city,
+        tripId: tripId
       }
     }).then(
       results => {dispatch(setTripEvents(results.data.events));},
