@@ -292,7 +292,7 @@ app.post('/foods', (req, res) => {
 });
 
 app.post('/foods/remove', function(req, res) {
-
+  console.log('req.body.tripId', req.body.tripId);
   db.remove('restaurant', req.body.foodID, function(err) {
     if (err) {
       res.status(500).send(err);
