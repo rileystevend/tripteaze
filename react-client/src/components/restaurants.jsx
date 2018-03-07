@@ -7,7 +7,8 @@ import Snackbar from 'material-ui/Snackbar';
 
 //these are search results for restaurants
 const Eatin = (props) => {
-
+  // console.log('props', props);
+  // console.log('store', props.store);
   const styles = {
     root: {
       display: 'flex',
@@ -39,7 +40,8 @@ const Eatin = (props) => {
                   key={food.restaurant.id}
                   title= {<a style = {styles.anchor} href = {food.restaurant.url} target = "_blank" >{food.restaurant.name}</a>}
                   subtitle= {`Cost for Two $${food.restaurant.average_cost_for_two}`}
-                  actionIcon={<IconButton onClick={() => props.addFoodToTrip(food, props.user, props.city)}><AddBorder color="white" /></IconButton>}
+                  /*add props.tripId*/
+                  actionIcon={<IconButton onClick={() => props.addFoodToTrip(food, props.store.userTrips[props.store.activeTrip.index].id, props.user, props.city)}><AddBorder color="white" /></IconButton>}
                 >
                   <Snackbar open={props.foodSnackbar} message={'Restaurant has been added to your trip!'} autoHideDuration={3000} onRequestClose={props.onRequestClose}/>
                   <img src={food.restaurant.featured_image} alt='' />
@@ -51,7 +53,7 @@ const Eatin = (props) => {
                   key={food.restaurant.id}
                   title={food.restaurant.name}
                   subtitle={`Cost for Two $${food.restaurant.average_cost_for_two}`}
-                  actionIcon={<IconButton onClick={() => props.addFoodToTrip(food, props.user, props.city)}><AddBorder color="white" /></IconButton>}
+                  actionIcon={<IconButton onClick={() => props.addFoodToTrip(food, props.store.userTrips[props.store.activeTrip.index].id, props.user, props.city)}><AddBorder color="white" /></IconButton>}
                 >
                   <Snackbar open={props.foodSnackbar} message={'Restaurant has been added to your trip!'} autoHideDuration={3000} onRequestClose={props.onRequestClose}/>
                   <img src='' />

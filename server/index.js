@@ -31,6 +31,10 @@ app.checkPassword = (userName, pw, checkPw) => {
   return match;
 };
 
+// app.get('/test', async (req, res) => {
+// 	res.json(await db.dbtest());
+// })
+
 app.get('/login', (req, res) =>{
   let userName = req.query.username;
   let password = req.query.password;
@@ -242,19 +246,17 @@ app.post('/events/remove', function(req, res) {
   });
 });
 
-app.post('/events/add', function(req,res) {
-  const event = req.body.tripEvent;
-  const user = req.body.tripUser;
-  const city = req.body.tripCity;
-
-  db.addEventToTrip(event, user, city, function(err) {
-    if (err) {
-      console.log(err);
-      res.status(500).send(err);
-    } else {
-      res.status(201).end();
-    }
-  });
+app.post('/events/add', function (req,res) {
+	const event = req.body.tripEvent;
+	const tripId = req.body.tripId;
+	db.addEventToTrip(event, tripId, function(err) {
+		if (err) {
+			console.log(err);
+			res.status(500).send(err);
+		} else {
+			res.status(201).end();
+		}
+	});
 });
 
 app.get('/events', (req, res) => {
@@ -303,17 +305,17 @@ app.post('/foods/remove', function(req, res) {
   });
 });
 
-app.post('/foods/add', function(req, res) {
-  const food = req.body.tripFood;
-  const user = req.body.tripUser;
-  const city = req.body.tripCity;
-  db.addRestaurantToTrip(food, user, city, function(err) {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(201).end();
-    }
-  });
+app.post('/foods/add', function (req, res) {
+	//instead of user and city we can use trip.id
+	const food = req.body.tripFood;
+  	const tripId = req.body.tripId;
+	db.addRestaurantToTrip(food, tripId, function (err) {
+		if (err) {
+			res.status(500).send(err);
+		} else {
+			res.status(201).end();
+		}
+	});
 });
 
 app.get('/foods', (req, res) => {
@@ -328,8 +330,8 @@ app.get('/foods', (req, res) => {
   });
 });
 
-+app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+app.get('/*', function (req, res) {
+	res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 /****************************************************************************/

@@ -105,6 +105,32 @@ let addNewTrip = (username, city, fromDate, toDate, callback) => {
   });
 };
 
+const dbtest = async () => {
+  let user = await User.findOne({name: 'shahzeb'});
+  console.log('user', user);
+  return user
+}
+
+const addRestaurantToTrip = async (food, tripId, username, city) => {
+  //let user = await User.findOne({name: username});
+  let trip = await Trip.findOne({id: tripId}); //problem here where it's only checking for username and city but not time
+  await Restaurant.findOneAndUpdate(
+      {id: food.restaurant.id},
+      {$set: {
+          id: food.restaurant.id,
+          name: food.restaurant.name,
+          url: food.restaurant.url,
+          logo: food.restaurant.featured_image,
+          address: food.restaurant.location.address,
+          zip: food.restaurant.location.zipcode,
+          location: [food.restaurant.location.latitude, food.restaurant.location.longitude],
+          price: food.restaurant.price_range,
+          trip: trip.id
+        }
+      }, {upsert: true});
+};
+
+/*
 let addRestaurantToTrip = (food, username, city, callback) => {
   //first find corresponding user
   User.findOne({name: username}, function(err, user) {
@@ -112,7 +138,6 @@ let addRestaurantToTrip = (food, username, city, callback) => {
       console.log('error: ', err);
       callback(err);
     } else {
-
       Trip.findOne({user: user.id, city: city}, function(err, trip) {
         if (err) {
           console.log('error', err);
@@ -147,48 +172,28 @@ let addRestaurantToTrip = (food, username, city, callback) => {
     //then find corresponding trip based on city for selected user
   });
 };
+*/
 
-let addEventToTrip = (event, username, city, callback) => {
-  //first find corresponding user
-  User.findOne({name: username}, function(err, user) {
-    if (err) {
-      console.log('error: ', err);
-      callback(err);
-    }
-    //then find corresponding trip based on city for selected user
-    Trip.findOne({user: user.id, city: city}, function(err, trip) {
-      if (err) {
-        console.log('error', err);
-        callback(err);
-      }
-      //then add event to database based on trip ID
-      //need to look at eventbrite API for structure
-      Event.findOneAndUpdate({id: event.id},
-        {$set: {
-          name: event.name.text,
-          description: event.description.text,
-          id: event.id,
-          url: event.url,
-          start_time: event.start.local,
-          end_time: event.end.local,
-          is_free: event.is_free,
-          organizer_id: event.organizer_id,
-          venue_id: event.venue_id,
-          category_id: event.category_id,
-          logo: event.logo.url,
-          trip: trip.id
-        }
-        }, {upsert: true}, function(err) {
-          if (err) {
-            console.log('error: ', err);
-            callback(err);
-          } else {
-            callback();
-          }
-        }
-      );
-    });
-  });
+let addEventToTrip = async (event, tripId, callback) => {
+  let trip = await Trip.findOne({id: tripId});
+    //then add event to database based on trip ID
+    //need to look at eventbrite API for structure
+  await Event.findOneAndUpdate({id: event.id},
+    {$set: {
+      name: event.name.text,
+      description: event.description.text,
+      id: event.id,
+      url: event.url,
+      start_time: event.start.local,
+      end_time: event.end.local,
+      is_free: event.is_free,
+      organizer_id: event.organizer_id,
+      venue_id: event.venue_id,
+      category_id: event.category_id,
+      logo: event.logo.url,
+      trip: trip.id
+    }},
+      {upsert: true});
 };
 
 //for signup page-takes in username and password and adds user info to database
@@ -425,7 +430,8 @@ module.exports = {
   showTripEvents,
   showTripRestaurants,
   getTripRestaurants,
-  getTripEvents
+  getTripEvents,
+  dbtest
 };
 
 // module.exports.addNewTrip = addNewTrip;
