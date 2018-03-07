@@ -140,7 +140,7 @@ let addEventToTrip = async (event, tripId) => {
   let trip = await Trip.findOne({id: tripId});
   //then add event to database based on trip ID
   //need to look at eventbrite API for structure
-  await Event.findOneAndUpdate({id: event.id},
+  return Event.findOneAndUpdate({id: event.id},
     {$set: {
       name: event.name.text,
       description: event.description.text,

@@ -91,13 +91,12 @@ export const fetchTrips = (param) => {
         search: param
       }
     }).then(
-      results => {
-        console.log('fetchTrips results', results);
+      ({ data }) => {
         if (param === 'public') {
-          dispatch(setPublicTrips(results.data.trips));
+          dispatch(setPublicTrips(data.trips));
           dispatch(loading());
         } else {
-          dispatch(setUserTrips(results.data.trips));
+          dispatch(setUserTrips(data.trips));
           dispatch(loading());
         }
       },
