@@ -212,53 +212,53 @@ let showUserTrips = (username, callback) => {
   });
 };
 
-let showTripEvents = (username, city, callback) => {
-//first find corresponding user
-  User.findOne({name: username}, function(err, user) {
-    if (err || user === null) {
-      console.log('error: ', err);
-      callback(err);
-    } else {
-      //then find trip based on selected user and city
-      Trip.findOne({user: user.id, city: city}, function(err, trip) {
-        if (err || trip === null) {
-          console.log('error', err);
-          callback(err);
-        } else {
-          if (err) {
-            callback(err, null);
-          } else {
-            getTripEvents(trip.id, callback);
-          }
-        }
-      });
-    }
-  });
-};
+// let showTripEvents = (tripId, username, city, callback) => {
+// //first find corresponding user
+//   User.findOne({name: username}, function(err, user) {
+//     if (err || user === null) {
+//       console.log('error: ', err);
+//       callback(err);
+//     } else {
+//       //then find trip based on selected user and city
+//       Trip.findOne({user: user.id, city: city}, function(err, trip) {
+//         if (err || trip === null) {
+//           console.log('error', err);
+//           callback(err);
+//         } else {
+//           if (err) {
+//             callback(err, null);
+//           } else {
+//             getTripEvents(trip.id, callback);
+//           }
+//         }
+//       });
+//     }
+//   });
+// };
 
-let showTripRestaurants = (username, city, callback) => {
-  //first find corresponding user
-  User.findOne({ name: username }, function(err, user) {
-    if (err || user === null) {
-      console.log('error: ', err);
-      callback(err);
-    } else {
-      //then find trip based on selected user and city
-      Trip.findOne({ user: user.id, city: city }, function(err, trip) {
-        if (err || trip === null) {
-          console.log('error', err);
-          callback(err);
-        } else {
-          if (err) {
-            callback(err, null);
-          } else {
-            getTripRestaurants(trip.id, callback);
-          }
-        }
-      });
-    }
-  });
-};
+// let showTripRestaurants = async (username, city, callback) => {
+//   //first find corresponding user
+//   User.findOne({ name: username }, function(err, user) {
+//     if (err || user === null) {
+//       console.log('error: ', err);
+//       callback(err);
+//     } else {
+//       //then find trip based on selected user and city
+//       Trip.findOne({ user: user.id, city: city }, function(err, trip) {
+//         if (err || trip === null) {
+//           console.log('error', err);
+//           callback(err);
+//         } else {
+//           if (err) {
+//             callback(err, null);
+//           } else {
+//             getTripRestaurants(trip.id, callback);
+//           }
+//         }
+//       });
+//     }
+//   });
+// };
 
 
 //allows user to update whether trip is public, archived, and/or if the trip dates changed
@@ -380,8 +380,8 @@ module.exports = {
   remove,
   showAllPublicTrips,
   userExists,
-  showTripEvents,
-  showTripRestaurants,
+  // showTripEvents,
+  // showTripRestaurants,
   getTripRestaurants,
   getTripEvents,
   dbtest

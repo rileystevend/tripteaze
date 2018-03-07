@@ -257,13 +257,14 @@ app.post('/events/add', function(req,res) {
 });
 
 app.get('/events', (req, res) => {
-  const user = req.query.tripUser;
-  const city = req.query.tripCity;
+  console.log(req.query);
+  const tripId = req.query.tripId;
 
-  db.showTripEvents(user, city, function(err, data) {
+  db.getTripEvents(tripId, function(err, data) {
     if (err) {
       res.status(500).end(err);
     } else {
+      // console.log(data);
       res.status(200).json({ events: data });
     }
   });
@@ -292,7 +293,6 @@ app.post('/foods', (req, res) => {
 });
 
 app.post('/foods/remove', function(req, res) {
-
   db.remove('restaurant', req.body.foodID, function(err) {
     if (err) {
       res.status(500).send(err);
@@ -316,9 +316,8 @@ app.post('/foods/add', function(req, res) {
 });
 
 app.get('/foods', (req, res) => {
-  const user = req.query.tripUser;
-  const city = req.query.tripCity;
-  db.showTripRestaurants(user, city, function(err, data) {
+  const tripId = req.query.tripId;
+  db.getTripRestaurants(tripId, function(err, data) {
     if (err) {
       res.status(500).send(err);
     } else {
