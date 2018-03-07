@@ -121,6 +121,7 @@ class UserPage extends React.Component {
                   activate = {actions.activateTrip}
                   delete = {actions.deleteTrip}
                   deleteEvent = {actions.deleteEvent}
+                  deleteHotel = {actions.deleteHotel}
                   deleteFood = {actions.deleteFood}
                   toggleStatus = {actions.toggleTripStatus}
                   publicSnackbar={store.publicSnackbar}
