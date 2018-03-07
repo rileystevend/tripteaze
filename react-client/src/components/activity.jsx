@@ -56,6 +56,15 @@ let Activity = (props) => {
             />
           </CardActions>
         );
+      } else if (activity === 'hotel') {
+        return (
+          <CardActions>
+            <FlatButton
+              onClick= {() => props.deleteHotel(props.activity,props.user,props.city)}
+              label = 'Remove'
+            />
+          </CardActions>
+        );
       }
     }
   };
