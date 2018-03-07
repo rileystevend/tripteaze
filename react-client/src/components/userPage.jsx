@@ -71,7 +71,82 @@ class UserPage extends React.Component {
     let actions = this.props.actions;
     let store = this.props.store;
 
-    if (this.props.store.authenticated === true) { // If logged in
+    if (this.props.store.authenticated === false) { // If logged in
+      return (
+        <MuiThemeProvider muiTheme={theme.muiTheme}>
+          <Paper>
+            {/************************** NAVIGATION **************************/}
+            <div style={theme.styles.navLinks}>
+              <Link to= '/'>
+                <RaisedButton style = {{ marginRight: '15px' }}
+                  label="Home"
+                />
+              </Link>
+              <Login login={actions.login}
+                username={store.username}
+                password={store.password}
+                updateUsername={actions.updateUsername}
+                updatePassword={actions.updatePassword}
+                // forward={this.toUserPage} THESE FORWARDS CRASH THE SITE
+              />
+              <Signup signup={actions.signup}
+                username={store.username}
+                password={store.password}
+                updateUsername={actions.updateUsername}
+                updatePassword={actions.updatePassword}
+                // forward={this.toUserPage} THESE FORWARDS CRASH THE SITE
+              />
+            </div>
+
+            {/************************** HEADER **************************/}
+            <div style={theme.styles.header}>
+              <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
+                TripTeaze
+              </Link>
+            </div>
+
+            <div style={styles.notLoggedIn}>
+              Oops! Please
+              <Link to="/" style={{textDecoration: 'none', color: cyan900}}> login </Link>
+              to access this content!
+            </div>
+          </Paper>
+        </MuiThemeProvider>
+      );
+    } else if (store.loading) {
+      return (
+        <MuiThemeProvider muiTheme={theme.muiTheme}>
+          <Paper>
+            {/************************** NAVIGATION **************************/}
+            <div style={theme.styles.navLinks}>
+              <Link to='/'>
+                <RaisedButton
+                  label="Home"
+                />
+              </Link>
+              <Link to='/'>
+                <RaisedButton
+                  onClick={actions.logOut}
+                  style={{ marginLeft: '1em' }}
+                  label='Log Out'
+                />
+              </Link>
+            </div>
+
+            {/************************** HEADER **************************/}
+            <div style={theme.styles.header}>
+              <Link to="/" style={{ textDecoration: 'none', color: cyan900 }}>
+                TripTeaze
+              </Link>
+            </div>
+
+            <div style={styles.notLoggedIn}>
+              <h3> Please wait while we find your trips! </h3>
+            </div>
+          </Paper>
+        </MuiThemeProvider>
+      );
+    } else { // If not logged in
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>
           <Paper>
@@ -131,81 +206,6 @@ class UserPage extends React.Component {
                   onRequestCloseDelete={actions.deactivateDeleteSnackbar}
                 />
               )}
-            </div>
-          </Paper>
-        </MuiThemeProvider>
-      );
-    } else if (store.loading) {
-      return (
-        <MuiThemeProvider muiTheme={theme.muiTheme}>
-          <Paper>
-            {/************************** NAVIGATION **************************/}
-            <div style={theme.styles.navLinks}>
-              <Link to='/'>
-                <RaisedButton
-                  label="Home"
-                />
-              </Link>
-              <Link to='/'>
-                <RaisedButton
-                  onClick={actions.logOut}
-                  style={{ marginLeft: '1em' }}
-                  label='Log Out'
-                />
-              </Link>
-            </div>
-
-            {/************************** HEADER **************************/}
-            <div style={theme.styles.header}>
-              <Link to="/" style={{ textDecoration: 'none', color: cyan900 }}>
-                TripTeaze
-              </Link>
-            </div>
-
-            <div style={styles.notLoggedIn}>
-              <h3> Please wait while we find your trips! </h3>
-            </div>
-          </Paper>
-        </MuiThemeProvider>
-      );
-    } else { // If not logged in
-      return (
-        <MuiThemeProvider muiTheme={theme.muiTheme}>
-          <Paper>
-            {/************************** NAVIGATION **************************/}
-            <div style={theme.styles.navLinks}>
-              <Link to= '/'>
-                <RaisedButton style = {{marginRight: '15px'}}
-                  label="Home"
-                />
-              </Link>
-              <Login login={actions.login}
-                username={store.username}
-                password={store.password}
-                updateUsername={actions.updateUsername}
-                updatePassword={actions.updatePassword}
-                // forward={this.toUserPage} THESE FORWARDS CRASH THE SITE
-              />
-              <Signup signup={actions.signup}
-                username={store.username}
-                password={store.password}
-                updateUsername={actions.updateUsername}
-                updatePassword={actions.updatePassword}
-                // forward={this.toUserPage} THESE FORWARDS CRASH THE SITE
-              />
-            </div>
-
-            {/************************** HEADER **************************/}
-            <div style={theme.styles.header}>
-              <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
-                TripTeaze
-              </Link>
-            </div>
-
-            <div style={styles.notLoggedIn}>
-              Oops! Please
-              <Link to="/" style={{textDecoration: 'none', color: cyan900}}> login </Link>
-              to access this content!
             </div>
           </Paper>
         </MuiThemeProvider>

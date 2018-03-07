@@ -178,18 +178,16 @@ let addNewUser = (name, password) => {
 
 // checks if username already exists in the database and
 // returns that user
-let userExists = async (username, cb) => {
+let userExists = (username) => {
   // checks database based on input username
-  let user = await User.findOne({ name: new RegExp('^'+username+'$', 'i') });
-  cb(user);
+  return User.findOne({ name: new RegExp('^'+username+'$', 'i') });
 };
 
 //for login page-take in username and retrieve password from db
 //on server side, bcrypt will be used to compare user input password to stored db password
 //if they match user will be logged in, otherwise error message
-let retrieveUserPassword = async (username, callback) => {
-  let user = await User.findOne({ name: username });
-  user ? callback(null, user.password) : callback('user does not exist');
+let retrieveUserPassword = (username) => {
+  return User.findOne({ name: username });
 };
 
 
