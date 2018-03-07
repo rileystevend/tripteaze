@@ -292,7 +292,6 @@ app.post('/foods', (req, res) => {
 });
 
 app.post('/foods/remove', function(req, res) {
-  console.log('req.body.tripId', req.body.tripId);
   db.remove('restaurant', req.body.foodID, function(err) {
     if (err) {
       res.status(500).send(err);
@@ -316,9 +315,8 @@ app.post('/foods/add', function(req, res) {
 });
 
 app.get('/foods', (req, res) => {
-  const user = req.query.tripUser;
-  const city = req.query.tripCity;
-  db.showTripRestaurants(user, city, function(err, data) {
+  const tripId = req.query.tripId;
+  db.getTripRestaurants(tripId, function(err, data) {
     if (err) {
       res.status(500).send(err);
     } else {
