@@ -41,7 +41,7 @@ const Eatin = (props) => {
                   subtitle= {`Cost for Two $${food.restaurant.average_cost_for_two}`}
                   actionIcon={<IconButton onClick={() => props.addFoodToTrip(food, props.user, props.city)}><AddBorder color="white" /></IconButton>}
                 >
-                  <Snackbar open={props.foodSnackbar} message={'Restaurant has been added to your trip!'} autoHideDuration={3000} onRequestClose={props.onRequestClose}/>
+                  <Snackbar open={props.foodSnackbar} message={'Restaurant has been added to your trip!'} autoHideDuration={3000} onRequestClose={props.onRequestClose} />
                   <img src={food.restaurant.featured_image} alt='' />
                 </GridTile>
               );
@@ -53,7 +53,7 @@ const Eatin = (props) => {
                   subtitle={`Cost for Two $${food.restaurant.average_cost_for_two}`}
                   actionIcon={<IconButton onClick={() => props.addFoodToTrip(food, props.user, props.city)}><AddBorder color="white" /></IconButton>}
                 >
-                  <Snackbar open={props.foodSnackbar} message={'Restaurant has been added to your trip!'} autoHideDuration={3000} onRequestClose={props.onRequestClose}/>
+                  <Snackbar open={props.foodSnackbar} message={'Restaurant has been added to your trip!'} autoHideDuration={3000} onRequestClose={props.onRequestClose} />
                   <img src='' />
                 </GridTile>
               );

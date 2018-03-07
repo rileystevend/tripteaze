@@ -31,7 +31,12 @@ function toLower(v) {
 
 let userSchema = Schema({
   id: Schema.Types.ObjectId,
-  name: {type: String, set: toLower, index: true, required: [true, 'can\'t be blank']},
+  name: {
+    type: String,
+    set: toLower,
+    index: true,
+    required: [true, 'can\'t be blank']
+  },
   password: String
 });
 
@@ -127,7 +132,10 @@ let addRestaurantToTrip = (food, username, city, callback) => {
               logo: food.restaurant.featured_image,
               address: food.restaurant.location.address,
               zip: food.restaurant.location.zipcode,
-              location: [food.restaurant.location.latitude, food.restaurant.location.longitude],
+              location: [
+                food.restaurant.location.latitude,
+                food.restaurant.location.longitude
+              ],
               price: food.restaurant.price_range,
               trip: trip.id
             }
@@ -214,10 +222,9 @@ let addNewUser = (name, password) => {
 let userExists = async (username, cb) => {
   // checks database based on input username
   let query = await mongoose.models['User']
-    .where( 'name', new RegExp('^'+username+'$', 'i') );
+    .where('name', new RegExp('^'+username+'$', 'i'));
 
   cb(query);
-
 };
 
 //for login page-take in username and retrieve password from db
@@ -225,7 +232,7 @@ let userExists = async (username, cb) => {
 //if they match user will be logged in, otherwise error message
 let retrieveUserPassword = async (username, callback) => {
   let query = await mongoose.models['User']
-    .where( 'name', new RegExp('^'+username+'$', 'i') );
+    .where('name', new RegExp('^'+username+'$', 'i'));
 
   query.length ?
     callback(null, query[0].password) :

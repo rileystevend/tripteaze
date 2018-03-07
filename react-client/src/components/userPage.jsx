@@ -56,7 +56,7 @@ class UserPage extends React.Component {
       return (
         <div>
           You don&apos;t have any trips yet :(
-          <p/>
+          <p />
           Why not go <Link to='/plan' style={{textDecoration: 'none', color: cyan900}}>plan</Link> one?
         </div>
       );

@@ -94,7 +94,7 @@ let Activity = (props) => {
     return (
       <Card style={cardStyle}>
         <CardMedia>
-          <img src={props.activity.logo} alt =''/>
+          <img src={props.activity.logo} alt ='' />
         </CardMedia>
 
         <CardTitle
@@ -157,7 +157,7 @@ let Activity = (props) => {
     return (
       <Card style={cardStyle}>
         <CardMedia>
-          <img src={props.activity.logo} alt =''/>
+          <img src={props.activity.logo} alt ='' />
         </CardMedia>
 
         <CardTitle
@@ -175,10 +175,9 @@ let Activity = (props) => {
         />
 
         <CardText>
-          <div style={{
-            color: cyan800,
-            fontSize: 11
-          }}>{props.activity.address}</div>
+          <div style={{ color: cyan800, fontSize: 11 }}>
+            {props.activity.address}
+          </div>
         </CardText>
 
         {/*********** Renders the remove button if user is logged in ***********/}

@@ -68,6 +68,15 @@
         "allowArrowFunctions": true
       }
     ],
+    "react/jsx-tag-spacing": [
+      "error",
+      {
+        "closingSlash": "never",
+        "beforeSelfClosing": "always",
+        "afterOpening": "never",
+        "beforeClosing": "allow"
+      }
+    ],
     "react/prop-types": "off",
     "react-redux/mapStateToProps-no-store": "off",
     "react-redux/prefer-separate-component-file": "off"

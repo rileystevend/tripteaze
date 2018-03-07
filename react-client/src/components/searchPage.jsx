@@ -346,7 +346,7 @@ class SearchPage extends React.Component {
                 />
               )}
             </SelectField>
-            <br/>
+            <br />
             <RaisedButton
               onClick={() => (this.setState({ open: !this.state.open }))}
               label='Show Details'
@@ -438,7 +438,7 @@ class SearchPage extends React.Component {
                       fontWeight: 'bold'
                     }}>{fromDate} - {toDate}</div>
 
-                    <br/><br/>
+                    <br /><br />
 
                     Edit your trip dates below:
                     <DatePicker
@@ -626,7 +626,7 @@ class SearchPage extends React.Component {
                       minDate={store.minToDate}
                     />
                   </div>
-                  <br/>
+                  <br />
                   <div>
                     <div style={styles.tripDatesHeaders}> {message} </div>
                     <TextField
@@ -635,7 +635,7 @@ class SearchPage extends React.Component {
                       onChange={this.updateCity}
                       onKeyUp={this.handleEnterKey}
                     />
-                    <br/>
+                    <br />
                     {searchButton()}
                   </div>
                 </div>
