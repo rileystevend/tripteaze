@@ -113,40 +113,7 @@ class UserPage extends React.Component {
           </Paper>
         </MuiThemeProvider>
       );
-    } else if (store.loading) {
-      return (
-        <MuiThemeProvider muiTheme={theme.muiTheme}>
-          <Paper>
-            {/************************** NAVIGATION **************************/}
-            <div style={theme.styles.navLinks}>
-              <Link to='/'>
-                <RaisedButton
-                  label="Home"
-                />
-              </Link>
-              <Link to='/'>
-                <RaisedButton
-                  onClick={actions.logOut}
-                  style={{ marginLeft: '1em' }}
-                  label='Log Out'
-                />
-              </Link>
-            </div>
-
-            {/************************** HEADER **************************/}
-            <div style={theme.styles.header}>
-              <Link to="/" style={{ textDecoration: 'none', color: cyan900 }}>
-                TripTeaze
-              </Link>
-            </div>
-
-            <div style={styles.notLoggedIn}>
-              <h3> Please wait while we find your trips! </h3>
-            </div>
-          </Paper>
-        </MuiThemeProvider>
-      );
-    } else {
+    } else if (this.props.store.authenticated === true) {
       return (
         <MuiThemeProvider muiTheme={theme.muiTheme}>
           <Paper>
@@ -204,6 +171,39 @@ class UserPage extends React.Component {
                   onRequestClosePrivate={actions.deactivatePrivateSnackbar}
                 />
               )}
+            </div>
+          </Paper>
+        </MuiThemeProvider>
+      );
+    } else {
+      return (
+        <MuiThemeProvider muiTheme={theme.muiTheme}>
+          <Paper>
+            {/************************** NAVIGATION **************************/}
+            <div style={theme.styles.navLinks}>
+              <Link to='/'>
+                <RaisedButton
+                  label="Home"
+                />
+              </Link>
+              <Link to='/'>
+                <RaisedButton
+                  onClick={actions.logOut}
+                  style={{ marginLeft: '1em' }}
+                  label='Log Out'
+                />
+              </Link>
+            </div>
+
+            {/************************** HEADER **************************/}
+            <div style={theme.styles.header}>
+              <Link to="/" style={{ textDecoration: 'none', color: cyan900 }}>
+                TripTeaze
+              </Link>
+            </div>
+
+            <div style={styles.notLoggedIn}>
+              <h3> Please wait while we find your trips! </h3>
             </div>
           </Paper>
         </MuiThemeProvider>
