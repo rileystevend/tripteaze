@@ -41,10 +41,12 @@ const Events = (props) => {
                   title={<a style={styles.anchor} href={event.url} target='_blank'>{event.name.text}</a>}
                   subtitle={`${moment(event.start.local).format('MM/DD/YY hh:mm A')} - ${moment(event.end.local).format('MM/DD/YY hh:mm A')}`}
                   actionIcon={
-                    <IconButton onClick= {() => props.addEventToTrip(event, props.user, props.city)}>
+                    <IconButton
+                      onClick={
+                        () => props.addEventToTrip(event, props.store.userTrips[props.store.activeTrip.index].id)
+                      }>
                       <AddBorder color="white" />
-                    </IconButton>
-                  }
+                    </IconButton>}
                 >
                   <Snackbar
                     open={props.eventSnackbar}
@@ -62,7 +64,9 @@ const Events = (props) => {
                   title={event.name.text}
                   subtitle='date range'
                   actionIcon={
-                    <IconButton onClick={() => props.addEventToTrip(event, props.user, props.city)}>
+                    <IconButton
+                      onClick={() => props.addEventToTrip(event, props.store.userTrips[props.store.activeTrip.index].id)}
+                    >
                       <AddBorder color="white" />
                     </IconButton>
                   }
