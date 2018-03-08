@@ -396,7 +396,7 @@ export const fetchHotelsFromTrip = (username, city) => {
   };
 };
 
-const setTripHotels = (hotels) => ({ type: 'REFRESH_HOTEL_hotelS', payload: hotels });
+const setTripHotels = (hotels) => ({ type: 'REFRESH_TRIP_HOTELS', payload: hotels });
 
 export const activateHotelSnackbar = () => ({type: 'ACTIVATE_HOTEL_SNACKBAR'});
 
