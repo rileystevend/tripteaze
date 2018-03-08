@@ -498,19 +498,19 @@ class SearchPage extends React.Component {
                   />))}
               </div>
 
-              {/*{showActivityDiv('hotel', activeTrip)}*/}
-              {/*<div style={tripStyle.styles.tripDetails}>*/}
-                {/*{activeTrip.hotels.map((hotel, index) =>*/}
-                  {/*(<Activity*/}
-                    {/*key={index}*/}
-                    {/*sidebar = 'true'*/}
-                    {/*type='hotel'*/}
-                    {/*activity={hotel}*/}
-                    {/*user={store.username}*/}
-                    {/*city={this.state.activeCity}*/}
-                    {/*// deleteHotel={actions.deleteHotel}*/}
-                  {/*/>))}*/}
-              {/*</div>*/}
+              {showActivityDiv('hotel', activeTrip)}
+              <div style={tripStyle.styles.tripDetails}>
+                {activeTrip.hotels.map((hotel, index) =>
+                  (<Activity
+                    key={index}
+                    sidebar = 'true'
+                    type='hotel'
+                    activity={hotel}
+                    user={store.username}
+                    city={this.state.activeCity}
+                    deleteHotel={actions.deleteHotel}
+                  />))}
+              </div>
 
               {showActivityDiv('eatin', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
@@ -593,15 +593,15 @@ class SearchPage extends React.Component {
           <div style={tripStyle.styles.activityHeader}>Events:</div>
         );
       // If activity = eatin and there are restaurants in the current trip
-      //} else if (activityType === 'hotel' && trip.hotels.length > 0) {
-      //   return (
-      //     <div style={tripStyle.styles.activityHeader}>Hotel:</div>
-      //   );
+      } else if (activityType === 'hotel' && trip.hotels.length > 0) {
+        return (
+          <div style={tripStyle.styles.activityHeader}>Hotel:</div>
+        );
       } else if (activityType === 'eatin' && trip.eatin.length > 0) {
         return (
           <div style={tripStyle.styles.activityHeader}>Food:</div>
         );
-      }
+      } 
     };
 
     /*************************** WELCOME USER TEXT ***************************/

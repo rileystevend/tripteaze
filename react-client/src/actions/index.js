@@ -371,7 +371,7 @@ export const addHotelToTrip = (hotel, id ) => {
       }
     }).then(
       () => {
-        dispatch(fetchHotelsFromTrip(username, city));  //DON'T YOU FUCKING DO IT STEVEN!!!!!!!!!! USER TRP ID!
+        dispatch(fetchHotelsFromTrip(username, city));  //DON'T YOU FUCKING DO IT STEVEN!!!!!!!!!! USE TRIP ID!
         dispatch(activateHotelSnackbar());
       },
       error => dispatch(badStuff(error))

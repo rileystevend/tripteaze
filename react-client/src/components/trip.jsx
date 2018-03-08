@@ -127,6 +127,20 @@ const Trip = (props) => {
             {/*)}*/}
           {/*</div>*/}
 
+                  >
+          {showActivityDiv('hotel', props.trip)}
+          <div style={styles.tripDetails}>
+            {props.trip.hotels.map((hotel, index) =>
+              <Activity key={index}
+                deleteEvent={props.deleteHotel}
+                user={props.user}
+                city={props.trip.city}
+                type='hotel'
+                activity={hotel}
+              />
+            )}
+          </div>
+
           {showActivityDiv('eatin', props.trip)}
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
@@ -203,16 +217,16 @@ const Trip = (props) => {
             )}
           </div>
 
-          {/*{showActivityDiv('hotel', props.trip)}*/}
-          {/*<div style={styles.tripDetails}>*/}
-            {/*{props.trip.hotels.map( (hotel, index) =>*/}
-              {/*<Activity*/}
-                {/*key={index}*/}
-                {/*type='hotel'*/}
-                {/*activity={hotel}*/}
-              {/*/>*/}
-            {/*)}*/}
-          {/*</div>*/}
+          {showActivityDiv('hotel', props.trip)}
+          <div style={styles.tripDetails}>
+            {props.trip.hotels.map((hotel, index) =>
+              <Activity
+                key={index}
+                type='hotel'
+                activity={hotel}
+              />
+            )}
+          </div>
 
           {showActivityDiv('eatin', props.trip)}
           <div style={styles.tripDetails}>
