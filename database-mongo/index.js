@@ -1,4 +1,5 @@
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 
 let uri;
 
@@ -12,7 +13,7 @@ if (!process.env.MONGODB_URI) {
 }
 //URI is stored either on heroku or local config file
 let Schema = mongoose.Schema;
-mongoose.connect(uri, {useMongoClient: true});
+mongoose.connect(uri, {useMongoClient: true, promiseLibrary: require('bluebird')});
 
 let db = mongoose.connection;
 
@@ -118,8 +119,8 @@ const dbtest = async () => {
 
 const addRestaurantToTrip = async (food, tripId) => {
   //let user = await User.findOne({name: username});
-  let trip = await Trip.findOne({id: tripId}); //problem here where it's only checking for username and city but not time
-  await Restaurant.findOneAndUpdate(
+  let trip = await Trip.findOne({id: tripId});
+  let addrest =  await Restaurant.findOneAndUpdate(
     {id: food.restaurant.id},
     {$set: {
       id: food.restaurant.id,
@@ -132,15 +133,16 @@ const addRestaurantToTrip = async (food, tripId) => {
       price: food.restaurant.price_range,
       trip: trip.id
     }
-    }, {upsert: true});
+    }, {upsert: true, new: true});
+  console.log('addrest', addrest);
+  return addrest;
 };
 
 
 let addEventToTrip = async (event, tripId) => {
   let trip = await Trip.findOne({id: tripId});
-  //then add event to database based on trip ID
-  //need to look at eventbrite API for structure
-  return Event.findOneAndUpdate({id: event.id},
+
+  let eventcall = await Event.findOneAndUpdate({id: event.id},
     {$set: {
       name: event.name.text,
       description: event.description.text,
@@ -155,7 +157,8 @@ let addEventToTrip = async (event, tripId) => {
       logo: event.logo.url,
       trip: trip.id
     }},
-    {upsert: true});
+    {upsert: true, new: true}); //requires new option or will return null
+  return eventcall;
 };
 
 //for signup page-takes in username and password and adds user info to database

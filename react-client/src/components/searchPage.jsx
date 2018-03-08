@@ -161,6 +161,7 @@ class SearchPage extends React.Component {
         this.submitFoodQuery(e);
       } else if (e.target.id === 'hotel') {
         this.submitHotelQuery(e);
+      }
     }
   }
 
