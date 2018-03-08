@@ -258,7 +258,7 @@ class SearchPage extends React.Component {
     let actions = this.props.actions;
 
     event.preventDefault();  //prevent refresh, might not need this anymore
-    if ((store.activeTrip.status || store.city) && store.hotelQuery) {
+    if ((store.activeTrip.status || store.city)) {
       // let city = store.activeTrip.status ? this.state.activeCity : store.city; //lets you maybe search on a city without creating a trip
       actions.searchHotels(this.state.activeCity, store.hotelQuery, this.state.activeFromDate, this.state.activeToDate);
     } else {
@@ -746,7 +746,7 @@ class SearchPage extends React.Component {
             {/************************** SEARCH HotelS **************************/}
             <Paper style={styles.activityContainer}>
               <div style={styles.activityTitle}>Hotels</div>
-              <div style={styles.searchBar}>
+               <div style={styles.searchBar}>
                 <TextField
                   id = 'hotel'
                   onChange = {this.updateHotelQuery}
