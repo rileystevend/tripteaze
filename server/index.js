@@ -23,33 +23,29 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 /*                        login                                        */
 
 app.checkPassword = (userName, pw, checkPw) => {
-  let match = false;
-  let unhashedPw = bcrypt.compareSync(pw, checkPw);
-  if (unhashedPw) {
-    match = true;
-  }
-  return match;
+  return bcrypt.compareSync(pw, checkPw);
 };
 
 // app.get('/test', async (req, res) => {
 // 	res.json(await db.dbtest());
 // })
 
-app.get('/login', (req, res) =>{
+app.get('/login', async (req, res) =>{
   let userName = req.query.username;
-  let password = req.query.password;
+  let userPass = req.query.password;
 
-  db.retrieveUserPassword(userName, (err, userPw) => {
-    if (err) {
-      res.status(200).json({error: true, message: 'Sorry, we didn\'t recognize that username. Please try again!'});
-    } else if (app.checkPassword(userName, password, userPw)) {
+  try {
+    let { password } = await db.retrieveUserPassword(userName);
+    if (app.checkPassword(userName, userPass, password)) {
       req.session.loggedIn = true;
       res.status(200).end();
     } else {
       console.log('Unmatching username and password');
-      res.status(200).json({error: true, message: 'Sorry, username and password do not match! Please try again!'});
+      res.status(200).json({ error: true, message: 'Sorry, username and password do not match! Please try again!' });
     }
-  });
+  } catch (e) {
+    res.status(200).json({ error: true, message: 'Sorry, we didn\'t recognize that username. Please try again!' });
+  }
 });
 
 app.get('/logout', (req, res) => {
@@ -69,36 +65,38 @@ app.get('/plan', (req, res) => {
 /*************************** SIGN UP STUFF ***************************/
 
 // Sign up
-app.post('/signup', (req, res) => {
+app.post('/signup', async (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
 
   // Checks if the username already exists in the db
-  db.userExists(username, (existingUser) => {
-    // If the username already exists
-    if (existingUser) {
-      console.log('Username already exists!');
-      // Redirect to the signup page
-      res.status(200).json({error: true, message: 'Sorry! username already in use! Please pick a different one!'});
-      // Else if new user
-    } else {
-      // Hash the password
-      bcrypt.hash(password, 10, (err, hash) => {
-        if (err) {
-          console.error('Error in hash password: ', err);
-          res.status(200).json({error: true, message: 'Sorry! unknown error on our end! Please try again'});
-        } else {
-          // Store the new user/hash in the db
-          db.addNewUser(username, hash);
-          console.log(`User '${username}' added to database`);
-          res.status(200).end();
-        }
-      });
-    }
-  });
+  // If the username already exists
+  let userInfo = await db.userExists(username);
+
+  if (userInfo) {
+    console.log('Username already exists!');
+    // Redirect to the signup page
+    req.session.loggedIn = false;
+    res.status(200).json({error: true, message: 'Sorry! username already in use! Please pick a different one!'});
+  } else {
+    // Else if new user
+    // Hash the password
+    bcrypt.hash(password, 10, (err, hash) => {
+      if (err) {
+        console.error('Error in hash password: ', err);
+        res.status(200).json({error: true, message: 'Sorry! unknown error on our end! Please try again'});
+      } else {
+        // Store the new user/hash in the db
+        db.addNewUser(username, hash);
+        console.log(`User '${username}' added to database`);
+        res.status(200).end();
+      }
+    });
+  }
 });
 
 // Creates new session after new user is added to the database
+/*                        NOT USED                          */
 const createSession = (req, res, newUser) => { // eslint-disable-line
   return req.session.regenerate(() => {
     req.session.user = newUser;
@@ -260,13 +258,14 @@ app.post('/events/add', function(req,res) {
 });
 
 app.get('/events', (req, res) => {
-  const user = req.query.tripUser;
-  const city = req.query.tripCity;
+  console.log(req.query);
+  const tripId = req.query.tripId;
 
-  db.showTripEvents(user, city, function(err, data) {
+  db.getTripEvents(tripId, function(err, data) {
     if (err) {
       res.status(500).end(err);
     } else {
+      // console.log(data);
       res.status(200).json({ events: data });
     }
   });
@@ -295,7 +294,6 @@ app.post('/foods', (req, res) => {
 });
 
 app.post('/foods/remove', function(req, res) {
-
   db.remove('restaurant', req.body.foodID, function(err) {
     if (err) {
       res.status(500).send(err);
@@ -319,9 +317,8 @@ app.post('/foods/add', function(req, res) {
 });
 
 app.get('/foods', (req, res) => {
-  const user = req.query.tripUser;
-  const city = req.query.tripCity;
-  db.showTripRestaurants(user, city, function(err, data) {
+  const tripId = req.query.tripId;
+  db.getTripRestaurants(tripId, function(err, data) {
     if (err) {
       res.status(500).send(err);
     } else {

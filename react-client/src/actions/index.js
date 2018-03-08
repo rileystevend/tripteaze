@@ -47,9 +47,9 @@ export const signup = (username, password) => {
         password: password
       }
     }).then(
-      results => {
-        if (results.data.error) {
-          alert(results.data.message);
+      ({ data }) => {
+        if (data.error) {
+          alert(data.message);
         } else {
           dispatch(authenticate());
         }
@@ -91,13 +91,12 @@ export const fetchTrips = (param) => {
         search: param
       }
     }).then(
-      results => {
-        console.log('fetchTrips results', results)
+      ({ data }) => {
         if (param === 'public') {
-          dispatch(setPublicTrips(results.data.trips));
+          dispatch(setPublicTrips(data.trips));
           dispatch(loading());
         } else {
-          dispatch(setUserTrips(results.data.trips));
+          dispatch(setUserTrips(data.trips));
           dispatch(loading());
         }
       },
@@ -215,18 +214,18 @@ export const searchEvents = (city, query, fromDate, toDate) => {
 
 const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENT_RESULTS', payload: searchResults });
 
-export const addEventToTrip = (event, id ) => {
+export const addEventToTrip = (event, tripId ) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/events/add',
       data: {
         tripEvent: event,
-        tripId: id
+        tripId: tripId
       }
     }).then(
       () => {
-        dispatch(fetchEventsFromTrip(username, city));
+        dispatch(fetchEventsFromTrip(tripId, username, city)); // eslint-disable-line
         dispatch(activateEventSnackbar());
       },
       error => dispatch(badStuff(error))
@@ -234,7 +233,7 @@ export const addEventToTrip = (event, id ) => {
   };
 };
 
-export const fetchEventsFromTrip = (username, city) => {
+export const fetchEventsFromTrip = (tripId, username, city) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
     return axios({
@@ -242,7 +241,8 @@ export const fetchEventsFromTrip = (username, city) => {
       url: '/events',
       params: {
         tripUser: username,
-        tripCity: city
+        tripCity: city,
+        tripId: tripId
       }
     }).then(
       results => {dispatch(setTripEvents(results.data.events));},
@@ -285,20 +285,20 @@ export const searchForFood = (city, query) => {
 
 const updateFoodResults = (searchResults) => ({ type: 'UPDATE_FOOD_RESULTS', payload: searchResults});
 
-export const addFoodToTrip = (food, id, username, city) => {
+export const addFoodToTrip = (food, tripId, username, city) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/foods/add',
       data: {
         tripFood: food,
-        tripId: id,
+        tripId: tripId,
         tripUser: username, //probably don't need
         tripCity: city //probably don't need
       }
     }).then(
       () => {
-        dispatch(fetchFoodFromTrip(username, city));
+        dispatch(fetchFoodFromTrip( tripId, username, city));
         dispatch(activateFoodSnackbar());
       },
       error => dispatch(badStuff(error))
@@ -306,13 +306,14 @@ export const addFoodToTrip = (food, id, username, city) => {
   };
 };
 
-export const fetchFoodFromTrip = (username, city) => {
+export const fetchFoodFromTrip = (tripId, username, city) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
     return axios({
       method: 'get',
       url: '/foods',
       params: {
+        tripId: tripId,
         tripUser: username,
         tripCity: city
       }
@@ -439,7 +440,7 @@ export const deleteEvent = (event, username, city) => {
   };
 };
 
-export const deleteFood = (food, username, city) => {
+export const deleteFood = (food, tripId, username, city) => {
   console.log('delete!');
   return (dispatch) => {
     return axios({
@@ -449,7 +450,7 @@ export const deleteFood = (food, username, city) => {
         foodID: food.id
       }
     }).then(
-      () => { dispatch(fetchFoodFromTrip(username, city)); },
+      () => { dispatch(fetchFoodFromTrip(tripId, username, city)); },
       error => { dispatch(badStuff(error)); }
     );
   };

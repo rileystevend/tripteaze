@@ -7,12 +7,9 @@ import Login from './login.jsx';
 import Trip from './trip.jsx';
 import { Link } from 'react-router-dom';
 
-// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 import { cyan50, cyan100, cyan200, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
-// import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -82,7 +79,8 @@ export const styles = {
     fontWeight: 'bold',
     paddingTop: '5%',
     textAlign: 'center',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    maxHeight: 150
   },
   navLinks: {
     display: 'flex',
@@ -133,7 +131,6 @@ class Home extends React.Component {
 
   navBar() {
     let actions = this.props.actions; //access shortcuts
-    // let store = this.props.store;
 
     if (this.props.store.authenticated) {
       return (

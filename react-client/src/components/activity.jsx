@@ -25,6 +25,7 @@ export const styles = {
 
 let Activity = (props) => {
   let cardStyle = {};
+  // console.log('activity props.store', props.store);
   if (props.sidebar) {
     cardStyle = { textAlign: 'left', margin: '5px'};
   } else {
@@ -42,7 +43,7 @@ let Activity = (props) => {
         return (
           <CardActions>
             <FlatButton
-              onClick={() => props.deleteEvent(props.activity, props.user, props.city)}
+              onClick={() => props.deleteEvent(props.activity,props.store.userTrips[props.store.activeTrip.index].id, props.user, props.city)}
               label='Remove'
             />
           </CardActions>
@@ -51,7 +52,7 @@ let Activity = (props) => {
         return (
           <CardActions>
             <FlatButton
-              onClick= {() => props.deleteFood(props.activity,props.user,props.city)}
+              onClick= {() => props.deleteFood(props.activity,props.store.userTrips[props.store.activeTrip.index].id, props.user,props.city)}
               label = 'Remove'
             />
           </CardActions>

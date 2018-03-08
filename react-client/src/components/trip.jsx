@@ -1,14 +1,9 @@
 import React from 'react';
 import Activity from './activity.jsx';
-// import RaisedButton from 'material-ui/RaisedButton';
-// import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-// import { GridList, GridTile } from 'material-ui/GridList';
 import moment from 'moment';
-// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 import { cyan600, cyan900 } from 'material-ui/styles/colors';
-// import * as activityStyles from './homePage.jsx';  // * does all named exports from that file
 import Snackbar from 'material-ui/Snackbar';
 
 export const styles = {
@@ -163,20 +158,21 @@ const Trip = (props) => {
           />
         </CardActions>
 
+        {/* HAD TO ADD OR FALSE BECAUSE THEY WERE UNDEFINED */}
         <Snackbar
-          open={props.deleteSnackbar}
+          open={props.deleteSnackbar || false}
           message={'Your trip has been deleted!'}
           autoHideDuration={3000}
           onRequestClose={props.onRequestCloseDelete}
         />
         <Snackbar
-          open={props.publicSnackbar}
+          open={props.publicSnackbar || false}
           message={'Your trip has been made public!'}
           autoHideDuration={3000}
           onRequestClose={props.onRequestClosePublic}
         />
         <Snackbar
-          open={props.privateSnackbar}
+          open={props.privateSnackbar || false}
           message={'Your trip has been made private!'}
           autoHideDuration={3000}
           onRequestClose={props.onRequestClosePrivate}

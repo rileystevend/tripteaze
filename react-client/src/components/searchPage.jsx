@@ -486,6 +486,7 @@ class SearchPage extends React.Component {
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.events.map((event, index) =>
                   (<Activity
+                    store={store}
                     key={index}
                     sidebar = 'true'
                     type='event'
@@ -514,6 +515,7 @@ class SearchPage extends React.Component {
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.eatin.map((eatin, index) =>
                   (<Activity
+                    store={store}
                     key={index}
                     sidebar='true'
                     type='food'
