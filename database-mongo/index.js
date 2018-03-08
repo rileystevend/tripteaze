@@ -148,6 +148,7 @@ const addRestaurantToTrip = async (food, tripId) => {
 
 
 let addHotelToTrip = async (hotel, tripId) => {
+  console.log('inside addHotelToTrip');
   let trip = await Trip.findOne({id: tripId});
   //then add event to database based on trip ID
   //need to look at eventbrite API for structure
@@ -166,7 +167,7 @@ let addHotelToTrip = async (hotel, tripId) => {
       logo: hotel.icon,
       trip: trip.id
     }},
-    {upsert: true});
+    {upsert: true, new: true});
 };
 
 let addEventToTrip = async (event, tripId) => {
@@ -307,11 +308,12 @@ let getTripRestaurants = (tripID, callback) => {
 };
 
 let getTripHotels = (tripID, callback) => {
-  Hotel.find({ trip: tripID }, function(err, eatin) {
+  console.log('inside get trip hotels');
+  Hotel.find({ trip: tripID }, function(err, hotel) {
     if (err) {
       callback(err, null);
     } else {
-      callback(null, eatin);
+      callback(null, hotel);
     }
   });
 };

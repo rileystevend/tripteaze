@@ -100,6 +100,7 @@ export const styles = {
 class SearchPage extends React.Component {
   constructor(props) {
     super(props);
+
     console.log('props.store.userTrips[props.store.activeTrip.index]', props.store.userTrips[props.store.activeTrip.index]);
     if (props.store.userTrips.length !== 0  && props.store.activeTrip.status) {
       this.state = {
@@ -405,8 +406,8 @@ class SearchPage extends React.Component {
     ];
 
     const drawer = () => {
-      if (store.activeTrip.status) {
-        let activeTrip = store.userTrips[store.activeTrip.index];
+      if (props.store.activeTrip.status) {
+        let activeTrip = props.store.userTrips[props.store.activeTrip.index];
         if (activeTrip) {
           let fromDate = moment(activeTrip.fromDate).format('MM/DD/YY');
           let toDate = moment(activeTrip.toDate).format('MM/DD/YY');
@@ -493,7 +494,9 @@ class SearchPage extends React.Component {
               {showActivityDiv('hotel', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.hotels.map((hotel, index) =>
-                  (<Activity
+                  (
+                    <Activity
+                    store={store}
                     key={index}
                     sidebar = 'true'
                     type='hotel'
