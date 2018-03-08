@@ -61,16 +61,7 @@ let Activity = (props) => {
         return (
           <CardActions>
             <FlatButton
-              onClick= {() => props.deleteHotel(props.activity,props.user,props.city)}
-              label = 'Remove'
-            />
-          </CardActions>
-        );
-      } else if (activity === 'hotel') {
-        return (
-          <CardActions>
-            <FlatButton
-              onClick= {() => props.deleteHotel(props.activity,props.user,props.city)}
+              onClick= {() => props.deleteHotel(props.activity, props.store.userTrips[props.store.activeTrip.index].id)}
               label = 'Remove'
             />
           </CardActions>
