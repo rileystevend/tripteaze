@@ -334,16 +334,16 @@ export const deactivateFoodSnackbar = () => ({type: 'DEACTIVATE_FOOD_SNACKBAR'})
 
 export const updateHotelQuery = (query) => ({ type: 'UPDATE_HOTEL_QUERY', payload: query });
 
-export const searchHotels = (city, query, fromDate, toDate) => {
+export const searchHotels = (city,/* query, fromDate, toDate*/) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/hotels',
       data: {
         tripCity: city,
-        hotelQuery: query,
-        tripFromDate: fromDate,
-        tripToDate: toDate
+        // hotelQuery: query,
+        // tripFromDate: fromDate,
+        // tripToDate: toDate
       }
     }).then(
       ({ data }) => {
