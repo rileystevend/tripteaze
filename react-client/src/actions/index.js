@@ -225,7 +225,7 @@ export const addEventToTrip = (event, tripId ) => {
       }
     }).then(
       () => {
-        dispatch(fetchEventsFromTrip(tripId, username, city)); // eslint-disable-line
+        dispatch(fetchEventsFromTrip(tripId));
         dispatch(activateEventSnackbar());
       },
       error => dispatch(badStuff(error))
@@ -233,19 +233,20 @@ export const addEventToTrip = (event, tripId ) => {
   };
 };
 
-export const fetchEventsFromTrip = (tripId, username, city) => {
+export const fetchEventsFromTrip = (tripId) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
     return axios({
       method: 'get',
       url: '/events',
       params: {
-        tripUser: username,
-        tripCity: city,
         tripId: tripId
       }
     }).then(
-      results => {dispatch(setTripEvents(results.data.events));},
+      results => {
+        console.log('inside fetchEventsFromTrip results', results);
+        dispatch(setTripEvents(results.data.events));
+      },
       error => {dispatch(badStuff(error));}
     );
   };
@@ -362,6 +363,7 @@ export const deleteEvent = (event, username, city) => {
         eventID: event.id
       }
     }).then (
+      //TODO use tripId
       () => { dispatch(fetchEventsFromTrip(username, city)); },
       error => {dispatch(badStuff(error));}
     );
