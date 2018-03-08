@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const db = require('../database-mongo/index.js');
 const eventbrite = require('../APIhelper/eventbrite.js');
+const google = require('../APIhelper/google.js');
 const zomato = require('../APIhelper/zomatoHelper.js');
 const path = require('path');
 // const moment = require('moment');
@@ -158,7 +159,7 @@ const getTripsEvents = (trips, callback) => {
       fullTrips[i].events = events;
       db.getTripRestaurants(tripID, function(err, food) {
         fullTrips[i].eatin = food;
-        db.getTripEvents(tripID, function(err, hotels) {
+        db.getTripHotels(tripID, function(err, hotels) {
         fullTrips[i].hotels = hotels;
           numFinished++;
           if (numFinished === trips.length) {
