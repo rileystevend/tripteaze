@@ -25,6 +25,10 @@
     "plugin:import/warnings"
   ],
   "rules": {
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
     "eol-last": [
       "error",
       "always"

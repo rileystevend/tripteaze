@@ -13,8 +13,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 export const styles = {
   actionButtons: {
     backgroundColor: '#f9f9f9',
-    margin: '1%'
-  }
+    margin: '1%',
+  },
 };
 
 class Login extends React.Component {
@@ -22,7 +22,7 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      open: false
+      open: false,
     };
 
     this.submit = this.submit.bind(this);
@@ -79,7 +79,7 @@ class Login extends React.Component {
         onClick={this.handleClose}
         style={styles.actionButtons}
         key="cancel"
-      />
+      />,
     ];
 
     return (
