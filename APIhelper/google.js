@@ -12,7 +12,7 @@ if (!process.env.GOOGLE) {
 }
 
 
-let searchHotels = (query, city,/* fromDate, toDate, */cb) => {
+let searchHotels = (/*query, */city,/* fromDate, toDate, */cb) => {
 
   let params = {
     url: `https://maps.googleapis.com/maps/api/place/textsearch/json?query=hotels+in+${city}&key=${token}`,

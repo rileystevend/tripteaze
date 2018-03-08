@@ -340,10 +340,10 @@ app.get('/foods', (req, res) => {
 
 app.post('/hotels', function(req, res) {
   const city = req.body.tripCity;
-  const query = req.body.hotelQuery;
+  // const query = req.body.hotelQuery;
   // const toDate = req.body.tripToDate;
   // const fromDate = req.body.tripFromDate;
-  google.searchHotels(query, city, /*fromDate, toDate, */(err, data) => {
+  google.searchHotels(/*query, */city, /*fromDate, toDate, */(err, data) => {
 
     if (err) {
       res.status(500).send(err);
