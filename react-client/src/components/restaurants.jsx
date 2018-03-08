@@ -50,7 +50,7 @@ const Eatin = (props) => {
                   actionIcon={
                     <IconButton
                       onClick={
-                        () => props.addFoodToTrip(food, props.store.userTrips[props.store.activeTrip.index].id, props.user, props.city)
+                        () => props.addFoodToTrip(food, props.store.userTrips[props.store.activeTrip.index].id)
                       }><AddBorder color="white" /></IconButton>}
                 >
                   <Snackbar
@@ -71,7 +71,7 @@ const Eatin = (props) => {
                   actionIcon={
                     <IconButton
                       onClick={
-                        () => props.addFoodToTrip(food, props.store.userTrips[props.store.activeTrip.index].id, props.user, props.city)
+                        () => props.addFoodToTrip(food, props.store.userTrips[props.store.activeTrip.index].id)
                       }
                     ><AddBorder color="white" /></IconButton>}
                 >

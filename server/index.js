@@ -248,17 +248,17 @@ app.post('/events/remove', function(req, res) {
   });
 });
 
-app.post('/events/add', function(req,res) {
+app.post('/events/add', async function(req,res) {
   const event = req.body.tripEvent;
   const tripId = req.body.tripId;
-  db.addEventToTrip(event, tripId, function(err) {
-    if (err) {
-      console.log(err);
-      res.status(500).send(err);
-    } else {
-      res.status(201).end();
-    }
-  });
+  let addedEvent = await db.addEventToTrip(event, tripId);
+  if (addedEvent) {
+    console.log('success /events/add', addedEvent);
+    res.status(201).end();
+  } else {
+    console.log('error /events/add', addedEvent);
+    res.status(500).send();
+  }
 });
 
 app.get('/events', (req, res) => {
@@ -267,9 +267,10 @@ app.get('/events', (req, res) => {
 
   db.getTripEvents(tripId, function(err, data) {
     if (err) {
+      console.log('error /events');
       res.status(500).end(err);
     } else {
-      // console.log(data);
+      console.log('success /events');
       res.status(200).json({ events: data });
     }
   });
@@ -307,17 +308,21 @@ app.post('/foods/remove', function(req, res) {
   });
 });
 
-app.post('/foods/add', function(req, res) {
+app.post('/foods/add', async function(req, res) {
   //instead of user and city we can use trip.id
   const food = req.body.tripFood;
   const tripId = req.body.tripId;
-  db.addRestaurantToTrip(food, tripId, function(err) {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(201).end();
-    }
-  });
+  // console.log('isnide /foods/add', tripId); //good
+  // console.log('food isnide /foods/add', food); //good
+
+  let addedFood = await db.addRestaurantToTrip(food, tripId);
+  if (addedFood) {
+    console.log('success', addedFood);
+    res.status(201).end();
+  } else {
+    console.log('err', addedFood);
+    res.status(500).end();
+  }
 });
 
 app.get('/foods', (req, res) => {
