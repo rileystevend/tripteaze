@@ -365,9 +365,21 @@ app.post('/hotels/remove', function(req, res) {
   });
 });
 
-app.post('/hotels/add', function(req,res) {
+app.post('/hotels/add', async function(req,res) {
+  console.log('inside /hotels/add');
   const hotel = req.body.tripHotel;
   const tripId = req.body.tripId;
+
+  addedHotel = await db.addHotelToTrip(hotel, tripId);
+
+  if (addedHotel) {
+    console.log('success', addedHotel);
+    res.status(201).end();
+  } else {
+    console.log('err', addedHotel);
+    res.status(500).end();
+  }
+  /*
   db.addHotelToTrip(hotel, tripId, function(err) {
     if (err) {
       console.log(err);
@@ -376,17 +388,19 @@ app.post('/hotels/add', function(req,res) {
       res.status(201).end();
     }
   });
+  */
 });
 
 app.get('/hotels', (req, res) => {
-  console.log(req.query);
+
   const tripId = req.query.tripId;
 
   db.getTripHotels(tripId, function(err, data) {
     if (err) {
+      console.log('error hotels get')
       res.status(500).end(err);
     } else {
-      // console.log(data);
+      console.log('hote data', data);
       res.status(200).json({ hotels: data });
     }
   });

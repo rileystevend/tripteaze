@@ -68,7 +68,7 @@ let restaurantSchema = Schema({
 });
 
 let hotelSchema = Schema({
-  id: {type: Number, index: true},
+  id: {type: String, index: true},
   name: String,
   url: String,
   address: String,
@@ -146,6 +146,29 @@ const addRestaurantToTrip = async (food, tripId) => {
   return addRest;
 };
 
+
+let addHotelToTrip = async (hotel, tripId) => {
+  console.log('inside addHotelToTrip');
+  let trip = await Trip.findOne({id: tripId});
+  //then add event to database based on trip ID
+  //need to look at eventbrite API for structure
+  return Hotel.findOneAndUpdate({id: hotel.id},
+    {$set: {
+      name: hotel.name,
+      // description: event.description.text,
+      id: hotel.place_id,
+      // url: event.url,
+      // start_time: event.start.local,
+      // end_time: event.end.local,
+      // is_free: event.is_free,
+      // organizer_id: event.organizer_id,
+      // venue_id: event.venue_id,
+      // category_id: event.category_id,
+      logo: hotel.icon,
+      trip: trip.id
+    }},
+    {upsert: true, new: true});
+};
 
 let addEventToTrip = async (event, tripId) => {
   let trip = await Trip.findOne({id: tripId});
@@ -285,11 +308,12 @@ let getTripRestaurants = (tripID, callback) => {
 };
 
 let getTripHotels = (tripID, callback) => {
-  Hotel.find({ trip: tripID }, function(err, eatin) {
+  console.log('inside get trip hotels');
+  Hotel.find({ trip: tripID }, function(err, hotel) {
     if (err) {
       callback(err, null);
     } else {
-      callback(null, eatin);
+      callback(null, hotel);
     }
   });
 };
@@ -310,6 +334,15 @@ let remove = (modelType, ID, callback) => {
     Event.remove( {id: ID}, function(err) {
       if (err) {
         callback(err);
+        console.log('error: ',err);
+        callback(err);
+      } else {
+        callback();
+      }
+    });
+  } else if (modelType === 'hotel') {
+    Hotel.remove( {id: ID}, function(err) {
+      if (err) {
         console.log('error: ',err);
         callback(err);
       } else {
@@ -355,6 +388,7 @@ let showAllPublicTrips = (callback) => {
 module.exports = {
   addNewTrip,
   addRestaurantToTrip,
+  addHotelToTrip,
   addEventToTrip,
   addNewUser,
   retrieveUserPassword,
