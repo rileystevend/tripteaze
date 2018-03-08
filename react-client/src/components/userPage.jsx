@@ -154,6 +154,7 @@ class UserPage extends React.Component {
               {/************************** USER'S TRIPS **************************/}
               {store.userTrips.map((trip, index) =>
                 <Trip
+
                   key={index}
                   index={index} //you're not allowed to later access 'key' as prop, which is dumb
                   user={store.username}
@@ -163,6 +164,7 @@ class UserPage extends React.Component {
                   activate={actions.activateTrip}
                   delete={actions.deleteTrip}
                   deleteEvent={actions.deleteEvent}
+                  deleteHotel={actions.deleteHotel}
                   deleteFood={actions.deleteFood}
                   toggleStatus={actions.toggleTripStatus}
                   publicSnackbar={store.publicSnackbar}

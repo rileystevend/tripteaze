@@ -57,6 +57,15 @@ let Activity = (props) => {
             />
           </CardActions>
         );
+      } else if (activity === 'hotel') {
+        return (
+          <CardActions>
+            <FlatButton
+              onClick= {() => props.deleteHotel(props.activity,props.user,props.city)}
+              label = 'Remove'
+            />
+          </CardActions>
+        );
       }
     }
   };
@@ -151,6 +160,89 @@ let Activity = (props) => {
 
         {/*********** Renders the remove button if user is logged in ***********/}
         {showRemoveButton('event')}
+      </Card>
+    );
+
+  } else if (props.type === 'hotel') {
+    let fromDate = moment(props.activity.start_time).format('MM/DD/YY');
+    let startTime = moment(props.activity.start_time).format('h:mm A');
+
+    let toDate = moment(props.activity.end_time).format('MM/DD/YY');
+    let endTime = moment(props.activity.start_time).format('h:mm A');
+
+    let cardSubtitle = `${fromDate} ${startTime} - ${toDate} ${endTime}`;
+
+    // If start/end dates are the same
+    if (fromDate === toDate) {
+      // And if start/end times are the same
+      if (startTime === endTime) {
+        // Show only the start date/time
+        cardSubtitle = `${fromDate} @ ${startTime}`;
+      } else {
+        // Else show the start/end time
+        cardSubtitle = `${fromDate} from ${startTime} - ${endTime}`;
+      }
+    }
+
+    return (
+      <Card style={cardStyle}>
+        <CardMedia>
+          <img src={props.activity.logo} alt ='' />
+        </CardMedia>
+
+        <CardTitle
+          title = {
+            <a
+              href={props.activity.url}
+              target='_blank'
+              style={styles.anchor}
+            >{props.activity.name}</a>
+          }
+          subtitle = {cardSubtitle}
+          titleStyle = {styles.cardTitle}
+          subtitleStyle = {styles.cardSubtitle}
+        />
+
+        <CardHeader
+          showExpandableButton={true}
+          actAsExpander={true}
+          title="More..."
+          titleStyle={{
+            color: cyan700,
+            fontSize: 12,
+            fontWeight: 'bold',
+            lineHeight: '0 !important',
+          }}
+          style={{
+            fontSize: 12,
+            lineHeight: '0 !important'
+          }}
+        />
+
+        <CardText
+          style={{
+            color: cyan800,
+            fontSize: 12
+          }}
+          expandable={true}
+        >
+          <div style={{
+            backgroundColor: '#f9f9f9',
+            color: cyan900,
+            fontWeight: 'bold',
+            padding: '1%'
+          }}>About:</div>
+          <div style={{
+            color: cyan800,
+            fontSize: 11,
+            maxHeight: '250px',
+            overflow: 'auto',
+            padding: '1%'
+          }}>{props.activity.description}</div>
+        </CardText>
+
+        {/*********** Renders the remove button if user is logged in ***********/}
+        {showRemoveButton('hotel')}
       </Card>
     );
 
