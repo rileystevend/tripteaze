@@ -1,5 +1,4 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -17,21 +16,14 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import DatePicker from 'material-ui/DatePicker';
-// import Toggle from 'material-ui/Toggle';
-// import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
-
-// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 import { cyan800, cyan900 } from 'material-ui/styles/colors';
 import * as theme from './homePage.jsx';  // * does all named exports from that file
 import * as tripStyle from './trip.jsx';
 
 import * as actions from '../actions/index.js';
 import Activity from './activity.jsx';
-// import UserPage from './userPage.jsx';
 import Events from './events.jsx';
 import Signup from './signup.jsx';
 import Login from './login.jsx';
@@ -272,7 +264,7 @@ class SearchPage extends React.Component {
     let message =  '';
     let messageEvents = ''; // eslint-disable-line
     let messageFood = ''; // eslint-disable-line
-    let messageHotels = '';
+    let messageHotels = ''; // eslint-disable-line
     let activeCity = this.state.activeCity;
     let store = this.props.store; //the redux store
     let actions = this.props.actions;
@@ -283,9 +275,9 @@ class SearchPage extends React.Component {
       messageFood = '';
     } else {
       message = `You're going to ${activeCity}! \n Or plan a different trip: `;
-      messageEvents = `Type a keyword to find events in ${activeCity}!`;
-      messageHotels = 'Now add a hotel for your stay!';
-      messageFood= `Or search for food in ${activeCity}!`;
+      messageEvents = `Type a keyword to find events in ${activeCity}!`; // eslint-disable-line
+      messageHotels = 'Now add a hotel for your stay!'; // eslint-disable-line
+      messageFood= `Or search for food in ${activeCity}!`; // eslint-disable-line
     }
 
     /*************************** DATE SELECTION STUFF ***************************/
@@ -601,7 +593,7 @@ class SearchPage extends React.Component {
         return (
           <div style={tripStyle.styles.activityHeader}>Food:</div>
         );
-      } 
+      }
     };
 
     /*************************** WELCOME USER TEXT ***************************/

@@ -360,18 +360,18 @@ export const searchHotels = (city, query, fromDate, toDate) => {
 
 const updateHotelResults = (searchResults) => ({ type: 'UPDATE_HOTEL_RESULTS', payload: searchResults });
 
-export const addHotelToTrip = (hotel, id ) => {
+export const addHotelToTrip = (hotel, tripId ) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/hotels/add',
       data: {
         tripHotel: hotel,
-        tripId: id
+        tripId: tripId
       }
     }).then(
       () => {
-        dispatch(fetchHotelsFromTrip(username, city));  //DON'T YOU FUCKING DO IT STEVEN!!!!!!!!!! USE TRIP ID!
+        dispatch(fetchHotelsFromTrip(tripId));  //DON'T YOU FUCKING DO IT STEVEN!!!!!!!!!! USE TRIP ID!
         dispatch(activateHotelSnackbar());
       },
       error => dispatch(badStuff(error))
@@ -379,15 +379,14 @@ export const addHotelToTrip = (hotel, id ) => {
   };
 };
 
-export const fetchHotelsFromTrip = (username, city) => {
+export const fetchHotelsFromTrip = (tripId) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
     return axios({
       method: 'get',
       url: '/hotels',
       params: {
-        tripUser: username,
-        tripCity: city
+        tripId: tripId
       }
     }).then(
       results => {dispatch(setTripHotels(results.data.hotels));},
@@ -451,6 +450,22 @@ export const deleteFood = (food, tripId) => {
     }).then(
       () => { dispatch(fetchFoodFromTrip(tripId)); },
       error => { dispatch(badStuff(error)); }
+    );
+  };
+};
+
+export const deleteHotel = (event, tripId) => {
+  console.log('delete!');
+  return (dispatch) => {
+    return axios ({
+      method: 'post',
+      url: '/hotel/remove',
+      data: {
+        eventID: event.id
+      }
+    }).then (
+      () => { dispatch(fetchHotelsFromTrip(tripId)); },
+      error => {dispatch(badStuff(error));}
     );
   };
 };
