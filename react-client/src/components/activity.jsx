@@ -43,7 +43,7 @@ let Activity = (props) => {
         return (
           <CardActions>
             <FlatButton
-              onClick={() => props.deleteEvent(props.activity,props.store.userTrips[props.store.activeTrip.index].id, props.user, props.city)}
+              onClick={() => props.deleteEvent(props.activity,props.store.userTrips[props.store.activeTrip.index].id)}
               label='Remove'
             />
           </CardActions>
@@ -52,7 +52,7 @@ let Activity = (props) => {
         return (
           <CardActions>
             <FlatButton
-              onClick= {() => props.deleteFood(props.activity,props.store.userTrips[props.store.activeTrip.index].id, props.user,props.city)}
+              onClick= {() => props.deleteFood(props.activity,props.store.userTrips[props.store.activeTrip.index].id)}
               label = 'Remove'
             />
           </CardActions>

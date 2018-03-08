@@ -286,20 +286,20 @@ export const searchForFood = (city, query) => {
 
 const updateFoodResults = (searchResults) => ({ type: 'UPDATE_FOOD_RESULTS', payload: searchResults});
 
-export const addFoodToTrip = (food, tripId, username, city) => {
+export const addFoodToTrip = (food, tripId) => {
   return (dispatch) => {
+    console.log('inside addFoodToTrip', tripId);
     return axios({
       method: 'post',
       url: '/foods/add',
       data: {
         tripFood: food,
-        tripId: tripId,
-        tripUser: username, //probably don't need
-        tripCity: city //probably don't need
+        tripId: tripId
       }
     }).then(
-      () => {
-        dispatch(fetchFoodFromTrip( tripId, username, city));
+      (data) => {
+        console.log('about ot enter fetchFoodFromTrip', data);
+        dispatch(fetchFoodFromTrip( tripId));
         dispatch(activateFoodSnackbar());
       },
       error => dispatch(badStuff(error))
@@ -307,16 +307,14 @@ export const addFoodToTrip = (food, tripId, username, city) => {
   };
 };
 
-export const fetchFoodFromTrip = (tripId, username, city) => {
+export const fetchFoodFromTrip = (tripId) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
     return axios({
       method: 'get',
       url: '/foods',
       params: {
-        tripId: tripId,
-        tripUser: username,
-        tripCity: city
+        tripId: tripId
       }
     }).then(
       results => {
@@ -353,7 +351,7 @@ export const deleteTrip = (user, trip) => {
   };
 };
 
-export const deleteEvent = (event, username, city) => {
+export const deleteEvent = (event, tripId) => {
   console.log('delete!');
   return (dispatch) => {
     return axios ({
@@ -363,14 +361,13 @@ export const deleteEvent = (event, username, city) => {
         eventID: event.id
       }
     }).then (
-      //TODO use tripId
-      () => { dispatch(fetchEventsFromTrip(username, city)); },
+      () => { dispatch(fetchEventsFromTrip(tripId)); },
       error => {dispatch(badStuff(error));}
     );
   };
 };
 
-export const deleteFood = (food, tripId, username, city) => {
+export const deleteFood = (food, tripId) => {
   console.log('delete!');
   return (dispatch) => {
     return axios({
@@ -380,7 +377,7 @@ export const deleteFood = (food, tripId, username, city) => {
         foodID: food.id
       }
     }).then(
-      () => { dispatch(fetchFoodFromTrip(tripId, username, city)); },
+      () => { dispatch(fetchFoodFromTrip(tripId)); },
       error => { dispatch(badStuff(error)); }
     );
   };

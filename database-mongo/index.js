@@ -120,7 +120,7 @@ const dbtest = async () => {
 const addRestaurantToTrip = async (food, tripId) => {
   //let user = await User.findOne({name: username});
   let trip = await Trip.findOne({id: tripId});
-  return await Restaurant.findOneAndUpdate(
+  let addrest =  await Restaurant.findOneAndUpdate(
     {id: food.restaurant.id},
     {$set: {
       id: food.restaurant.id,
@@ -134,6 +134,8 @@ const addRestaurantToTrip = async (food, tripId) => {
       trip: trip.id
     }
     }, {upsert: true, new: true});
+  console.log('addrest', addrest);
+  return addrest;
 };
 
 
