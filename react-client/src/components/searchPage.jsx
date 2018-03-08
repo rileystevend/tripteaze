@@ -1,5 +1,4 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -17,26 +16,19 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import DatePicker from 'material-ui/DatePicker';
-// import Toggle from 'material-ui/Toggle';
-// import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 
-// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 import { cyan800, cyan900 } from 'material-ui/styles/colors';
 import * as theme from './homePage.jsx';  // * does all named exports from that file
 import * as tripStyle from './trip.jsx';
 
 import * as actions from '../actions/index.js';
 import Activity from './activity.jsx';
-// import UserPage from './userPage.jsx';
 import Events from './events.jsx';
 import Signup from './signup.jsx';
 import Login from './login.jsx';
 import Eatin from './restaurants.jsx';
-import Hotels from './hotels.jsx';
 
 export const styles = {
   activityContainer: {
@@ -45,7 +37,7 @@ export const styles = {
     marginLeft: '2%',
     marginTop: '1%',
     verticalAlign: 'top',
-    width: '47%'
+    width: '47%',
   },
   activityTitle: {
     backgroundColor: '#f9f9f9',
@@ -54,12 +46,12 @@ export const styles = {
     fontWeight: 'bold',
     padding: '1%',
     margin: '2%',
-    textAlign: 'left'
+    textAlign: 'left',
   },
   cardTitle: {
     fontSize: 15,
     fontWeight: 'bold',
-    lineHeight: '0 !important'
+    lineHeight: '0 !important',
   },
   createTripCard: {
     display: 'inline-block',
@@ -76,32 +68,32 @@ export const styles = {
   },
   navButtons: {
     marginRight: '1em',
-    marginLeft: '1em'
+    marginLeft: '1em',
   },
   searchBar: {
     paddingLeft: '5%',
-    paddingRight: '5%'
+    paddingRight: '5%',
   },
   searchInput: {
-    width: '80%'
+    width: '80%',
   },
   searchResults: {
-    margin: '2%'
+    margin: '2%',
   },
   tripDatesCard: {
     display: 'flex',
-    flexFlow: 'column wrap'
+    flexFlow: 'column wrap',
   },
   tripDatesHeaders: {
     backgroundColor: '#f9f9f9',
     color: cyan900,
     fontSize: 15,
     fontWeight: 'bold',
-    padding: '1%'
+    padding: '1%',
   },
   welcomeUser: {
-    marginTop: '1%'
-  }
+    marginTop: '1%',
+  },
 };
 
 //this is a terrible nightmare component that should be overhauled
@@ -118,7 +110,7 @@ class SearchPage extends React.Component {
         activeToDate: props.store.userTrips[props.store.activeTrip.index].toDate,
         editDatesOpen: false,
         tempFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
-        tempToDate: props.store.userTrips[props.store.activeTrip.index].toDate
+        tempToDate: props.store.userTrips[props.store.activeTrip.index].toDate,
       };
     } else if (props.store.userTrips.length !== 0) {
       this.state = {
@@ -129,13 +121,13 @@ class SearchPage extends React.Component {
         activeToDate: props.store.userTrips[props.store.activeTrip.index].toDate,
         editDatesOpen: false,
         tempFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
-        tempToDate: props.store.userTrips[props.store.activeTrip.index].toDate
+        tempToDate: props.store.userTrips[props.store.activeTrip.index].toDate,
       };
     } else {
       this.state = {
         open: false,
         dropdown: 0,
-        editDatesOpen: false
+        editDatesOpen: false,
       };
     }
 
@@ -206,7 +198,7 @@ class SearchPage extends React.Component {
           activeCity: store.city,
           open: true,
           activeFromDate: store.tripFromDate,
-          activeToDate: store.tripToDate
+          activeToDate: store.tripToDate,
         });
       } else {
         window.alert('Please make sure to fill in the dates and city name!');
@@ -272,7 +264,7 @@ class SearchPage extends React.Component {
     let message =  '';
     let messageEvents = ''; // eslint-disable-line
     let messageFood = ''; // eslint-disable-line
-    let messageHotels = '';
+    let messageHotels = ''; // eslint-disable-line
     let activeCity = this.state.activeCity;
     let store = this.props.store; //the redux store
     let actions = this.props.actions;
@@ -315,7 +307,7 @@ class SearchPage extends React.Component {
       }
 
       this.setState({
-        activeFromDate: fromDate
+        activeFromDate: fromDate,
       });
     };
 
@@ -329,7 +321,7 @@ class SearchPage extends React.Component {
       actions.updateToDate(toDate);
 
       this.setState({
-        activeToDate: toDate
+        activeToDate: toDate,
       });
     };
     //some of this is just trying to keep this component's state and the redux store in sync which is
@@ -350,7 +342,7 @@ class SearchPage extends React.Component {
         activeToDate: newToDate,
         tempFromDate: newFromDate,
         tempToDate: newToDate,
-        editDatesOpen: false
+        editDatesOpen: false,
       });
     };
 
@@ -382,7 +374,7 @@ class SearchPage extends React.Component {
         );
       } else {
         return (
-          <div>Please login to view your current trips!</div>
+          <div>Please log in to view your current trips!</div>
         );
       }
     };
@@ -409,7 +401,7 @@ class SearchPage extends React.Component {
             editDatesOpen: false,
           });
         }}
-      />
+      />,
     ];
 
     const drawer = () => {
@@ -437,7 +429,7 @@ class SearchPage extends React.Component {
                 margin: '2%',
                 fontSize: 25,
                 fontWeight: 'bold',
-                textAlign: 'center'
+                textAlign: 'center',
               }}>
                 {fromDate} - {toDate}
                 <div style={{display: 'inline-block', marginLeft: '1%'}}>
@@ -461,7 +453,7 @@ class SearchPage extends React.Component {
 
                     <div style={{
                       color: cyan900,
-                      fontWeight: 'bold'
+                      fontWeight: 'bold',
                     }}>{fromDate} - {toDate}</div>
 
                     <br /><br />
@@ -498,7 +490,7 @@ class SearchPage extends React.Component {
                   />))}
               </div>
 
-              {showActivityDiv('hotel', activeTrip)}
+              {/*{showActivityDiv('hotel', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.hotels.map((hotel, index) =>
                   (<Activity
@@ -510,7 +502,7 @@ class SearchPage extends React.Component {
                     city={this.state.activeCity}
                     deleteHotel={actions.deleteHotel}
                   />))}
-              </div>
+              </div>*/}
 
               {showActivityDiv('eatin', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
@@ -601,7 +593,7 @@ class SearchPage extends React.Component {
         return (
           <div style={tripStyle.styles.activityHeader}>Food:</div>
         );
-      } 
+      }
     };
 
     /*************************** WELCOME USER TEXT ***************************/
@@ -621,7 +613,11 @@ class SearchPage extends React.Component {
     const searchButton = () => {
       return (
         <RaisedButton
-          onClick={this.submit}
+          onClick={(event) => {
+            this.submit(event);
+            updateFromDate(null, '');
+            updateToDate(null, '');
+          }}
           label='Create Trip'
           disabled={!store.authenticated}
         />
@@ -656,36 +652,40 @@ class SearchPage extends React.Component {
               <CardText
                 expandable={true}
               >
-                <div style={styles.tripDatesCard}>
-                  <div style={styles.tripDatesHeaders}>Trip Dates:</div>
-                  <div>
-                    <DatePicker
-                      floatingLabelText="From"
-                      autoOk={true}
-                      onChange={updateFromDate}
-                      minDate={today}
-                    />
-                    <DatePicker
-                      floatingLabelText="To"
-                      autoOk={true}
-                      onChange={updateToDate}
-                      // defaultDate={} // set default "to" date as the "from" date?
-                      minDate={store.minToDate}
-                    />
-                  </div>
-                  <br />
-                  <div>
-                    <div style={styles.tripDatesHeaders}> {message} </div>
-                    <TextField
-                      id='city'
-                      value={store.city}
-                      onChange={this.updateCity}
-                      onKeyUp={this.handleEnterKey}
-                    />
+                {store.authenticated ? (
+                  <div style={styles.tripDatesCard}>
+                    <div style={styles.tripDatesHeaders}>Trip Dates:</div>
+                    <div>
+                      <DatePicker
+                        floatingLabelText="From"
+                        autoOk={true}
+                        onChange={updateFromDate}
+                        minDate={today}
+                      />
+                      <DatePicker
+                        floatingLabelText="To"
+                        autoOk={true}
+                        onChange={updateToDate}
+                        // defaultDate={} // set default "to" date as the "from" date?
+                        minDate={store.minToDate}
+                      />
+                    </div>
                     <br />
-                    {searchButton()}
+                    <div>
+                      <div style={styles.tripDatesHeaders}> {message} </div>
+                      <TextField
+                        id='city'
+                        value={store.city}
+                        onChange={this.updateCity}
+                        onKeyUp={this.handleEnterKey}
+                      />
+                      <br />
+                      {searchButton()}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div>Please log in to create a new trip!</div>
+                )}
               </CardText>
             </Card>
           </div>
@@ -760,7 +760,7 @@ class SearchPage extends React.Component {
                 />
               </div>
 
-              {/************************** Hotel RESULTS **************************/}
+              {/************************** Hotel RESULTS *************************
               <div style={styles.searchResults}>
                 <Hotels
                   store={store}
@@ -771,7 +771,7 @@ class SearchPage extends React.Component {
                   hotelSnackbar={store.hotelSnackbar}
                   onRequestClose={actions.deactivateHotelSnackbar}
                 />
-              </div>
+              </div>*/}
             </Paper>
             {/************************** SEARCH EATIN **************************/}
             <Paper style={styles.activityContainer}>

@@ -26,8 +26,8 @@ const styles = {
     fontWeight: 'bold',
     marginTop: '2%',
     padding: '0.5%',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 };
 
 class UserPage extends React.Component {
@@ -156,7 +156,7 @@ class UserPage extends React.Component {
                 <Trip
 
                   key={index}
-                  index={index} //you're not allowed to later access 'key' as prop, which is dumb
+                  index={index}
                   user={store.username}
                   trip={trip}
                   editable={true}
@@ -220,7 +220,7 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch =>
   ({
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(actions, dispatch),
   });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
