@@ -70,6 +70,11 @@ const Trip = (props) => {
         <div style={styles.activityHeader}>Events:</div>
       );
     // If activity = eatin and there are restaurants in the current trip
+    } else if (activityType === 'hotel' && trip.events.length > 0) {
+      return (
+        <div style={styles.activityHeader}>Hotel:</div>
+      );
+    // If activity = eatin and there are restaurants in the current trip
     } else if (activityType === 'eatin' && trip.eatin.length > 0) {
       return (
         <div style={styles.activityHeader}>Food:</div>
@@ -109,6 +114,18 @@ const Trip = (props) => {
               />
             )}
           </div>
+          {/*{showActivityDiv('hotel', props.trip)}*/}
+          {/*<div style={styles.tripDetails}>*/}
+            {/*{props.trip.hotels.map((hotel, index) =>*/}
+              {/*<Activity key={index}*/}
+                {/*deleteEvent={props.deleteHotel}*/}
+                {/*user={props.user}*/}
+                {/*city={props.trip.city}*/}
+                {/*type='hotel'*/}
+                {/*activity={hotel}*/}
+              {/*/>*/}
+            {/*)}*/}
+          {/*</div>*/}
 
           {showActivityDiv('eatin', props.trip)}
           <div style={styles.tripDetails}>
@@ -185,6 +202,17 @@ const Trip = (props) => {
               />
             )}
           </div>
+
+          {/*{showActivityDiv('hotel', props.trip)}*/}
+          {/*<div style={styles.tripDetails}>*/}
+            {/*{props.trip.hotels.map( (hotel, index) =>*/}
+              {/*<Activity*/}
+                {/*key={index}*/}
+                {/*type='hotel'*/}
+                {/*activity={hotel}*/}
+              {/*/>*/}
+            {/*)}*/}
+          {/*</div>*/}
 
           {showActivityDiv('eatin', props.trip)}
           <div style={styles.tripDetails}>

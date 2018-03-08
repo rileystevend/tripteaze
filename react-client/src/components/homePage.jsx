@@ -77,7 +77,7 @@ export const styles = {
     fontFamily: 'Arial',
     fontSize: 45,
     fontWeight: 'bold',
-    // paddingTop: '15%',
+    paddingTop: '5%',
     textAlign: 'center',
     textDecoration: 'none',
     maxHeight: 150

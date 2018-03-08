@@ -330,6 +330,78 @@ export const activateFoodSnackbar = () => ({type: 'ACTIVATE_FOOD_SNACKBAR'});
 
 export const deactivateFoodSnackbar = () => ({type: 'DEACTIVATE_FOOD_SNACKBAR'});
 
+/***************************** HOTELS *************************************/
+
+export const updateHotelQuery = (query) => ({ type: 'UPDATE_HOTEL_QUERY', payload: query });
+
+export const searchHotels = (city, query, fromDate, toDate) => {
+  return (dispatch) => {
+    return axios({
+      method: 'post',
+      url: '/hotels',
+      data: {
+        tripCity: city,
+        hotelQuery: query,
+        tripFromDate: fromDate,
+        tripToDate: toDate
+      }
+    }).then(
+      ({ data }) => {
+        if (data.length) {
+          dispatch(updateHotelResults(data));
+        } else {
+          alert('Nothing found!');
+        }
+      },
+      error => dispatch(badStuff(error))
+    );
+  };
+};
+
+const updateHotelResults = (searchResults) => ({ type: 'UPDATE_HOTEL_RESULTS', payload: searchResults });
+
+export const addHotelToTrip = (hotel, id ) => {
+  return (dispatch) => {
+    return axios({
+      method: 'post',
+      url: '/hotels/add',
+      data: {
+        tripHotel: hotel,
+        tripId: id
+      }
+    }).then(
+      () => {
+        dispatch(fetchHotelsFromTrip(username, city));  //DON'T YOU FUCKING DO IT STEVEN!!!!!!!!!! USER TRP ID!
+        dispatch(activateHotelSnackbar());
+      },
+      error => dispatch(badStuff(error))
+    );
+  };
+};
+
+export const fetchHotelsFromTrip = (username, city) => {
+  //dispatch({ type: 'LOADING' });
+  return (dispatch) => {
+    return axios({
+      method: 'get',
+      url: '/hotels',
+      params: {
+        tripUser: username,
+        tripCity: city
+      }
+    }).then(
+      results => {dispatch(setTripHotels(results.data.hotels));},
+      error => {dispatch(badStuff(error));}
+    );
+  };
+};
+
+const setTripHotels = (hotels) => ({ type: 'REFRESH_HOTEL_hotelS', payload: hotels });
+
+export const activateHotelSnackbar = () => ({type: 'ACTIVATE_HOTEL_SNACKBAR'});
+
+export const deactivateHotelSnackbar = () => ({type: 'DEACTIVATE_HOTEL_SNACKBAR'});
+
 //////////////////////////////USER PAGE STUFF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 export const deleteTrip = (user, trip) => {
