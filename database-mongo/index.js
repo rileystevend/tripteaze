@@ -67,7 +67,7 @@ let restaurantSchema = Schema({
 });
 
 let hotelSchema = Schema({
-  id: {type: Number, index: true},
+  id: {type: String, index: true},
   name: String,
   url: String,
   address: String,
@@ -150,6 +150,28 @@ const addRestaurantToTrip = async (food, tripId) => {
     }, {upsert: true});
 };
 
+
+let addHotelToTrip = async (hotel, tripId) => {
+  let trip = await Trip.findOne({id: tripId});
+  //then add event to database based on trip ID
+  //need to look at eventbrite API for structure
+  return Hotel.findOneAndUpdate({id: hotel.id},
+    {$set: {
+      name: hotel.name,
+      // description: event.description.text,
+      id: hotel.place_id,
+      // url: event.url,
+      // start_time: event.start.local,
+      // end_time: event.end.local,
+      // is_free: event.is_free,
+      // organizer_id: event.organizer_id,
+      // venue_id: event.venue_id,
+      // category_id: event.category_id,
+      logo: hotel.icon,
+      trip: trip.id
+    }},
+    {upsert: true});
+};
 
 let addEventToTrip = async (event, tripId) => {
   let trip = await Trip.findOne({id: tripId});
@@ -368,6 +390,15 @@ let remove = (modelType, ID, callback) => {
         callback();
       }
     });
+  } else if (modelType === 'hotel') {
+    Hotel.remove( {id: ID}, function(err) {
+      if (err) {
+        console.log('error: ',err);
+        callback(err);
+      } else {
+        callback();
+      }
+    });
   } else if (modelType === 'trip') {
     Trip.remove( {id: ID}, function(err) {
       if (err) {
@@ -397,6 +428,7 @@ let showAllPublicTrips = (callback) => {
 module.exports = {
   addNewTrip,
   addRestaurantToTrip,
+  addHotelToTrip,
   addEventToTrip,
   addNewUser,
   retrieveUserPassword,
