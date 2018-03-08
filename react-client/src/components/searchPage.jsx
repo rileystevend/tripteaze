@@ -1,5 +1,4 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -17,26 +16,19 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import DatePicker from 'material-ui/DatePicker';
-// import Toggle from 'material-ui/Toggle';
-// import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 
-// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 import { cyan800, cyan900 } from 'material-ui/styles/colors';
 import * as theme from './homePage.jsx';  // * does all named exports from that file
 import * as tripStyle from './trip.jsx';
 
 import * as actions from '../actions/index.js';
 import Activity from './activity.jsx';
-// import UserPage from './userPage.jsx';
 import Events from './events.jsx';
 import Signup from './signup.jsx';
 import Login from './login.jsx';
 import Eatin from './restaurants.jsx';
-// import Hotels from './hotels.jsx';
 
 export const styles = {
   activityContainer: {
@@ -382,7 +374,7 @@ class SearchPage extends React.Component {
         );
       } else {
         return (
-          <div>Please login to view your current trips!</div>
+          <div>Please log in to view your current trips!</div>
         );
       }
     };
@@ -621,7 +613,11 @@ class SearchPage extends React.Component {
     const searchButton = () => {
       return (
         <RaisedButton
-          onClick={this.submit}
+          onClick={(event) => {
+            this.submit(event);
+            updateFromDate(null, '');
+            updateToDate(null, '');
+          }}
           label='Create Trip'
           disabled={!store.authenticated}
         />
@@ -656,36 +652,40 @@ class SearchPage extends React.Component {
               <CardText
                 expandable={true}
               >
-                <div style={styles.tripDatesCard}>
-                  <div style={styles.tripDatesHeaders}>Trip Dates:</div>
-                  <div>
-                    <DatePicker
-                      floatingLabelText="From"
-                      autoOk={true}
-                      onChange={updateFromDate}
-                      minDate={today}
-                    />
-                    <DatePicker
-                      floatingLabelText="To"
-                      autoOk={true}
-                      onChange={updateToDate}
-                      // defaultDate={} // set default "to" date as the "from" date?
-                      minDate={store.minToDate}
-                    />
-                  </div>
-                  <br />
-                  <div>
-                    <div style={styles.tripDatesHeaders}> {message} </div>
-                    <TextField
-                      id='city'
-                      value={store.city}
-                      onChange={this.updateCity}
-                      onKeyUp={this.handleEnterKey}
-                    />
+                {store.authenticated ? (
+                  <div style={styles.tripDatesCard}>
+                    <div style={styles.tripDatesHeaders}>Trip Dates:</div>
+                    <div>
+                      <DatePicker
+                        floatingLabelText="From"
+                        autoOk={true}
+                        onChange={updateFromDate}
+                        minDate={today}
+                      />
+                      <DatePicker
+                        floatingLabelText="To"
+                        autoOk={true}
+                        onChange={updateToDate}
+                        // defaultDate={} // set default "to" date as the "from" date?
+                        minDate={store.minToDate}
+                      />
+                    </div>
                     <br />
-                    {searchButton()}
+                    <div>
+                      <div style={styles.tripDatesHeaders}> {message} </div>
+                      <TextField
+                        id='city'
+                        value={store.city}
+                        onChange={this.updateCity}
+                        onKeyUp={this.handleEnterKey}
+                      />
+                      <br />
+                      {searchButton()}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div>Please log in to create a new trip!</div>
+                )}
               </CardText>
             </Card>
           </div>
