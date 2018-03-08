@@ -34,12 +34,12 @@ const Hotels = (props) => {
           style={styles.gridList}
         >
           {props.hotels.map((hotel) => {
-            if (hotel.logo) {
+            if (hotel.icon) {
               return (
                 <GridTile
                   key={hotel.id}
-                  title={<a style={styles.anchor} href={hotel.url} target='_blank'>{hotel.name.text}</a>}
-                  subtitle={`${moment(hotel.start.local).format('MM/DD/YY hh:mm A')} - ${moment(hotel.end.local).format('MM/DD/YY hh:mm A')}`}
+                  title={<a style={styles.anchor} href={hotel.url} target='_blank'>{hotel.name}</a>}
+                  // subtitle={`${moment(hotel.start.local).format('MM/DD/YY hh:mm A')} - ${moment(hotel.end.local).format('MM/DD/YY hh:mm A')}`}
                   actionIcon={
                     <IconButton
                       onClick={
@@ -54,14 +54,14 @@ const Hotels = (props) => {
                     autoHideDuration={3000}
                     onRequestClose={props.onRequestClose}
                   />
-                  <img src={hotel.logo.url} alt='' />
+                  <img src={hotel.icon} alt='' />
                 </GridTile>
               );
             } else {
               return (
                 <GridTile
                   key={hotel.id}
-                  title={hotel.name.text}
+                  title={hotel.name}
                   subtitle='date range'
                   actionIcon={
                     <IconButton
