@@ -158,10 +158,13 @@ const getTripsEvents = (trips, callback) => {
       fullTrips[i].events = events;
       db.getTripRestaurants(tripID, function(err, food) {
         fullTrips[i].eatin = food;
-        numFinished++;
-        if (numFinished === trips.length) {
-          callback(null, fullTrips);
-        }
+        db.getTripEvents(tripID, function(err, hotels) {
+        fullTrips[i].hotels = hotels;
+          numFinished++;
+          if (numFinished === trips.length) {
+            callback(null, fullTrips);
+          }
+        });
       });
     });
   }
@@ -326,6 +329,63 @@ app.get('/foods', (req, res) => {
     }
   });
 });
+
+/******************************** Search - Hotels *****************************/
+
+app.post('/hotels', function(req, res) {
+  const city = req.body.tripCity;
+  const query = req.body.hotelQuery;
+  const toDate = req.body.tripToDate;
+  const fromDate = req.body.tripFromDate;
+  eventbrite.searchHotels(query, city, fromDate, toDate, (err, data) => {
+
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200);
+      res.status(200).json(data);
+    }
+  });
+});
+
+app.post('/hotels/remove', function(req, res) {
+
+  db.remove('hotel', req.body.hotelID, function(err) {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).end();
+    }
+  });
+});
+
+app.post('/hotels/add', function(req,res) {
+  const hotel = req.body.tripHotel;
+  const tripId = req.body.tripId;
+  db.addHotelToTrip(hotel, tripId, function(err) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      res.status(201).end();
+    }
+  });
+});
+
+app.get('/hotels', (req, res) => {
+  console.log(req.query);
+  const tripId = req.query.tripId;
+
+  db.getTripHotels(tripId, function(err, data) {
+    if (err) {
+      res.status(500).end(err);
+    } else {
+      // console.log(data);
+      res.status(200).json({ hotels: data });
+    }
+  });
+});
+
 
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
