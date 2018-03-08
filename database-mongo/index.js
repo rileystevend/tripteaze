@@ -126,16 +126,10 @@ let addNewTrip = (username, city, fromDate, toDate, callback) => {
   });
 };
 
-const dbtest = async () => {
-  let user = await User.findOne({name: 'shahzeb'});
-  console.log('user', user);
-  return user;
-};
-
 const addRestaurantToTrip = async (food, tripId) => {
   //let user = await User.findOne({name: username});
   let trip = await Trip.findOne({id: tripId});
-  let addrest =  await Restaurant.findOneAndUpdate(
+  let addRest =  await Restaurant.findOneAndUpdate(
     {id: food.restaurant.id},
     {$set: {
       id: food.restaurant.id,
@@ -149,15 +143,14 @@ const addRestaurantToTrip = async (food, tripId) => {
       trip: trip.id
     }
     }, {upsert: true, new: true});
-  console.log('addrest', addrest);
-  return addrest;
+  return addRest;
 };
 
 
 let addEventToTrip = async (event, tripId) => {
   let trip = await Trip.findOne({id: tripId});
 
-  let eventcall = await Event.findOneAndUpdate({id: event.id},
+  let addEvent = await Event.findOneAndUpdate({id: event.id},
     {$set: {
       name: event.name.text,
       description: event.description.text,
@@ -173,7 +166,7 @@ let addEventToTrip = async (event, tripId) => {
       trip: trip.id
     }},
     {upsert: true, new: true}); //requires new option or will return null
-  return eventcall;
+  return addEvent;
 };
 
 //for signup page-takes in username and password and adds user info to database
@@ -229,54 +222,6 @@ let showUserTrips = (username, callback) => {
     }
   });
 };
-
-// let showTripEvents = (tripId, username, city, callback) => {
-// //first find corresponding user
-//   User.findOne({name: username}, function(err, user) {
-//     if (err || user === null) {
-//       console.log('error: ', err);
-//       callback(err);
-//     } else {
-//       //then find trip based on selected user and city
-//       Trip.findOne({user: user.id, city: city}, function(err, trip) {
-//         if (err || trip === null) {
-//           console.log('error', err);
-//           callback(err);
-//         } else {
-//           if (err) {
-//             callback(err, null);
-//           } else {
-//             getTripEvents(trip.id, callback);
-//           }
-//         }
-//       });
-//     }
-//   });
-// };
-
-// let showTripRestaurants = async (username, city, callback) => {
-//   //first find corresponding user
-//   User.findOne({ name: username }, function(err, user) {
-//     if (err || user === null) {
-//       console.log('error: ', err);
-//       callback(err);
-//     } else {
-//       //then find trip based on selected user and city
-//       Trip.findOne({ user: user.id, city: city }, function(err, trip) {
-//         if (err || trip === null) {
-//           console.log('error', err);
-//           callback(err);
-//         } else {
-//           if (err) {
-//             callback(err, null);
-//           } else {
-//             getTripRestaurants(trip.id, callback);
-//           }
-//         }
-//       });
-//     }
-//   });
-// };
 
 
 //allows user to update whether trip is public, archived, and/or if the trip dates changed
@@ -381,6 +326,16 @@ let remove = (modelType, ID, callback) => {
         callback();
       }
     });
+  } else if (modelType === 'hotel') {
+    Hotel.remove( {id: ID}, function(err) {
+      if (err) {
+        callback(err);
+        console.log('error: ',err);
+        callback(err);
+      } else {
+        callback();
+      }
+    });
   } else {
     console.log('must specify correct model type to remove');
     // callback(err); // there is no err here...
@@ -408,12 +363,9 @@ module.exports = {
   remove,
   showAllPublicTrips,
   userExists,
-  // showTripEvents,
-  // showTripRestaurants,
   getTripRestaurants,
   getTripEvents,
   getTripHotels,
-  dbtest
 };
 
 // module.exports.addNewTrip = addNewTrip;
