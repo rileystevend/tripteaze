@@ -747,13 +747,13 @@ class SearchPage extends React.Component {
             <Paper style={styles.activityContainer}>
               <div style={styles.activityTitle}>Hotels</div>
                <div style={styles.searchBar}>
-                <TextField
+{/*                <TextField
                   id = 'hotel'
                   onChange = {this.updateHotelQuery}
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
                   onKeyUp={this.handleEnterKey}
-                />
+                />*/}
                 <RaisedButton
                   onClick={this.submitHotelQuery}
                   label='Search'
