@@ -23,7 +23,7 @@ const styles = {
     color: 'white'
   }
 };
-//these are search results for events
+//these are search results for hotels
 const Hotels = (props) => {
 
   if (props.hotels.length !== 0) {

@@ -66,6 +66,20 @@ let restaurantSchema = Schema({
   trip: {type: Schema.Types.ObjectId, ref: 'Trip'}
 });
 
+let hotelSchema = Schema({
+  id: {type: Number, index: true},
+  name: String,
+  url: String,
+  address: String,
+  zip: Number,
+  logo: String,
+  //latitude and longitude coordinates are placed in 'location' property
+  location: [{type: Number}],
+  price: Number,
+  //need to make sure each restaurant or event has a reference trip
+  trip: {type: Schema.Types.ObjectId, ref: 'Trip'}
+});
+
 
 let eventSchema = Schema({
   id: {type: Number, index: true},
@@ -87,6 +101,7 @@ let User = mongoose.model('User', userSchema);
 let Trip = mongoose.model('Trip', tripSchema);
 let Restaurant = mongoose.model('Restaurant', restaurantSchema);
 let Event = mongoose.model('Event', eventSchema);
+let Hotel = mongoose.model('Hotel', hotelSchema);
 
 let addNewTrip = (username, city, fromDate, toDate, callback) => {
   User.findOne({name: username}, function(err, user) {
@@ -321,6 +336,16 @@ let getTripRestaurants = (tripID, callback) => {
   });
 };
 
+let getTripHotels = (tripID, callback) => {
+  Hotel.find({ trip: tripID }, function(err, eatin) {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, eatin);
+    }
+  });
+};
+
 //removal function assumes we know the ID of the restaurant, event,
 //or trip that we are wanting to remove from the database
 let remove = (modelType, ID, callback) => {
@@ -384,6 +409,7 @@ module.exports = {
   // showTripRestaurants,
   getTripRestaurants,
   getTripEvents,
+  getTripHotels,
   dbtest
 };
 
