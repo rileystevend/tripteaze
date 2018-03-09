@@ -679,6 +679,7 @@ class SearchPage extends React.Component {
                         value={store.city}
                         onChange={this.updateCity}
                         onKeyUp={this.handleEnterKey}
+                        fullWidth={true}
                       />
                       <br />
                       {searchButton()}
@@ -703,7 +704,7 @@ class SearchPage extends React.Component {
                 showExpandableButton={true}
               />
               <CardText
-                expandable={true}
+                expandable={false}
               >
                 {dropdown()}
               </CardText>
@@ -723,6 +724,7 @@ class SearchPage extends React.Component {
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
                   onKeyUp={this.handleEnterKey}
+                  fullWidth={true}
                 />
                 <RaisedButton
                   onClick={this.submitEventQuery}
@@ -776,6 +778,7 @@ class SearchPage extends React.Component {
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
                   onKeyUp={this.handleEnterKey}
+                  fullWidth={true}
                 />
                 <RaisedButton
                   onClick={this.submitFoodQuery}
