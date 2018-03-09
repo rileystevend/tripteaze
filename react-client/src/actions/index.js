@@ -334,16 +334,16 @@ export const deactivateFoodSnackbar = () => ({type: 'DEACTIVATE_FOOD_SNACKBAR'})
 
 export const updateHotelQuery = (query) => ({ type: 'UPDATE_HOTEL_QUERY', payload: query });
 
-export const searchHotels = (city, query, fromDate, toDate) => {
+export const searchHotels = (city,/* query, fromDate, toDate*/) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/hotels',
       data: {
         tripCity: city,
-        hotelQuery: query,
-        tripFromDate: fromDate,
-        tripToDate: toDate
+        // hotelQuery: query,
+        // tripFromDate: fromDate,
+        // tripToDate: toDate
       }
     }).then(
       ({ data }) => {
@@ -360,18 +360,18 @@ export const searchHotels = (city, query, fromDate, toDate) => {
 
 const updateHotelResults = (searchResults) => ({ type: 'UPDATE_HOTEL_RESULTS', payload: searchResults });
 
-export const addHotelToTrip = (hotel, id ) => {
+export const addHotelToTrip = (hotel, tripId ) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/hotels/add',
       data: {
         tripHotel: hotel,
-        tripId: id
+        tripId: tripId
       }
     }).then(
       () => {
-        dispatch(fetchHotelsFromTrip(username, city));  //DON'T YOU FUCKING DO IT STEVEN!!!!!!!!!! USE TRIP ID!
+        dispatch(fetchHotelsFromTrip(tripId));
         dispatch(activateHotelSnackbar());
       },
       error => dispatch(badStuff(error))
@@ -379,15 +379,14 @@ export const addHotelToTrip = (hotel, id ) => {
   };
 };
 
-export const fetchHotelsFromTrip = (username, city) => {
+export const fetchHotelsFromTrip = (tripId) => {
   //dispatch({ type: 'LOADING' });
   return (dispatch) => {
     return axios({
       method: 'get',
       url: '/hotels',
       params: {
-        tripUser: username,
-        tripCity: city
+        tripId: tripId
       }
     }).then(
       results => {dispatch(setTripHotels(results.data.hotels));},
@@ -396,7 +395,7 @@ export const fetchHotelsFromTrip = (username, city) => {
   };
 };
 
-const setTripHotels = (hotels) => ({ type: 'REFRESH_HOTEL_hotelS', payload: hotels });
+const setTripHotels = (hotels) => ({ type: 'REFRESH_TRIP_HOTELS', payload: hotels });
 
 export const activateHotelSnackbar = () => ({type: 'ACTIVATE_HOTEL_SNACKBAR'});
 
@@ -451,6 +450,22 @@ export const deleteFood = (food, tripId) => {
     }).then(
       () => { dispatch(fetchFoodFromTrip(tripId)); },
       error => { dispatch(badStuff(error)); }
+    );
+  };
+};
+
+export const deleteHotel = (hotel, tripId) => {
+  console.log('delete!');
+  return (dispatch) => {
+    return axios ({
+      method: 'post',
+      url: '/hotels/remove',
+      data: {
+        hotelID: hotel.id
+      }
+    }).then (
+      () => { dispatch(fetchHotelsFromTrip(tripId)); },
+      error => {dispatch(badStuff(error));}
     );
   };
 };

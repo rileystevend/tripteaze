@@ -17,7 +17,6 @@ import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import DatePicker from 'material-ui/DatePicker';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { cyan800, cyan900 } from 'material-ui/styles/colors';
 import * as theme from './homePage.jsx';  // * does all named exports from that file
@@ -100,6 +99,7 @@ export const styles = {
 class SearchPage extends React.Component {
   constructor(props) {
     super(props);
+
     console.log('props.store.userTrips[props.store.activeTrip.index]', props.store.userTrips[props.store.activeTrip.index]);
     if (props.store.userTrips.length !== 0  && props.store.activeTrip.status) {
       this.state = {
@@ -250,7 +250,7 @@ class SearchPage extends React.Component {
     let actions = this.props.actions;
 
     event.preventDefault();  //prevent refresh, might not need this anymore
-    if ((store.activeTrip.status || store.city) && store.hotelQuery) {
+    if ((store.activeTrip.status || store.city)) {
       // let city = store.activeTrip.status ? this.state.activeCity : store.city; //lets you maybe search on a city without creating a trip
       actions.searchHotels(this.state.activeCity, store.hotelQuery, this.state.activeFromDate, this.state.activeToDate);
     } else {
@@ -275,9 +275,9 @@ class SearchPage extends React.Component {
       messageFood = '';
     } else {
       message = `You're going to ${activeCity}! \n Or plan a different trip: `;
-      messageEvents = `Type a keyword to find events in ${activeCity}!`;
-      messageHotels = 'Now add a hotel for your stay!';
-      messageFood= `Or search for food in ${activeCity}!`;
+      messageEvents = `Type a keyword to find events in ${activeCity}!`; // eslint-disable-line
+      messageHotels = 'Now add a hotel for your stay!'; // eslint-disable-line
+      messageFood= `Or search for food in ${activeCity}!`; // eslint-disable-line
     }
 
     /*************************** DATE SELECTION STUFF ***************************/
@@ -405,6 +405,7 @@ class SearchPage extends React.Component {
     ];
 
     const drawer = () => {
+      console.log('searchpage store', store);
       if (store.activeTrip.status) {
         let activeTrip = store.userTrips[store.activeTrip.index];
         if (activeTrip) {
@@ -490,7 +491,7 @@ class SearchPage extends React.Component {
                   />))}
               </div>
 
-              {/*{showActivityDiv('hotel', activeTrip)}
+              {showActivityDiv('hotel', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.hotels.map((hotel, index) =>
                   (<Activity
@@ -502,7 +503,7 @@ class SearchPage extends React.Component {
                     city={this.state.activeCity}
                     deleteHotel={actions.deleteHotel}
                   />))}
-              </div>*/}
+              </div>
 
               {showActivityDiv('eatin', activeTrip)}
               <div style={tripStyle.styles.tripDetails}>

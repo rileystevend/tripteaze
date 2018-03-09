@@ -67,6 +67,20 @@ let restaurantSchema = Schema({
   trip: {type: Schema.Types.ObjectId, ref: 'Trip'}
 });
 
+let hotelSchema = Schema({
+  id: {type: String, index: true},
+  name: String,
+  url: String,
+  address: String,
+  zip: Number,
+  logo: String,
+  //latitude and longitude coordinates are placed in 'location' property
+  location: [{type: Number}],
+  price: Number,
+  //need to make sure each restaurant or event has a reference trip
+  trip: {type: Schema.Types.ObjectId, ref: 'Trip'}
+});
+
 
 let eventSchema = Schema({
   id: {type: Number, index: true},
@@ -88,6 +102,7 @@ let User = mongoose.model('User', userSchema);
 let Trip = mongoose.model('Trip', tripSchema);
 let Restaurant = mongoose.model('Restaurant', restaurantSchema);
 let Event = mongoose.model('Event', eventSchema);
+let Hotel = mongoose.model('Hotel', hotelSchema);
 
 let addNewTrip = (username, city, fromDate, toDate, callback) => {
   User.findOne({name: username}, function(err, user) {
@@ -111,16 +126,9 @@ let addNewTrip = (username, city, fromDate, toDate, callback) => {
   });
 };
 
-const dbtest = async () => {
-  let user = await User.findOne({name: 'shahzeb'});
-  console.log('user', user);
-  return user;
-};
-
 const addRestaurantToTrip = async (food, tripId) => {
-  //let user = await User.findOne({name: username});
   let trip = await Trip.findOne({id: tripId});
-  let addrest =  await Restaurant.findOneAndUpdate(
+  let addRest =  await Restaurant.findOneAndUpdate(
     {id: food.restaurant.id},
     {$set: {
       id: food.restaurant.id,
@@ -134,15 +142,36 @@ const addRestaurantToTrip = async (food, tripId) => {
       trip: trip.id
     }
     }, {upsert: true, new: true});
-  console.log('addrest', addrest);
-  return addrest;
+  return addRest;
 };
 
+
+let addHotelToTrip = async (hotel, tripId) => {
+  let trip = await Trip.findOne({id: tripId});
+  //then add event to database based on trip ID
+  //need to look at eventbrite API for structure
+  return Hotel.findOneAndUpdate({id: hotel.id},
+    {$set: {
+      name: hotel.name,
+      // description: event.description.text,
+      id: hotel.place_id,
+      // url: event.url,
+      // start_time: event.start.local,
+      // end_time: event.end.local,
+      // is_free: event.is_free,
+      // organizer_id: event.organizer_id,
+      // venue_id: event.venue_id,
+      // category_id: event.category_id,
+      logo: hotel.icon,
+      trip: trip.id
+    }},
+    {upsert: true, new: true});
+};
 
 let addEventToTrip = async (event, tripId) => {
   let trip = await Trip.findOne({id: tripId});
 
-  let eventcall = await Event.findOneAndUpdate({id: event.id},
+  let addEvent = await Event.findOneAndUpdate({id: event.id},
     {$set: {
       name: event.name.text,
       description: event.description.text,
@@ -158,7 +187,7 @@ let addEventToTrip = async (event, tripId) => {
       trip: trip.id
     }},
     {upsert: true, new: true}); //requires new option or will return null
-  return eventcall;
+  return addEvent;
 };
 
 //for signup page-takes in username and password and adds user info to database
@@ -214,54 +243,6 @@ let showUserTrips = (username, callback) => {
     }
   });
 };
-
-// let showTripEvents = (tripId, username, city, callback) => {
-// //first find corresponding user
-//   User.findOne({name: username}, function(err, user) {
-//     if (err || user === null) {
-//       console.log('error: ', err);
-//       callback(err);
-//     } else {
-//       //then find trip based on selected user and city
-//       Trip.findOne({user: user.id, city: city}, function(err, trip) {
-//         if (err || trip === null) {
-//           console.log('error', err);
-//           callback(err);
-//         } else {
-//           if (err) {
-//             callback(err, null);
-//           } else {
-//             getTripEvents(trip.id, callback);
-//           }
-//         }
-//       });
-//     }
-//   });
-// };
-
-// let showTripRestaurants = async (username, city, callback) => {
-//   //first find corresponding user
-//   User.findOne({ name: username }, function(err, user) {
-//     if (err || user === null) {
-//       console.log('error: ', err);
-//       callback(err);
-//     } else {
-//       //then find trip based on selected user and city
-//       Trip.findOne({ user: user.id, city: city }, function(err, trip) {
-//         if (err || trip === null) {
-//           console.log('error', err);
-//           callback(err);
-//         } else {
-//           if (err) {
-//             callback(err, null);
-//           } else {
-//             getTripRestaurants(trip.id, callback);
-//           }
-//         }
-//       });
-//     }
-//   });
-// };
 
 
 //allows user to update whether trip is public, archived, and/or if the trip dates changed
@@ -324,6 +305,16 @@ let getTripRestaurants = (tripID, callback) => {
   });
 };
 
+let getTripHotels = (tripID, callback) => {
+  Hotel.find({ trip: tripID }, function(err, hotel) {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, hotel);
+    }
+  });
+};
+
 //removal function assumes we know the ID of the restaurant, event,
 //or trip that we are wanting to remove from the database
 let remove = (modelType, ID, callback) => {
@@ -340,6 +331,16 @@ let remove = (modelType, ID, callback) => {
     Event.remove( {id: ID}, function(err) {
       if (err) {
         callback(err);
+        console.log('error: ',err);
+        callback(err);
+      } else {
+        callback();
+      }
+    });
+  } else if (modelType === 'hotel') {
+    console.log('hotel id', ID);
+    Hotel.remove( {id: ID}, function(err) {
+      if (err) {
         console.log('error: ',err);
         callback(err);
       } else {
@@ -375,6 +376,7 @@ let showAllPublicTrips = (callback) => {
 module.exports = {
   addNewTrip,
   addRestaurantToTrip,
+  addHotelToTrip,
   addEventToTrip,
   addNewUser,
   retrieveUserPassword,
@@ -383,11 +385,9 @@ module.exports = {
   remove,
   showAllPublicTrips,
   userExists,
-  // showTripEvents,
-  // showTripRestaurants,
   getTripRestaurants,
   getTripEvents,
-  dbtest
+  getTripHotels,
 };
 
 // module.exports.addNewTrip = addNewTrip;

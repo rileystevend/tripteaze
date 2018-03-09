@@ -52,6 +52,8 @@ class UserPage extends React.Component {
   }
 
   generateMessage() {
+    //usertrips is undefined
+    console.log('this.props.store', this.props.store);
     if (this.props.store.userTrips.length === 0) {
       return (
         <div>
@@ -154,7 +156,7 @@ class UserPage extends React.Component {
               {/************************** USER'S TRIPS **************************/}
               {store.userTrips.map((trip, index) =>
                 <Trip
-
+                  store={store}
                   key={index}
                   index={index}
                   user={store.username}

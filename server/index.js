@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const db = require('../database-mongo/index.js');
 const eventbrite = require('../APIhelper/eventbrite.js');
+const google = require('../APIhelper/google.js');
 const zomato = require('../APIhelper/zomatoHelper.js');
 const path = require('path');
 // const moment = require('moment');
@@ -158,10 +159,13 @@ const getTripsEvents = (trips, callback) => {
       fullTrips[i].events = events;
       db.getTripRestaurants(tripID, function(err, food) {
         fullTrips[i].eatin = food;
-        numFinished++;
-        if (numFinished === trips.length) {
-          callback(null, fullTrips);
-        }
+        db.getTripHotels(tripID, function(err, hotels) {
+          fullTrips[i].hotels = hotels;
+          numFinished++;
+          if (numFinished === trips.length) {
+            callback(null, fullTrips);
+          }
+        });
       });
     });
   }
@@ -249,24 +253,19 @@ app.post('/events/add', async function(req,res) {
   const tripId = req.body.tripId;
   let addedEvent = await db.addEventToTrip(event, tripId);
   if (addedEvent) {
-    console.log('success /events/add', addedEvent);
     res.status(201).end();
   } else {
-    console.log('error /events/add', addedEvent);
     res.status(500).send();
   }
 });
 
 app.get('/events', (req, res) => {
-  console.log(req.query);
   const tripId = req.query.tripId;
 
   db.getTripEvents(tripId, function(err, data) {
     if (err) {
-      console.log('error /events');
       res.status(500).end(err);
     } else {
-      console.log('success /events');
       res.status(200).json({ events: data });
     }
   });
@@ -313,10 +312,8 @@ app.post('/foods/add', async function(req, res) {
 
   let addedFood = await db.addRestaurantToTrip(food, tripId);
   if (addedFood) {
-    console.log('success', addedFood);
     res.status(201).end();
   } else {
-    console.log('err', addedFood);
     res.status(500).end();
   }
 });
@@ -331,6 +328,61 @@ app.get('/foods', (req, res) => {
     }
   });
 });
+
+/******************************** Search - Hotels *****************************/
+
+app.post('/hotels', function(req, res) {
+  const city = req.body.tripCity;
+  // const query = req.body.hotelQuery;
+  // const toDate = req.body.tripToDate;
+  // const fromDate = req.body.tripFromDate;
+  google.searchHotels(/*query, */city, /*fromDate, toDate, */(err, data) => {
+
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200);
+      res.status(200).json(data);
+    }
+  });
+});
+
+app.post('/hotels/remove', function(req, res) {
+  db.remove('hotel', req.body.hotelID, function(err) {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).end();
+    }
+  });
+});
+
+app.post('/hotels/add', async function(req,res) {
+  const hotel = req.body.tripHotel;
+  const tripId = req.body.tripId;
+
+  let addedHotel = await db.addHotelToTrip(hotel, tripId);
+
+  if (addedHotel) {
+    res.status(201).end();
+  } else {
+    res.status(500).end();
+  }
+});
+
+app.get('/hotels', (req, res) => {
+
+  const tripId = req.query.tripId;
+
+  db.getTripHotels(tripId, function(err, data) {
+    if (err) {
+      res.status(500).end(err);
+    } else {
+      res.status(200).json({ hotels: data });
+    }
+  });
+});
+
 
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
