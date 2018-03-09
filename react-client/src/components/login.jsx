@@ -101,6 +101,7 @@ class Login extends React.Component {
               type="text"
               onChange={this.changeUsername}
               onKeyUp={this.handleEnterKey}
+              fullWidth={true}
             />
 
             <br />
@@ -111,6 +112,7 @@ class Login extends React.Component {
               type="password"
               onChange={this.changePassword}
               onKeyUp={this.handleEnterKey}
+              fullWidth={true}
             />
           </Dialog>
         </div>

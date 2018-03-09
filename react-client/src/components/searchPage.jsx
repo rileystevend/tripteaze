@@ -18,7 +18,7 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import DatePicker from 'material-ui/DatePicker';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { cyan800, cyan900 } from 'material-ui/styles/colors';
+import { deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
 import * as theme from './homePage.jsx';  // * does all named exports from that file
 import * as tripStyle from './trip.jsx';
 
@@ -41,7 +41,7 @@ export const styles = {
   },
   activityTitle: {
     backgroundColor: '#f9f9f9',
-    color: cyan800,
+    color: deepOrange800,
     fontSize: 20,
     fontWeight: 'bold',
     padding: '1%',
@@ -86,7 +86,7 @@ export const styles = {
   },
   tripDatesHeaders: {
     backgroundColor: '#f9f9f9',
-    color: cyan900,
+    color: deepOrange900,
     fontSize: 15,
     fontWeight: 'bold',
     padding: '1%',
@@ -101,7 +101,7 @@ class SearchPage extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log('props.store.userTrips[props.store.activeTrip.index]', props.store.userTrips[props.store.activeTrip.index]);
+    // console.log('props.store.userTrips[props.store.activeTrip.index]', props.store.userTrips[props.store.activeTrip.index]);
     if (props.store.userTrips.length !== 0  && props.store.activeTrip.status) {
       this.state = {
         open: true,
@@ -349,6 +349,7 @@ class SearchPage extends React.Component {
             <SelectField
               value={this.state.dropdown}
               onChange={this.updateCity}
+              style={{width: '100%'}}
             >
               <MenuItem primaryText="Make a New Trip" />
               {store.userTrips.map((trip, index) =>
@@ -400,7 +401,6 @@ class SearchPage extends React.Component {
     ];
 
     const drawer = () => {
-      console.log('searchpage store', store);
       if (store.activeTrip.status) {
         let activeTrip = store.userTrips[store.activeTrip.index];
         if (activeTrip) {
@@ -443,12 +443,12 @@ class SearchPage extends React.Component {
                     onRequestClose={() => this.setState({editDatesOpen: false})}
                   >
                     <div
-                      style={{color: cyan800}}
+                      style={{color: deepOrange800}}
                     >Trip Dates for {this.state.activeCity}:
                     </div>
 
                     <div style={{
-                      color: cyan900,
+                      color: deepOrange900,
                       fontWeight: 'bold',
                     }}>{fromDate} - {toDate}</div>
 
@@ -490,6 +490,7 @@ class SearchPage extends React.Component {
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.hotels.map((hotel, index) =>
                   (<Activity
+                    store={store}
                     key={index}
                     sidebar="true"
                     type="hotel"
@@ -628,7 +629,7 @@ class SearchPage extends React.Component {
           {navLinks()}
           {/******************************* HEADER *******************************/}
           <div style={theme.styles.header}>
-            <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
+            <Link to="/" style={{textDecoration: 'none', color: deepOrange900}}>
               TripTeaze
             </Link>
           </div>
@@ -657,6 +658,7 @@ class SearchPage extends React.Component {
                         autoOk={true}
                         onChange={updateFromDate}
                         minDate={today}
+                        textFieldStyle={{width: '100%'}}
                       />
                       <DatePicker
                         floatingLabelText="To"
@@ -664,6 +666,7 @@ class SearchPage extends React.Component {
                         onChange={updateToDate}
                         // defaultDate={} // set default "to" date as the "from" date?
                         minDate={store.minToDate}
+                        textFieldStyle={{width: '100%'}}
                       />
                     </div>
                     <br />
@@ -674,6 +677,7 @@ class SearchPage extends React.Component {
                         value={store.city}
                         onChange={this.updateCity}
                         onKeyUp={this.handleEnterKey}
+                        fullWidth={true}
                       />
                       <br />
                       {searchButton()}
@@ -698,7 +702,7 @@ class SearchPage extends React.Component {
                 showExpandableButton={true}
               />
               <CardText
-                expandable={true}
+                expandable={false}
               >
                 {dropdown()}
               </CardText>
@@ -718,6 +722,7 @@ class SearchPage extends React.Component {
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
                   onKeyUp={this.handleEnterKey}
+                  fullWidth={true}
                 />
                 <RaisedButton
                   onClick={this.submitEventQuery}
@@ -771,6 +776,7 @@ class SearchPage extends React.Component {
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
                   onKeyUp={this.handleEnterKey}
+                  fullWidth={true}
                 />
                 <RaisedButton
                   onClick={this.submitFoodQuery}
