@@ -118,8 +118,8 @@ const reducer = function(state = initialState, action) {  //if state is undefine
     const oldTripHotel = state.userTrips[state.activeTrip.index];
     const newTripHotel = Object.assign({}, oldTripHotel, { hotels: action.payload });
     const newTripsHotel = state.userTrips.slice();
-    newTripsHotel.splice(state.activeTrip.index, 1, newTrip);
-    return Object.assign({}, state, { userTrips: newTrips });
+    newTripsHotel.splice(state.activeTrip.index, 1, newTripHotel);
+    return Object.assign({}, state, { userTrips: newTripsHotel });
   default:
     return state;  //if unrecognized action type nothing happens
   }

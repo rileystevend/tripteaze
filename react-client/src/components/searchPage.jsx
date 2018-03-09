@@ -406,8 +406,9 @@ class SearchPage extends React.Component {
     ];
 
     const drawer = () => {
-      if (props.store.activeTrip.status) {
-        let activeTrip = props.store.userTrips[props.store.activeTrip.index];
+      console.log('searchpage store', store);
+      if (store.activeTrip.status) {
+        let activeTrip = store.userTrips[store.activeTrip.index];
         if (activeTrip) {
           let fromDate = moment(activeTrip.fromDate).format('MM/DD/YY');
           let toDate = moment(activeTrip.toDate).format('MM/DD/YY');
@@ -496,15 +497,15 @@ class SearchPage extends React.Component {
                 {activeTrip.hotels.map((hotel, index) =>
                   (
                     <Activity
-                    store={store}
-                    key={index}
-                    sidebar = 'true'
-                    type='hotel'
-                    activity={hotel}
-                    user={store.username}
-                    city={this.state.activeCity}
-                    deleteHotel={actions.deleteHotel}
-                  />))}
+                      store={store}
+                      key={index}
+                      sidebar = 'true'
+                      type='hotel'
+                      activity={hotel}
+                      user={store.username}
+                      city={this.state.activeCity}
+                      deleteHotel={actions.deleteHotel}
+                    />))}
               </div>
 
               {showActivityDiv('eatin', activeTrip)}
@@ -741,14 +742,14 @@ class SearchPage extends React.Component {
             {/************************** SEARCH HotelS **************************/}
             <Paper style={styles.activityContainer}>
               <div style={styles.activityTitle}>Hotels</div>
-               <div style={styles.searchBar}>
-{/*                <TextField
+              <div style={styles.searchBar}>
+                <TextField
                   id = 'hotel'
                   onChange = {this.updateHotelQuery}
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
                   onKeyUp={this.handleEnterKey}
-                />*/}
+                />
                 <RaisedButton
                   onClick={this.submitHotelQuery}
                   label='Search'
