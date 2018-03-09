@@ -5,17 +5,12 @@ import moment from 'moment';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton/';
 // import { deepOrange50, deepOrange100, deepOrange200, deepOrange300, deepOrange400, deepOrange500, deepOrange600, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
-import { deepOrange500, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
+import { cyan800, cyan700, cyan500, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
 
 export const styles = {
   anchor: {
-<<<<<<< HEAD
-    color: deepOrange700,
-    textDecoration: 'none'
-=======
     color: cyan700,
     textDecoration: 'none',
->>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
   },
   cardTitle: {
     fontSize: 15,
@@ -23,21 +18,14 @@ export const styles = {
     lineHeight: '0 !important',
   },
   cardSubtitle: {
-<<<<<<< HEAD
-    color: deepOrange500,
-    fontSize: 13
-  }
-=======
     color: cyan500,
     fontSize: 13,
   },
->>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
 };
 
 let Activity = (props) => {
   let cardStyle = {};
-  console.log('props.key', props.key);
-  // console.log('activity props.store', props.store);
+  console.log('activity props.store', props.store);
   if (props.sidebar) {
     cardStyle = { textAlign: 'left', margin: '5px'};
   } else {
@@ -56,7 +44,7 @@ let Activity = (props) => {
           <CardActions>
             <FlatButton
               onClick={() => props.deleteEvent(props.activity,props.store.userTrips[props.store.activeTrip.index].id)}
-              label='Remove'
+              label="Remove"
             />
           </CardActions>
         );
@@ -64,8 +52,8 @@ let Activity = (props) => {
         return (
           <CardActions>
             <FlatButton
-              onClick= {() => props.deleteFood(props.activity,props.store.userTrips[props.store.activeTrip.index].id)}
-              label = 'Remove'
+              onClick={() => props.deleteFood(props.activity,props.store.userTrips[props.store.activeTrip.index].id)}
+              label="Remove"
             />
           </CardActions>
         );
@@ -73,8 +61,8 @@ let Activity = (props) => {
         return (
           <CardActions>
             <FlatButton
-              onClick= {() => props.deleteHotel(props.activity, props.store.userTrips[props.store.activeTrip.index].id)}
-              label = 'Remove'
+              onClick={() => props.deleteHotel(props.activity, props.store.userTrips[props.store.activeTrip.index].id)}
+              label="Remove"
             />
           </CardActions>
         );
@@ -116,20 +104,20 @@ let Activity = (props) => {
     return (
       <Card style={cardStyle}>
         <CardMedia>
-          <img src={props.activity.logo} alt ='' />
+          <img src={props.activity.logo} alt="" />
         </CardMedia>
 
         <CardTitle
-          title = {
+          title={
             <a
               href={props.activity.url}
-              target='_blank'
+              target="_blank"
               style={styles.anchor}
             >{props.activity.name}</a>
           }
-          subtitle = {cardSubtitle}
-          titleStyle = {styles.cardTitle}
-          subtitleStyle = {styles.cardSubtitle}
+          subtitle={cardSubtitle}
+          titleStyle={styles.cardTitle}
+          subtitleStyle={styles.cardSubtitle}
         />
 
         <CardHeader
@@ -150,13 +138,8 @@ let Activity = (props) => {
 
         <CardText
           style={{
-<<<<<<< HEAD
-            color: deepOrange800,
-            fontSize: 12
-=======
             color: cyan800,
             fontSize: 12,
->>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
           }}
           expandable={true}
         >
@@ -204,20 +187,20 @@ let Activity = (props) => {
     return (
       <Card style={cardStyle}>
         <CardMedia>
-          <img src={props.activity.logo} alt ='' />
+          <img src={props.activity.logo} alt="" />
         </CardMedia>
 
         <CardTitle
-          title = {
+          title={
             <a
               href={props.activity.url}
-              target='_blank'
+              target="_blank"
               style={styles.anchor}
             >{props.activity.name}</a>
           }
-          subtitle = {cardSubtitle}
-          titleStyle = {styles.cardTitle}
-          subtitleStyle = {styles.cardSubtitle}
+          subtitle={cardSubtitle}
+          titleStyle={styles.cardTitle}
+          subtitleStyle={styles.cardSubtitle}
         />
 
         <CardHeader
@@ -239,7 +222,7 @@ let Activity = (props) => {
         <CardText
           style={{
             color: deepOrange800,
-            fontSize: 12
+            fontSize: 12,
           }}
           expandable={true}
         >
@@ -267,21 +250,21 @@ let Activity = (props) => {
     return (
       <Card style={cardStyle}>
         <CardMedia>
-          <img src={props.activity.logo} alt ='' />
+          <img src={props.activity.logo} alt="" />
         </CardMedia>
 
         <CardTitle
-          title = {
+          title={
             <a
               href={props.activity.url}
-              target='_blank'
+              target="_blank"
               style={styles.anchor}
             >{props.activity.name}</a>
           }
 
           subtitle={calcDollarSigns(props.activity.price)}
-          titleStyle = {styles.cardTitle}
-          subtitleStyle = {styles.cardSubtitle}
+          titleStyle={styles.cardTitle}
+          subtitleStyle={styles.cardSubtitle}
         />
 
         <CardText>

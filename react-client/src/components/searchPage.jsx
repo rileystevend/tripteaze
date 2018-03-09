@@ -101,7 +101,7 @@ class SearchPage extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log('props.store.userTrips[props.store.activeTrip.index]', props.store.userTrips[props.store.activeTrip.index]);
+    // console.log('props.store.userTrips[props.store.activeTrip.index]', props.store.userTrips[props.store.activeTrip.index]);
     if (props.store.userTrips.length !== 0  && props.store.activeTrip.status) {
       this.state = {
         open: true,
@@ -348,8 +348,8 @@ class SearchPage extends React.Component {
           <div>
             <SelectField
               value={this.state.dropdown}
-              onChange = {this.updateCity}
-              style = {{width: '100%'}}
+              onChange={this.updateCity}
+              style={{width: '100%'}}
             >
               <MenuItem primaryText="Make a New Trip" />
               {store.userTrips.map((trip, index) =>
@@ -490,6 +490,7 @@ class SearchPage extends React.Component {
               <div style={tripStyle.styles.tripDetails}>
                 {activeTrip.hotels.map((hotel, index) =>
                   (<Activity
+                    store={store}
                     key={index}
                     sidebar="true"
                     type="hotel"

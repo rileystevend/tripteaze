@@ -3,7 +3,6 @@ import moment from 'moment';
 
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import moment from 'moment';
 import { deepOrange600, deepOrange900 } from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
 

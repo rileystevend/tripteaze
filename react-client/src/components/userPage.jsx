@@ -5,13 +5,7 @@ import { Link } from 'react-router-dom';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-<<<<<<< HEAD
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import { deepOrange50, deepOrange100, deepOrange200, deepOrange300, deepOrange400, deepOrange500, deepOrange600, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
-import { deepOrange50, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
-=======
-import { cyan50, cyan800, cyan900 } from 'material-ui/styles/colors';
->>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
+import {deepOrange800, deepOrange900, deepOrange50 } from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
 
 import * as theme from './homePage.jsx';
@@ -60,7 +54,7 @@ class UserPage extends React.Component {
         <div>
           You don&apos;t have any trips yet :(
           <p />
-          Why not go <Link to='/plan' style={{textDecoration: 'none', color: deepOrange900}}>plan</Link> one?
+          Why not go <Link to="/plan" style={{textDecoration: 'none', color: deepOrange900}}>plan</Link> one?
 
         </div>
       );
@@ -219,7 +213,7 @@ class UserPage extends React.Component {
   }
 }
 
-const mapStateToProps = state => (
+const mapStateToProps=state=> (
   {store: state}
 );
 
