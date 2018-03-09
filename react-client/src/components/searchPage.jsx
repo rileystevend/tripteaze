@@ -662,6 +662,7 @@ class SearchPage extends React.Component {
                         autoOk={true}
                         onChange={updateFromDate}
                         minDate={today}
+                        textFieldStyle={{width: '100%'}}
                       />
                       <DatePicker
                         floatingLabelText="To"
@@ -669,6 +670,7 @@ class SearchPage extends React.Component {
                         onChange={updateToDate}
                         // defaultDate={} // set default "to" date as the "from" date?
                         minDate={store.minToDate}
+                        textFieldStyle={{width: '100%'}}
                       />
                     </div>
                     <br />
