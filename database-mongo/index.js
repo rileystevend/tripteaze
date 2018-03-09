@@ -127,7 +127,6 @@ let addNewTrip = (username, city, fromDate, toDate, callback) => {
 };
 
 const addRestaurantToTrip = async (food, tripId) => {
-  //let user = await User.findOne({name: username});
   let trip = await Trip.findOne({id: tripId});
   let addRest =  await Restaurant.findOneAndUpdate(
     {id: food.restaurant.id},
@@ -148,7 +147,6 @@ const addRestaurantToTrip = async (food, tripId) => {
 
 
 let addHotelToTrip = async (hotel, tripId) => {
-  console.log('inside addHotelToTrip');
   let trip = await Trip.findOne({id: tripId});
   //then add event to database based on trip ID
   //need to look at eventbrite API for structure
@@ -308,7 +306,6 @@ let getTripRestaurants = (tripID, callback) => {
 };
 
 let getTripHotels = (tripID, callback) => {
-  console.log('inside get trip hotels');
   Hotel.find({ trip: tripID }, function(err, hotel) {
     if (err) {
       callback(err, null);
@@ -341,6 +338,7 @@ let remove = (modelType, ID, callback) => {
       }
     });
   } else if (modelType === 'hotel') {
+    console.log('hotel id', ID);
     Hotel.remove( {id: ID}, function(err) {
       if (err) {
         console.log('error: ',err);
@@ -351,16 +349,6 @@ let remove = (modelType, ID, callback) => {
     });
   } else if (modelType === 'trip') {
     Trip.remove( {id: ID}, function(err) {
-      if (err) {
-        callback(err);
-        console.log('error: ',err);
-        callback(err);
-      } else {
-        callback();
-      }
-    });
-  } else if (modelType === 'hotel') {
-    Hotel.remove( {id: ID}, function(err) {
       if (err) {
         callback(err);
         console.log('error: ',err);
