@@ -14,32 +14,32 @@ export const styles = {
     fontWeight: 'bold',
     padding: '0.2em',
     margin: '0.5em',
-    textAlign: 'left'
+    textAlign: 'left',
   },
   cardSubtitle: {
-    color: cyan600
+    color: cyan600,
   },
   cardTitle: {
     color: cyan900,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   cityTitle: {
     color: cyan900,
     fontSize: 22,
     fontWeight: 'bold',
-    lineHeight: '0 !important'
+    lineHeight: '0 !important',
   },
   tripDetails: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   tripCard: {
     display: 'inline-block',
     margin: '1em 0.5em 1em',
     width: '32%',
-    verticalAlign: 'top'
-  }
+    verticalAlign: 'top',
+  },
 };
 
 // User's trips page
@@ -89,7 +89,7 @@ const Trip = (props) => {
     return (
       <Card
         style={styles.tripCard}
-        initiallyExpanded={true}
+        initiallyExpanded={false}
       >
         <CardTitle
           title = {props.trip.city}

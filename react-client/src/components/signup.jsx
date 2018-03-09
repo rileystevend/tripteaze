@@ -17,7 +17,7 @@ class Signup extends React.Component {
     super(props);
 
     this.state = {
-      open: false
+      open: false,
     };
 
     this.submit = this.submit.bind(this);
@@ -72,7 +72,7 @@ class Signup extends React.Component {
         onClick={this.handleClose}
         style={loginStyle.styles.actionButtons}
         key="cancel"
-      />
+      />,
     ];
 
     return (
