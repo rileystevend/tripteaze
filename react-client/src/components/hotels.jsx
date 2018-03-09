@@ -1,8 +1,6 @@
 import React from 'react';
-import moment from 'moment';
 
 import { GridList, GridTile } from 'material-ui/GridList';
-// import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 import AddBorder from 'material-ui/svg-icons/content/add-circle-outline';
 import Snackbar from 'material-ui/Snackbar';
@@ -20,8 +18,8 @@ const styles = {
     overflowY: 'auto',
   },
   anchor: {
-    color: 'white'
-  }
+    color: 'white',
+  },
 };
 //these are search results for hotels
 const Hotels = (props) => {
