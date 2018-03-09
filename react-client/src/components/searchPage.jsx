@@ -355,6 +355,7 @@ class SearchPage extends React.Component {
             <SelectField
               value={this.state.dropdown}
               onChange = {this.updateCity}
+              style = {{width: '100%'}}
             >
               <MenuItem primaryText = 'Make a New Trip' />
               {store.userTrips.map((trip, index) =>
