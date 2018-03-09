@@ -106,6 +106,7 @@ const Trip = (props) => {
           <div style={styles.tripDetails}>
             {props.trip.events.map((event, index) =>
               <Activity key={index}
+                store={props.store}
                 deleteEvent={props.deleteEvent}
                 user={props.user}
                 city={props.trip.city}
@@ -119,8 +120,9 @@ const Trip = (props) => {
           <div style={styles.tripDetails}>
             {props.trip.hotels.map((hotel, index) =>
               <Activity
+                store={props.store}
                 key={index}
-                deleteEvent={props.deleteHotel}
+                deleteHotel={props.deleteHotel}
                 user={props.user}
                 city={props.trip.city}
                 type='hotel'
@@ -133,6 +135,7 @@ const Trip = (props) => {
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
               <Activity key={index}
+                store={props.store}
                 deleteFood={props.deleteFood}
                 user={props.user}
                 city={props.trip.city}
