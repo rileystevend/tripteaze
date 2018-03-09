@@ -1,10 +1,12 @@
 import React from 'react';
-import Activity from './activity.jsx';
+import moment from 'moment';
+
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import moment from 'moment';
 import { cyan600, cyan900 } from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
+
+import Activity from './activity.jsx';
 
 export const styles = {
   activityHeader: {
@@ -92,12 +94,12 @@ const Trip = (props) => {
         initiallyExpanded={false}
       >
         <CardTitle
-          title = {props.trip.city}
-          subtitle = {fromDate + ' - ' + toDate} // Trip dates
+          title={props.trip.city}
+          subtitle={fromDate + ' - ' + toDate} // Trip dates
           actAsExpander={true}
           showExpandableButton={true}
-          titleStyle = {styles.cardTitle}
-          subtitleStyle = {styles.cardSubtitle}
+          titleStyle={styles.cardTitle}
+          subtitleStyle={styles.cardSubtitle}
         />
         <CardText
           expandable={true}
@@ -110,7 +112,7 @@ const Trip = (props) => {
                 deleteEvent={props.deleteEvent}
                 user={props.user}
                 city={props.trip.city}
-                type='event'
+                type="event"
                 activity={event}
               />
             )}
@@ -125,7 +127,7 @@ const Trip = (props) => {
                 deleteHotel={props.deleteHotel}
                 user={props.user}
                 city={props.trip.city}
-                type='hotel'
+                type="hotel"
                 activity={hotel}
               />
             )}
@@ -139,7 +141,7 @@ const Trip = (props) => {
                 deleteFood={props.deleteFood}
                 user={props.user}
                 city={props.trip.city}
-                type='eatin'
+                type="eatin"
                 activity={food}
               />
             )}
@@ -148,35 +150,35 @@ const Trip = (props) => {
 
         <CardActions>
           <FlatButton
-            label = {props.trip.isPublic ? 'Make Private' : 'Make Public'}
-            onClick = {makePublic}
+            label={props.trip.isPublic ? 'Make Private' : 'Make Public'}
+            onClick={makePublic}
           />
           <FlatButton
-            label= 'Delete'
-            onClick = {deleteTrip}
+            label="Delete"
+            onClick={deleteTrip}
           />
           <FlatButton
-            label = 'Add More'
-            onClick = {activateAndSearch}
+            label="Add More"
+            onClick={activateAndSearch}
           />
         </CardActions>
 
         {/* HAD TO ADD OR FALSE BECAUSE THEY WERE UNDEFINED */}
         <Snackbar
           open={props.deleteSnackbar || false}
-          message={'Your trip has been deleted!'}
+          message="Your trip has been deleted!"
           autoHideDuration={3000}
           onRequestClose={props.onRequestCloseDelete}
         />
         <Snackbar
           open={props.publicSnackbar || false}
-          message={'Your trip has been made public!'}
+          message="Your trip has been made public!"
           autoHideDuration={3000}
           onRequestClose={props.onRequestClosePublic}
         />
         <Snackbar
           open={props.privateSnackbar || false}
-          message={'Your trip has been made private!'}
+          message="Your trip has been made private!"
           autoHideDuration={3000}
           onRequestClose={props.onRequestClosePrivate}
         />
@@ -202,7 +204,7 @@ const Trip = (props) => {
             {props.trip.events.map((event, index) =>
               <Activity
                 key={index}
-                type='event'
+                type="event"
                 activity={event}
               />
             )}
@@ -213,7 +215,7 @@ const Trip = (props) => {
             {props.trip.hotels.map((hotel, index) =>
               <Activity
                 key={index}
-                type='hotel'
+                type="hotel"
                 activity={hotel}
               />
             )}
@@ -224,7 +226,7 @@ const Trip = (props) => {
             {props.trip.eatin.map((food, index) =>
               <Activity
                 key={index}
-                type='eatin'
+                type="eatin"
                 activity={food}
               />
             )}

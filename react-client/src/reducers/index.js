@@ -25,7 +25,7 @@ const initialState = {
   foodSnackbar: false,
   activeTrip: {
     status: false,
-    index: 0 //location of trip in 'userTrips'
+    index: 0, //location of trip in 'userTrips'
   },
 };
 //you should probably look up combine reducers to make this easier to look at
