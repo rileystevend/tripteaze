@@ -371,7 +371,7 @@ export const addHotelToTrip = (hotel, tripId ) => {
       }
     }).then(
       () => {
-        dispatch(fetchHotelsFromTrip(tripId));  //DON'T YOU FUCKING DO IT STEVEN!!!!!!!!!! USE TRIP ID!
+        dispatch(fetchHotelsFromTrip(tripId));
         dispatch(activateHotelSnackbar());
       },
       error => dispatch(badStuff(error))
@@ -454,14 +454,14 @@ export const deleteFood = (food, tripId) => {
   };
 };
 
-export const deleteHotel = (event, tripId) => {
+export const deleteHotel = (hotel, tripId) => {
   console.log('delete!');
   return (dispatch) => {
     return axios ({
       method: 'post',
-      url: '/hotel/remove',
+      url: '/hotels/remove',
       data: {
-        eventID: event.id
+        hotelID: hotel.id
       }
     }).then (
       () => { dispatch(fetchHotelsFromTrip(tripId)); },

@@ -17,50 +17,50 @@ export const muiTheme = getMuiTheme({
   appBar: {
     color: cyan700,
     textColor: cyan50,
-    titleFontWeight: 'bold'
+    titleFontWeight: 'bold',
   },
   card: {
     fontWeight: 'bold',
     titleColor: cyan700,
-    subtitleColor: cyan200
+    subtitleColor: cyan200,
   },
   cardText: {
-    textColor: cyan800
+    textColor: cyan800,
   },
   datePicker: {
     calendarTextColor: cyan700,
     calendarYearBackgroundColor: cyan50,
-    headerColor: cyan800
+    headerColor: cyan800,
   },
   dialog: {
     titleFontSize: 25,
     bodyFontSize: 15,
-    bodyColor: cyan600
+    bodyColor: cyan600,
   },
   flatButton: {
     color: '#f9f9f9',
     fontSize: 14,
     fontWeight: 'bold',
-    textColor: cyan800
+    textColor: cyan800,
   },
   palette: {
-    textColor: cyan900
+    textColor: cyan900,
   },
   raisedButton: {
     color: cyan700,
     fontSize: 17,
     margin: 12,
-    textColor: cyan50
+    textColor: cyan50,
   },
   textField: {
-    textColor: cyan800
-  }
+    textColor: cyan800,
+  },
 });
 
 export const styles = {
   body: {
     textAlign: 'center',
-    width: '100%'
+    width: '100%',
   },
   discoverTrips: {
     background: `linear-gradient(to bottom right, #f9f9f9, ${cyan50})`,
@@ -69,7 +69,7 @@ export const styles = {
     fontWeight: 'bold',
     marginTop: '1%',
     padding: '0.5%',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   header: {
     background: `linear-gradient(to bottom right, ${cyan50}, ${cyan100})`,
@@ -80,7 +80,7 @@ export const styles = {
     paddingTop: '5%',
     textAlign: 'center',
     textDecoration: 'none',
-    maxHeight: 150
+    maxHeight: 150,
   },
   navLinks: {
     display: 'flex',
@@ -95,17 +95,17 @@ export const styles = {
     fontSize: 25,
     fontWeight: 'bold',
     marginTop: '2%',
-    paddingTop: '1%'
+    paddingTop: '1%',
   },
   tripButton: {
     width: '50%',
     margin: '0 auto',
-    marginTop: '1%'
+    marginTop: '1%',
   },
   tripTeazeText: {
     textDecoration: 'none',
-    color: cyan900
-  }
+    color: cyan900,
+  },
 };
 
 class Home extends React.Component {
@@ -182,7 +182,7 @@ class Home extends React.Component {
                 color: cyan500,
                 fontSize: 12,
                 fontStyle: 'italic',
-                fontWeight: 'normal'
+                fontWeight: 'normal',
               }
             }>
               Don&apos;t wait! Plan your next trip today!

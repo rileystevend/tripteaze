@@ -160,7 +160,7 @@ const getTripsEvents = (trips, callback) => {
       db.getTripRestaurants(tripID, function(err, food) {
         fullTrips[i].eatin = food;
         db.getTripHotels(tripID, function(err, hotels) {
-        fullTrips[i].hotels = hotels;
+          fullTrips[i].hotels = hotels;
           numFinished++;
           if (numFinished === trips.length) {
             callback(null, fullTrips);
@@ -253,24 +253,19 @@ app.post('/events/add', async function(req,res) {
   const tripId = req.body.tripId;
   let addedEvent = await db.addEventToTrip(event, tripId);
   if (addedEvent) {
-    console.log('success /events/add', addedEvent);
     res.status(201).end();
   } else {
-    console.log('error /events/add', addedEvent);
     res.status(500).send();
   }
 });
 
 app.get('/events', (req, res) => {
-  console.log(req.query);
   const tripId = req.query.tripId;
 
   db.getTripEvents(tripId, function(err, data) {
     if (err) {
-      console.log('error /events');
       res.status(500).end(err);
     } else {
-      console.log('success /events');
       res.status(200).json({ events: data });
     }
   });
@@ -317,10 +312,8 @@ app.post('/foods/add', async function(req, res) {
 
   let addedFood = await db.addRestaurantToTrip(food, tripId);
   if (addedFood) {
-    console.log('success', addedFood);
     res.status(201).end();
   } else {
-    console.log('err', addedFood);
     res.status(500).end();
   }
 });
@@ -355,7 +348,6 @@ app.post('/hotels', function(req, res) {
 });
 
 app.post('/hotels/remove', function(req, res) {
-
   db.remove('hotel', req.body.hotelID, function(err) {
     if (err) {
       res.status(500).send(err);
@@ -366,29 +358,16 @@ app.post('/hotels/remove', function(req, res) {
 });
 
 app.post('/hotels/add', async function(req,res) {
-  console.log('inside /hotels/add');
   const hotel = req.body.tripHotel;
   const tripId = req.body.tripId;
 
-  addedHotel = await db.addHotelToTrip(hotel, tripId);
+  let addedHotel = await db.addHotelToTrip(hotel, tripId);
 
   if (addedHotel) {
-    console.log('success', addedHotel);
     res.status(201).end();
   } else {
-    console.log('err', addedHotel);
     res.status(500).end();
   }
-  /*
-  db.addHotelToTrip(hotel, tripId, function(err) {
-    if (err) {
-      console.log(err);
-      res.status(500).send(err);
-    } else {
-      res.status(201).end();
-    }
-  });
-  */
 });
 
 app.get('/hotels', (req, res) => {
@@ -397,10 +376,8 @@ app.get('/hotels', (req, res) => {
 
   db.getTripHotels(tripId, function(err, data) {
     if (err) {
-      console.log('error hotels get')
       res.status(500).end(err);
     } else {
-      console.log('hote data', data);
       res.status(200).json({ hotels: data });
     }
   });
