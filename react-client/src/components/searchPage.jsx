@@ -28,6 +28,7 @@ import Events from './events.jsx';
 import Signup from './signup.jsx';
 import Login from './login.jsx';
 import Eatin from './restaurants.jsx';
+import Hotels from './hotels.jsx';
 
 export const styles = {
   activityContainer: {
@@ -748,32 +749,24 @@ class SearchPage extends React.Component {
             <Paper style={styles.activityContainer}>
               <div style={styles.activityTitle}>Hotels</div>
               <div style={styles.searchBar}>
-                <TextField
-                  id = 'hotel'
-                  onChange = {this.updateHotelQuery}
-                  inputStyle={{ width: '100%' }}
-                  style={styles.searchInput}
-                  onKeyUp={this.handleEnterKey}
-                />
+                <div style={styles.searchResults}>
+                  <Hotels
+                    store={store}
+                    hotels={store.hotelResults}
+                    addHotelToTrip={actions.addHotelToTrip}
+                    user={store.username}
+                    city={this.state.activeCity}
+                    hotelSnackbar={store.hotelSnackbar}
+                    onRequestClose={actions.deactivateHotelSnackbar}
+                  />
+                </div>
                 <RaisedButton
                   onClick={this.submitHotelQuery}
                   label='Search'
                 />
               </div>
-
-              {/************************** Hotel RESULTS *************************
-              <div style={styles.searchResults}>
-                <Hotels
-                  store={store}
-                  hotels={store.hotelResults}
-                  addHotelToTrip={actions.addHotelToTrip}
-                  user={store.username}
-                  city={this.state.activeCity}
-                  hotelSnackbar={store.hotelSnackbar}
-                  onRequestClose={actions.deactivateHotelSnackbar}
-                />
-              </div>*/}
             </Paper>
+
             {/************************** SEARCH EATIN **************************/}
             <Paper style={styles.activityContainer}>
               <div style={styles.activityTitle}>Restaurants</div>
