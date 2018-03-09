@@ -18,7 +18,7 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import DatePicker from 'material-ui/DatePicker';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { cyan800, cyan900 } from 'material-ui/styles/colors';
+import { deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
 import * as theme from './homePage.jsx';  // * does all named exports from that file
 import * as tripStyle from './trip.jsx';
 
@@ -41,7 +41,7 @@ export const styles = {
   },
   activityTitle: {
     backgroundColor: '#f9f9f9',
-    color: cyan800,
+    color: deepOrange800,
     fontSize: 20,
     fontWeight: 'bold',
     padding: '1%',
@@ -86,7 +86,7 @@ export const styles = {
   },
   tripDatesHeaders: {
     backgroundColor: '#f9f9f9',
-    color: cyan900,
+    color: deepOrange900,
     fontSize: 15,
     fontWeight: 'bold',
     padding: '1%',
@@ -448,12 +448,12 @@ class SearchPage extends React.Component {
                     onRequestClose={() => this.setState({editDatesOpen: false})}
                   >
                     <div
-                      style={{color: cyan800}}
+                      style={{color: deepOrange800}}
                     >Trip Dates for {this.state.activeCity}:
                     </div>
 
                     <div style={{
-                      color: cyan900,
+                      color: deepOrange900,
                       fontWeight: 'bold',
                     }}>{fromDate} - {toDate}</div>
 
@@ -633,7 +633,7 @@ class SearchPage extends React.Component {
           {navLinks()}
           {/******************************* HEADER *******************************/}
           <div style={theme.styles.header}>
-            <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
+            <Link to="/" style={{textDecoration: 'none', color: deepOrange900}}>
               TripTeaze
             </Link>
           </div>

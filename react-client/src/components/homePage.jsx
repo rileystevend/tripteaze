@@ -9,51 +9,51 @@ import { Link } from 'react-router-dom';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { cyan50, cyan100, cyan200, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+import { deepOrange50, deepOrange100, deepOrange200, deepOrange500, deepOrange600, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
 export const muiTheme = getMuiTheme({
   appBar: {
-    color: cyan700,
-    textColor: cyan50,
+    color: deepOrange700,
+    textColor: deepOrange50,
     titleFontWeight: 'bold',
   },
   card: {
     fontWeight: 'bold',
-    titleColor: cyan700,
-    subtitleColor: cyan200,
+    titleColor: deepOrange700,
+    subtitleColor: deepOrange200,
   },
   cardText: {
-    textColor: cyan800,
+    textColor: deepOrange800,
   },
   datePicker: {
-    calendarTextColor: cyan700,
-    calendarYearBackgroundColor: cyan50,
-    headerColor: cyan800,
+    calendarTextColor: deepOrange700,
+    calendarYearBackgroundColor: deepOrange50,
+    headerColor: deepOrange800,
   },
   dialog: {
     titleFontSize: 25,
     bodyFontSize: 15,
-    bodyColor: cyan600,
+    bodyColor: deepOrange600,
   },
   flatButton: {
     color: '#f9f9f9',
     fontSize: 14,
     fontWeight: 'bold',
-    textColor: cyan800,
+    textColor: deepOrange800,
   },
   palette: {
-    textColor: cyan900,
+    textColor: deepOrange900,
   },
   raisedButton: {
-    color: cyan700,
+    color: deepOrange700,
     fontSize: 17,
     margin: 12,
-    textColor: cyan50,
+    textColor: deepOrange50,
   },
   textField: {
-    textColor: cyan800,
+    textColor: deepOrange800,
   },
 });
 
@@ -63,8 +63,8 @@ export const styles = {
     width: '100%',
   },
   discoverTrips: {
-    background: `linear-gradient(to bottom right, #f9f9f9, ${cyan50})`,
-    color: cyan800,
+    background: `linear-gradient(to bottom right, #f9f9f9, ${deepOrange50})`,
+    color: deepOrange800,
     fontSize: 30,
     fontWeight: 'bold',
     marginTop: '1%',
@@ -72,8 +72,8 @@ export const styles = {
     textAlign: 'center',
   },
   header: {
-    background: `linear-gradient(to bottom right, ${cyan50}, ${cyan100})`,
-    color: cyan900,
+    background: `linear-gradient(to bottom right, ${deepOrange50}, ${deepOrange100})`,
+    color: deepOrange900,
     fontFamily: 'Arial',
     fontSize: 45,
     fontWeight: 'bold',
@@ -91,7 +91,7 @@ export const styles = {
   },
   getStarted: {
     background: 'linear-gradient(to bottom right, white, #f9f9f9)',
-    color: cyan600,
+    color: deepOrange600,
     fontSize: 25,
     fontWeight: 'bold',
     marginTop: '2%',
@@ -104,7 +104,7 @@ export const styles = {
   },
   tripTeazeText: {
     textDecoration: 'none',
-    color: cyan900,
+    color: deepOrange900,
   },
 };
 
@@ -179,7 +179,7 @@ class Home extends React.Component {
             <br />
             <div style={
               {
-                color: cyan500,
+                color: deepOrange500,
                 fontSize: 12,
                 fontStyle: 'italic',
                 fontWeight: 'normal',
