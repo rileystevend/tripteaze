@@ -1,6 +1,4 @@
 const request = require('request');
-const moment = require('moment');
-
 
 let token;
 
@@ -17,8 +15,8 @@ let searchHotels = (/*query, */city,/* fromDate, toDate, */cb) => {
   let params = {
     url: `https://maps.googleapis.com/maps/api/place/textsearch/json?query=hotels+in+${city}&key=${token}`,
     headers: {
-      'key': `${token}`
-    }
+      'key': `${token}`,
+    },
     //?expand=name/?token=${token}`
   };
 

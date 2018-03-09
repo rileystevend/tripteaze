@@ -36,9 +36,9 @@ let userSchema = Schema({
     type: String,
     set: toLower,
     index: true,
-    required: [true, 'can\'t be blank']
+    required: [true, 'can\'t be blank'],
   },
-  password: String
+  password: String,
 });
 
 let tripSchema = Schema({
@@ -49,7 +49,7 @@ let tripSchema = Schema({
   isPublic: {type: Boolean, default: false},
   isArchived: {type: Boolean, default: false},
   //need to make sure each trip has a reference user
-  user: {type: Schema.Types.ObjectId, ref: 'User'}
+  user: {type: Schema.Types.ObjectId, ref: 'User'},
 
 });
 
@@ -64,7 +64,7 @@ let restaurantSchema = Schema({
   location: [{type: Number}],
   price: Number,
   //need to make sure each restaurant or event has a reference trip
-  trip: {type: Schema.Types.ObjectId, ref: 'Trip'}
+  trip: {type: Schema.Types.ObjectId, ref: 'Trip'},
 });
 
 let hotelSchema = Schema({
@@ -78,7 +78,7 @@ let hotelSchema = Schema({
   location: [{type: Number}],
   price: Number,
   //need to make sure each restaurant or event has a reference trip
-  trip: {type: Schema.Types.ObjectId, ref: 'Trip'}
+  trip: {type: Schema.Types.ObjectId, ref: 'Trip'},
 });
 
 
@@ -95,7 +95,7 @@ let eventSchema = Schema({
   category_id: Number,
   logo: String,
   //need to make sure each restaurant or event has a reference trip
-  trip: {type: Schema.Types.ObjectId, ref: 'Trip'}
+  trip: {type: Schema.Types.ObjectId, ref: 'Trip'},
 });
 
 let User = mongoose.model('User', userSchema);
@@ -115,7 +115,7 @@ let addNewTrip = (username, city, fromDate, toDate, callback) => {
       user: user.id,
       // Dates need to be in YYYY-MM-DD format
       tripFromDate: fromDate,
-      tripToDate: toDate
+      tripToDate: toDate,
     }, (err, data) => {
       if (err) {
         callback(err);
@@ -139,8 +139,8 @@ const addRestaurantToTrip = async (food, tripId) => {
       zip: food.restaurant.location.zipcode,
       location: [food.restaurant.location.latitude, food.restaurant.location.longitude],
       price: food.restaurant.price_range,
-      trip: trip.id
-    }
+      trip: trip.id,
+    },
     }, {upsert: true, new: true});
   return addRest;
 };
@@ -163,7 +163,7 @@ let addHotelToTrip = async (hotel, tripId) => {
       // venue_id: event.venue_id,
       // category_id: event.category_id,
       logo: hotel.icon,
-      trip: trip.id
+      trip: trip.id,
     }},
     {upsert: true, new: true});
 };
@@ -184,7 +184,7 @@ let addEventToTrip = async (event, tripId) => {
       venue_id: event.venue_id,
       category_id: event.category_id,
       logo: event.logo.url,
-      trip: trip.id
+      trip: trip.id,
     }},
     {upsert: true, new: true}); //requires new option or will return null
   return addEvent;
@@ -197,8 +197,8 @@ let addNewUser = (name, password) => {
     {$set: {
       id: new mongoose.Types.ObjectId(),
       name: name,
-      password: password
-    }
+      password: password,
+    },
     }, {upsert: true},
     function(err) {
       if (err) {
@@ -270,8 +270,8 @@ let modifyTripDetails = (makePublic, makeArchived, username, fromDate, toDate, c
             isPublic: makePublic,
             isArchived: makeArchived,
             tripFromDate: newFromDate,
-            tripToDate: newToDate
-          }
+            tripToDate: newToDate,
+          },
         }, function(err) {
           if (err) {
             callback(err);

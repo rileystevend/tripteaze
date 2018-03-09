@@ -9,18 +9,29 @@ import { deepOrange500, deepOrange700, deepOrange800, deepOrange900 } from 'mate
 
 export const styles = {
   anchor: {
+<<<<<<< HEAD
     color: deepOrange700,
     textDecoration: 'none'
+=======
+    color: cyan700,
+    textDecoration: 'none',
+>>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
   },
   cardTitle: {
     fontSize: 15,
     fontWeight: 'bold',
-    lineHeight: '0 !important'
+    lineHeight: '0 !important',
   },
   cardSubtitle: {
+<<<<<<< HEAD
     color: deepOrange500,
     fontSize: 13
   }
+=======
+    color: cyan500,
+    fontSize: 13,
+  },
+>>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
 };
 
 let Activity = (props) => {
@@ -133,14 +144,19 @@ let Activity = (props) => {
           }}
           style={{
             fontSize: 12,
-            lineHeight: '0 !important'
+            lineHeight: '0 !important',
           }}
         />
 
         <CardText
           style={{
+<<<<<<< HEAD
             color: deepOrange800,
             fontSize: 12
+=======
+            color: cyan800,
+            fontSize: 12,
+>>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
           }}
           expandable={true}
         >
@@ -148,14 +164,14 @@ let Activity = (props) => {
             backgroundColor: '#f9f9f9',
             color: deepOrange900,
             fontWeight: 'bold',
-            padding: '1%'
+            padding: '1%',
           }}>About:</div>
           <div style={{
             color: deepOrange800,
             fontSize: 11,
             maxHeight: '250px',
             overflow: 'auto',
-            padding: '1%'
+            padding: '1%',
           }}>{props.activity.description}</div>
         </CardText>
 
@@ -216,7 +232,7 @@ let Activity = (props) => {
           }}
           style={{
             fontSize: 12,
-            lineHeight: '0 !important'
+            lineHeight: '0 !important',
           }}
         />
 
@@ -231,14 +247,14 @@ let Activity = (props) => {
             backgroundColor: '#f9f9f9',
             color: deepOrange900,
             fontWeight: 'bold',
-            padding: '1%'
+            padding: '1%',
           }}>About:</div>
           <div style={{
             color: deepOrange800,
             fontSize: 11,
             maxHeight: '250px',
             overflow: 'auto',
-            padding: '1%'
+            padding: '1%',
           }}>{props.activity.description}</div>
         </CardText>
 

@@ -1,18 +1,20 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import RaisedButton from 'material-ui/RaisedButton';
 
-import * as theme from './homePage.jsx';  // * does all named exports from that file
-// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+<<<<<<< HEAD
 // import getMuiTheme from 'material-ui/styles/getMuiTheme';
 // import { deepOrange50, deepOrange100, deepOrange200, deepOrange300, deepOrange400, deepOrange500, deepOrange600, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
 import { deepOrange50, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
+=======
+import { cyan50, cyan800, cyan900 } from 'material-ui/styles/colors';
+>>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
 import Paper from 'material-ui/Paper';
 
+import * as theme from './homePage.jsx';
 import Login from './login.jsx';
 import Signup from './signup.jsx';
 import Trip from './trip.jsx';
@@ -53,13 +55,13 @@ class UserPage extends React.Component {
 
   generateMessage() {
     //usertrips is undefined
-    console.log('this.props.store', this.props.store);
     if (this.props.store.userTrips.length === 0) {
       return (
         <div>
           You don&apos;t have any trips yet :(
           <p />
           Why not go <Link to='/plan' style={{textDecoration: 'none', color: deepOrange900}}>plan</Link> one?
+
         </div>
       );
     } else {
@@ -72,6 +74,7 @@ class UserPage extends React.Component {
   render() {
     let actions = this.props.actions;
     let store = this.props.store;
+    console.log(store.userTrips);
 
     if (this.props.store.authenticated === false) {
       return (
@@ -79,8 +82,8 @@ class UserPage extends React.Component {
           <Paper>
             {/************************** NAVIGATION **************************/}
             <div style={theme.styles.navLinks}>
-              <Link to= '/'>
-                <RaisedButton style = {{ marginRight: '15px' }}
+              <Link to="/">
+                <RaisedButton style={{ marginRight: '15px' }}
                   label="Home"
                 />
               </Link>
@@ -121,16 +124,16 @@ class UserPage extends React.Component {
           <Paper>
             {/************************** NAVIGATION **************************/}
             <div style={theme.styles.navLinks}>
-              <Link to= '/'>
+              <Link to="/">
                 <RaisedButton
                   label="Home"
                 />
               </Link>
-              <Link to='/'>
+              <Link to="/">
                 <RaisedButton
-                  onClick = {actions.logOut}
+                  onClick={actions.logOut}
                   style={{marginLeft: '1em'}}
-                  label = 'Log Out'
+                  label="Log Out"
                 />
               </Link>
             </div>
@@ -185,16 +188,16 @@ class UserPage extends React.Component {
           <Paper>
             {/************************** NAVIGATION **************************/}
             <div style={theme.styles.navLinks}>
-              <Link to='/'>
+              <Link to="/">
                 <RaisedButton
                   label="Home"
                 />
               </Link>
-              <Link to='/'>
+              <Link to="/">
                 <RaisedButton
                   onClick={actions.logOut}
                   style={{ marginLeft: '1em' }}
-                  label='Log Out'
+                  label="Log Out"
                 />
               </Link>
             </div>
