@@ -348,21 +348,21 @@ class SearchPage extends React.Component {
           <div>
             <SelectField
               value={this.state.dropdown}
-              onChange = {this.updateCity}
+              onChange={this.updateCity}
             >
-              <MenuItem primaryText = 'Make a New Trip' />
+              <MenuItem primaryText="Make a New Trip" />
               {store.userTrips.map((trip, index) =>
                 <MenuItem
-                  key = {index}
-                  value = {trip.city}
-                  primaryText = {trip.city}
+                  key={index}
+                  value={trip.city}
+                  primaryText={trip.city}
                 />
               )}
             </SelectField>
             <br />
             <RaisedButton
               onClick={() => (this.setState({ open: !this.state.open }))}
-              label='Show Details'
+              label="Show Details"
               disabled={!store.activeTrip.status}
             />
           </div>
@@ -432,8 +432,8 @@ class SearchPage extends React.Component {
                   <FlatButton
                     label="Edit"
                     onClick={() => this.setState({editDatesOpen: true})}
-                    backgroundColor='transparent'
-                    hoverColor='#f9f9f9'
+                    backgroundColor="transparent"
+                    hoverColor="#f9f9f9"
                   />
                   <Dialog
                     title="Modify Trip Dates"
@@ -477,8 +477,8 @@ class SearchPage extends React.Component {
                   (<Activity
                     store={store}
                     key={index}
-                    sidebar = 'true'
-                    type='event'
+                    sidebar="true"
+                    type="event"
                     activity={event}
                     user={store.username}
                     city={this.state.activeCity}
@@ -491,8 +491,8 @@ class SearchPage extends React.Component {
                 {activeTrip.hotels.map((hotel, index) =>
                   (<Activity
                     key={index}
-                    sidebar = 'true'
-                    type='hotel'
+                    sidebar="true"
+                    type="hotel"
                     activity={hotel}
                     user={store.username}
                     city={this.state.activeCity}
@@ -506,8 +506,8 @@ class SearchPage extends React.Component {
                   (<Activity
                     store={store}
                     key={index}
-                    sidebar='true'
-                    type='food'
+                    sidebar="true"
+                    type="food"
                     user={store.username}
                     city={this.state.activeCity}
                     deleteFood={actions.deleteFood}
@@ -524,23 +524,23 @@ class SearchPage extends React.Component {
       if (store.authenticated) {
         return (
           <div style={theme.styles.navLinks}>
-            <Link to='/'>
+            <Link to="/">
               <RaisedButton
                 label="Home"
               />
             </Link>
-            <Link to='trips'>
+            <Link to="trips">
               <RaisedButton
                 label="My Trips"
                 disabled={!store.authenticated}
                 style={styles.navButtons}
               />
             </Link>
-            <Link to='/'>
+            <Link to="/">
               <RaisedButton
                 disabled={!store.authenticated}
                 onClick={actions.logOut}
-                label='Log Out'
+                label="Log Out"
               />
             </Link>
           </div>
@@ -548,9 +548,9 @@ class SearchPage extends React.Component {
       } else {
         return (
           <div style={theme.styles.navLinks}>
-            <Link to= '/'>
+            <Link to="/">
               <RaisedButton
-                style = {{marginRight: '15px'}}
+                style={{marginRight: '15px'}}
                 label="Home"
               />
             </Link>
@@ -614,7 +614,7 @@ class SearchPage extends React.Component {
             updateFromDate(null, '');
             updateToDate(null, '');
           }}
-          label='Create Trip'
+          label="Create Trip"
           disabled={!store.authenticated}
         />
       );
@@ -670,7 +670,7 @@ class SearchPage extends React.Component {
                     <div>
                       <div style={styles.tripDatesHeaders}> {message} </div>
                       <TextField
-                        id='city'
+                        id="city"
                         value={store.city}
                         onChange={this.updateCity}
                         onKeyUp={this.handleEnterKey}
@@ -713,15 +713,15 @@ class SearchPage extends React.Component {
               <div style={styles.activityTitle}>Events</div>
               <div style={styles.searchBar}>
                 <TextField
-                  id = 'event'
-                  onChange = {this.updateEventQuery}
+                  id="event"
+                  onChange={this.updateEventQuery}
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
                   onKeyUp={this.handleEnterKey}
                 />
                 <RaisedButton
                   onClick={this.submitEventQuery}
-                  label='Search'
+                  label="Search"
                 />
               </div>
 
@@ -756,7 +756,7 @@ class SearchPage extends React.Component {
                 </div>
                 <RaisedButton
                   onClick={this.submitHotelQuery}
-                  label='Search'
+                  label="Search"
                 />
               </div>
             </Paper>
@@ -766,7 +766,7 @@ class SearchPage extends React.Component {
               <div style={styles.activityTitle}>Restaurants</div>
               <div style={styles.searchBar}>
                 <TextField
-                  id='food'
+                  id="food"
                   onChange={this.updateFoodQuery}
                   inputStyle={{ width: '100%' }}
                   style={styles.searchInput}
@@ -774,7 +774,7 @@ class SearchPage extends React.Component {
                 />
                 <RaisedButton
                   onClick={this.submitFoodQuery}
-                  label='Search'
+                  label="Search"
                 />
               </div>
 

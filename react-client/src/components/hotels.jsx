@@ -36,7 +36,7 @@ const Hotels = (props) => {
               return (
                 <GridTile
                   key={hotel.id}
-                  title={<a style={styles.anchor} href={hotel.url} target='_blank'>{hotel.name}</a>}
+                  title={<a style={styles.anchor} href={hotel.url} target="_blank">{hotel.name}</a>}
                   // subtitle={`${moment(hotel.start.local).format('MM/DD/YY hh:mm A')} - ${moment(hotel.end.local).format('MM/DD/YY hh:mm A')}`}
                   actionIcon={
                     <IconButton
@@ -48,11 +48,11 @@ const Hotels = (props) => {
                 >
                   <Snackbar
                     open={props.hotelSnackbar}
-                    message={'Hotel has been added to your trip!'}
+                    message="Hotel has been added to your trip!"
                     autoHideDuration={3000}
                     onRequestClose={props.onRequestClose}
                   />
-                  <img src={hotel.icon} alt='' />
+                  <img src={hotel.icon} alt="" />
                 </GridTile>
               );
             } else {
@@ -60,7 +60,7 @@ const Hotels = (props) => {
                 <GridTile
                   key={hotel.id}
                   title={hotel.name}
-                  subtitle='date range'
+                  subtitle="date range"
                   actionIcon={
                     <IconButton
                       onClick={() => props.addHotelToTrip(hotel, props.store.userTrips[props.store.activeTrip.index].id)}
@@ -71,11 +71,11 @@ const Hotels = (props) => {
                 >
                   <Snackbar
                     open={props.hotelSnackbar}
-                    message={'Hotel has been added to your trip!'}
+                    message="Hotel has been added to your trip!"
                     autoHideDuration={3000}
                     onRequestClose={props.onRequestClose}
                   />
-                  <img src='' />
+                  <img src="" alt="" />
                 </GridTile>
               );
             }

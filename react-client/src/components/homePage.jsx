@@ -138,17 +138,17 @@ class Home extends React.Component {
           <RaisedButton
             style={{marginRight: '15px'}}
             onClick={this.toUserPage}
-            label='My Trips'
+            label="My Trips"
           />
           <RaisedButton
             style={{ marginRight: '15px' }}
             onClick={this.toSearchPage}
-            label='Build'
+            label="Build"
           />
           <RaisedButton
             style={{ marginRight: '15px' }}
             onClick={actions.logOut}
-            label='Log Out'
+            label="Log Out"
           />
         </div>
       );

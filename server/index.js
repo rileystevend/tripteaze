@@ -7,7 +7,6 @@ const eventbrite = require('../APIhelper/eventbrite.js');
 const google = require('../APIhelper/google.js');
 const zomato = require('../APIhelper/zomatoHelper.js');
 const path = require('path');
-// const moment = require('moment');
 
 const app = express();
 app.use(bodyParser.json());
@@ -126,7 +125,9 @@ app.get('/trips', (req, res) => {
     res.sendFile(path.join(__dirname, '/../react-client/dist', 'index.html'));
   } else {
     db.showUserTrips(type, function(err, data) {
-      if (err || !data) {
+      if (!err && !data.length) {
+        res.status(200).json({ trips: [] });
+      } else if (err) {
         res.status(500).send(err);
       } else {
         getTripsEvents(data, function(err, fullTrips) {
