@@ -4,13 +4,18 @@ import moment from 'moment';
 
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton/';
-// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
-import { cyan500, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+// import { deepOrange50, deepOrange100, deepOrange200, deepOrange300, deepOrange400, deepOrange500, deepOrange600, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
+import { deepOrange500, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
 
 export const styles = {
   anchor: {
+<<<<<<< HEAD
+    color: deepOrange700,
+    textDecoration: 'none'
+=======
     color: cyan700,
     textDecoration: 'none',
+>>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
   },
   cardTitle: {
     fontSize: 15,
@@ -18,9 +23,15 @@ export const styles = {
     lineHeight: '0 !important',
   },
   cardSubtitle: {
+<<<<<<< HEAD
+    color: deepOrange500,
+    fontSize: 13
+  }
+=======
     color: cyan500,
     fontSize: 13,
   },
+>>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
 };
 
 let Activity = (props) => {
@@ -126,7 +137,7 @@ let Activity = (props) => {
           actAsExpander={true}
           title="More..."
           titleStyle={{
-            color: cyan700,
+            color: deepOrange700,
             fontSize: 12,
             fontWeight: 'bold',
             lineHeight: '0 !important',
@@ -139,19 +150,24 @@ let Activity = (props) => {
 
         <CardText
           style={{
+<<<<<<< HEAD
+            color: deepOrange800,
+            fontSize: 12
+=======
             color: cyan800,
             fontSize: 12,
+>>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
           }}
           expandable={true}
         >
           <div style={{
             backgroundColor: '#f9f9f9',
-            color: cyan900,
+            color: deepOrange900,
             fontWeight: 'bold',
             padding: '1%',
           }}>About:</div>
           <div style={{
-            color: cyan800,
+            color: deepOrange800,
             fontSize: 11,
             maxHeight: '250px',
             overflow: 'auto',
@@ -209,7 +225,7 @@ let Activity = (props) => {
           actAsExpander={true}
           title="More..."
           titleStyle={{
-            color: cyan700,
+            color: deepOrange700,
             fontSize: 12,
             fontWeight: 'bold',
             lineHeight: '0 !important',
@@ -222,19 +238,19 @@ let Activity = (props) => {
 
         <CardText
           style={{
-            color: cyan800,
-            fontSize: 12,
+            color: deepOrange800,
+            fontSize: 12
           }}
           expandable={true}
         >
           <div style={{
             backgroundColor: '#f9f9f9',
-            color: cyan900,
+            color: deepOrange900,
             fontWeight: 'bold',
             padding: '1%',
           }}>About:</div>
           <div style={{
-            color: cyan800,
+            color: deepOrange800,
             fontSize: 11,
             maxHeight: '250px',
             overflow: 'auto',
@@ -269,7 +285,7 @@ let Activity = (props) => {
         />
 
         <CardText>
-          <div style={{ color: cyan800, fontSize: 11 }}>
+          <div style={{ color: deepOrange800, fontSize: 11 }}>
             {props.activity.address}
           </div>
         </CardText>

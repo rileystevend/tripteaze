@@ -8,7 +8,7 @@ import * as theme from './homePage.jsx';  // * does all named exports from that 
 // import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
+// import { deepOrange50, deepOrange100, deepOrange200, deepOrange300, deepOrange400, deepOrange500, deepOrange600, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
 
 export const styles = {
   actionButtons: {
@@ -103,6 +103,7 @@ class Login extends React.Component {
               type="text"
               onChange={this.changeUsername}
               onKeyUp={this.handleEnterKey}
+              fullWidth={true}
             />
 
             <br />
@@ -113,6 +114,7 @@ class Login extends React.Component {
               type="password"
               onChange={this.changePassword}
               onKeyUp={this.handleEnterKey}
+              fullWidth={true}
             />
           </Dialog>
         </div>

@@ -5,7 +5,13 @@ import { Link } from 'react-router-dom';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+<<<<<<< HEAD
+// import getMuiTheme from 'material-ui/styles/getMuiTheme';
+// import { deepOrange50, deepOrange100, deepOrange200, deepOrange300, deepOrange400, deepOrange500, deepOrange600, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
+import { deepOrange50, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
+=======
 import { cyan50, cyan800, cyan900 } from 'material-ui/styles/colors';
+>>>>>>> 11d0bcb7e9100def65bf1d71d7d680848091699a
 import Paper from 'material-ui/Paper';
 
 import * as theme from './homePage.jsx';
@@ -16,8 +22,8 @@ import * as actions from '../actions/index.js';
 
 const styles = {
   notLoggedIn: {
-    background: `linear-gradient(to bottom right, #f9f9f9, ${cyan50})`,
-    color: cyan800,
+    background: `linear-gradient(to bottom right, #f9f9f9, ${deepOrange50})`,
+    color: deepOrange800,
     fontSize: 30,
     fontWeight: 'bold',
     marginTop: '2%',
@@ -54,7 +60,8 @@ class UserPage extends React.Component {
         <div>
           You don&apos;t have any trips yet :(
           <p />
-          Why not go <Link to="/plan" style={{textDecoration: 'none', color: cyan900}}>plan</Link> one?
+          Why not go <Link to='/plan' style={{textDecoration: 'none', color: deepOrange900}}>plan</Link> one?
+
         </div>
       );
     } else {
@@ -98,14 +105,14 @@ class UserPage extends React.Component {
 
             {/************************** HEADER **************************/}
             <div style={theme.styles.header}>
-              <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
+              <Link to="/" style={{textDecoration: 'none', color: deepOrange900}}>
                 TripTeaze
               </Link>
             </div>
 
             <div style={styles.notLoggedIn}>
               Oops! Please
-              <Link to="/" style={{textDecoration: 'none', color: cyan900}}> login </Link>
+              <Link to="/" style={{textDecoration: 'none', color: deepOrange900}}> login </Link>
               to access this content!
             </div>
           </Paper>
@@ -133,7 +140,7 @@ class UserPage extends React.Component {
 
             {/************************** HEADER **************************/}
             <div style={theme.styles.header}>
-              <Link to="/" style={{textDecoration: 'none', color: cyan900}}>
+              <Link to="/" style={{textDecoration: 'none', color: deepOrange900}}>
                 TripTeaze
               </Link>
             </div>
@@ -197,7 +204,7 @@ class UserPage extends React.Component {
 
             {/************************** HEADER **************************/}
             <div style={theme.styles.header}>
-              <Link to="/" style={{ textDecoration: 'none', color: cyan900 }}>
+              <Link to="/" style={{ textDecoration: 'none', color: deepOrange900 }}>
                 TripTeaze
               </Link>
             </div>

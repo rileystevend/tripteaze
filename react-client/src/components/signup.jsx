@@ -95,6 +95,7 @@ class Signup extends React.Component {
               id="SUUsername"
               onChange={this.changeUsername}
               onKeyUp={this.handleEnterKey}
+              fullWidth={true}
             />
             <br />
             <label>Password:</label>
@@ -103,6 +104,7 @@ class Signup extends React.Component {
               type="password"
               onChange={this.changePassword}
               onKeyUp={this.handleEnterKey}
+              fullWidth={true}
             />
           </Dialog>
         </div>

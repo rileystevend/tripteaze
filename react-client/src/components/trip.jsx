@@ -3,7 +3,8 @@ import moment from 'moment';
 
 import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import { cyan600, cyan900 } from 'material-ui/styles/colors';
+import moment from 'moment';
+import { deepOrange600, deepOrange900 } from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
 
 import Activity from './activity.jsx';
@@ -11,7 +12,7 @@ import Activity from './activity.jsx';
 export const styles = {
   activityHeader: {
     backgroundColor: '#f9f9f9',
-    color: cyan600,
+    color: deepOrange600,
     fontSize: 15,
     fontWeight: 'bold',
     padding: '0.2em',
@@ -19,14 +20,14 @@ export const styles = {
     textAlign: 'left',
   },
   cardSubtitle: {
-    color: cyan600,
+    color: deepOrange600,
   },
   cardTitle: {
-    color: cyan900,
+    color: deepOrange900,
     fontWeight: 'bold',
   },
   cityTitle: {
-    color: cyan900,
+    color: deepOrange900,
     fontSize: 22,
     fontWeight: 'bold',
     lineHeight: '0 !important',
