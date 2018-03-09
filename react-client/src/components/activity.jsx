@@ -10,17 +10,17 @@ import { cyan500, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
 export const styles = {
   anchor: {
     color: cyan700,
-    textDecoration: 'none'
+    textDecoration: 'none',
   },
   cardTitle: {
     fontSize: 15,
     fontWeight: 'bold',
-    lineHeight: '0 !important'
+    lineHeight: '0 !important',
   },
   cardSubtitle: {
     color: cyan500,
-    fontSize: 13
-  }
+    fontSize: 13,
+  },
 };
 
 let Activity = (props) => {
@@ -133,14 +133,14 @@ let Activity = (props) => {
           }}
           style={{
             fontSize: 12,
-            lineHeight: '0 !important'
+            lineHeight: '0 !important',
           }}
         />
 
         <CardText
           style={{
             color: cyan800,
-            fontSize: 12
+            fontSize: 12,
           }}
           expandable={true}
         >
@@ -148,14 +148,14 @@ let Activity = (props) => {
             backgroundColor: '#f9f9f9',
             color: cyan900,
             fontWeight: 'bold',
-            padding: '1%'
+            padding: '1%',
           }}>About:</div>
           <div style={{
             color: cyan800,
             fontSize: 11,
             maxHeight: '250px',
             overflow: 'auto',
-            padding: '1%'
+            padding: '1%',
           }}>{props.activity.description}</div>
         </CardText>
 
@@ -216,14 +216,14 @@ let Activity = (props) => {
           }}
           style={{
             fontSize: 12,
-            lineHeight: '0 !important'
+            lineHeight: '0 !important',
           }}
         />
 
         <CardText
           style={{
             color: cyan800,
-            fontSize: 12
+            fontSize: 12,
           }}
           expandable={true}
         >
@@ -231,14 +231,14 @@ let Activity = (props) => {
             backgroundColor: '#f9f9f9',
             color: cyan900,
             fontWeight: 'bold',
-            padding: '1%'
+            padding: '1%',
           }}>About:</div>
           <div style={{
             color: cyan800,
             fontSize: 11,
             maxHeight: '250px',
             overflow: 'auto',
-            padding: '1%'
+            padding: '1%',
           }}>{props.activity.description}</div>
         </CardText>
 

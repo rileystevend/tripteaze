@@ -110,8 +110,6 @@ class SearchPage extends React.Component {
         activeFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
         activeToDate: props.store.userTrips[props.store.activeTrip.index].toDate,
         editDatesOpen: false,
-        tempFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
-        tempToDate: props.store.userTrips[props.store.activeTrip.index].toDate,
       };
     } else if (props.store.userTrips.length !== 0) {
       this.state = {
@@ -121,8 +119,6 @@ class SearchPage extends React.Component {
         activeFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
         activeToDate: props.store.userTrips[props.store.activeTrip.index].toDate,
         editDatesOpen: false,
-        tempFromDate: props.store.userTrips[props.store.activeTrip.index].fromDate,
-        tempToDate: props.store.userTrips[props.store.activeTrip.index].toDate,
       };
     } else {
       this.state = {
@@ -341,8 +337,6 @@ class SearchPage extends React.Component {
       this.setState({
         activeFromDate: newFromDate,
         activeToDate: newToDate,
-        tempFromDate: newFromDate,
-        tempToDate: newToDate,
         editDatesOpen: false,
       });
     };

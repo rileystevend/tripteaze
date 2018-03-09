@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(session({
   secret: 'shhhhh af',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
 }));
 
 app.use(express.static(__dirname + '/../react-client/dist'));
@@ -151,7 +151,7 @@ const getTripsEvents = (trips, callback) => {
       isArchived: trips[i].isArchived,
       isPublic: trips[i].isPublic,
       fromDate: trips[i].tripFromDate,
-      toDate: trips[i].tripToDate
+      toDate: trips[i].tripToDate,
     }));
 
     const tripID = trips[i].id;

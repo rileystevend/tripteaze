@@ -20,8 +20,8 @@ const styles = {
     overflowY: 'auto',
   },
   anchor: {
-    color: 'white'
-  }
+    color: 'white',
+  },
 };
 //these are search results for events
 const Events = (props) => {

@@ -1,7 +1,6 @@
 const request = require('request');
 const moment = require('moment');
 
-
 let token;
 
 if (!process.env.EVENTBRITE) {
@@ -27,8 +26,8 @@ let searchEvents = (query, city, fromDate, toDate, cb) => {
   let params = {
     url: `https://www.eventbriteapi.com/v3/events/search/?q=${query}&location.address=${city}&start_date.range_start=${formattedFromDate}T00:00:00&start_date.range_end=${formattedToDate}T23:59:00&sort_by=date`,
     headers: {
-      'Authorization': `Bearer ${token}`
-    }
+      'Authorization': `Bearer ${token}`,
+    },
     //?expand=name/?token=${token}`
   };
 

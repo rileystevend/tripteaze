@@ -14,8 +14,8 @@ let searchForFoods = ( cityId, searchFood, cb ) => {
   let params = {
     url: `https://developers.zomato.com/api/v2.1/search?entity_id=${cityId}&entity_type=city&q=${searchFood}&count=25`,
     headers: {
-      'user-key': key
-    }
+      'user-key': key,
+    },
   };
 
   const callback = (err, res, body) => {
@@ -37,8 +37,8 @@ let searchForCityId = (city, cb) => {
   let params = {
     url: `https://developers.zomato.com/api/v2.1/cities?q=${city}`,
     headers: {
-      'user-key': key
-    }
+      'user-key': key,
+    },
   };
 
   const callback = (err, res, body) => {

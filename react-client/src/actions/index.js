@@ -18,8 +18,8 @@ export const login = (username, password) => {
       url: '/login',
       params: {
         username: username,
-        password: password
-      }
+        password: password,
+      },
     }).then(
       results => {
         if (results.data.error) {
@@ -44,8 +44,8 @@ export const signup = (username, password) => {
       url: '/signup',
       data: {
         username: username,
-        password: password
-      }
+        password: password,
+      },
     }).then(
       ({ data }) => {
         if (data.error) {
@@ -88,8 +88,8 @@ export const fetchTrips = (param) => {
       method: 'get',
       url: '/trips',
       params: {
-        search: param
-      }
+        search: param,
+      },
     }).then(
       ({ data }) => {
         if (param === 'public') {
@@ -114,8 +114,8 @@ export const updateTripDates = (user, city, fromDate, toDate) => {
         user: user,
         tripCity: city,
         tripFromDate: fromDate,
-        tripToDate: toDate
-      }
+        tripToDate: toDate,
+      },
     }).then(
       () => {
         dispatch(updateFromDate(''));
@@ -145,8 +145,8 @@ export const makeNewTrip = (username, city, index, fromDate, toDate) => {
         tripUser: username,
         tripCity: city,
         tripFromDate: fromDate,
-        tripToDate: toDate
-      }
+        tripToDate: toDate,
+      },
     }).then(
       () => {
         dispatch(activateTrip(index));
@@ -197,8 +197,8 @@ export const searchEvents = (city, query, fromDate, toDate) => {
         tripCity: city,
         eventQuery: query,
         tripFromDate: fromDate,
-        tripToDate: toDate
-      }
+        tripToDate: toDate,
+      },
     }).then(
       ({ data }) => {
         if (data.length) {
@@ -221,8 +221,8 @@ export const addEventToTrip = (event, tripId ) => {
       url: '/events/add',
       data: {
         tripEvent: event,
-        tripId: tripId
-      }
+        tripId: tripId,
+      },
     }).then(
       () => {
         dispatch(fetchEventsFromTrip(tripId));
@@ -240,8 +240,8 @@ export const fetchEventsFromTrip = (tripId) => {
       method: 'get',
       url: '/events',
       params: {
-        tripId: tripId
-      }
+        tripId: tripId,
+      },
     }).then(
       results => {
         console.log('inside fetchEventsFromTrip results', results);
@@ -269,8 +269,8 @@ export const searchForFood = (city, query) => {
       url: '/foods',
       data: {
         tripCity: city,
-        foodQuery: query
-      }
+        foodQuery: query,
+      },
     }).then(
       ({ data }) => {
         if (data.foods.length) {
@@ -294,8 +294,8 @@ export const addFoodToTrip = (food, tripId) => {
       url: '/foods/add',
       data: {
         tripFood: food,
-        tripId: tripId
-      }
+        tripId: tripId,
+      },
     }).then(
       (data) => {
         console.log('about ot enter fetchFoodFromTrip', data);
@@ -314,8 +314,8 @@ export const fetchFoodFromTrip = (tripId) => {
       method: 'get',
       url: '/foods',
       params: {
-        tripId: tripId
-      }
+        tripId: tripId,
+      },
     }).then(
       results => {
         dispatch(setTripEatin(results.data.foods)); },
@@ -344,7 +344,7 @@ export const searchHotels = (city,/* query, fromDate, toDate*/) => {
         // hotelQuery: query,
         // tripFromDate: fromDate,
         // tripToDate: toDate
-      }
+      },
     }).then(
       ({ data }) => {
         if (data.length) {
@@ -367,8 +367,8 @@ export const addHotelToTrip = (hotel, tripId ) => {
       url: '/hotels/add',
       data: {
         tripHotel: hotel,
-        tripId: tripId
-      }
+        tripId: tripId,
+      },
     }).then(
       () => {
         dispatch(fetchHotelsFromTrip(tripId));
@@ -386,8 +386,8 @@ export const fetchHotelsFromTrip = (tripId) => {
       method: 'get',
       url: '/hotels',
       params: {
-        tripId: tripId
-      }
+        tripId: tripId,
+      },
     }).then(
       results => {dispatch(setTripHotels(results.data.hotels));},
       error => {dispatch(badStuff(error));}
@@ -410,8 +410,8 @@ export const deleteTrip = (user, trip) => {
       url: '/trips',
       data: {
         username: user,
-        tripID: trip.id
-      }
+        tripID: trip.id,
+      },
     }).then (
       () => {
         dispatch(fetchTrips(user));
@@ -429,8 +429,8 @@ export const deleteEvent = (event, tripId) => {
       method: 'post',
       url: '/events/remove',
       data: {
-        eventID: event.id
-      }
+        eventID: event.id,
+      },
     }).then (
       () => { dispatch(fetchEventsFromTrip(tripId)); },
       error => {dispatch(badStuff(error));}
@@ -445,8 +445,8 @@ export const deleteFood = (food, tripId) => {
       method: 'post',
       url: '/foods/remove',
       data: {
-        foodID: food.id
-      }
+        foodID: food.id,
+      },
     }).then(
       () => { dispatch(fetchFoodFromTrip(tripId)); },
       error => { dispatch(badStuff(error)); }
@@ -461,8 +461,8 @@ export const deleteHotel = (hotel, tripId) => {
       method: 'post',
       url: '/hotels/remove',
       data: {
-        hotelID: hotel.id
-      }
+        hotelID: hotel.id,
+      },
     }).then (
       () => { dispatch(fetchHotelsFromTrip(tripId)); },
       error => {dispatch(badStuff(error));}
@@ -478,8 +478,8 @@ export const toggleTripStatus = (user, trip) => {
       data: {
         user: user,
         tripCity: trip.city,
-        public : !trip.isPublic
-      }
+        public : !trip.isPublic,
+      },
     }).then (
       () => {
         dispatch(fetchTrips(user));

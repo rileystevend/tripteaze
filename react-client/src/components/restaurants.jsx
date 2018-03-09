@@ -22,8 +22,8 @@ const Eatin = (props) => {
       overflowY: 'auto',
     },
     anchor: {
-      color: 'white'
-    }
+      color: 'white',
+    },
   };
 
   if (props.restaurants.length !== 0) {
