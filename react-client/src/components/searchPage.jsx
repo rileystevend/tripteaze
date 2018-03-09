@@ -406,8 +406,8 @@ class SearchPage extends React.Component {
     ];
 
     const drawer = () => {
-      if (props.store.activeTrip.status) {
-        let activeTrip = props.store.userTrips[props.store.activeTrip.index];
+      if (store.activeTrip.status) {
+        let activeTrip = store.userTrips[store.activeTrip.index];
         if (activeTrip) {
           let fromDate = moment(activeTrip.fromDate).format('MM/DD/YY');
           let toDate = moment(activeTrip.toDate).format('MM/DD/YY');
