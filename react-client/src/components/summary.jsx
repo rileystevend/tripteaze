@@ -52,7 +52,6 @@ class Summary extends React.Component {
   }
 
   render() {
-    console.log(this.props.trip);
     return (
       <MuiThemeProvider muiTheme={theme.muiTheme}>
         <div>
