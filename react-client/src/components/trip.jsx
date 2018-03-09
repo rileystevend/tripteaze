@@ -7,6 +7,8 @@ import { deepOrange600, deepOrange900 } from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
 
 import Activity from './activity.jsx';
+import Summary from './summary.jsx';
+
 
 export const styles = {
   activityHeader: {
@@ -160,6 +162,9 @@ const Trip = (props) => {
           <FlatButton
             label="Add More"
             onClick={activateAndSearch}
+          />
+          <Summary
+            trip={props.trip}
           />
         </CardActions>
 

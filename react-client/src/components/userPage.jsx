@@ -68,7 +68,6 @@ class UserPage extends React.Component {
   render() {
     let actions = this.props.actions;
     let store = this.props.store;
-    console.log(store.userTrips);
 
     if (this.props.store.authenticated === false) {
       return (

@@ -1,14 +1,12 @@
 import React from 'react';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import * as theme from './homePage.jsx';  // * does all named exports from that file
-// import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import { deepOrange50, deepOrange100, deepOrange200, deepOrange300, deepOrange400, deepOrange500, deepOrange600, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
 
 export const styles = {
   actionButtons: {
@@ -99,7 +97,7 @@ class Login extends React.Component {
             <label>Username:</label>
 
             <TextField
-              id='LUsername'
+              id="LUsername"
               type="text"
               onChange={this.changeUsername}
               onKeyUp={this.handleEnterKey}
@@ -110,7 +108,7 @@ class Login extends React.Component {
 
             <label>Password:</label>
             <TextField
-              id='LPassword'
+              id="LPassword"
               type="password"
               onChange={this.changePassword}
               onKeyUp={this.handleEnterKey}
