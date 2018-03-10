@@ -38,14 +38,14 @@ const Eatin = (props) => {
               return (
                 <GridTile
                   key={food.restaurant.id}
-                  title= {
+                  title={
                     <a
                       style={styles.anchor}
                       href={food.restaurant.url}
                       target="_blank"
                     >{food.restaurant.name}</a>
                   }
-                  subtitle= {`Cost for Two $${food.restaurant.average_cost_for_two}`}
+                  subtitle={`Cost for Two $${food.restaurant.average_cost_for_two}`}
                   /*add props.tripId*/
                   actionIcon={
                     <IconButton
@@ -55,11 +55,11 @@ const Eatin = (props) => {
                 >
                   <Snackbar
                     open={props.foodSnackbar}
-                    message={'Restaurant has been added to your trip!'}
+                    message="Restaurant has been added to your trip!"
                     autoHideDuration={3000}
                     onRequestClose={props.onRequestClose}
                   />
-                  <img src={food.restaurant.featured_image} alt='' />
+                  <img src={food.restaurant.featured_image} alt="" />
                 </GridTile>
               );
             } else {
@@ -77,11 +77,11 @@ const Eatin = (props) => {
                 >
                   <Snackbar
                     open={props.foodSnackbar}
-                    message={'Restaurant has been added to your trip!'}
+                    message="Restaurant has been added to your trip!"
                     autoHideDuration={3000}
                     onRequestClose={props.onRequestClose}
                   />
-                  <img src='' />
+                  <img src="" />
                 </GridTile>
               );
             }

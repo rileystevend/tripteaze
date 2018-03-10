@@ -25,7 +25,6 @@ export const styles = {
 
 let Activity = (props) => {
   let cardStyle = {};
-  console.log('activity props.store', props.store);
   if (props.sidebar) {
     cardStyle = { textAlign: 'left', margin: '5px'};
   } else {

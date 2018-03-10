@@ -38,7 +38,7 @@ const Events = (props) => {
               return (
                 <GridTile
                   key={event.id}
-                  title={<a style={styles.anchor} href={event.url} target='_blank'>{event.name.text}</a>}
+                  title={<a style={styles.anchor} href={event.url} target="_blank">{event.name.text}</a>}
                   subtitle={`${moment(event.start.local).format('MM/DD/YY hh:mm A')} - ${moment(event.end.local).format('MM/DD/YY hh:mm A')}`}
                   actionIcon={
                     <IconButton
@@ -50,11 +50,11 @@ const Events = (props) => {
                 >
                   <Snackbar
                     open={props.eventSnackbar}
-                    message={'Event has been added to your trip!'}
+                    message="Event has been added to your trip!"
                     autoHideDuration={3000}
                     onRequestClose={props.onRequestClose}
                   />
-                  <img src={event.logo.url} alt='' />
+                  <img src={event.logo.url} alt="" />
                 </GridTile>
               );
             } else {
@@ -62,7 +62,7 @@ const Events = (props) => {
                 <GridTile
                   key={event.id}
                   title={event.name.text}
-                  subtitle='date range'
+                  subtitle="date range"
                   actionIcon={
                     <IconButton
                       onClick={() => props.addEventToTrip(event, props.store.userTrips[props.store.activeTrip.index].id)}
@@ -73,11 +73,11 @@ const Events = (props) => {
                 >
                   <Snackbar
                     open={props.eventSnackbar}
-                    message={'Event has been added to your trip!'}
+                    message="Event has been added to your trip!"
                     autoHideDuration={3000}
                     onRequestClose={props.onRequestClose}
                   />
-                  <img src='' />
+                  <img src="" />
                 </GridTile>
               );
             }

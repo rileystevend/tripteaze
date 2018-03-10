@@ -24,7 +24,6 @@ let searchForFoods = ( cityId, searchFood, cb ) => {
       cb(null, temp.restaurants);
     } else {
       cb(err, null);
-      console.log('errrrrrrrr, ', err);
     }
   };
 
