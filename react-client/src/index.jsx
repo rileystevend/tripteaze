@@ -17,7 +17,7 @@ import Search from './components/searchPage.jsx';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
 } from 'react-router-dom';
 
 const Root = ({ store }) => (
@@ -26,7 +26,7 @@ const Root = ({ store }) => (
       <Router>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path = "/trips" component={User} />
+          <Route path="/trips" component={User} />
           <Route path="/plan" component={Search} />
         </Switch>
       </Router>

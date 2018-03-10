@@ -100,7 +100,7 @@ class Signup extends React.Component {
             <br />
             <label>Password:</label>
             <TextField
-              id='SUPassword'
+              id="SUPassword"
               type="password"
               onChange={this.changePassword}
               onKeyUp={this.handleEnterKey}
