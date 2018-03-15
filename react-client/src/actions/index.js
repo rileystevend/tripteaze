@@ -18,20 +18,23 @@ export const login = (username, password) => {
       url: '/login',
       params: {
         username: username,
-        password: password
-      }
+        password: password,
+      },
     }).then(
       results => {
         if (results.data.error) {
           alert(results.data.message);
         } else {
-          dispatch(authenticate())
+          dispatch(authenticate());
           dispatch(fetchTrips(username));
         }
       },
-      error => { console.log('error', error); dispatch(badStuff(error)) }
+      error => {
+        console.log('error', error);
+        dispatch(badStuff(error));
+      }
     );
-  }
+  };
 };
 
 export const signup = (username, password) => {
@@ -41,12 +44,12 @@ export const signup = (username, password) => {
       url: '/signup',
       data: {
         username: username,
-        password: password
-      }
+        password: password,
+      },
     }).then(
-      results => {
-        if (results.data.error) {
-          alert(results.data.message);
+      ({ data }) => {
+        if (data.error) {
+          alert(data.message);
         } else {
           dispatch(authenticate());
         }
@@ -54,7 +57,7 @@ export const signup = (username, password) => {
       error => dispatch(badStuff(error))
     );
   };
-}
+};
 
 export const authenticate = () => ({ type: 'AUTHEN' });
 
@@ -64,12 +67,12 @@ export const logOut = () => {
       method: 'get',
       url: 'logout',
     }).then(
-      results => {
+      () => {
         dispatch(deauthenticate());
       }
-    )
-  }
-}
+    );
+  };
+};
 
 export const deauthenticate = () => ({ type: 'LOGOUT' });
 
@@ -85,21 +88,21 @@ export const fetchTrips = (param) => {
       method: 'get',
       url: '/trips',
       params: {
-        search: param
-      }
+        search: param,
+      },
     }).then(
-      results => {
+      ({ data }) => {
         if (param === 'public') {
-          dispatch(setPublicTrips(results.data.trips));
+          dispatch(setPublicTrips(data.trips));
           dispatch(loading());
         } else {
-          dispatch(setUserTrips(results.data.trips));
+          dispatch(setUserTrips(data.trips));
           dispatch(loading());
         }
       },
       error => dispatch(badStuff(error))
     );
-  }
+  };
 };
 
 export const updateTripDates = (user, city, fromDate, toDate) => {
@@ -111,18 +114,18 @@ export const updateTripDates = (user, city, fromDate, toDate) => {
         user: user,
         tripCity: city,
         tripFromDate: fromDate,
-        tripToDate: toDate
-      }
+        tripToDate: toDate,
+      },
     }).then(
-      results => {
+      () => {
         dispatch(updateFromDate(''));
         dispatch(updateToDate(''));
         dispatch(setMinToDate({}));
       },
       error => dispatch(badStuff(error))
-    )
-  }
-}
+    );
+  };
+};
 
 export const updateFromDate = (date) => ({ type: 'UPDATE_TRIP_FROM_DATE', payload: date });
 
@@ -142,10 +145,10 @@ export const makeNewTrip = (username, city, index, fromDate, toDate) => {
         tripUser: username,
         tripCity: city,
         tripFromDate: fromDate,
-        tripToDate: toDate
-      }
+        tripToDate: toDate,
+      },
     }).then(
-      results => {
+      () => {
         dispatch(activateTrip(index));
         dispatch(fetchTrips(username));
         dispatch(makePrivate());
@@ -154,10 +157,10 @@ export const makeNewTrip = (username, city, index, fromDate, toDate) => {
         dispatch(setMinToDate({}));
         dispatch(updateFromDate(''));
       },
-        error => dispatch(badStuff(error))
+      error => dispatch(badStuff(error))
     );
   };
-}
+};
 
 
 export const activateTrip = (tripIndex) => {
@@ -166,7 +169,7 @@ export const activateTrip = (tripIndex) => {
     dispatch(updateFoodResults([]));
     dispatch(updateEventResults([]));
     dispatch(actuallyActivate(tripIndex));
-  }
+  };
 };
 
 const actuallyActivate = (tripIndex) => ({ type: 'ACTIVATE', payload: tripIndex });
@@ -176,7 +179,7 @@ export const deactivate = () => {
     dispatch(updateFoodResults([]));
     dispatch(updateEventResults([]));
     dispatch(actuallyDeactivate());
-  }
+  };
 };
 
 const actuallyDeactivate = () => ({ type: 'DEACTIVATE' });
@@ -194,53 +197,60 @@ export const searchEvents = (city, query, fromDate, toDate) => {
         tripCity: city,
         eventQuery: query,
         tripFromDate: fromDate,
-        tripToDate: toDate
-      }
+        tripToDate: toDate,
+      },
     }).then(
-      results => (dispatch(updateEventResults(results.data))),
+      ({ data }) => {
+        if (data.length) {
+          dispatch(updateEventResults(data));
+        } else {
+          alert('Nothing found!');
+        }
+      },
       error => dispatch(badStuff(error))
     );
   };
-}
+};
 
 const updateEventResults = (searchResults) => ({ type: 'UPDATE_EVENT_RESULTS', payload: searchResults });
 
-export const addEventToTrip = (event, username, city) => {
+export const addEventToTrip = (event, tripId ) => {
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/events/add',
       data: {
         tripEvent: event,
-        tripUser: username,
-        tripCity: city
-      }
+        tripId: tripId,
+      },
     }).then(
-      results => { 
-        dispatch(fetchEventsFromTrip(username, city));
+      () => {
+        dispatch(fetchEventsFromTrip(tripId));
         dispatch(activateEventSnackbar());
       },
       error => dispatch(badStuff(error))
     );
   };
-}
+};
 
-export const fetchEventsFromTrip = (username, city) => {
-  //dispatch({ type: 'LOADING' });	
+export const fetchEventsFromTrip = (tripId) => {
+  //dispatch({ type: 'LOADING' });
   return (dispatch) => {
-    return axios({	
+    return axios({
       method: 'get',
-        url: '/events',
-        params: {	
-          tripUser: username,
-          tripCity: city	
-        }
-      }).then(
-        results => {dispatch(setTripEvents(results.data.events))},
-        error => {dispatch(badStuff(err))}
-      )
-  }
-}
+      url: '/events',
+      params: {
+        tripId: tripId,
+      },
+    }).then(
+      results => {
+        console.log('inside fetchEventsFromTrip results', results);
+        dispatch(setTripEvents(results.data.events));
+      },
+      error => {dispatch(badStuff(error));}
+    );
+  };
+};
 
 const setTripEvents = (events) => ({ type: 'REFRESH_TRIP_EVENTS', payload: events });
 
@@ -259,61 +269,137 @@ export const searchForFood = (city, query) => {
       url: '/foods',
       data: {
         tripCity: city,
-        foodQuery: query
-      }
+        foodQuery: query,
+      },
     }).then(
-      results => {
-        dispatch(updateFoodResults(results.data.foods))},
+      ({ data }) => {
+        if (data.foods.length) {
+          dispatch(updateFoodResults(data.foods));
+        } else {
+          alert('No results!');
+        }
+      },
       error => dispatch(badStuff(error))
-    )
-  }
-}
-  
-const updateFoodResults = (searchResults) => ({ type: 'UPDATE_FOOD_RESULTS', payload: searchResults})
+    );
+  };
+};
 
-export const addFoodToTrip = (food, username, city) => {
+const updateFoodResults = (searchResults) => ({ type: 'UPDATE_FOOD_RESULTS', payload: searchResults});
+
+export const addFoodToTrip = (food, tripId) => {
   return (dispatch) => {
+    console.log('inside addFoodToTrip', tripId);
     return axios({
       method: 'post',
       url: '/foods/add',
       data: {
         tripFood: food,
-        tripUser: username,
-        tripCity: city
-      }
+        tripId: tripId,
+      },
     }).then(
-      results => { 
-        dispatch(fetchFoodFromTrip(username, city));
+      (data) => {
+        console.log('about ot enter fetchFoodFromTrip', data);
+        dispatch(fetchFoodFromTrip( tripId));
         dispatch(activateFoodSnackbar());
       },
       error => dispatch(badStuff(error))
     );
   };
-}
+};
 
-export const fetchFoodFromTrip = (username, city) => {
-  //dispatch({ type: 'LOADING' });	
+export const fetchFoodFromTrip = (tripId) => {
+  //dispatch({ type: 'LOADING' });
   return (dispatch) => {
     return axios({
       method: 'get',
       url: '/foods',
       params: {
-        tripUser: username,
-        tripCity: city
-      }
+        tripId: tripId,
+      },
     }).then(
-      results => { 
-        dispatch(setTripEatin(results.data.foods)) },
-      error => { dispatch(badStuff(err)) }
-    )
-  }
-}
+      results => {
+        dispatch(setTripEatin(results.data.foods)); },
+      error => { dispatch(badStuff(error)); }
+    );
+  };
+};
 
 const setTripEatin = (foods) => ({ type: 'REFRESH_TRIP_EATIN', payload: foods });
 
 export const activateFoodSnackbar = () => ({type: 'ACTIVATE_FOOD_SNACKBAR'});
 
 export const deactivateFoodSnackbar = () => ({type: 'DEACTIVATE_FOOD_SNACKBAR'});
+
+/***************************** HOTELS *************************************/
+
+export const updateHotelQuery = (query) => ({ type: 'UPDATE_HOTEL_QUERY', payload: query });
+
+export const searchHotels = (city,/* query, fromDate, toDate*/) => {
+  return (dispatch) => {
+    return axios({
+      method: 'post',
+      url: '/hotels',
+      data: {
+        tripCity: city,
+        // hotelQuery: query,
+        // tripFromDate: fromDate,
+        // tripToDate: toDate
+      },
+    }).then(
+      ({ data }) => {
+        if (data.length) {
+          dispatch(updateHotelResults(data));
+        } else {
+          alert('Nothing found!');
+        }
+      },
+      error => dispatch(badStuff(error))
+    );
+  };
+};
+
+const updateHotelResults = (searchResults) => ({ type: 'UPDATE_HOTEL_RESULTS', payload: searchResults });
+
+export const addHotelToTrip = (hotel, tripId ) => {
+  return (dispatch) => {
+    return axios({
+      method: 'post',
+      url: '/hotels/add',
+      data: {
+        tripHotel: hotel,
+        tripId: tripId,
+      },
+    }).then(
+      () => {
+        dispatch(fetchHotelsFromTrip(tripId));
+        dispatch(activateHotelSnackbar());
+      },
+      error => dispatch(badStuff(error))
+    );
+  };
+};
+
+export const fetchHotelsFromTrip = (tripId) => {
+  //dispatch({ type: 'LOADING' });
+  return (dispatch) => {
+    return axios({
+      method: 'get',
+      url: '/hotels',
+      params: {
+        tripId: tripId,
+      },
+    }).then(
+      results => {dispatch(setTripHotels(results.data.hotels));},
+      error => {dispatch(badStuff(error));}
+    );
+  };
+};
+
+const setTripHotels = (hotels) => ({ type: 'REFRESH_TRIP_HOTELS', payload: hotels });
+
+export const activateHotelSnackbar = () => ({type: 'ACTIVATE_HOTEL_SNACKBAR'});
+
+export const deactivateHotelSnackbar = () => ({type: 'DEACTIVATE_HOTEL_SNACKBAR'});
 
 //////////////////////////////USER PAGE STUFF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -324,49 +410,65 @@ export const deleteTrip = (user, trip) => {
       url: '/trips',
       data: {
         username: user,
-        tripID: trip.id
-      }
+        tripID: trip.id,
+      },
     }).then (
-      results => {
+      () => {
         dispatch(fetchTrips(user));
         dispatch(activateDeleteSnackbar());
       },
       error => dispatch(badStuff(error))
-    )
-  }
-}
+    );
+  };
+};
 
-export const deleteEvent = (event, username, city) => {
-  console.log('delete!')
+export const deleteEvent = (event, tripId) => {
+  console.log('delete!');
   return (dispatch) => {
     return axios ({
       method: 'post',
       url: '/events/remove',
       data: {
-        eventID: event.id
-      }
+        eventID: event.id,
+      },
     }).then (
-      results => { dispatch(fetchEventsFromTrip(username, city)) },
-      error => {dispatch(badStuff(error))}
+      () => { dispatch(fetchEventsFromTrip(tripId)); },
+      error => {dispatch(badStuff(error));}
     );
   };
-}
+};
 
-export const deleteFood = (food, username, city) => {
-  console.log('delete!')
+export const deleteFood = (food, tripId) => {
+  console.log('delete!');
   return (dispatch) => {
     return axios({
       method: 'post',
       url: '/foods/remove',
       data: {
-        foodID: food.id
-      }
+        foodID: food.id,
+      },
     }).then(
-      results => { dispatch(fetchFoodFromTrip(username, city)) },
-      error => { dispatch(badStuff(error)) }
+      () => { dispatch(fetchFoodFromTrip(tripId)); },
+      error => { dispatch(badStuff(error)); }
     );
   };
-}
+};
+
+export const deleteHotel = (hotel, tripId) => {
+  console.log('delete!');
+  return (dispatch) => {
+    return axios ({
+      method: 'post',
+      url: '/hotels/remove',
+      data: {
+        hotelID: hotel.id,
+      },
+    }).then (
+      () => { dispatch(fetchHotelsFromTrip(tripId)); },
+      error => {dispatch(badStuff(error));}
+    );
+  };
+};
 
 export const toggleTripStatus = (user, trip) => {
   return dispatch => {
@@ -376,17 +478,17 @@ export const toggleTripStatus = (user, trip) => {
       data: {
         user: user,
         tripCity: trip.city,
-        public : !trip.isPublic
-      }
+        public : !trip.isPublic,
+      },
     }).then (
-      results => {
+      () => {
         dispatch(fetchTrips(user));
         trip.isPublic === false ? dispatch(activatePublicSnackbar()) : dispatch(activatePrivateSnackbar());
       },
       error => dispatch(badStuff(error))
-    )
-  }
-}
+    );
+  };
+};
 
 export const makePublic = () => ({type: 'UPDATE_TO_PUBLIC'});
 
@@ -404,7 +506,7 @@ export const deactivatePublicSnackbar = () => ({type: 'DEACTIVATE_PUBLIC_SNACKBA
 export const activatePrivateSnackbar = () => ({type: 'ACTIVATE_PRIVATE_SNACKBAR'});
 
 export const deactivatePrivateSnackbar = () => ({type: 'DEACTIVATE_PRIVATE_SNACKBAR'});
-  
+
 //ACTION_NAME must correspond with reducer switch option
 
 //  complex action example w/ async

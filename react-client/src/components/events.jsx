@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 
 import { GridList, GridTile } from 'material-ui/GridList';
-import Subheader from 'material-ui/Subheader';
+// import Subheader from 'material-ui/Subheader';
 import IconButton from 'material-ui/IconButton';
 import AddBorder from 'material-ui/svg-icons/content/add-circle-outline';
 import Snackbar from 'material-ui/Snackbar';
@@ -20,8 +20,8 @@ const styles = {
     overflowY: 'auto',
   },
   anchor: {
-    color: 'white'
-  }
+    color: 'white',
+  },
 };
 //these are search results for events
 const Events = (props) => {
@@ -38,12 +38,23 @@ const Events = (props) => {
               return (
                 <GridTile
                   key={event.id}
-                  title= {<a style = {styles.anchor} href = {event.url} target = '_blank'>{event.name.text}</a>}
+                  title={<a style={styles.anchor} href={event.url} target="_blank">{event.name.text}</a>}
                   subtitle={`${moment(event.start.local).format('MM/DD/YY hh:mm A')} - ${moment(event.end.local).format('MM/DD/YY hh:mm A')}`}
-                  actionIcon={<IconButton onClick= {() => props.addEventToTrip(event, props.user, props.city)}><AddBorder color="white" /></IconButton>}
+                  actionIcon={
+                    <IconButton
+                      onClick={
+                        () => props.addEventToTrip(event, props.store.userTrips[props.store.activeTrip.index].id)
+                      }>
+                      <AddBorder color="white" />
+                    </IconButton>}
                 >
-                  <Snackbar open={props.eventSnackbar} message={'Event has been added to your trip!'} autoHideDuration={3000} onRequestClose={props.onRequestClose}/>
-                  <img src={event.logo.url} alt='' />
+                  <Snackbar
+                    open={props.eventSnackbar}
+                    message="Event has been added to your trip!"
+                    autoHideDuration={3000}
+                    onRequestClose={props.onRequestClose}
+                  />
+                  <img src={event.logo.url} alt="" />
                 </GridTile>
               );
             } else {
@@ -51,18 +62,24 @@ const Events = (props) => {
                 <GridTile
                   key={event.id}
                   title={event.name.text}
-                  subtitle='date range'
+                  subtitle="date range"
                   actionIcon={
                     <IconButton
-                      onClick={() => props.addEventToTrip(event, props.user, props.city)}
+                      onClick={() => props.addEventToTrip(event, props.store.userTrips[props.store.activeTrip.index].id)}
                     >
                       <AddBorder color="white" />
-                    </IconButton>}
+                    </IconButton>
+                  }
                 >
-                  <Snackbar open={props.eventSnackbar} message={'Event has been added to your trip!'} autoHideDuration={3000} onRequestClose={props.onRequestClose}/>
-                  <img src='' />
+                  <Snackbar
+                    open={props.eventSnackbar}
+                    message="Event has been added to your trip!"
+                    autoHideDuration={3000}
+                    onRequestClose={props.onRequestClose}
+                  />
+                  <img src="" />
                 </GridTile>
-              )
+              );
             }
           })}
         </GridList>
@@ -71,6 +88,6 @@ const Events = (props) => {
   } else {
     return null;
   }
-}
+};
 
 export default Events;

@@ -1,49 +1,50 @@
 import React from 'react';
-import Activity from './activity.jsx';
-import RaisedButton from 'material-ui/RaisedButton';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import { GridList, GridTile } from 'material-ui/GridList';
 import moment from 'moment';
-import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
-import * as activityStyles from './homePage.jsx';  // * does all named exports from that file
+
+import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import { deepOrange600, deepOrange900 } from 'material-ui/styles/colors';
 import Snackbar from 'material-ui/Snackbar';
+
+import Activity from './activity.jsx';
+import Summary from './summary.jsx';
+
 
 export const styles = {
   activityHeader: {
     backgroundColor: '#f9f9f9',
-    color: cyan600,
+    color: deepOrange600,
     fontSize: 15,
     fontWeight: 'bold',
     padding: '0.2em',
     margin: '0.5em',
-    textAlign: 'left'
+    textAlign: 'left',
   },
   cardSubtitle: {
-    color: cyan600
+    color: deepOrange600,
   },
   cardTitle: {
-    color: cyan900,
-    fontWeight: 'bold'
+    color: deepOrange900,
+    fontWeight: 'bold',
   },
   cityTitle: {
-    color: cyan900,
+    color: deepOrange900,
     fontSize: 22,
     fontWeight: 'bold',
-    lineHeight: '0 !important'
+    lineHeight: '0 !important',
   },
   tripDetails: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   tripCard: {
     display: 'inline-block',
     margin: '1em 0.5em 1em',
     width: '32%',
-    verticalAlign: 'top'
-  }
-}
+    verticalAlign: 'top',
+  },
+};
 
 // User's trips page
 const Trip = (props) => {
@@ -51,17 +52,17 @@ const Trip = (props) => {
   // Makes user's trip public
   const makePublic = () => {
     props.toggleStatus(props.user, props.trip);
-  }
+  };
 
   // Deletes a trip
   const deleteTrip = () => {
     props.delete(props.user, props.trip);
-  }
+  };
 
   const activateAndSearch = () => {
     props.activate(props.index);
     props.toSearchPage();
-  }
+  };
 
   //const message = props.trip.isPublic ? 'Your trip has been made private!' : 'Your trip has been made public!';
 
@@ -71,14 +72,19 @@ const Trip = (props) => {
     if (activityType === 'event' && trip.events.length > 0) {
       return (
         <div style={styles.activityHeader}>Events:</div>
-      )
+      );
+    // If activity = eatin and there are restaurants in the current trip
+    } else if (activityType === 'hotel' && trip.events.length > 0) {
+      return (
+        <div style={styles.activityHeader}>Hotel:</div>
+      );
     // If activity = eatin and there are restaurants in the current trip
     } else if (activityType === 'eatin' && trip.eatin.length > 0) {
       return (
         <div style={styles.activityHeader}>Food:</div>
-      )
+      );
     }
-  }
+  };
 
   // Renders list of user's current trips
   if (props.editable === true) {
@@ -87,15 +93,15 @@ const Trip = (props) => {
     return (
       <Card
         style={styles.tripCard}
-        initiallyExpanded={true}
-      > 
+        initiallyExpanded={false}
+      >
         <CardTitle
-          title = {props.trip.city}
-          subtitle = {fromDate + ' - ' + toDate} // Trip dates
+          title={props.trip.city}
+          subtitle={fromDate + ' - ' + toDate} // Trip dates
           actAsExpander={true}
           showExpandableButton={true}
-          titleStyle = {styles.cardTitle}
-          subtitleStyle = {styles.cardSubtitle}
+          titleStyle={styles.cardTitle}
+          subtitleStyle={styles.cardSubtitle}
         />
         <CardText
           expandable={true}
@@ -104,23 +110,40 @@ const Trip = (props) => {
           <div style={styles.tripDetails}>
             {props.trip.events.map((event, index) =>
               <Activity key={index}
+                store={props.store}
                 deleteEvent={props.deleteEvent}
                 user={props.user}
                 city={props.trip.city}
-                type='event'
+                type="event"
                 activity={event}
               />
             )}
           </div>
-          
+
+          {showActivityDiv('hotel', props.trip)}
+          <div style={styles.tripDetails}>
+            {props.trip.hotels.map((hotel, index) =>
+              <Activity
+                store={props.store}
+                key={index}
+                deleteHotel={props.deleteHotel}
+                user={props.user}
+                city={props.trip.city}
+                type="hotel"
+                activity={hotel}
+              />
+            )}
+          </div>
+
           {showActivityDiv('eatin', props.trip)}
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
               <Activity key={index}
+                store={props.store}
                 deleteFood={props.deleteFood}
                 user={props.user}
                 city={props.trip.city}
-                type='eatin'
+                type="eatin"
                 activity={food}
               />
             )}
@@ -129,24 +152,43 @@ const Trip = (props) => {
 
         <CardActions>
           <FlatButton
-            label = {props.trip.isPublic ? 'Make Private' : 'Make Public'}
-            onClick = {makePublic}
+            label={props.trip.isPublic ? 'Make Private' : 'Make Public'}
+            onClick={makePublic}
           />
           <FlatButton
-            label= 'Delete'
-            onClick = {deleteTrip}
+            label="Delete"
+            onClick={deleteTrip}
           />
           <FlatButton
-            label = 'Add More'
-            onClick = {activateAndSearch}
+            label="Add More"
+            onClick={activateAndSearch}
+          />
+          <Summary
+            trip={props.trip}
           />
         </CardActions>
 
-        <Snackbar open={props.deleteSnackbar} message={'Your trip has been deleted!'} autoHideDuration={3000} onRequestClose={props.onRequestCloseDelete}/>
-        <Snackbar open={props.publicSnackbar} message={'Your trip has been made public!'} autoHideDuration={3000} onRequestClose={props.onRequestClosePublic}/>
-        <Snackbar open={props.privateSnackbar} message={'Your trip has been made private!'} autoHideDuration={3000} onRequestClose={props.onRequestClosePrivate}/>
+        {/* HAD TO ADD OR FALSE BECAUSE THEY WERE UNDEFINED */}
+        <Snackbar
+          open={props.deleteSnackbar || false}
+          message="Your trip has been deleted!"
+          autoHideDuration={3000}
+          onRequestClose={props.onRequestCloseDelete}
+        />
+        <Snackbar
+          open={props.publicSnackbar || false}
+          message="Your trip has been made public!"
+          autoHideDuration={3000}
+          onRequestClose={props.onRequestClosePublic}
+        />
+        <Snackbar
+          open={props.privateSnackbar || false}
+          message="Your trip has been made private!"
+          autoHideDuration={3000}
+          onRequestClose={props.onRequestClosePrivate}
+        />
       </Card>
-    ); 
+    );
   } else {
     return (
       <Card
@@ -167,26 +209,37 @@ const Trip = (props) => {
             {props.trip.events.map((event, index) =>
               <Activity
                 key={index}
-                type='event'
+                type="event"
                 activity={event}
               />
             )}
           </div>
-          
+
+          {showActivityDiv('hotel', props.trip)}
+          <div style={styles.tripDetails}>
+            {props.trip.hotels.map((hotel, index) =>
+              <Activity
+                key={index}
+                type="hotel"
+                activity={hotel}
+              />
+            )}
+          </div>
+
           {showActivityDiv('eatin', props.trip)}
           <div style={styles.tripDetails}>
             {props.trip.eatin.map((food, index) =>
               <Activity
                 key={index}
-                type='eatin'
+                type="eatin"
                 activity={food}
               />
             )}
           </div>
         </CardText>
       </Card>
-    )
+    );
   }
-}
- 
+};
+
 export default Trip;

@@ -7,81 +7,80 @@ import Login from './login.jsx';
 import Trip from './trip.jsx';
 import { Link } from 'react-router-dom';
 
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { cyan50, cyan100, cyan200, cyan300, cyan400, cyan500, cyan600, cyan700, cyan800, cyan900 } from 'material-ui/styles/colors';
-import FlatButton from 'material-ui/FlatButton';
+import { deepOrange50, deepOrange100, deepOrange200, deepOrange500, deepOrange600, deepOrange700, deepOrange800, deepOrange900 } from 'material-ui/styles/colors';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
 export const muiTheme = getMuiTheme({
   appBar: {
-    color: cyan700,
-    textColor: cyan50,
-    titleFontWeight: 'bold'
+    color: deepOrange700,
+    textColor: deepOrange50,
+    titleFontWeight: 'bold',
   },
   card: {
     fontWeight: 'bold',
-    titleColor: cyan700,
-    subtitleColor: cyan200
+    titleColor: deepOrange700,
+    subtitleColor: deepOrange200,
   },
   cardText: {
-    textColor: cyan800
+    textColor: deepOrange800,
   },
   datePicker: {
-    calendarTextColor: cyan700,
-    calendarYearBackgroundColor: cyan50,
-    headerColor: cyan800
+    calendarTextColor: deepOrange700,
+    calendarYearBackgroundColor: deepOrange50,
+    headerColor: deepOrange800,
   },
   dialog: {
     titleFontSize: 25,
     bodyFontSize: 15,
-    bodyColor: cyan600
+    bodyColor: deepOrange600,
   },
   flatButton: {
     color: '#f9f9f9',
     fontSize: 14,
     fontWeight: 'bold',
-    textColor: cyan800
+    textColor: deepOrange800,
   },
   palette: {
-    textColor: cyan900
+    textColor: deepOrange900,
   },
   raisedButton: {
-    color: cyan700,
+    color: deepOrange700,
     fontSize: 17,
     margin: 12,
-    textColor: cyan50
+    textColor: deepOrange50,
   },
   textField: {
-    textColor: cyan800
-  }
+    textColor: deepOrange800,
+  },
 });
 
 export const styles = {
   body: {
     textAlign: 'center',
-    width: '100%'
+    width: '100%',
   },
   discoverTrips: {
-    background: `linear-gradient(to bottom right, #f9f9f9, ${cyan50})`,
-    color: cyan800,
+    background: `linear-gradient(to bottom right, #f9f9f9, ${deepOrange50})`,
+    color: deepOrange800,
     fontSize: 30,
     fontWeight: 'bold',
     marginTop: '1%',
     padding: '0.5%',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   header: {
-    background: `linear-gradient(to bottom right, ${cyan50}, ${cyan100})`,
-    color: cyan900,
+    background: `linear-gradient(to bottom right, ${deepOrange50}, ${deepOrange100})`,
+    color: deepOrange900,
     fontFamily: 'Arial',
     fontSize: 45,
     fontWeight: 'bold',
-    paddingTop: '15%',
+    paddingTop: '5%',
     textAlign: 'center',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    maxHeight: 150,
   },
   navLinks: {
     display: 'flex',
@@ -91,27 +90,30 @@ export const styles = {
     position: 'absolute',
   },
   getStarted: {
-    background: `linear-gradient(to bottom right, white, #f9f9f9)`,
-    color: cyan600,
+    background: 'linear-gradient(to bottom right, white, #f9f9f9)',
+    color: deepOrange600,
     fontSize: 25,
     fontWeight: 'bold',
     marginTop: '2%',
-    paddingTop: '1%'
+    paddingTop: '1%',
   },
   tripButton: {
     width: '50%',
     margin: '0 auto',
-    marginTop: '1%'
+    marginTop: '1%',
   },
   tripTeazeText: {
     textDecoration: 'none',
-    color: cyan900
-  }
-}
+    color: deepOrange900,
+  },
+};
 
 class Home extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
+
+    this.toSearchPage = this.toSearchPage.bind(this);
+    this.toUserPage = this.toUserPage.bind(this);
   }
 
   componentWillMount() {
@@ -119,29 +121,34 @@ class Home extends React.Component {
     this.props.actions.fetchTrips('public');
   }
 
-  toUserPage () {
+  toUserPage() {
     this.props.history.push('/trips');
   }
 
-  toSearchPage () {
-    this.props.history.push('/plan')
+  toSearchPage() {
+    this.props.history.push('/plan');
   }
 
   navBar() {
     let actions = this.props.actions; //access shortcuts
-    let store = this.props.store;
 
     if (this.props.store.authenticated) {
       return (
         <div style={styles.navLinks}>
-          <RaisedButton style = {{marginRight: '15px'}} onClick = {this.toUserPage.bind(this)} 
-            label = 'My Trips'
+          <RaisedButton
+            style={{marginRight: '15px'}}
+            onClick={this.toUserPage}
+            label="My Trips"
           />
-          <RaisedButton style={{ marginRight: '15px' }} onClick = {this.toSearchPage.bind(this)} 
-            label = 'Build'
+          <RaisedButton
+            style={{ marginRight: '15px' }}
+            onClick={this.toSearchPage}
+            label="Build"
           />
-          <RaisedButton style={{ marginRight: '15px' }} onClick = {actions.logOut}
-            label = 'Log Out'
+          <RaisedButton
+            style={{ marginRight: '15px' }}
+            onClick={actions.logOut}
+            label="Log Out"
           />
         </div>
       );
@@ -159,28 +166,37 @@ class Home extends React.Component {
 
           <RaisedButton
             label="Create new trip"
-            onClick={this.toSearchPage.bind(this)}
+            onClick={this.toSearchPage}
             style={styles.tripButton}
           />
         </div>
-      )
+      );
     } else {
       return (
         <div>
           <div style={styles.discoverTrips}>
             Get Started
-            <br/>
-            <div style={{color: cyan500, fontSize: 12, fontStyle: 'italic', fontWeight: 'normal'}}>Don't wait! Plan your next trip today!</div>
+            <br />
+            <div style={
+              {
+                color: deepOrange500,
+                fontSize: 12,
+                fontStyle: 'italic',
+                fontWeight: 'normal',
+              }
+            }>
+              Don&apos;t wait! Plan your next trip today!
+            </div>
           </div>
 
           <div style={{display: 'inline-block', marginTop: '1%'}}>
-          <Login login={actions.login}
-            username={store.username}
-            password={store.password}
-            updateUsername={actions.updateUsername}
-            updatePassword={actions.updatePassword}
-            forward={this.toUserPage.bind(this)}
-          />
+            <Login login={actions.login}
+              username={store.username}
+              password={store.password}
+              updateUsername={actions.updateUsername}
+              updatePassword={actions.updatePassword}
+              forward={this.toUserPage}
+            />
           </div>
           <div style={{display: 'inline-block', marginTop: '1%'}}>
             <Signup signup={actions.signup}
@@ -188,16 +204,16 @@ class Home extends React.Component {
               password={store.password}
               updateUsername={actions.updateUsername}
               updatePassword={actions.updatePassword}
-              forward={this.toUserPage.bind(this)}
+              forward={this.toUserPage}
             />
           </div>
         </div>
-      )
+      );
     }
   }
 
-  render () {
-    let actions = this.props.actions; //access shortcuts
+  render() {
+    // let actions = this.props.actions; //access shortcuts
     let store = this.props.store;
     //store is redux store
     //and props.actions with all the action creating functions
@@ -214,7 +230,7 @@ class Home extends React.Component {
               TripTeaze
             </Link>
           </div>
-          
+
           {/************************** CREATE TRIP **************************/}
           <div style={styles.body}>
             {this.getStarted()}
@@ -230,11 +246,11 @@ class Home extends React.Component {
 
         </Paper>
       </MuiThemeProvider>
-    )};
+    );}
 }
 
 const mapStateToProps = state => (
-  { store: state }
+  { store: state } // eslint-disable-line
 );
 
 const mapDispatchToProps = dispatch => (
